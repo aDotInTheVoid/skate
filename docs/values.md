@@ -3,102 +3,102 @@
 Bryan Cantrill has a [great talk](https://youtu.be/2wZ1pCpJUIM) on software values. Lets go through all
 the values listed, to talk about which ones we care about.
 
-## Approachability
+### Approachability
 
 A skateboard is approachable. You can see someone on it an instantly know how it's used.
 This doesn't mean you wont fall off the first time you try to ride.
 
-## Availibilty
+### Availibilty
 
 This is not for production. Skate code is not "fire and forget". You should always be watching,
 to see if something's happeded. This massivly limits the areas you can skate, but if the ground
 isn't flat, you wount go their
 
-## Compatibily
+### Compatibily
 
 This will break constantly. Not a value. Their should never be a specification for what is
 means to skate.
 
-## Composabilty
+### Composabilty
 
 Yes, we want to be able to transition smothly from one trick to another.
 
-## Expressivness
+### Expressivness
 
 Yes, this is a creative endevor. You shoud be able to tell who wrote some skate by their style,
 because this software doen't need to be maintained for decades to come, not every one needs to
 do it the same
 
-## Extensivness
+### Extensivness
 
 Yes, we want users to do lisp-like macro things. Go Nuts. Their are no adults to stop you.
 
-## Interoperability
+### Interoperability
 
 No, this makes debuging a pain.
 
-## Integrity
+### Integrity
 
 No, not for production.
 
-## Maintanibility
+### Maintanibility
 
 No, this is for short, one of scripts
 
-## Measurability
+### Measurability
 
 No, this should not be perfomance intensive
 
-## Operability
+### Operability
 
 No
 
-## Performance
+### Performance
 
 No
 
-## Portability
+### Portability
 
 No
 
-## Resiliance
+### Resiliance
 
 Yes, but with human assistance
 
-## Rigor
+### Rigor
 
 Punt to a human on tricky cases. This may involve "Time Travel"
 
-## Robustness
+### Robustness
 
 No
 
-## Safety
+### Safety
 
 NO
 
-## Secutiry 
+### Secutiry 
 
 
 No
 
-## Simplicity
+### Simplicity
 
 No
 
-## Stability
+### Stability
 
 No
 
-## Thoroghness
+### Thoroghness
 
 Yes, expecialy in the standard library
 
-## Transparency
+### Transparency
 
 Yes, though the debuger
 
-## Velocity
+### Velocity
 
 Yes, for developers
 
