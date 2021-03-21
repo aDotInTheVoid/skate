@@ -1,0 +1,10 @@
+---
+source: src/main.rs
+expression: f
+
+---
+- bar
+- - - x
+    - Int
+- ~
+

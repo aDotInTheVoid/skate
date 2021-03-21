@@ -1,0 +1,45 @@
+
+
+use std::str::FromStr;
+use crate::ast::*;
+
+grammar;
+
+Comma<T>: Vec<T> = { 
+    <v:(<T> ",")*> <e:T?> => match e {
+        None=> v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+};
+
+pub Function: Function = {
+    "fn" <Name> <Args> <Body> => Function(<>)
+}
+
+
+
+Args: Args = {
+    "(" <a:Comma<Arg>> ")" => Args(a)
+}
+
+Arg: Arg = {
+    <n:Name> ":" <t:Type> => Arg(n,t)
+}
+
+Type: Type = {
+    "int" => Type::Int,
+    "bool" => Type::Bool,
+    "string" => Type::String,
+}
+
+Name: String = {
+    r"[a-z]+" => <>.to_owned()
+}
+
+Body: Body = {
+    "{}" => Body
+}

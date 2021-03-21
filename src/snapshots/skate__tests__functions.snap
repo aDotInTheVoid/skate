@@ -1,0 +1,9 @@
+---
+source: src/main.rs
+expression: f
+
+---
+- main
+- []
+- ~
+

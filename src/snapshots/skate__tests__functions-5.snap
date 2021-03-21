@@ -1,0 +1,12 @@
+---
+source: src/main.rs
+expression: f
+
+---
+- baz
+- - - y
+    - Int
+  - - z
+    - String
+- ~
+
