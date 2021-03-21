@@ -3,8 +3,9 @@ source: src/main.rs
 expression: f
 
 ---
-- bar
-- - - x
+name: bar
+args:
+  - - x
     - Int
-- ~
+body: ~
 

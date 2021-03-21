@@ -16,17 +16,17 @@ Comma<T>: Vec<T> = {
     }
 };
 
-pub Function: Function = {
-    "fn" <Name> <Args> <Body> => Function(<>)
+pub Function: Function<'input> = {
+    "fn" <name:Name> <args:Args> <body:Body> => Function{<>}
 }
 
 
 
-Args: Args = {
-    "(" <a:Comma<Arg>> ")" => Args(a)
+Args: Vec<Arg<'input>> = {
+    "(" <a:Comma<Arg>> ")" => <>
 }
 
-Arg: Arg = {
+Arg: Arg<'input> = {
     <n:Name> ":" <t:Type> => Arg(n,t)
 }
 
@@ -36,8 +36,8 @@ Type: Type = {
     "string" => Type::String,
 }
 
-Name: String = {
-    r"[a-z]+" => <>.to_owned()
+Name = {
+    r"[a-z]+"
 }
 
 Body: Body = {

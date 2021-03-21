@@ -21,13 +21,14 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Function(pub String, pub Args, pub Body);
+pub struct Function<'a> {
+    pub name: &'a str,
+    pub args: Vec<Arg<'a>>,
+    pub body: Body,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Args(pub Vec<Arg>);
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Arg(pub String, pub Type);
+pub struct Arg<'a>(pub &'a str, pub Type);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Type {

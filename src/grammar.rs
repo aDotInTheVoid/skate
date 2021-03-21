@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: 2267c3e4cf1a2ac1a6ab897e77601f82b6cd8f7ef2fd64108d779308b4f31f5
+// sha3: 24bfc787d2a2372bc8d2235ec3b43fc52676467621c843e811a146acf39b3
 use std::str::FromStr;
 use crate::ast::*;
 #[allow(unused_extern_crates)]
@@ -26,15 +26,13 @@ mod __parse__Function {
     pub(crate) enum __Symbol<'input>
      {
         Variant0(&'input str),
-        Variant1(Arg),
-        Variant2(alloc::vec::Vec<Arg>),
-        Variant3(core::option::Option<Arg>),
-        Variant4(Args),
+        Variant1(Arg<'input>),
+        Variant2(alloc::vec::Vec<Arg<'input>>),
+        Variant3(core::option::Option<Arg<'input>>),
+        Variant4(Vec<Arg<'input>>),
         Variant5(Body),
-        Variant6(Vec<Arg>),
-        Variant7(Function),
-        Variant8(String),
-        Variant9(Type),
+        Variant6(Function<'input>),
+        Variant7(Type),
     }
     const __ACTION: &[i8] = &[
         // State 0
@@ -186,7 +184,7 @@ mod __parse__Function {
         type Token = Token<'input>;
         type TokenIndex = usize;
         type Symbol = __Symbol<'input>;
-        type Success = Function;
+        type Success = Function<'input>;
         type StateIndex = i8;
         type Action = i8;
         type ReduceIndex = i8;
@@ -326,7 +324,7 @@ mod __parse__Function {
         >(
             &self,
             input: &'input str,
-        ) -> Result<Function, __lalrpop_util::ParseError<usize, Token<'input>, &'static str>>
+        ) -> Result<Function<'input>, __lalrpop_util::ParseError<usize, Token<'input>, &'static str>>
         {
             let mut __tokens = self.builder.matcher(input);
             __state_machine::Parser::drive(
@@ -347,7 +345,7 @@ mod __parse__Function {
         __states: &mut alloc::vec::Vec<i8>,
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
         _: core::marker::PhantomData<(&'input ())>,
-    ) -> Option<Result<Function,__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>
+    ) -> Option<Result<Function<'input>,__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>
     {
         let (__pop_states, __nonterminal) = match __action {
             0 => {
@@ -409,7 +407,7 @@ mod __parse__Function {
             }
             19 => {
                 // __Function = Function => ActionFn(0);
-                let __sym0 = __pop_Variant7(__symbols);
+                let __sym0 = __pop_Variant6(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action0::<>(input, __sym0);
@@ -432,21 +430,10 @@ mod __parse__Function {
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Arg, usize)
+    ) -> (usize, Arg<'input>, usize)
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant1(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant4<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Args, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant4(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
@@ -461,47 +448,36 @@ mod __parse__Function {
             _ => __symbol_type_mismatch()
         }
     }
+    fn __pop_Variant6<
+      'input,
+    >(
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
+    ) -> (usize, Function<'input>, usize)
+     {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant6(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch()
+        }
+    }
     fn __pop_Variant7<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Function, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant7(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant8<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, String, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant8(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant9<
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
     ) -> (usize, Type, usize)
      {
         match __symbols.pop() {
-            Some((__l, __Symbol::Variant9(__v), __r)) => (__l, __v, __r),
+            Some((__l, __Symbol::Variant7(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
-    fn __pop_Variant6<
+    fn __pop_Variant4<
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Vec<Arg>, usize)
+    ) -> (usize, Vec<Arg<'input>>, usize)
      {
         match __symbols.pop() {
-            Some((__l, __Symbol::Variant6(__v), __r)) => (__l, __v, __r),
+            Some((__l, __Symbol::Variant4(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
@@ -509,7 +485,7 @@ mod __parse__Function {
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, alloc::vec::Vec<Arg>, usize)
+    ) -> (usize, alloc::vec::Vec<Arg<'input>>, usize)
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant2(__v), __r)) => (__l, __v, __r),
@@ -520,7 +496,7 @@ mod __parse__Function {
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, core::option::Option<Arg>, usize)
+    ) -> (usize, core::option::Option<Arg<'input>>, usize)
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant3(__v), __r)) => (__l, __v, __r),
@@ -640,9 +616,9 @@ mod __parse__Function {
     {
         // Arg = Name, ":", Type => ActionFn(3);
         assert!(__symbols.len() >= 3);
-        let __sym2 = __pop_Variant9(__symbols);
+        let __sym2 = __pop_Variant7(__symbols);
         let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant8(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym2.2.clone();
         let __nt = super::__action3::<>(input, __sym0, __sym1, __sym2);
@@ -694,7 +670,7 @@ mod __parse__Function {
         // Args = "(", Comma<Arg>, ")" => ActionFn(2);
         assert!(__symbols.len() >= 3);
         let __sym2 = __pop_Variant0(__symbols);
-        let __sym1 = __pop_Variant6(__symbols);
+        let __sym1 = __pop_Variant4(__symbols);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym2.2.clone();
@@ -733,7 +709,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
         let __nt = super::__action21::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant4(__nt), __end));
         (1, 7)
     }
     pub(crate) fn __reduce11<
@@ -749,7 +725,7 @@ mod __parse__Function {
         let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
         let __end = __start.clone();
         let __nt = super::__action22::<>(input, &__start, &__end);
-        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant4(__nt), __end));
         (0, 7)
     }
     pub(crate) fn __reduce12<
@@ -768,7 +744,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym1.2.clone();
         let __nt = super::__action23::<>(input, __sym0, __sym1);
-        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant4(__nt), __end));
         (2, 7)
     }
     pub(crate) fn __reduce13<
@@ -785,7 +761,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
         let __nt = super::__action24::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant4(__nt), __end));
         (1, 7)
     }
     pub(crate) fn __reduce14<
@@ -801,12 +777,12 @@ mod __parse__Function {
         assert!(__symbols.len() >= 4);
         let __sym3 = __pop_Variant5(__symbols);
         let __sym2 = __pop_Variant4(__symbols);
-        let __sym1 = __pop_Variant8(__symbols);
+        let __sym1 = __pop_Variant0(__symbols);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym3.2.clone();
         let __nt = super::__action1::<>(input, __sym0, __sym1, __sym2, __sym3);
-        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
         (4, 8)
     }
     pub(crate) fn __reduce15<
@@ -823,7 +799,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
         let __nt = super::__action7::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant0(__nt), __end));
         (1, 9)
     }
     pub(crate) fn __reduce16<
@@ -840,7 +816,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
         let __nt = super::__action4::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
         (1, 10)
     }
     pub(crate) fn __reduce17<
@@ -857,7 +833,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
         let __nt = super::__action5::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
         (1, 10)
     }
     pub(crate) fn __reduce18<
@@ -874,7 +850,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
         let __nt = super::__action6::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
         (1, 10)
     }
 }
@@ -914,8 +890,8 @@ fn __action0<
     'input,
 >(
     input: &'input str,
-    (_, __0, _): (usize, Function, usize),
-) -> Function
+    (_, __0, _): (usize, Function<'input>, usize),
+) -> Function<'input>
 {
     __0
 }
@@ -926,12 +902,12 @@ fn __action1<
 >(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, __0, _): (usize, String, usize),
-    (_, __1, _): (usize, Args, usize),
-    (_, __2, _): (usize, Body, usize),
-) -> Function
+    (_, name, _): (usize, &'input str, usize),
+    (_, args, _): (usize, Vec<Arg<'input>>, usize),
+    (_, body, _): (usize, Body, usize),
+) -> Function<'input>
 {
-    Function(__0, __1, __2)
+    Function{name:name, args:args, body:body}
 }
 
 #[allow(unused_variables)]
@@ -940,11 +916,11 @@ fn __action2<
 >(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, a, _): (usize, Vec<Arg>, usize),
+    (_, a, _): (usize, Vec<Arg<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Args
+) -> Vec<Arg<'input>>
 {
-    Args(a)
+    a
 }
 
 #[allow(unused_variables)]
@@ -952,10 +928,10 @@ fn __action3<
     'input,
 >(
     input: &'input str,
-    (_, n, _): (usize, String, usize),
+    (_, n, _): (usize, &'input str, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, t, _): (usize, Type, usize),
-) -> Arg
+) -> Arg<'input>
 {
     Arg(n,t)
 }
@@ -999,9 +975,9 @@ fn __action7<
 >(
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
-) -> String
+) -> &'input str
 {
-    __0.to_owned()
+    __0
 }
 
 #[allow(unused_variables)]
@@ -1020,9 +996,9 @@ fn __action9<
     'input,
 >(
     input: &'input str,
-    (_, v, _): (usize, alloc::vec::Vec<Arg>, usize),
-    (_, e, _): (usize, core::option::Option<Arg>, usize),
-) -> Vec<Arg>
+    (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
+    (_, e, _): (usize, core::option::Option<Arg<'input>>, usize),
+) -> Vec<Arg<'input>>
 {
     match e {
         None=> v,
@@ -1039,8 +1015,8 @@ fn __action10<
     'input,
 >(
     input: &'input str,
-    (_, __0, _): (usize, Arg, usize),
-) -> core::option::Option<Arg>
+    (_, __0, _): (usize, Arg<'input>, usize),
+) -> core::option::Option<Arg<'input>>
 {
     Some(__0)
 }
@@ -1052,7 +1028,7 @@ fn __action11<
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> core::option::Option<Arg>
+) -> core::option::Option<Arg<'input>>
 {
     None
 }
@@ -1064,7 +1040,7 @@ fn __action12<
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> alloc::vec::Vec<Arg>
+) -> alloc::vec::Vec<Arg<'input>>
 {
     alloc::vec![]
 }
@@ -1074,8 +1050,8 @@ fn __action13<
     'input,
 >(
     input: &'input str,
-    (_, v, _): (usize, alloc::vec::Vec<Arg>, usize),
-) -> alloc::vec::Vec<Arg>
+    (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
+) -> alloc::vec::Vec<Arg<'input>>
 {
     v
 }
@@ -1085,9 +1061,9 @@ fn __action14<
     'input,
 >(
     input: &'input str,
-    (_, __0, _): (usize, Arg, usize),
+    (_, __0, _): (usize, Arg<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Arg
+) -> Arg<'input>
 {
     __0
 }
@@ -1097,8 +1073,8 @@ fn __action15<
     'input,
 >(
     input: &'input str,
-    (_, __0, _): (usize, Arg, usize),
-) -> alloc::vec::Vec<Arg>
+    (_, __0, _): (usize, Arg<'input>, usize),
+) -> alloc::vec::Vec<Arg<'input>>
 {
     alloc::vec![__0]
 }
@@ -1108,9 +1084,9 @@ fn __action16<
     'input,
 >(
     input: &'input str,
-    (_, v, _): (usize, alloc::vec::Vec<Arg>, usize),
-    (_, e, _): (usize, Arg, usize),
-) -> alloc::vec::Vec<Arg>
+    (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
+    (_, e, _): (usize, Arg<'input>, usize),
+) -> alloc::vec::Vec<Arg<'input>>
 {
     { let mut v = v; v.push(e); v }
 }
@@ -1120,9 +1096,9 @@ fn __action17<
     'input,
 >(
     input: &'input str,
-    __0: (usize, Arg, usize),
+    __0: (usize, Arg<'input>, usize),
     __1: (usize, &'input str, usize),
-) -> alloc::vec::Vec<Arg>
+) -> alloc::vec::Vec<Arg<'input>>
 {
     let __start0 = __0.0.clone();
     let __end0 = __1.2.clone();
@@ -1143,10 +1119,10 @@ fn __action18<
     'input,
 >(
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<Arg>, usize),
-    __1: (usize, Arg, usize),
+    __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
+    __1: (usize, Arg<'input>, usize),
     __2: (usize, &'input str, usize),
-) -> alloc::vec::Vec<Arg>
+) -> alloc::vec::Vec<Arg<'input>>
 {
     let __start0 = __1.0.clone();
     let __end0 = __2.2.clone();
@@ -1168,8 +1144,8 @@ fn __action19<
     'input,
 >(
     input: &'input str,
-    __0: (usize, core::option::Option<Arg>, usize),
-) -> Vec<Arg>
+    __0: (usize, core::option::Option<Arg<'input>>, usize),
+) -> Vec<Arg<'input>>
 {
     let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
@@ -1191,9 +1167,9 @@ fn __action20<
     'input,
 >(
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<Arg>, usize),
-    __1: (usize, core::option::Option<Arg>, usize),
-) -> Vec<Arg>
+    __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
+    __1: (usize, core::option::Option<Arg<'input>>, usize),
+) -> Vec<Arg<'input>>
 {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
@@ -1214,8 +1190,8 @@ fn __action21<
     'input,
 >(
     input: &'input str,
-    __0: (usize, Arg, usize),
-) -> Vec<Arg>
+    __0: (usize, Arg<'input>, usize),
+) -> Vec<Arg<'input>>
 {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
@@ -1237,7 +1213,7 @@ fn __action22<
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> Vec<Arg>
+) -> Vec<Arg<'input>>
 {
     let __start0 = __lookbehind.clone();
     let __end0 = __lookahead.clone();
@@ -1258,9 +1234,9 @@ fn __action23<
     'input,
 >(
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<Arg>, usize),
-    __1: (usize, Arg, usize),
-) -> Vec<Arg>
+    __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
+    __1: (usize, Arg<'input>, usize),
+) -> Vec<Arg<'input>>
 {
     let __start0 = __1.0.clone();
     let __end0 = __1.2.clone();
@@ -1281,8 +1257,8 @@ fn __action24<
     'input,
 >(
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<Arg>, usize),
-) -> Vec<Arg>
+    __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
+) -> Vec<Arg<'input>>
 {
     let __start0 = __0.2.clone();
     let __end0 = __0.2.clone();

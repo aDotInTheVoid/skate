@@ -3,7 +3,7 @@ source: src/main.rs
 expression: f
 
 ---
-- main
-- []
-- ~
+name: main
+args: []
+body: ~
 

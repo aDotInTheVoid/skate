@@ -3,10 +3,11 @@ source: src/main.rs
 expression: f
 
 ---
-- baz
-- - - y
+name: baz
+args:
+  - - y
     - Int
   - - z
     - String
-- ~
+body: ~
 
