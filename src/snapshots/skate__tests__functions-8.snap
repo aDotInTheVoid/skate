@@ -6,5 +6,5 @@ expression: f
 name: baz
 args: []
 ret: String
-body: ~
+body: []
 

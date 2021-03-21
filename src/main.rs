@@ -14,6 +14,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
 
+    #[track_caller]
     fn t(s: &str) {
         let p = crate::grammar::FunctionParser::new();
         let f = p.parse(s).unwrap();
@@ -30,5 +31,11 @@ mod tests {
         t("fn baz(y:int, z:string) -> int {}");
         t("fn baz(y:int,)->bool  {}");
         t("fn baz()->string{}");
+        t("fn a(){a;b;c;}");
+        t("fn b(){let x = y;}");
+        t("fn c(){let x = y}");
+        t("fn d(){ let x = {y};}");
+        t("fn e(){let x = {x;y;z;}}");
+        t("fn f(){ {let a = b; let c = {d;e}}; f}")
     }
 }

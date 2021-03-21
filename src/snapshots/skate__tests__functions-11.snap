@@ -3,8 +3,11 @@ source: src/main.rs
 expression: f
 
 ---
-name: main
+name: c
 args: []
 ret: ~
-body: []
+body:
+  - Let:
+      - x
+      - Var: y
 

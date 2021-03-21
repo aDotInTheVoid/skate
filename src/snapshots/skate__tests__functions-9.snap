@@ -1,0 +1,16 @@
+---
+source: src/main.rs
+expression: f
+
+---
+name: a
+args: []
+ret: ~
+body:
+  - Expr:
+      Var: a
+  - Expr:
+      Var: b
+  - Expr:
+      Var: c
+

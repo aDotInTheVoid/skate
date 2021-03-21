@@ -13,6 +13,18 @@ Comma<T>: Vec<T> = {
     }
 };
 
+// TODO: Unify this with Comma, and keep track of weather we have a trailing semi (if we want that)
+Semi<T>: Vec<T> = { 
+    <v:(<T> ";")*> <e:T?> => match e {
+        None=> v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+};
+
 pub Function: Function<'input> = {
     "fn" <name:Name> <args:Args> <ret:("->" <Type> )?> <body:Body> => Function{<>}
 }
@@ -29,6 +41,15 @@ Type: Type = {
 
 Name = { r"[a-z]+" }
 
-Body: Body = {
-    "{}" => Body
+Body = { "{" <Semi<Stmt>> "}" }
+
+Stmt: Stmt<'input> = {
+    <Expr> => Stmt::Expr(<>),
+    "let" <Name> "=" <Expr> => Stmt::Let(<>)
+
+}
+
+Expr: Expr<'input> = {
+    Name => Expr::Var(<>),
+    Body => Expr::Block(<>)
 }

@@ -26,7 +26,7 @@ pub struct Function<'a> {
     pub args: Vec<Arg<'a>>,
     pub ret: Option<Type>,
 
-    pub body: Body,
+    pub body: Vec<Stmt<'a>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -43,4 +43,13 @@ pub enum Type {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Body;
+pub enum Stmt<'a> {
+    Let(&'a str, Expr<'a>),
+    Expr(Expr<'a>),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Expr<'a> {
+    Var(&'a str),
+    Block(Vec<Stmt<'a>>),
+}

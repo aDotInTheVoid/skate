@@ -8,5 +8,5 @@ args:
   - name: x
     ty: Int
 ret: ~
-body: ~
+body: []
 
