@@ -3,10 +3,8 @@ source: src/main.rs
 expression: f
 
 ---
-name: bar
-args:
-  - name: x
-    ty: Int
-ret: ~
+name: baz
+args: []
+ret: String
 body: ~
 

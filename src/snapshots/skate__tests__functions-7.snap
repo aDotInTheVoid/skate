@@ -3,10 +3,10 @@ source: src/main.rs
 expression: f
 
 ---
-name: bar
+name: baz
 args:
-  - name: x
+  - name: y
     ty: Int
-ret: ~
+ret: Bool
 body: ~
 

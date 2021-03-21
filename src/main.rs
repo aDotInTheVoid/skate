@@ -27,5 +27,8 @@ mod tests {
         t("fn foo(y:int,){}");
         t("fn baz(y:int,z:string){}");
         t("fn baz(y:int, z:string){}");
+        t("fn baz(y:int, z:string) -> int {}");
+        t("fn baz(y:int,)->bool  {}");
+        t("fn baz()->string{}");
     }
 }

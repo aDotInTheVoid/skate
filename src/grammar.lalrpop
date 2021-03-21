@@ -14,7 +14,7 @@ Comma<T>: Vec<T> = {
 };
 
 pub Function: Function<'input> = {
-    "fn" <name:Name> <args:Args> <body:Body> => Function{<>}
+    "fn" <name:Name> <args:Args> <ret:("->" <Type> )?> <body:Body> => Function{<>}
 }
 
 Args = { "(" <Comma<Arg>> ")"  }

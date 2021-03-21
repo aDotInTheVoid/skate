@@ -24,6 +24,8 @@ use serde::{Deserialize, Serialize};
 pub struct Function<'a> {
     pub name: &'a str,
     pub args: Vec<Arg<'a>>,
+    pub ret: Option<Type>,
+
     pub body: Body,
 }
 

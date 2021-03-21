@@ -9,5 +9,6 @@ args:
     ty: Int
   - name: z
     ty: String
+ret: ~
 body: ~
 

@@ -7,5 +7,6 @@ name: foo
 args:
   - name: y
     ty: Int
+ret: ~
 body: ~
 
