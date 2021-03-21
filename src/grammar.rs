@@ -1,6 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: 24bfc787d2a2372bc8d2235ec3b43fc52676467621c843e811a146acf39b3
-use std::str::FromStr;
+// sha3: 317864e8f7422e43c78b6de2011a62c65527edbb254f8a71e447b47cb238
 use crate::ast::*;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as __lalrpop_util;
@@ -13,7 +12,6 @@ extern crate alloc;
 mod __parse__Function {
     #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens)]
 
-    use std::str::FromStr;
     use crate::ast::*;
     #[allow(unused_extern_crates)]
     extern crate lalrpop_util as __lalrpop_util;
@@ -858,7 +856,6 @@ pub use self::__parse__Function::FunctionParser;
 #[cfg_attr(rustfmt, rustfmt_skip)]
 mod __intern_token {
     #![allow(unused_imports)]
-    use std::str::FromStr;
     use crate::ast::*;
     #[allow(unused_extern_crates)]
     extern crate lalrpop_util as __lalrpop_util;
@@ -916,11 +913,11 @@ fn __action2<
 >(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, a, _): (usize, Vec<Arg<'input>>, usize),
+    (_, __0, _): (usize, Vec<Arg<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
 ) -> Vec<Arg<'input>>
 {
-    a
+    __0
 }
 
 #[allow(unused_variables)]
@@ -928,12 +925,12 @@ fn __action3<
     'input,
 >(
     input: &'input str,
-    (_, n, _): (usize, &'input str, usize),
+    (_, name, _): (usize, &'input str, usize),
     (_, _, _): (usize, &'input str, usize),
-    (_, t, _): (usize, Type, usize),
+    (_, ty, _): (usize, Type, usize),
 ) -> Arg<'input>
 {
-    Arg(n,t)
+    Arg{name:name, ty:ty}
 }
 
 #[allow(unused_variables)]

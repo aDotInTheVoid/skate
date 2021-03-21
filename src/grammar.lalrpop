@@ -1,6 +1,3 @@
-
-
-use std::str::FromStr;
 use crate::ast::*;
 
 grammar;
@@ -20,15 +17,9 @@ pub Function: Function<'input> = {
     "fn" <name:Name> <args:Args> <body:Body> => Function{<>}
 }
 
+Args = { "(" <Comma<Arg>> ")"  }
 
-
-Args: Vec<Arg<'input>> = {
-    "(" <a:Comma<Arg>> ")" => <>
-}
-
-Arg: Arg<'input> = {
-    <n:Name> ":" <t:Type> => Arg(n,t)
-}
+Arg: Arg<'input> = { <name:Name> ":" <ty:Type> => Arg{<>} }
 
 Type: Type = {
     "int" => Type::Int,
@@ -36,9 +27,7 @@ Type: Type = {
     "string" => Type::String,
 }
 
-Name = {
-    r"[a-z]+"
-}
+Name = { r"[a-z]+" }
 
 Body: Body = {
     "{}" => Body

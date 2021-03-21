@@ -1,9 +1,14 @@
+#![allow(clippy::all)]
 mod grammar; // synthesized by LALRPOP
 
 mod ast;
 
 fn main() {
-    println!("Hello, world!");
+    let f = crate::grammar::FunctionParser::new();
+    let func = std::env::args().nth(1).unwrap();
+    let f = f.parse(&func).unwrap();
+
+    println!("{:?}", f);
 }
 
 #[cfg(test)]

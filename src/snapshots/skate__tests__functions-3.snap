@@ -5,7 +5,7 @@ expression: f
 ---
 name: foo
 args:
-  - - y
-    - Int
+  - name: y
+    ty: Int
 body: ~
 

@@ -5,9 +5,9 @@ expression: f
 ---
 name: baz
 args:
-  - - y
-    - Int
-  - - z
-    - String
+  - name: y
+    ty: Int
+  - name: z
+    ty: String
 body: ~
 

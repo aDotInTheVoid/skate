@@ -28,7 +28,10 @@ pub struct Function<'a> {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Arg<'a>(pub &'a str, pub Type);
+pub struct Arg<'a> {
+    pub name: &'a str,
+    pub ty: Type,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Type {
