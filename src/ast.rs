@@ -20,13 +20,14 @@
 
 use serde::{Deserialize, Serialize};
 
+type Block<'a> = Vec<Stmt<'a>>;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Function<'a> {
     pub name: &'a str,
     pub args: Vec<Arg<'a>>,
     pub ret: Option<Type>,
-
-    pub body: Vec<Stmt<'a>>,
+    pub body: Block<'a>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -46,10 +47,17 @@ pub enum Type {
 pub enum Stmt<'a> {
     Let(&'a str, Expr<'a>),
     Expr(Expr<'a>),
+    If(Expr<'a>, Block<'a>, Option<Block<'a>>),
+    For(&'a str, Expr<'a>, Block<'a>),
+    Print(Expr<'a>),
+    While(Expr<'a>, Block<'a>),
+    // This may need do {a} while b;
+    // DoWhile(Block<'a>, Expr<'a>),
+    Return(Expr<'a>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Expr<'a> {
     Var(&'a str),
-    Block(Vec<Stmt<'a>>),
+    Block(Block<'a>),
 }

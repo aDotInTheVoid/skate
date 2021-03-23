@@ -31,6 +31,7 @@ pub Function: Function<'input> = {
 
 Args = { "(" <Comma<Arg>> ")"  }
 
+// TODO: Maybe dont have names things, use a tuple, not a struct.
 Arg: Arg<'input> = { <name:Name> ":" <ty:Type> => Arg{<>} }
 
 Type: Type = {
@@ -43,10 +44,18 @@ Name = { r"[a-z]+" }
 
 Body = { "{" <Semi<Stmt>> "}" }
 
+// TODO: Move to expression oriented
 Stmt: Stmt<'input> = {
+    // Expr statement
     <Expr> => Stmt::Expr(<>),
-    "let" <Name> "=" <Expr> => Stmt::Let(<>)
-
+    // Let statement
+    "let" <Name> "=" <Expr> => Stmt::Let(<>),
+    // Controll flow
+    "if" <Expr> <Body> <("else" <Body>)?> => Stmt::If(<>),
+    "for" <Name> "in" <Expr> <Body> => Stmt::For(<>),
+    "print" <Expr> => Stmt::Print(<>),
+    "while" <Expr> <Body> => Stmt::While(<>),
+    "return" <Expr> => Stmt::Return(<>),
 }
 
 Expr: Expr<'input> = {

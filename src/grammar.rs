@@ -1,12 +1,12 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: affb37f1ec7ee4e3918293cbe4f0acf8c1c89e02a114c26adac9723759345
+// sha3: 2c263c245b8672986b81fc29ad8cc1182d043ae10969bec7296d5c5d8a69a44
 use crate::ast::*;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as __lalrpop_util;
 #[allow(unused_imports)]
 use self::__lalrpop_util::state_machine as __state_machine;
-extern crate alloc;
 extern crate core;
+extern crate alloc;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 mod __parse__Function {
@@ -26,99 +26,134 @@ mod __parse__Function {
         Variant0(&'input str),
         Variant1(Type),
         Variant2(core::option::Option<Type>),
-        Variant3(Arg<'input>),
-        Variant4(alloc::vec::Vec<Arg<'input>>),
-        Variant5(Stmt<'input>),
-        Variant6(alloc::vec::Vec<Stmt<'input>>),
-        Variant7(core::option::Option<Arg<'input>>),
-        Variant8(Vec<Arg<'input>>),
-        Variant9(Vec<Stmt<'input>>),
-        Variant10(Expr<'input>),
-        Variant11(Function<'input>),
-        Variant12(core::option::Option<Stmt<'input>>),
+        Variant3(Vec<Stmt<'input>>),
+        Variant4(core::option::Option<Vec<Stmt<'input>>>),
+        Variant5(Arg<'input>),
+        Variant6(alloc::vec::Vec<Arg<'input>>),
+        Variant7(Stmt<'input>),
+        Variant8(alloc::vec::Vec<Stmt<'input>>),
+        Variant9(core::option::Option<Arg<'input>>),
+        Variant10(Vec<Arg<'input>>),
+        Variant11(Expr<'input>),
+        Variant12(Function<'input>),
+        Variant13(core::option::Option<Stmt<'input>>),
     }
     const __ACTION: &[i8] = &[
         // State 0
-        0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 1
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25,
         // State 2
-        5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 3
-        0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
+        0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
         // State 4
-        0, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15,
+        0, -23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25,
         // State 5
-        0, 0, 0, 0, 0, 0, 0, 20, 0, 21, 0, 22, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 31, 0, 0, 0, 32, 0, 0, 0, 0,
         // State 6
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 7, -29, 15,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 12, 0, 0, 13, 14, 15, 0, 16, 7, -32, 25,
         // State 7
-        0, -22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15,
+        0, -25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25,
         // State 8
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
         // State 9
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 7, -31, 15,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 12, 0, 0, 13, 14, 15, 0, 16, 7, -34, 25,
         // State 10
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25,
         // State 11
-        0, 0, 0, 0, 0, 0, 0, 20, 0, 21, 0, 22, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 25,
         // State 12
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 15,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25,
         // State 13
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 25,
         // State 14
-        -27, 0, 0, 0, -27, -27, -27, 0, 0, 0, 0, 0, 0, -27, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 25,
         // State 15
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 25,
         // State 16
-        0, -19, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 31, 0, 0, 0, 32, 0, 0, 0, 0,
         // State 17
-        0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
         // State 18
-        0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
         // State 19
-        0, -37, -37, 0, 0, 0, 0, 0, 0, 0, 0, 0, -37, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 25,
         // State 20
-        0, -36, -36, 0, 0, 0, 0, 0, 0, 0, 0, 0, -36, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 25,
         // State 21
-        0, -38, -38, 0, 0, 0, 0, 0, 0, 0, 0, 0, -38, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
         // State 22
-        0, 0, 0, 0, 0, -24, 0, 0, 0, 0, 0, 0, 0, -24, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0,
         // State 23
-        0, 0, 0, 0, 0, -32, 0, 0, 0, 0, 0, 0, 0, -32, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 24
-        0, 0, 0, 0, 0, -23, 0, 0, 0, 0, 0, 0, 0, -23, 0,
+        -30, 0, 0, 0, -30, -30, -30, 0, 0, 0, 0, 0, -30, 0, 0, 0, 0, 0, 0, -30, -30, 0,
         // State 25
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 26
-        0, 0, 0, 0, 0, 34, 0, 0, 0, 0, 0, 0, 0, -28, 0,
+        0, -22, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 27
-        0, -21, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 28
-        0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7,
+        0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 29
-        0, 0, 0, -17, 0, 0, 0, 0, 0, 0, 0, 0, -17, 0, 0,
+        0, -46, -46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -46, 0, 0,
         // State 30
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, -45, -45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -45, 0, 0,
         // State 31
-        0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, -30, 0,
+        0, -47, -47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -47, 0, 0,
         // State 32
-        0, 0, 0, 0, 0, -18, 0, 0, 0, 0, 0, 0, 0, -18, 0,
+        0, 0, 0, 0, 0, -27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -27, -27, 0,
         // State 33
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -12, 0, -12, -12, -12,
+        0, 0, 0, 0, 0, -35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -35, 0,
         // State 34
-        0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, -26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -26, -26, 0,
         // State 35
-        0, -8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -8,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 0,
         // State 36
-        0, -14, -14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -31, 0,
         // State 37
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -13, 0, -13, -13, -13,
+        0, -24, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         // State 38
-        0, 0, 0, 0, 0, -33, 0, 0, 0, 0, 0, 0, 0, -33, 0,
+        0, -10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -10,
+        // State 39
+        0, 0, 0, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -20, 0, 0,
+        // State 40
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        // State 41
+        0, 0, 0, 0, 0, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -33, 0,
+        // State 42
+        0, 0, 0, 0, 0, -21, 0, 0, -21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -21, -21, 0,
+        // State 43
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -15, -15, 0, 0, -15, -15, -15, 0, -15, -15, -15, -15,
+        // State 44
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        // State 45
+        0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        // State 46
+        0, 0, 0, 0, 0, -40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -40, 0,
+        // State 47
+        0, 0, 0, 0, 0, -42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -42, 0,
+        // State 48
+        0, -11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11,
+        // State 49
+        0, -17, -17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        // State 50
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -16, -16, 0, 0, -16, -16, -16, 0, -16, -16, -16, -16,
+        // State 51
+        0, 0, 0, 0, 0, -38, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -38, 0,
+        // State 52
+        0, 0, 0, 0, 0, -41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -41, 0,
+        // State 53
+        0, 0, 0, 0, 0, -36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -36, 0,
+        // State 54
+        0, 0, 0, 0, 0, -39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -39, 0,
+        // State 55
+        0, 0, 0, 0, 0, -37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -37, 0,
     ];
     fn __action(state: i8, integer: usize) -> i8 {
-        __ACTION[(state as usize) * 15 + integer]
+        __ACTION[(state as usize) * 22 + integer]
     }
     const __EOF_ACTION: &[i8] = &[
         // State 0
@@ -148,11 +183,11 @@ mod __parse__Function {
         // State 12
         0,
         // State 13
-        -39,
+        0,
         // State 14
         0,
         // State 15
-        -26,
+        0,
         // State 16
         0,
         // State 17
@@ -168,11 +203,11 @@ mod __parse__Function {
         // State 22
         0,
         // State 23
-        0,
+        -48,
         // State 24
         0,
         // State 25
-        0,
+        -29,
         // State 26
         0,
         // State 27
@@ -182,11 +217,11 @@ mod __parse__Function {
         // State 29
         0,
         // State 30
-        -25,
+        0,
         // State 31
         0,
         // State 32
-        -18,
+        0,
         // State 33
         0,
         // State 34
@@ -199,40 +234,84 @@ mod __parse__Function {
         0,
         // State 38
         0,
+        // State 39
+        0,
+        // State 40
+        -28,
+        // State 41
+        0,
+        // State 42
+        -21,
+        // State 43
+        0,
+        // State 44
+        0,
+        // State 45
+        0,
+        // State 46
+        0,
+        // State 47
+        0,
+        // State 48
+        0,
+        // State 49
+        0,
+        // State 50
+        0,
+        // State 51
+        0,
+        // State 52
+        0,
+        // State 53
+        0,
+        // State 54
+        0,
+        // State 55
+        0,
     ];
     fn __goto(state: i8, nt: usize) -> i8 {
         match nt {
-            4 => 7,
-            7 => 9,
-            8 => match state {
-                7 => 27,
-                _ => 16,
-            },
-            10 => 3,
-            11 => match state {
-                3 => 15,
-                8 => 30,
-                _ => 22,
-            },
-            12 => 17,
-            13 => match state {
-                12 => 38,
-                _ => 23,
-            },
-            14 => 13,
-            15 => match state {
-                1 => 2,
-                4 | 7 => 18,
-                10 => 34,
-                _ => 24,
-            },
-            16 => 25,
-            17 => match state {
-                9 => 31,
+            6 => 7,
+            9 => 9,
+            10 => match state {
+                7 => 37,
                 _ => 26,
             },
+            12 => 3,
+            13 => match state {
+                3 => 25,
+                8 => 40,
+                17 => 51,
+                18 => 52,
+                21 => 54,
+                22 => 55,
+                _ => 32,
+            },
+            14 => 27,
+            15 => match state {
+                11 => 17,
+                15 => 18,
+                19 => 21,
+                13 => 46,
+                14 => 47,
+                20 => 53,
+                _ => 33,
+            },
+            16 => 23,
+            17 => match state {
+                1 => 2,
+                4 | 7 => 28,
+                10 => 44,
+                12 => 45,
+                _ => 34,
+            },
+            18 => 35,
             19 => match state {
-                11 => 36,
+                9 => 41,
+                _ => 36,
+            },
+            21 => match state {
+                16 => 49,
                 _ => 8,
             },
             _ => 0,
@@ -248,10 +327,17 @@ mod __parse__Function {
             r###"";""###,
             r###""=""###,
             r###""bool""###,
+            r###""else""###,
             r###""fn""###,
+            r###""for""###,
+            r###""if""###,
+            r###""in""###,
             r###""int""###,
             r###""let""###,
+            r###""print""###,
+            r###""return""###,
             r###""string""###,
+            r###""while""###,
             r###""{""###,
             r###""}""###,
             r###"r#"[a-z]+"#"###,
@@ -307,7 +393,7 @@ mod __parse__Function {
 
         #[inline]
         fn error_action(&self, state: i8) -> i8 {
-            __action(state, 15 - 1)
+            __action(state, 22 - 1)
         }
 
         #[inline]
@@ -384,7 +470,14 @@ mod __parse__Function {
             Token(12, _) if true => Some(11),
             Token(13, _) if true => Some(12),
             Token(14, _) if true => Some(13),
-            Token(0, _) if true => Some(14),
+            Token(15, _) if true => Some(14),
+            Token(16, _) if true => Some(15),
+            Token(17, _) if true => Some(16),
+            Token(18, _) if true => Some(17),
+            Token(19, _) if true => Some(18),
+            Token(20, _) if true => Some(19),
+            Token(21, _) if true => Some(20),
+            Token(0, _) if true => Some(21),
             _ => None,
         }
     }
@@ -397,8 +490,8 @@ mod __parse__Function {
     ) -> __Symbol<'input>
     {
         match __token_index {
-            0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 => match __token {
-                Token(1, __tok0) | Token(2, __tok0) | Token(3, __tok0) | Token(4, __tok0) | Token(5, __tok0) | Token(6, __tok0) | Token(7, __tok0) | Token(8, __tok0) | Token(9, __tok0) | Token(10, __tok0) | Token(11, __tok0) | Token(12, __tok0) | Token(13, __tok0) | Token(14, __tok0) | Token(0, __tok0) if true => __Symbol::Variant0(__tok0),
+            0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 => match __token {
+                Token(1, __tok0) | Token(2, __tok0) | Token(3, __tok0) | Token(4, __tok0) | Token(5, __tok0) | Token(6, __tok0) | Token(7, __tok0) | Token(8, __tok0) | Token(9, __tok0) | Token(10, __tok0) | Token(11, __tok0) | Token(12, __tok0) | Token(13, __tok0) | Token(14, __tok0) | Token(15, __tok0) | Token(16, __tok0) | Token(17, __tok0) | Token(18, __tok0) | Token(19, __tok0) | Token(20, __tok0) | Token(21, __tok0) | Token(0, __tok0) if true => __Symbol::Variant0(__tok0),
                 _ => unreachable!(),
             },
             _ => unreachable!(),
@@ -563,8 +656,35 @@ mod __parse__Function {
                 __reduce37(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
             }
             38 => {
+                __reduce38(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            39 => {
+                __reduce39(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            40 => {
+                __reduce40(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            41 => {
+                __reduce41(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            42 => {
+                __reduce42(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            43 => {
+                __reduce43(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            44 => {
+                __reduce44(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            45 => {
+                __reduce45(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            46 => {
+                __reduce46(input, __lookahead_start, __symbols, core::marker::PhantomData::<(&())>)
+            }
+            47 => {
                 // __Function = Function => ActionFn(0);
-                let __sym0 = __pop_Variant11(__symbols);
+                let __sym0 = __pop_Variant12(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action0::<>(input, __sym0);
@@ -583,25 +703,14 @@ mod __parse__Function {
     fn __symbol_type_mismatch() -> ! {
         panic!("symbol type mismatch")
     }
-    fn __pop_Variant3<
+    fn __pop_Variant5<
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
     ) -> (usize, Arg<'input>, usize)
      {
         match __symbols.pop() {
-            Some((__l, __Symbol::Variant3(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant10<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Expr<'input>, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant10(__v), __r)) => (__l, __v, __r),
+            Some((__l, __Symbol::Variant5(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
@@ -609,21 +718,32 @@ mod __parse__Function {
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Function<'input>, usize)
+    ) -> (usize, Expr<'input>, usize)
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant11(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
-    fn __pop_Variant5<
+    fn __pop_Variant12<
+      'input,
+    >(
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
+    ) -> (usize, Function<'input>, usize)
+     {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant12(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch()
+        }
+    }
+    fn __pop_Variant7<
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
     ) -> (usize, Stmt<'input>, usize)
      {
         match __symbols.pop() {
-            Some((__l, __Symbol::Variant5(__v), __r)) => (__l, __v, __r),
+            Some((__l, __Symbol::Variant7(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
@@ -638,11 +758,44 @@ mod __parse__Function {
             _ => __symbol_type_mismatch()
         }
     }
-    fn __pop_Variant8<
+    fn __pop_Variant10<
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
     ) -> (usize, Vec<Arg<'input>>, usize)
+     {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant10(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch()
+        }
+    }
+    fn __pop_Variant3<
+      'input,
+    >(
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
+    ) -> (usize, Vec<Stmt<'input>>, usize)
+     {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant3(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch()
+        }
+    }
+    fn __pop_Variant6<
+      'input,
+    >(
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
+    ) -> (usize, alloc::vec::Vec<Arg<'input>>, usize)
+     {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant6(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch()
+        }
+    }
+    fn __pop_Variant8<
+      'input,
+    >(
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
+    ) -> (usize, alloc::vec::Vec<Stmt<'input>>, usize)
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant8(__v), __r)) => (__l, __v, __r),
@@ -653,54 +806,21 @@ mod __parse__Function {
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Vec<Stmt<'input>>, usize)
+    ) -> (usize, core::option::Option<Arg<'input>>, usize)
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant9(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
-    fn __pop_Variant4<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, alloc::vec::Vec<Arg<'input>>, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant4(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant6<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, alloc::vec::Vec<Stmt<'input>>, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant6(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant7<
-      'input,
-    >(
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, core::option::Option<Arg<'input>>, usize)
-     {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant7(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch()
-        }
-    }
-    fn __pop_Variant12<
+    fn __pop_Variant13<
       'input,
     >(
         __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
     ) -> (usize, core::option::Option<Stmt<'input>>, usize)
      {
         match __symbols.pop() {
-            Some((__l, __Symbol::Variant12(__v), __r)) => (__l, __v, __r),
+            Some((__l, __Symbol::Variant13(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
@@ -712,6 +832,17 @@ mod __parse__Function {
      {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant2(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch()
+        }
+    }
+    fn __pop_Variant4<
+      'input,
+    >(
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>
+    ) -> (usize, core::option::Option<Vec<Stmt<'input>>>, usize)
+     {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant4(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch()
         }
     }
@@ -735,13 +866,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // ("->" <Type>) = "->", Type => ActionFn(17);
+        // ("->" <Type>) = "->", Type => ActionFn(25);
         assert!(__symbols.len() >= 2);
         let __sym1 = __pop_Variant1(__symbols);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym1.2.clone();
-        let __nt = super::__action17::<>(input, __sym0, __sym1);
+        let __nt = super::__action25::<>(input, __sym0, __sym1);
         __symbols.push((__start, __Symbol::Variant1(__nt), __end));
         (2, 0)
     }
@@ -754,13 +885,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // ("->" <Type>)? = "->", Type => ActionFn(32);
+        // ("->" <Type>)? = "->", Type => ActionFn(40);
         assert!(__symbols.len() >= 2);
         let __sym1 = __pop_Variant1(__symbols);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym1.2.clone();
-        let __nt = super::__action32::<>(input, __sym0, __sym1);
+        let __nt = super::__action40::<>(input, __sym0, __sym1);
         __symbols.push((__start, __Symbol::Variant2(__nt), __end));
         (2, 1)
     }
@@ -773,10 +904,10 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // ("->" <Type>)? =  => ActionFn(16);
+        // ("->" <Type>)? =  => ActionFn(24);
         let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
         let __end = __start.clone();
-        let __nt = super::__action16::<>(input, &__start, &__end);
+        let __nt = super::__action24::<>(input, &__start, &__end);
         __symbols.push((__start, __Symbol::Variant2(__nt), __end));
         (0, 1)
     }
@@ -789,13 +920,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Arg> ",") = Arg, "," => ActionFn(22);
+        // ("else" <Body>) = "else", Body => ActionFn(20);
         assert!(__symbols.len() >= 2);
-        let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant3(__symbols);
+        let __sym1 = __pop_Variant3(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym1.2.clone();
-        let __nt = super::__action22::<>(input, __sym0, __sym1);
+        let __nt = super::__action20::<>(input, __sym0, __sym1);
         __symbols.push((__start, __Symbol::Variant3(__nt), __end));
         (2, 2)
     }
@@ -808,12 +939,15 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Arg> ",")* =  => ActionFn(20);
-        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
-        let __end = __start.clone();
-        let __nt = super::__action20::<>(input, &__start, &__end);
+        // ("else" <Body>)? = "else", Body => ActionFn(43);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant3(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action43::<>(input, __sym0, __sym1);
         __symbols.push((__start, __Symbol::Variant4(__nt), __end));
-        (0, 3)
+        (2, 3)
     }
     pub(crate) fn __reduce5<
         'input,
@@ -824,13 +958,12 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Arg> ",")* = (<Arg> ",")+ => ActionFn(21);
-        let __sym0 = __pop_Variant4(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action21::<>(input, __sym0);
+        // ("else" <Body>)? =  => ActionFn(19);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action19::<>(input, &__start, &__end);
         __symbols.push((__start, __Symbol::Variant4(__nt), __end));
-        (1, 3)
+        (0, 3)
     }
     pub(crate) fn __reduce6<
         'input,
@@ -841,14 +974,14 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Arg> ",")+ = Arg, "," => ActionFn(35);
+        // (<Arg> ",") = Arg, "," => ActionFn(30);
         assert!(__symbols.len() >= 2);
         let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant3(__symbols);
+        let __sym0 = __pop_Variant5(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym1.2.clone();
-        let __nt = super::__action35::<>(input, __sym0, __sym1);
-        __symbols.push((__start, __Symbol::Variant4(__nt), __end));
+        let __nt = super::__action30::<>(input, __sym0, __sym1);
+        __symbols.push((__start, __Symbol::Variant5(__nt), __end));
         (2, 4)
     }
     pub(crate) fn __reduce7<
@@ -860,16 +993,12 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Arg> ",")+ = (<Arg> ",")+, Arg, "," => ActionFn(36);
-        assert!(__symbols.len() >= 3);
-        let __sym2 = __pop_Variant0(__symbols);
-        let __sym1 = __pop_Variant3(__symbols);
-        let __sym0 = __pop_Variant4(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action36::<>(input, __sym0, __sym1, __sym2);
-        __symbols.push((__start, __Symbol::Variant4(__nt), __end));
-        (3, 4)
+        // (<Arg> ",")* =  => ActionFn(28);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action28::<>(input, &__start, &__end);
+        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        (0, 5)
     }
     pub(crate) fn __reduce8<
         'input,
@@ -880,15 +1009,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Stmt> ";") = Stmt, ";" => ActionFn(27);
-        assert!(__symbols.len() >= 2);
-        let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant5(__symbols);
+        // (<Arg> ",")* = (<Arg> ",")+ => ActionFn(29);
+        let __sym0 = __pop_Variant6(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action27::<>(input, __sym0, __sym1);
-        __symbols.push((__start, __Symbol::Variant5(__nt), __end));
-        (2, 5)
+        let __end = __sym0.2.clone();
+        let __nt = super::__action29::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        (1, 5)
     }
     pub(crate) fn __reduce9<
         'input,
@@ -899,12 +1026,15 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Stmt> ";")* =  => ActionFn(25);
-        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
-        let __end = __start.clone();
-        let __nt = super::__action25::<>(input, &__start, &__end);
+        // (<Arg> ",")+ = Arg, "," => ActionFn(46);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant0(__symbols);
+        let __sym0 = __pop_Variant5(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action46::<>(input, __sym0, __sym1);
         __symbols.push((__start, __Symbol::Variant6(__nt), __end));
-        (0, 6)
+        (2, 6)
     }
     pub(crate) fn __reduce10<
         'input,
@@ -915,13 +1045,16 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Stmt> ";")* = (<Stmt> ";")+ => ActionFn(26);
+        // (<Arg> ",")+ = (<Arg> ",")+, Arg, "," => ActionFn(47);
+        assert!(__symbols.len() >= 3);
+        let __sym2 = __pop_Variant0(__symbols);
+        let __sym1 = __pop_Variant5(__symbols);
         let __sym0 = __pop_Variant6(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action26::<>(input, __sym0);
+        let __end = __sym2.2.clone();
+        let __nt = super::__action47::<>(input, __sym0, __sym1, __sym2);
         __symbols.push((__start, __Symbol::Variant6(__nt), __end));
-        (1, 6)
+        (3, 6)
     }
     pub(crate) fn __reduce11<
         'input,
@@ -932,14 +1065,14 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Stmt> ";")+ = Stmt, ";" => ActionFn(39);
+        // (<Stmt> ";") = Stmt, ";" => ActionFn(35);
         assert!(__symbols.len() >= 2);
         let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant5(__symbols);
+        let __sym0 = __pop_Variant7(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym1.2.clone();
-        let __nt = super::__action39::<>(input, __sym0, __sym1);
-        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
+        let __nt = super::__action35::<>(input, __sym0, __sym1);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
         (2, 7)
     }
     pub(crate) fn __reduce12<
@@ -951,18 +1084,70 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // (<Stmt> ";")+ = (<Stmt> ";")+, Stmt, ";" => ActionFn(40);
-        assert!(__symbols.len() >= 3);
-        let __sym2 = __pop_Variant0(__symbols);
-        let __sym1 = __pop_Variant5(__symbols);
-        let __sym0 = __pop_Variant6(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action40::<>(input, __sym0, __sym1, __sym2);
-        __symbols.push((__start, __Symbol::Variant6(__nt), __end));
-        (3, 7)
+        // (<Stmt> ";")* =  => ActionFn(33);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action33::<>(input, &__start, &__end);
+        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
+        (0, 8)
     }
     pub(crate) fn __reduce13<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // (<Stmt> ";")* = (<Stmt> ";")+ => ActionFn(34);
+        let __sym0 = __pop_Variant8(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym0.2.clone();
+        let __nt = super::__action34::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
+        (1, 8)
+    }
+    pub(crate) fn __reduce14<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // (<Stmt> ";")+ = Stmt, ";" => ActionFn(50);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant0(__symbols);
+        let __sym0 = __pop_Variant7(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action50::<>(input, __sym0, __sym1);
+        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
+        (2, 9)
+    }
+    pub(crate) fn __reduce15<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // (<Stmt> ";")+ = (<Stmt> ";")+, Stmt, ";" => ActionFn(51);
+        assert!(__symbols.len() >= 3);
+        let __sym2 = __pop_Variant0(__symbols);
+        let __sym1 = __pop_Variant7(__symbols);
+        let __sym0 = __pop_Variant8(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym2.2.clone();
+        let __nt = super::__action51::<>(input, __sym0, __sym1, __sym2);
+        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
+        (3, 9)
+    }
+    pub(crate) fn __reduce16<
         'input,
     >(
         input: &'input str,
@@ -979,60 +1164,7 @@ mod __parse__Function {
         let __start = __sym0.0.clone();
         let __end = __sym2.2.clone();
         let __nt = super::__action3::<>(input, __sym0, __sym1, __sym2);
-        __symbols.push((__start, __Symbol::Variant3(__nt), __end));
-        (3, 8)
-    }
-    pub(crate) fn __reduce14<
-        'input,
-    >(
-        input: &'input str,
-        __lookahead_start: Option<&usize>,
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
-        _: core::marker::PhantomData<(&'input ())>,
-    ) -> (usize, usize)
-    {
-        // Arg? = Arg => ActionFn(18);
-        let __sym0 = __pop_Variant3(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action18::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
-        (1, 9)
-    }
-    pub(crate) fn __reduce15<
-        'input,
-    >(
-        input: &'input str,
-        __lookahead_start: Option<&usize>,
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
-        _: core::marker::PhantomData<(&'input ())>,
-    ) -> (usize, usize)
-    {
-        // Arg? =  => ActionFn(19);
-        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
-        let __end = __start.clone();
-        let __nt = super::__action19::<>(input, &__start, &__end);
-        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
-        (0, 9)
-    }
-    pub(crate) fn __reduce16<
-        'input,
-    >(
-        input: &'input str,
-        __lookahead_start: Option<&usize>,
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
-        _: core::marker::PhantomData<(&'input ())>,
-    ) -> (usize, usize)
-    {
-        // Args = "(", Comma<Arg>, ")" => ActionFn(2);
-        assert!(__symbols.len() >= 3);
-        let __sym2 = __pop_Variant0(__symbols);
-        let __sym1 = __pop_Variant8(__symbols);
-        let __sym0 = __pop_Variant0(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action2::<>(input, __sym0, __sym1, __sym2);
-        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
+        __symbols.push((__start, __Symbol::Variant5(__nt), __end));
         (3, 10)
     }
     pub(crate) fn __reduce17<
@@ -1044,16 +1176,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Body = "{", Semi<Stmt>, "}" => ActionFn(8);
-        assert!(__symbols.len() >= 3);
-        let __sym2 = __pop_Variant0(__symbols);
-        let __sym1 = __pop_Variant9(__symbols);
-        let __sym0 = __pop_Variant0(__symbols);
+        // Arg? = Arg => ActionFn(26);
+        let __sym0 = __pop_Variant5(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action8::<>(input, __sym0, __sym1, __sym2);
+        let __end = __sym0.2.clone();
+        let __nt = super::__action26::<>(input, __sym0);
         __symbols.push((__start, __Symbol::Variant9(__nt), __end));
-        (3, 11)
+        (1, 11)
     }
     pub(crate) fn __reduce18<
         'input,
@@ -1064,13 +1193,12 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Comma<Arg> = Arg => ActionFn(43);
-        let __sym0 = __pop_Variant3(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action43::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
-        (1, 12)
+        // Arg? =  => ActionFn(27);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action27::<>(input, &__start, &__end);
+        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
+        (0, 11)
     }
     pub(crate) fn __reduce19<
         'input,
@@ -1081,12 +1209,16 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Comma<Arg> =  => ActionFn(44);
-        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
-        let __end = __start.clone();
-        let __nt = super::__action44::<>(input, &__start, &__end);
-        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
-        (0, 12)
+        // Args = "(", Comma<Arg>, ")" => ActionFn(2);
+        assert!(__symbols.len() >= 3);
+        let __sym2 = __pop_Variant0(__symbols);
+        let __sym1 = __pop_Variant10(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym2.2.clone();
+        let __nt = super::__action2::<>(input, __sym0, __sym1, __sym2);
+        __symbols.push((__start, __Symbol::Variant10(__nt), __end));
+        (3, 12)
     }
     pub(crate) fn __reduce20<
         'input,
@@ -1097,15 +1229,16 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Comma<Arg> = (<Arg> ",")+, Arg => ActionFn(45);
-        assert!(__symbols.len() >= 2);
+        // Body = "{", Semi<Stmt>, "}" => ActionFn(8);
+        assert!(__symbols.len() >= 3);
+        let __sym2 = __pop_Variant0(__symbols);
         let __sym1 = __pop_Variant3(__symbols);
-        let __sym0 = __pop_Variant4(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action45::<>(input, __sym0, __sym1);
-        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
-        (2, 12)
+        let __end = __sym2.2.clone();
+        let __nt = super::__action8::<>(input, __sym0, __sym1, __sym2);
+        __symbols.push((__start, __Symbol::Variant3(__nt), __end));
+        (3, 13)
     }
     pub(crate) fn __reduce21<
         'input,
@@ -1116,13 +1249,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Comma<Arg> = (<Arg> ",")+ => ActionFn(46);
-        let __sym0 = __pop_Variant4(__symbols);
+        // Comma<Arg> = Arg => ActionFn(54);
+        let __sym0 = __pop_Variant5(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
-        let __nt = super::__action46::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant8(__nt), __end));
-        (1, 12)
+        let __nt = super::__action54::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant10(__nt), __end));
+        (1, 14)
     }
     pub(crate) fn __reduce22<
         'input,
@@ -1133,13 +1266,12 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Expr = Name => ActionFn(11);
-        let __sym0 = __pop_Variant0(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action11::<>(input, __sym0);
+        // Comma<Arg> =  => ActionFn(55);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action55::<>(input, &__start, &__end);
         __symbols.push((__start, __Symbol::Variant10(__nt), __end));
-        (1, 13)
+        (0, 14)
     }
     pub(crate) fn __reduce23<
         'input,
@@ -1150,13 +1282,15 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Expr = Body => ActionFn(12);
-        let __sym0 = __pop_Variant9(__symbols);
+        // Comma<Arg> = (<Arg> ",")+, Arg => ActionFn(56);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant5(__symbols);
+        let __sym0 = __pop_Variant6(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action12::<>(input, __sym0);
+        let __end = __sym1.2.clone();
+        let __nt = super::__action56::<>(input, __sym0, __sym1);
         __symbols.push((__start, __Symbol::Variant10(__nt), __end));
-        (1, 13)
+        (2, 14)
     }
     pub(crate) fn __reduce24<
         'input,
@@ -1167,19 +1301,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Function = "fn", Name, Args, "->", Type, Body => ActionFn(33);
-        assert!(__symbols.len() >= 6);
-        let __sym5 = __pop_Variant9(__symbols);
-        let __sym4 = __pop_Variant1(__symbols);
-        let __sym3 = __pop_Variant0(__symbols);
-        let __sym2 = __pop_Variant8(__symbols);
-        let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant0(__symbols);
+        // Comma<Arg> = (<Arg> ",")+ => ActionFn(57);
+        let __sym0 = __pop_Variant6(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym5.2.clone();
-        let __nt = super::__action33::<>(input, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5);
-        __symbols.push((__start, __Symbol::Variant11(__nt), __end));
-        (6, 14)
+        let __end = __sym0.2.clone();
+        let __nt = super::__action57::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant10(__nt), __end));
+        (1, 14)
     }
     pub(crate) fn __reduce25<
         'input,
@@ -1190,19 +1318,76 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Function = "fn", Name, Args, Body => ActionFn(34);
+        // Expr = Name => ActionFn(16);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym0.2.clone();
+        let __nt = super::__action16::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant11(__nt), __end));
+        (1, 15)
+    }
+    pub(crate) fn __reduce26<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Expr = Body => ActionFn(17);
+        let __sym0 = __pop_Variant3(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym0.2.clone();
+        let __nt = super::__action17::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant11(__nt), __end));
+        (1, 15)
+    }
+    pub(crate) fn __reduce27<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Function = "fn", Name, Args, "->", Type, Body => ActionFn(41);
+        assert!(__symbols.len() >= 6);
+        let __sym5 = __pop_Variant3(__symbols);
+        let __sym4 = __pop_Variant1(__symbols);
+        let __sym3 = __pop_Variant0(__symbols);
+        let __sym2 = __pop_Variant10(__symbols);
+        let __sym1 = __pop_Variant0(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym5.2.clone();
+        let __nt = super::__action41::<>(input, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5);
+        __symbols.push((__start, __Symbol::Variant12(__nt), __end));
+        (6, 16)
+    }
+    pub(crate) fn __reduce28<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Function = "fn", Name, Args, Body => ActionFn(42);
         assert!(__symbols.len() >= 4);
-        let __sym3 = __pop_Variant9(__symbols);
-        let __sym2 = __pop_Variant8(__symbols);
+        let __sym3 = __pop_Variant3(__symbols);
+        let __sym2 = __pop_Variant10(__symbols);
         let __sym1 = __pop_Variant0(__symbols);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym3.2.clone();
-        let __nt = super::__action34::<>(input, __sym0, __sym1, __sym2, __sym3);
-        __symbols.push((__start, __Symbol::Variant11(__nt), __end));
-        (4, 14)
+        let __nt = super::__action42::<>(input, __sym0, __sym1, __sym2, __sym3);
+        __symbols.push((__start, __Symbol::Variant12(__nt), __end));
+        (4, 16)
     }
-    pub(crate) fn __reduce26<
+    pub(crate) fn __reduce29<
         'input,
     >(
         input: &'input str,
@@ -1217,59 +1402,7 @@ mod __parse__Function {
         let __end = __sym0.2.clone();
         let __nt = super::__action7::<>(input, __sym0);
         __symbols.push((__start, __Symbol::Variant0(__nt), __end));
-        (1, 15)
-    }
-    pub(crate) fn __reduce27<
-        'input,
-    >(
-        input: &'input str,
-        __lookahead_start: Option<&usize>,
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
-        _: core::marker::PhantomData<(&'input ())>,
-    ) -> (usize, usize)
-    {
-        // Semi<Stmt> = Stmt => ActionFn(47);
-        let __sym0 = __pop_Variant5(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action47::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
-        (1, 16)
-    }
-    pub(crate) fn __reduce28<
-        'input,
-    >(
-        input: &'input str,
-        __lookahead_start: Option<&usize>,
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
-        _: core::marker::PhantomData<(&'input ())>,
-    ) -> (usize, usize)
-    {
-        // Semi<Stmt> =  => ActionFn(48);
-        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
-        let __end = __start.clone();
-        let __nt = super::__action48::<>(input, &__start, &__end);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
-        (0, 16)
-    }
-    pub(crate) fn __reduce29<
-        'input,
-    >(
-        input: &'input str,
-        __lookahead_start: Option<&usize>,
-        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
-        _: core::marker::PhantomData<(&'input ())>,
-    ) -> (usize, usize)
-    {
-        // Semi<Stmt> = (<Stmt> ";")+, Stmt => ActionFn(49);
-        assert!(__symbols.len() >= 2);
-        let __sym1 = __pop_Variant5(__symbols);
-        let __sym0 = __pop_Variant6(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action49::<>(input, __sym0, __sym1);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
-        (2, 16)
+        (1, 17)
     }
     pub(crate) fn __reduce30<
         'input,
@@ -1280,13 +1413,13 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Semi<Stmt> = (<Stmt> ";")+ => ActionFn(50);
-        let __sym0 = __pop_Variant6(__symbols);
+        // Semi<Stmt> = Stmt => ActionFn(58);
+        let __sym0 = __pop_Variant7(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
-        let __nt = super::__action50::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant9(__nt), __end));
-        (1, 16)
+        let __nt = super::__action58::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant3(__nt), __end));
+        (1, 18)
     }
     pub(crate) fn __reduce31<
         'input,
@@ -1297,13 +1430,12 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Stmt = Expr => ActionFn(9);
-        let __sym0 = __pop_Variant10(__symbols);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action9::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant5(__nt), __end));
-        (1, 17)
+        // Semi<Stmt> =  => ActionFn(59);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action59::<>(input, &__start, &__end);
+        __symbols.push((__start, __Symbol::Variant3(__nt), __end));
+        (0, 18)
     }
     pub(crate) fn __reduce32<
         'input,
@@ -1314,17 +1446,15 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Stmt = "let", Name, "=", Expr => ActionFn(10);
-        assert!(__symbols.len() >= 4);
-        let __sym3 = __pop_Variant10(__symbols);
-        let __sym2 = __pop_Variant0(__symbols);
-        let __sym1 = __pop_Variant0(__symbols);
-        let __sym0 = __pop_Variant0(__symbols);
+        // Semi<Stmt> = (<Stmt> ";")+, Stmt => ActionFn(60);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant7(__symbols);
+        let __sym0 = __pop_Variant8(__symbols);
         let __start = __sym0.0.clone();
-        let __end = __sym3.2.clone();
-        let __nt = super::__action10::<>(input, __sym0, __sym1, __sym2, __sym3);
-        __symbols.push((__start, __Symbol::Variant5(__nt), __end));
-        (4, 17)
+        let __end = __sym1.2.clone();
+        let __nt = super::__action60::<>(input, __sym0, __sym1);
+        __symbols.push((__start, __Symbol::Variant3(__nt), __end));
+        (2, 18)
     }
     pub(crate) fn __reduce33<
         'input,
@@ -1335,12 +1465,12 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Stmt? = Stmt => ActionFn(23);
-        let __sym0 = __pop_Variant5(__symbols);
+        // Semi<Stmt> = (<Stmt> ";")+ => ActionFn(61);
+        let __sym0 = __pop_Variant8(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
-        let __nt = super::__action23::<>(input, __sym0);
-        __symbols.push((__start, __Symbol::Variant12(__nt), __end));
+        let __nt = super::__action61::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant3(__nt), __end));
         (1, 18)
     }
     pub(crate) fn __reduce34<
@@ -1352,14 +1482,191 @@ mod __parse__Function {
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize)
     {
-        // Stmt? =  => ActionFn(24);
-        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
-        let __end = __start.clone();
-        let __nt = super::__action24::<>(input, &__start, &__end);
-        __symbols.push((__start, __Symbol::Variant12(__nt), __end));
-        (0, 18)
+        // Stmt = Expr => ActionFn(9);
+        let __sym0 = __pop_Variant11(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym0.2.clone();
+        let __nt = super::__action9::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (1, 19)
     }
     pub(crate) fn __reduce35<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "let", Name, "=", Expr => ActionFn(10);
+        assert!(__symbols.len() >= 4);
+        let __sym3 = __pop_Variant11(__symbols);
+        let __sym2 = __pop_Variant0(__symbols);
+        let __sym1 = __pop_Variant0(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym3.2.clone();
+        let __nt = super::__action10::<>(input, __sym0, __sym1, __sym2, __sym3);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (4, 19)
+    }
+    pub(crate) fn __reduce36<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "if", Expr, Body, "else", Body => ActionFn(44);
+        assert!(__symbols.len() >= 5);
+        let __sym4 = __pop_Variant3(__symbols);
+        let __sym3 = __pop_Variant0(__symbols);
+        let __sym2 = __pop_Variant3(__symbols);
+        let __sym1 = __pop_Variant11(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym4.2.clone();
+        let __nt = super::__action44::<>(input, __sym0, __sym1, __sym2, __sym3, __sym4);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (5, 19)
+    }
+    pub(crate) fn __reduce37<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "if", Expr, Body => ActionFn(45);
+        assert!(__symbols.len() >= 3);
+        let __sym2 = __pop_Variant3(__symbols);
+        let __sym1 = __pop_Variant11(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym2.2.clone();
+        let __nt = super::__action45::<>(input, __sym0, __sym1, __sym2);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (3, 19)
+    }
+    pub(crate) fn __reduce38<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "for", Name, "in", Expr, Body => ActionFn(12);
+        assert!(__symbols.len() >= 5);
+        let __sym4 = __pop_Variant3(__symbols);
+        let __sym3 = __pop_Variant11(__symbols);
+        let __sym2 = __pop_Variant0(__symbols);
+        let __sym1 = __pop_Variant0(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym4.2.clone();
+        let __nt = super::__action12::<>(input, __sym0, __sym1, __sym2, __sym3, __sym4);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (5, 19)
+    }
+    pub(crate) fn __reduce39<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "print", Expr => ActionFn(13);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant11(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action13::<>(input, __sym0, __sym1);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (2, 19)
+    }
+    pub(crate) fn __reduce40<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "while", Expr, Body => ActionFn(14);
+        assert!(__symbols.len() >= 3);
+        let __sym2 = __pop_Variant3(__symbols);
+        let __sym1 = __pop_Variant11(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym2.2.clone();
+        let __nt = super::__action14::<>(input, __sym0, __sym1, __sym2);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (3, 19)
+    }
+    pub(crate) fn __reduce41<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt = "return", Expr => ActionFn(15);
+        assert!(__symbols.len() >= 2);
+        let __sym1 = __pop_Variant11(__symbols);
+        let __sym0 = __pop_Variant0(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action15::<>(input, __sym0, __sym1);
+        __symbols.push((__start, __Symbol::Variant7(__nt), __end));
+        (2, 19)
+    }
+    pub(crate) fn __reduce42<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt? = Stmt => ActionFn(31);
+        let __sym0 = __pop_Variant7(__symbols);
+        let __start = __sym0.0.clone();
+        let __end = __sym0.2.clone();
+        let __nt = super::__action31::<>(input, __sym0);
+        __symbols.push((__start, __Symbol::Variant13(__nt), __end));
+        (1, 20)
+    }
+    pub(crate) fn __reduce43<
+        'input,
+    >(
+        input: &'input str,
+        __lookahead_start: Option<&usize>,
+        __symbols: &mut alloc::vec::Vec<(usize,__Symbol<'input>,usize)>,
+        _: core::marker::PhantomData<(&'input ())>,
+    ) -> (usize, usize)
+    {
+        // Stmt? =  => ActionFn(32);
+        let __start = __lookahead_start.cloned().or_else(|| __symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+        let __end = __start.clone();
+        let __nt = super::__action32::<>(input, &__start, &__end);
+        __symbols.push((__start, __Symbol::Variant13(__nt), __end));
+        (0, 20)
+    }
+    pub(crate) fn __reduce44<
         'input,
     >(
         input: &'input str,
@@ -1374,9 +1681,9 @@ mod __parse__Function {
         let __end = __sym0.2.clone();
         let __nt = super::__action4::<>(input, __sym0);
         __symbols.push((__start, __Symbol::Variant1(__nt), __end));
-        (1, 19)
+        (1, 21)
     }
-    pub(crate) fn __reduce36<
+    pub(crate) fn __reduce45<
         'input,
     >(
         input: &'input str,
@@ -1391,9 +1698,9 @@ mod __parse__Function {
         let __end = __sym0.2.clone();
         let __nt = super::__action5::<>(input, __sym0);
         __symbols.push((__start, __Symbol::Variant1(__nt), __end));
-        (1, 19)
+        (1, 21)
     }
-    pub(crate) fn __reduce37<
+    pub(crate) fn __reduce46<
         'input,
     >(
         input: &'input str,
@@ -1408,7 +1715,7 @@ mod __parse__Function {
         let __end = __sym0.2.clone();
         let __nt = super::__action6::<>(input, __sym0);
         __symbols.push((__start, __Symbol::Variant1(__nt), __end));
-        (1, 19)
+        (1, 21)
     }
 }
 pub use self::__parse__Function::FunctionParser;
@@ -1433,10 +1740,17 @@ mod __intern_token {
             ("^(;)", false),
             ("^(=)", false),
             ("^(bool)", false),
+            ("^(else)", false),
             ("^(fn)", false),
+            ("^(for)", false),
+            ("^(if)", false),
+            ("^(in)", false),
             ("^(int)", false),
             ("^(let)", false),
+            ("^(print)", false),
+            ("^(return)", false),
             ("^(string)", false),
+            ("^(while)", false),
             ("^(\\{)", false),
             ("^(\\})", false),
             (r"^(\s*)", true),
@@ -1447,123 +1761,273 @@ mod __intern_token {
 pub(crate) use self::__lalrpop_util::lexer::Token;
 
 #[allow(unused_variables)]
-fn __action0<'input>(
+fn __action0<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Function<'input>, usize),
-) -> Function<'input> {
+) -> Function<'input>
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action1<'input>(
+fn __action1<
+    'input,
+>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, name, _): (usize, &'input str, usize),
     (_, args, _): (usize, Vec<Arg<'input>>, usize),
     (_, ret, _): (usize, core::option::Option<Type>, usize),
     (_, body, _): (usize, Vec<Stmt<'input>>, usize),
-) -> Function<'input> {
-    Function {
-        name: name,
-        args: args,
-        ret: ret,
-        body: body,
-    }
+) -> Function<'input>
+{
+    Function{name:name, args:args, ret:ret, body:body}
 }
 
 #[allow(unused_variables)]
-fn __action2<'input>(
+fn __action2<
+    'input,
+>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Vec<Arg<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action3<'input>(
+fn __action3<
+    'input,
+>(
     input: &'input str,
     (_, name, _): (usize, &'input str, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, ty, _): (usize, Type, usize),
-) -> Arg<'input> {
-    Arg { name: name, ty: ty }
+) -> Arg<'input>
+{
+    Arg{name:name, ty:ty}
 }
 
 #[allow(unused_variables)]
-fn __action4<'input>(input: &'input str, (_, __0, _): (usize, &'input str, usize)) -> Type {
+fn __action4<
+    'input,
+>(
+    input: &'input str,
+    (_, __0, _): (usize, &'input str, usize),
+) -> Type
+{
     Type::Int
 }
 
 #[allow(unused_variables)]
-fn __action5<'input>(input: &'input str, (_, __0, _): (usize, &'input str, usize)) -> Type {
+fn __action5<
+    'input,
+>(
+    input: &'input str,
+    (_, __0, _): (usize, &'input str, usize),
+) -> Type
+{
     Type::Bool
 }
 
 #[allow(unused_variables)]
-fn __action6<'input>(input: &'input str, (_, __0, _): (usize, &'input str, usize)) -> Type {
+fn __action6<
+    'input,
+>(
+    input: &'input str,
+    (_, __0, _): (usize, &'input str, usize),
+) -> Type
+{
     Type::String
 }
 
 #[allow(unused_variables)]
-fn __action7<'input>(input: &'input str, (_, __0, _): (usize, &'input str, usize)) -> &'input str {
+fn __action7<
+    'input,
+>(
+    input: &'input str,
+    (_, __0, _): (usize, &'input str, usize),
+) -> &'input str
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action8<'input>(
+fn __action8<
+    'input,
+>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Vec<Stmt<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action9<'input>(
+fn __action9<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
-) -> Stmt<'input> {
+) -> Stmt<'input>
+{
     Stmt::Expr(__0)
 }
 
 #[allow(unused_variables)]
-fn __action10<'input>(
+fn __action10<
+    'input,
+>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, &'input str, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, __1, _): (usize, Expr<'input>, usize),
-) -> Stmt<'input> {
+) -> Stmt<'input>
+{
     Stmt::Let(__0, __1)
 }
 
 #[allow(unused_variables)]
-fn __action11<'input>(
+fn __action11<
+    'input,
+>(
+    input: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, Expr<'input>, usize),
+    (_, __1, _): (usize, Vec<Stmt<'input>>, usize),
+    (_, __2, _): (usize, core::option::Option<Vec<Stmt<'input>>>, usize),
+) -> Stmt<'input>
+{
+    Stmt::If(__0, __1, __2)
+}
+
+#[allow(unused_variables)]
+fn __action12<
+    'input,
+>(
+    input: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, &'input str, usize),
+    (_, _, _): (usize, &'input str, usize),
+    (_, __1, _): (usize, Expr<'input>, usize),
+    (_, __2, _): (usize, Vec<Stmt<'input>>, usize),
+) -> Stmt<'input>
+{
+    Stmt::For(__0, __1, __2)
+}
+
+#[allow(unused_variables)]
+fn __action13<
+    'input,
+>(
+    input: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, Expr<'input>, usize),
+) -> Stmt<'input>
+{
+    Stmt::Print(__0)
+}
+
+#[allow(unused_variables)]
+fn __action14<
+    'input,
+>(
+    input: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, Expr<'input>, usize),
+    (_, __1, _): (usize, Vec<Stmt<'input>>, usize),
+) -> Stmt<'input>
+{
+    Stmt::While(__0, __1)
+}
+
+#[allow(unused_variables)]
+fn __action15<
+    'input,
+>(
+    input: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, Expr<'input>, usize),
+) -> Stmt<'input>
+{
+    Stmt::Return(__0)
+}
+
+#[allow(unused_variables)]
+fn __action16<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
-) -> Expr<'input> {
+) -> Expr<'input>
+{
     Expr::Var(__0)
 }
 
 #[allow(unused_variables)]
-fn __action12<'input>(
+fn __action17<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Vec<Stmt<'input>>, usize),
-) -> Expr<'input> {
+) -> Expr<'input>
+{
     Expr::Block(__0)
 }
 
 #[allow(unused_variables)]
-fn __action13<'input>(
+fn __action18<
+    'input,
+>(
+    input: &'input str,
+    (_, __0, _): (usize, Vec<Stmt<'input>>, usize),
+) -> core::option::Option<Vec<Stmt<'input>>>
+{
+    Some(__0)
+}
+
+#[allow(unused_variables)]
+fn __action19<
+    'input,
+>(
+    input: &'input str,
+    __lookbehind: &usize,
+    __lookahead: &usize,
+) -> core::option::Option<Vec<Stmt<'input>>>
+{
+    None
+}
+
+#[allow(unused_variables)]
+fn __action20<
+    'input,
+>(
+    input: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, Vec<Stmt<'input>>, usize),
+) -> Vec<Stmt<'input>>
+{
+    __0
+}
+
+#[allow(unused_variables)]
+fn __action21<
+    'input,
+>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     (_, e, _): (usize, core::option::Option<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     match e {
-        None => v,
+        None=> v,
         Some(e) => {
             let mut v = v;
             v.push(e);
@@ -1573,13 +2037,16 @@ fn __action13<'input>(
 }
 
 #[allow(unused_variables)]
-fn __action14<'input>(
+fn __action22<
+    'input,
+>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
     (_, e, _): (usize, core::option::Option<Arg<'input>>, usize),
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     match e {
-        None => v,
+        None=> v,
         Some(e) => {
             let mut v = v;
             v.push(e);
@@ -1589,174 +2056,229 @@ fn __action14<'input>(
 }
 
 #[allow(unused_variables)]
-fn __action15<'input>(
+fn __action23<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Type, usize),
-) -> core::option::Option<Type> {
+) -> core::option::Option<Type>
+{
     Some(__0)
 }
 
 #[allow(unused_variables)]
-fn __action16<'input>(
+fn __action24<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> core::option::Option<Type> {
+) -> core::option::Option<Type>
+{
     None
 }
 
 #[allow(unused_variables)]
-fn __action17<'input>(
+fn __action25<
+    'input,
+>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Type, usize),
-) -> Type {
+) -> Type
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action18<'input>(
+fn __action26<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Arg<'input>, usize),
-) -> core::option::Option<Arg<'input>> {
+) -> core::option::Option<Arg<'input>>
+{
     Some(__0)
 }
 
 #[allow(unused_variables)]
-fn __action19<'input>(
+fn __action27<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> core::option::Option<Arg<'input>> {
+) -> core::option::Option<Arg<'input>>
+{
     None
 }
 
 #[allow(unused_variables)]
-fn __action20<'input>(
+fn __action28<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> alloc::vec::Vec<Arg<'input>> {
+) -> alloc::vec::Vec<Arg<'input>>
+{
     alloc::vec![]
 }
 
 #[allow(unused_variables)]
-fn __action21<'input>(
+fn __action29<
+    'input,
+>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
-) -> alloc::vec::Vec<Arg<'input>> {
+) -> alloc::vec::Vec<Arg<'input>>
+{
     v
 }
 
 #[allow(unused_variables)]
-fn __action22<'input>(
+fn __action30<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Arg<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Arg<'input> {
+) -> Arg<'input>
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action23<'input>(
+fn __action31<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Stmt<'input>, usize),
-) -> core::option::Option<Stmt<'input>> {
+) -> core::option::Option<Stmt<'input>>
+{
     Some(__0)
 }
 
 #[allow(unused_variables)]
-fn __action24<'input>(
+fn __action32<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> core::option::Option<Stmt<'input>> {
+) -> core::option::Option<Stmt<'input>>
+{
     None
 }
 
 #[allow(unused_variables)]
-fn __action25<'input>(
+fn __action33<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> alloc::vec::Vec<Stmt<'input>> {
+) -> alloc::vec::Vec<Stmt<'input>>
+{
     alloc::vec![]
 }
 
 #[allow(unused_variables)]
-fn __action26<'input>(
+fn __action34<
+    'input,
+>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Stmt<'input>>, usize),
-) -> alloc::vec::Vec<Stmt<'input>> {
+) -> alloc::vec::Vec<Stmt<'input>>
+{
     v
 }
 
 #[allow(unused_variables)]
-fn __action27<'input>(
+fn __action35<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Stmt<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Stmt<'input> {
+) -> Stmt<'input>
+{
     __0
 }
 
 #[allow(unused_variables)]
-fn __action28<'input>(
+fn __action36<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Stmt<'input>, usize),
-) -> alloc::vec::Vec<Stmt<'input>> {
+) -> alloc::vec::Vec<Stmt<'input>>
+{
     alloc::vec![__0]
 }
 
 #[allow(unused_variables)]
-fn __action29<'input>(
+fn __action37<
+    'input,
+>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     (_, e, _): (usize, Stmt<'input>, usize),
-) -> alloc::vec::Vec<Stmt<'input>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
+) -> alloc::vec::Vec<Stmt<'input>>
+{
+    { let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn __action30<'input>(
+fn __action38<
+    'input,
+>(
     input: &'input str,
     (_, __0, _): (usize, Arg<'input>, usize),
-) -> alloc::vec::Vec<Arg<'input>> {
+) -> alloc::vec::Vec<Arg<'input>>
+{
     alloc::vec![__0]
 }
 
 #[allow(unused_variables)]
-fn __action31<'input>(
+fn __action39<
+    'input,
+>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
     (_, e, _): (usize, Arg<'input>, usize),
-) -> alloc::vec::Vec<Arg<'input>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
+) -> alloc::vec::Vec<Arg<'input>>
+{
+    { let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn __action32<'input>(
+fn __action40<
+    'input,
+>(
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Type, usize),
-) -> core::option::Option<Type> {
+) -> core::option::Option<Type>
+{
     let __start0 = __0.0.clone();
     let __end0 = __1.2.clone();
-    let __temp0 = __action17(input, __0, __1);
+    let __temp0 = __action25(
+        input,
+        __0,
+        __1,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action15(input, __temp0)
+    __action23(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action33<'input>(
+fn __action41<
+    'input,
+>(
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, &'input str, usize),
@@ -1764,253 +2286,513 @@ fn __action33<'input>(
     __3: (usize, &'input str, usize),
     __4: (usize, Type, usize),
     __5: (usize, Vec<Stmt<'input>>, usize),
-) -> Function<'input> {
+) -> Function<'input>
+{
     let __start0 = __3.0.clone();
     let __end0 = __4.2.clone();
-    let __temp0 = __action32(input, __3, __4);
+    let __temp0 = __action40(
+        input,
+        __3,
+        __4,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action1(input, __0, __1, __2, __temp0, __5)
+    __action1(
+        input,
+        __0,
+        __1,
+        __2,
+        __temp0,
+        __5,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action34<'input>(
+fn __action42<
+    'input,
+>(
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, &'input str, usize),
     __2: (usize, Vec<Arg<'input>>, usize),
     __3: (usize, Vec<Stmt<'input>>, usize),
-) -> Function<'input> {
+) -> Function<'input>
+{
     let __start0 = __2.2.clone();
     let __end0 = __3.0.clone();
-    let __temp0 = __action16(input, &__start0, &__end0);
+    let __temp0 = __action24(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action1(input, __0, __1, __2, __temp0, __3)
+    __action1(
+        input,
+        __0,
+        __1,
+        __2,
+        __temp0,
+        __3,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action35<'input>(
+fn __action43<
+    'input,
+>(
+    input: &'input str,
+    __0: (usize, &'input str, usize),
+    __1: (usize, Vec<Stmt<'input>>, usize),
+) -> core::option::Option<Vec<Stmt<'input>>>
+{
+    let __start0 = __0.0.clone();
+    let __end0 = __1.2.clone();
+    let __temp0 = __action20(
+        input,
+        __0,
+        __1,
+    );
+    let __temp0 = (__start0, __temp0, __end0);
+    __action18(
+        input,
+        __temp0,
+    )
+}
+
+#[allow(unused_variables)]
+fn __action44<
+    'input,
+>(
+    input: &'input str,
+    __0: (usize, &'input str, usize),
+    __1: (usize, Expr<'input>, usize),
+    __2: (usize, Vec<Stmt<'input>>, usize),
+    __3: (usize, &'input str, usize),
+    __4: (usize, Vec<Stmt<'input>>, usize),
+) -> Stmt<'input>
+{
+    let __start0 = __3.0.clone();
+    let __end0 = __4.2.clone();
+    let __temp0 = __action43(
+        input,
+        __3,
+        __4,
+    );
+    let __temp0 = (__start0, __temp0, __end0);
+    __action11(
+        input,
+        __0,
+        __1,
+        __2,
+        __temp0,
+    )
+}
+
+#[allow(unused_variables)]
+fn __action45<
+    'input,
+>(
+    input: &'input str,
+    __0: (usize, &'input str, usize),
+    __1: (usize, Expr<'input>, usize),
+    __2: (usize, Vec<Stmt<'input>>, usize),
+) -> Stmt<'input>
+{
+    let __start0 = __2.2.clone();
+    let __end0 = __2.2.clone();
+    let __temp0 = __action19(
+        input,
+        &__start0,
+        &__end0,
+    );
+    let __temp0 = (__start0, __temp0, __end0);
+    __action11(
+        input,
+        __0,
+        __1,
+        __2,
+        __temp0,
+    )
+}
+
+#[allow(unused_variables)]
+fn __action46<
+    'input,
+>(
     input: &'input str,
     __0: (usize, Arg<'input>, usize),
     __1: (usize, &'input str, usize),
-) -> alloc::vec::Vec<Arg<'input>> {
+) -> alloc::vec::Vec<Arg<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __1.2.clone();
-    let __temp0 = __action22(input, __0, __1);
+    let __temp0 = __action30(
+        input,
+        __0,
+        __1,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action30(input, __temp0)
+    __action38(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action36<'input>(
+fn __action47<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
     __1: (usize, Arg<'input>, usize),
     __2: (usize, &'input str, usize),
-) -> alloc::vec::Vec<Arg<'input>> {
+) -> alloc::vec::Vec<Arg<'input>>
+{
     let __start0 = __1.0.clone();
     let __end0 = __2.2.clone();
-    let __temp0 = __action22(input, __1, __2);
+    let __temp0 = __action30(
+        input,
+        __1,
+        __2,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action31(input, __0, __temp0)
+    __action39(
+        input,
+        __0,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action37<'input>(
+fn __action48<
+    'input,
+>(
     input: &'input str,
     __0: (usize, core::option::Option<Arg<'input>>, usize),
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
-    let __temp0 = __action20(input, &__start0, &__end0);
+    let __temp0 = __action28(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action14(input, __temp0, __0)
+    __action22(
+        input,
+        __temp0,
+        __0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action38<'input>(
+fn __action49<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
     __1: (usize, core::option::Option<Arg<'input>>, usize),
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
-    let __temp0 = __action21(input, __0);
+    let __temp0 = __action29(
+        input,
+        __0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action14(input, __temp0, __1)
+    __action22(
+        input,
+        __temp0,
+        __1,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action39<'input>(
+fn __action50<
+    'input,
+>(
     input: &'input str,
     __0: (usize, Stmt<'input>, usize),
     __1: (usize, &'input str, usize),
-) -> alloc::vec::Vec<Stmt<'input>> {
+) -> alloc::vec::Vec<Stmt<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __1.2.clone();
-    let __temp0 = __action27(input, __0, __1);
+    let __temp0 = __action35(
+        input,
+        __0,
+        __1,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action28(input, __temp0)
+    __action36(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action40<'input>(
+fn __action51<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     __1: (usize, Stmt<'input>, usize),
     __2: (usize, &'input str, usize),
-) -> alloc::vec::Vec<Stmt<'input>> {
+) -> alloc::vec::Vec<Stmt<'input>>
+{
     let __start0 = __1.0.clone();
     let __end0 = __2.2.clone();
-    let __temp0 = __action27(input, __1, __2);
+    let __temp0 = __action35(
+        input,
+        __1,
+        __2,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action29(input, __0, __temp0)
+    __action37(
+        input,
+        __0,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action41<'input>(
+fn __action52<
+    'input,
+>(
     input: &'input str,
     __0: (usize, core::option::Option<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
-    let __temp0 = __action25(input, &__start0, &__end0);
+    let __temp0 = __action33(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action13(input, __temp0, __0)
+    __action21(
+        input,
+        __temp0,
+        __0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action42<'input>(
+fn __action53<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     __1: (usize, core::option::Option<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
-    let __temp0 = __action26(input, __0);
+    let __temp0 = __action34(
+        input,
+        __0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action13(input, __temp0, __1)
+    __action21(
+        input,
+        __temp0,
+        __1,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action43<'input>(input: &'input str, __0: (usize, Arg<'input>, usize)) -> Vec<Arg<'input>> {
+fn __action54<
+    'input,
+>(
+    input: &'input str,
+    __0: (usize, Arg<'input>, usize),
+) -> Vec<Arg<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
-    let __temp0 = __action18(input, __0);
+    let __temp0 = __action26(
+        input,
+        __0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action37(input, __temp0)
+    __action48(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action44<'input>(
+fn __action55<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     let __start0 = __lookbehind.clone();
     let __end0 = __lookahead.clone();
-    let __temp0 = __action19(input, &__start0, &__end0);
+    let __temp0 = __action27(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action37(input, __temp0)
+    __action48(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action45<'input>(
+fn __action56<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
     __1: (usize, Arg<'input>, usize),
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     let __start0 = __1.0.clone();
     let __end0 = __1.2.clone();
-    let __temp0 = __action18(input, __1);
+    let __temp0 = __action26(
+        input,
+        __1,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action38(input, __0, __temp0)
+    __action49(
+        input,
+        __0,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action46<'input>(
+fn __action57<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
-) -> Vec<Arg<'input>> {
+) -> Vec<Arg<'input>>
+{
     let __start0 = __0.2.clone();
     let __end0 = __0.2.clone();
-    let __temp0 = __action19(input, &__start0, &__end0);
+    let __temp0 = __action27(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action38(input, __0, __temp0)
+    __action49(
+        input,
+        __0,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action47<'input>(input: &'input str, __0: (usize, Stmt<'input>, usize)) -> Vec<Stmt<'input>> {
+fn __action58<
+    'input,
+>(
+    input: &'input str,
+    __0: (usize, Stmt<'input>, usize),
+) -> Vec<Stmt<'input>>
+{
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
-    let __temp0 = __action23(input, __0);
+    let __temp0 = __action31(
+        input,
+        __0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action41(input, __temp0)
+    __action52(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action48<'input>(
+fn __action59<
+    'input,
+>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     let __start0 = __lookbehind.clone();
     let __end0 = __lookahead.clone();
-    let __temp0 = __action24(input, &__start0, &__end0);
+    let __temp0 = __action32(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action41(input, __temp0)
+    __action52(
+        input,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action49<'input>(
+fn __action60<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     __1: (usize, Stmt<'input>, usize),
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     let __start0 = __1.0.clone();
     let __end0 = __1.2.clone();
-    let __temp0 = __action23(input, __1);
+    let __temp0 = __action31(
+        input,
+        __1,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action42(input, __0, __temp0)
+    __action53(
+        input,
+        __0,
+        __temp0,
+    )
 }
 
 #[allow(unused_variables)]
-fn __action50<'input>(
+fn __action61<
+    'input,
+>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> Vec<Stmt<'input>>
+{
     let __start0 = __0.2.clone();
     let __end0 = __0.2.clone();
-    let __temp0 = __action24(input, &__start0, &__end0);
+    let __temp0 = __action32(
+        input,
+        &__start0,
+        &__end0,
+    );
     let __temp0 = (__start0, __temp0, __end0);
-    __action42(input, __0, __temp0)
+    __action53(
+        input,
+        __0,
+        __temp0,
+    )
 }
 
-pub trait __ToTriple<'input> {
-    fn to_triple(
-        value: Self,
-    ) -> Result<
-        (usize, Token<'input>, usize),
-        __lalrpop_util::ParseError<usize, Token<'input>, &'static str>,
-    >;
+pub trait __ToTriple<'input, > {
+    fn to_triple(value: Self) -> Result<(usize,Token<'input>,usize), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>>;
 }
 
-impl<'input> __ToTriple<'input> for (usize, Token<'input>, usize) {
-    fn to_triple(
-        value: Self,
-    ) -> Result<
-        (usize, Token<'input>, usize),
-        __lalrpop_util::ParseError<usize, Token<'input>, &'static str>,
-    > {
+impl<'input, > __ToTriple<'input, > for (usize, Token<'input>, usize) {
+    fn to_triple(value: Self) -> Result<(usize,Token<'input>,usize), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> {
         Ok(value)
     }
 }
-impl<'input> __ToTriple<'input> for Result<(usize, Token<'input>, usize), &'static str> {
-    fn to_triple(
-        value: Self,
-    ) -> Result<
-        (usize, Token<'input>, usize),
-        __lalrpop_util::ParseError<usize, Token<'input>, &'static str>,
-    > {
+impl<'input, > __ToTriple<'input, > for Result<(usize, Token<'input>, usize), &'static str> {
+    fn to_triple(value: Self) -> Result<(usize,Token<'input>,usize), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> {
         match value {
             Ok(v) => Ok(v),
             Err(error) => Err(__lalrpop_util::ParseError::User { error }),
