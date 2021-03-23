@@ -45,7 +45,7 @@ Name = { r"[a-z]+" }
 Body = { "{" <Semi<Stmt>> "}" }
 
 // TODO: Move to expression oriented
-Stmt: Stmt<'input> = {
+pub Stmt: Stmt<'input> = {
     // Expr statement
     <Expr> => Stmt::Expr(<>),
     // Let statement
@@ -58,11 +58,8 @@ Stmt: Stmt<'input> = {
     "return" <Expr> => Stmt::Return(<>),
 }
 
-Expr: Expr<'input> = {
-    // Name => Expr::Var(<>),
-    // Body => Expr::Block(<>)
-    <OrExpr>
-}
+// Rename for convenience
+pub Expr = { <OrExpr> }
 
 // See http://www.craftinginterpreters.com/appendix-i.html
 // https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm

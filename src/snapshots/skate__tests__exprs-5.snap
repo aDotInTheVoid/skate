@@ -1,0 +1,20 @@
+---
+source: src/main.rs
+expression: f
+
+---
+BinOp:
+  - BinOp:
+      - Literal:
+          Integer: 1
+      - Equals
+      - Literal:
+          Integer: 2
+  - Equals
+  - BinOp:
+      - Literal:
+          Integer: 3
+      - Plus
+      - Literal:
+          Integer: 3
+
