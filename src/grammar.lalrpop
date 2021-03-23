@@ -114,7 +114,7 @@ BaseExpr: Expr<'input> = {
 }
 
 Literal: Literal<'input> = {
-    <StringLit> => Literal::String(<>),
+    <s:StringLit> => Literal::String(&s[1..s.len()-1]),
     <FloatLit> => Literal::Float(<>.parse().unwrap()),
     <IntLit> => Literal::Integer(<>.parse().unwrap())
 }

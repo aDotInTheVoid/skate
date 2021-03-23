@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: 2b146ddfafa1db20d138d09129685425a5ce58fbe23509d1eb2f24237ad65b5
+// sha3: 925e79a7a1c88fa4eeaa51ed598942f32115c82ecac7744d6a866ae951edd77
 use crate::ast::*;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as __lalrpop_util;
@@ -10444,9 +10444,9 @@ fn __action40<'input>(
 #[allow(unused_variables)]
 fn __action41<'input>(
     input: &'input str,
-    (_, __0, _): (usize, &'input str, usize),
+    (_, s, _): (usize, &'input str, usize),
 ) -> Literal<'input> {
-    Literal::String(__0)
+    Literal::String(&s[1..s.len() - 1])
 }
 
 #[allow(unused_variables)]

@@ -3,6 +3,7 @@ source: src/main.rs
 expression: f
 
 ---
-Literal:
-  String: "ab\\\""
+Print:
+  Literal:
+    String: "2"
 

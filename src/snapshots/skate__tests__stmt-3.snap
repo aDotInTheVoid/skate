@@ -1,0 +1,13 @@
+---
+source: src/main.rs
+expression: f
+
+---
+Print:
+  BinOp:
+    - Literal:
+        String: "2"
+    - Plus
+    - Literal:
+        String: "3"
+

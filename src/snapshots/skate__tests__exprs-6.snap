@@ -4,5 +4,5 @@ expression: f
 
 ---
 Literal:
-  String: "\"\""
+  String: ""
 

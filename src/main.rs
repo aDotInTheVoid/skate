@@ -97,5 +97,7 @@ mod tests {
     #[test]
     fn stmt() {
         s(r#"print 1"#);
+        s(r#"print "2""#);
+        s(r#"print "2" + "3""#);
     }
 }
