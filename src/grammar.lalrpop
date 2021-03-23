@@ -62,3 +62,19 @@ Expr: Expr<'input> = {
     Name => Expr::Var(<>),
     Body => Expr::Block(<>)
 }
+
+
+LogicalOr:         BinOp = { "||" => BinOp::LogicalOr }
+Equals:            BinOp = { "==" => BinOp::Equals }
+NotEquals:         BinOp = { "!=" => BinOp::NotEquals }
+LessThan:          BinOp = { "<"  => BinOp::LessThan }
+GreaterThan:       BinOp = { ">"  => BinOp::GreaterThan }
+LessThanEquals:    BinOp = { "<=" => BinOp::LessThanEquals }
+GreaterThanEquals: BinOp = { ">=" => BinOp::GreaterThanEquals }
+Plus:              BinOp = { "+"  => BinOp::Plus }
+Minus:             BinOp = { "-"  => BinOp::Minus }
+Times:             BinOp = { "*"  => BinOp::Times }
+Devide:            BinOp = { "."  => BinOp::Devide }
+
+UnaryMinus: UnaryOp = { "-" => UnaryOp::Minus }
+UnaryNot:   UnaryOp = { "-" => UnaryOp::Not }

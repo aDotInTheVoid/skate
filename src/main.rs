@@ -65,6 +65,6 @@ mod tests {
                     if c {e} else { if f {g} }
                 }
             }
-        }")
+        }");
     }
 }

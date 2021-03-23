@@ -58,6 +58,38 @@ pub enum Stmt<'a> {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Expr<'a> {
+    Literal(Literal<'a>),
     Var(&'a str),
     Block(Block<'a>),
+    Call(Box<Expr<'a>>, Vec<Arg<'a>>),
+    Binop(Box<Expr<'a>>, BinOp, Box<Expr<'a>>),
+    Access(Box<Expr<'a>>, &'a str),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum BinOp {
+    Equals,
+    NotEquals,
+    LessThan,
+    GreaterThan,
+    LessThanEquals,
+    GreaterThanEquals,
+    Plus,
+    Minus,
+    Times,
+    Devide,
+    LogicalOr,
+    LogicalAnd,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum UnaryOp {
+    Not,
+    Minus,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Literal<'a> {
+    String(&'a str),
+    Integer(i32),
 }
