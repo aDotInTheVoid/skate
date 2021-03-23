@@ -61,9 +61,11 @@ pub enum Expr<'a> {
     Literal(Literal<'a>),
     Var(&'a str),
     Block(Block<'a>),
-    Call(Box<Expr<'a>>, Vec<Arg<'a>>),
-    Binop(Box<Expr<'a>>, BinOp, Box<Expr<'a>>),
-    Access(Box<Expr<'a>>, &'a str),
+    Call(Box<Expr<'a>>, Vec<Expr<'a>>),
+    BinOp(Box<Expr<'a>>, BinOp, Box<Expr<'a>>),
+    UnaryOp(UnaryOp, Box<Expr<'a>>),
+    FieldAccess(Box<Expr<'a>>, &'a str),
+    ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -91,5 +93,6 @@ pub enum UnaryOp {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Literal<'a> {
     String(&'a str),
-    Integer(i32),
+    Integer(i64),
+    Float(f64),
 }

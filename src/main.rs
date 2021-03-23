@@ -66,5 +66,8 @@ mod tests {
                 }
             }
         }");
+        t("fn main() { let z = a.b }");
+        t("fn main() {let z = a.b.c;}");
+        t("fn main() { let z = x.y.z[a.b[z].c].d(e,f,g);}");
     }
 }

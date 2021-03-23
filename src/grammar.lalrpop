@@ -59,12 +59,76 @@ Stmt: Stmt<'input> = {
 }
 
 Expr: Expr<'input> = {
-    Name => Expr::Var(<>),
-    Body => Expr::Block(<>)
+    // Name => Expr::Var(<>),
+    // Body => Expr::Block(<>)
+    <OrExpr>
 }
 
+// See http://www.craftinginterpreters.com/appendix-i.html
+// https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+OrExpr: Expr<'input> = {
+    <AndExpr>,
+    <l:OrExpr> <o:LogicalOr> <r:AndExpr> => Expr::BinOp(Box::new(l), o, Box::new(r))
+}
+
+AndExpr: Expr<'input> = {
+    <EqualityExpr>,
+    <l: AndExpr> <o:LogicalAnd> <r:EqualityExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
+}
+
+EqualityExpr: Expr<'input> = {
+    <ComparisonExpr>,
+    <l:EqualityExpr> <o:EqualityOp> <r:ComparisonExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
+}
+
+ComparisonExpr: Expr<'input> = {
+    <AdditiveExpr>,
+    <l:ComparisonExpr> <o:ComparisonOp> <r:AdditiveExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
+
+}
+
+AdditiveExpr: Expr<'input> = {
+    <MultiplicitveExpr>,
+    <l:AdditiveExpr> <o:AdditionOp> <r:MultiplicitveExpr>  => Expr::BinOp(Box::new(l), o, Box::new(r)),
+}
+
+MultiplicitveExpr: Expr<'input> = {
+    <UnaryExpr>,
+    <l:MultiplicitveExpr> <o:MultiplicationOp> <r:UnaryExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
+}
+
+UnaryExpr: Expr<'input> = {
+    <PostfixExpr>,
+    <o:UnaryOp> <e:UnaryExpr> => Expr::UnaryOp(o, Box::new(e)),
+}
+
+PostfixExpr: Expr<'input> = {
+    <BaseExpr>,
+    <l:PostfixExpr> "[" <r:Expr> "]" => Expr::ArrayAccess(Box::new(l), Box::new(r)),
+    <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => Expr::Call(Box::new(l), r),
+    <l:PostfixExpr> "." <r: Name> => Expr::FieldAccess(Box::new(l), r),
+}
+
+BaseExpr: Expr<'input> = {
+    <Name> => Expr::Var(<>),
+    <Body> => Expr::Block(<>),
+    "(" <Expr> ")" => <>,
+    <Literal> => Expr::Literal(<>) 
+}
+
+Literal: Literal<'input> = {
+    <StringLit> => Literal::String(<>),
+    <FloatLit> => Literal::Float(<>.parse().unwrap()),
+    <IntLit> => Literal::Integer(<>.parse().unwrap())
+}
+
+// https://stackoverflow.com/a/2039820
+StringLit = { r#""(\\.|[^"\\])*""# }
+FloatLit = { r#"[+-]?[0-9]+[.][0-9]*"# }
+IntLit = { r"[0-9]+" }
 
 LogicalOr:         BinOp = { "||" => BinOp::LogicalOr }
+LogicalAnd:        BinOp = { "&&" => BinOp::LogicalAnd }
 Equals:            BinOp = { "==" => BinOp::Equals }
 NotEquals:         BinOp = { "!=" => BinOp::NotEquals }
 LessThan:          BinOp = { "<"  => BinOp::LessThan }
@@ -74,7 +138,18 @@ GreaterThanEquals: BinOp = { ">=" => BinOp::GreaterThanEquals }
 Plus:              BinOp = { "+"  => BinOp::Plus }
 Minus:             BinOp = { "-"  => BinOp::Minus }
 Times:             BinOp = { "*"  => BinOp::Times }
-Devide:            BinOp = { "."  => BinOp::Devide }
+Devide:            BinOp = { "/"  => BinOp::Devide }
 
-UnaryMinus: UnaryOp = { "-" => UnaryOp::Minus }
-UnaryNot:   UnaryOp = { "-" => UnaryOp::Not }
+// UnaryMinus: UnaryOp = { "-" => UnaryOp::Minus }
+// UnaryNot:   UnaryOp = { "-" => UnaryOp::Not }
+
+EqualityOp: BinOp = { <Equals>, <NotEquals> }
+ComparisonOp: BinOp = { <LessThan>, <GreaterThan>, <LessThanEquals>, <GreaterThanEquals> }
+AdditionOp: BinOp = { <Plus>, <Minus> }
+MultiplicationOp: BinOp = { <Times>, <Devide> }
+
+// Somehow, doing the thing we did with BinOps gives a lalrpop error about ambiguitys
+UnaryOp: UnaryOp = {
+    "!" => UnaryOp::Not,
+    "-" => UnaryOp::Minus,
+}

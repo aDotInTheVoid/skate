@@ -1,0 +1,17 @@
+---
+source: src/main.rs
+expression: f
+
+---
+name: main
+args: []
+ret: ~
+body:
+  - Let:
+      - z
+      - FieldAccess:
+          - FieldAccess:
+              - Var: a
+              - b
+          - c
+
