@@ -36,6 +36,35 @@ mod tests {
         t("fn c(){let x = y}");
         t("fn d(){ let x = {y};}");
         t("fn e(){let x = {x;y;z;}}");
-        t("fn f(){ {let a = b; let c = {d;e}}; f}")
+        t("fn f(){ {let a = b; let c = {d;e}}; f}");
+        t("fn main() {
+            if x {
+                y
+            }
+        }");
+        t("fn main() {
+            if x {
+                xf;
+                let z = d;
+            } else {
+                noo;
+            };
+            print hell
+        }");
+        t("fn main() {
+            print a;
+            print b;
+            print xxxxxx;   
+        }");
+        t("fn main() {
+            for i in z {
+                print z;
+                print i;
+                let i = {
+                    if a {d};
+                    if c {e} else { if f {g} }
+                }
+            }
+        }")
     }
 }
