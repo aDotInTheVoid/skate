@@ -26,7 +26,7 @@ Semi<T>: Vec<T> = {
 };
 
 
-pub program: Program<'input>  = { <Item*> }
+pub Program: Program<'input>  = { <Item*> }
 
 pub Item: Item<'input> = {
     <Function> => Item::Function(<>)

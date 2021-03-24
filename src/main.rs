@@ -2,15 +2,35 @@
 mod grammar; // synthesized by LALRPOP
 
 mod ast;
+mod exec;
 
-fn main() {
-    let f = crate::grammar::FunctionParser::new();
-    let func = std::env::args().nth(1).unwrap();
-    let f = f.parse(&func).unwrap();
+use fs_err as fs;
 
-    println!("{:?}", f);
+// mod lifetime_rr;
+
+fn main() -> eyre::Result<()> {
+    let prog = std::env::args()
+        .nth(1)
+        .ok_or_else(|| eyre::eyre!("Useage: skate <program>"))?;
+    let prog = fs::read_to_string(&prog)?;
+
+    // Due to lifetime reasons, we cant convert a parse err to an eyre err
+    let prog = grammar::ProgramParser::new().parse(&prog);
+
+    let prog = match prog {
+        Ok(p) => p,
+        Err(e) => {
+            eprintln!("{}", e);
+            eyre::bail!("Parse error");
+        }
+    };
+
+    exec::run(prog)?;
+
+    Ok(())
 }
 
+// TODO: Make this good.
 #[cfg(test)]
 mod tests {
 
@@ -42,7 +62,7 @@ mod tests {
 
     #[track_caller]
     fn p(s: &str) {
-        let p = crate::grammar::programParser::new();
+        let p = crate::grammar::ProgramParser::new();
         let f = p.parse(s).unwrap();
         insta::assert_yaml_snapshot!(f);
     }
