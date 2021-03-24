@@ -33,6 +33,20 @@ mod tests {
         insta::assert_yaml_snapshot!(f);
     }
 
+    #[track_caller]
+    fn i(s: &str) {
+        let p = crate::grammar::ItemParser::new();
+        let f = p.parse(s).unwrap();
+        insta::assert_yaml_snapshot!(f);
+    }
+
+    #[track_caller]
+    fn p(s: &str) {
+        let p = crate::grammar::programParser::new();
+        let f = p.parse(s).unwrap();
+        insta::assert_yaml_snapshot!(f);
+    }
+
     #[test]
     fn functions() {
         f("fn main(){}");
@@ -99,5 +113,21 @@ mod tests {
         s(r#"print 1"#);
         s(r#"print "2""#);
         s(r#"print "2" + "3""#);
+    }
+
+    #[test]
+    fn progs() {
+        p(r#"fn hello() {print "hello";}
+            fn world() { print "world"; }
+            fn main() {
+                hello();
+                world();
+            }
+            "#);
+    }
+
+    #[test]
+    fn items() {
+        i("fn main(){}");
     }
 }

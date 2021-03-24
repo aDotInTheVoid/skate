@@ -20,7 +20,13 @@
 
 use serde::{Deserialize, Serialize};
 
-type Block<'a> = Vec<Stmt<'a>>;
+pub type Block<'a> = Vec<Stmt<'a>>;
+pub type Program<'a> = Vec<Item<'a>>;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Item<'a> {
+    Function(#[serde(borrow)] Function<'a>),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Function<'a> {

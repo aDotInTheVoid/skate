@@ -1,0 +1,11 @@
+---
+source: src/main.rs
+expression: f
+
+---
+Function:
+  name: main
+  args: []
+  ret: ~
+  body: []
+
