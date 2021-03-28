@@ -509,6 +509,7 @@ dependencies = [
  "lalrpop-util",
  "regex",
  "serde",
+ "serde_json",
 ]
 
 [[package]]

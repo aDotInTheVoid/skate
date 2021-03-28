@@ -74,7 +74,7 @@ pub enum Expr<'a> {
     ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum BinOp {
     Equals,
     NotEquals,
