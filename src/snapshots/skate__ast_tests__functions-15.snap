@@ -7,9 +7,10 @@ name: main
 args: []
 ret: ~
 body:
-  - If:
-      - Var: x
-      - - Expr:
-            Var: y
-      - ~
+  - Expr:
+      If:
+        - Var: x
+        - - Expr:
+              Var: y
+        - ~
 

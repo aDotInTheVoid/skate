@@ -72,6 +72,9 @@ pub enum Expr<'a> {
     UnaryOp(UnaryOp, Box<Expr<'a>>),
     FieldAccess(Box<Expr<'a>>, &'a str),
     ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
+    // Test, truecase, falsecase
+    If(Box<Expr<'a>>, Block<'a>, Option<Block<'a>>),
+    For(&'a str, Box<Expr<'a>>, Block<'a>),
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

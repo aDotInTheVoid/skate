@@ -1,0 +1,14 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+Let:
+  - x
+  - If:
+      - Var: a
+      - - Expr:
+            Var: b
+      - - Expr:
+            Var: c
+

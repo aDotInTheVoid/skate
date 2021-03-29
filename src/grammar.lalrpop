@@ -58,24 +58,33 @@ pub Stmt: Stmt<'input> = {
     // Let statement
     "let" <Name> "=" <Expr> => Stmt::Let(<>),
     // Controll flow
-    "if" <Expr> <Body> <("else" <Body>)?> => Stmt::If(<>),
-    "for" <Name> "in" <Expr> <Body> => Stmt::For(<>),
+    // "for" <Name> "in" <Expr> <Body> => Stmt::For(<>),
     "print" <Expr> => Stmt::Print(<>),
     "while" <Expr> <Body> => Stmt::While(<>),
     "return" <Expr> => Stmt::Return(<>),
 }
 
 // Rename for convenience
-pub Expr = { <OrExpr> }
+pub Expr = { <ForExpr> }
+BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 
 // See http://www.craftinginterpreters.com/appendix-i.html
 // https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+
+ForExpr: Expr<'input> = {
+    "for" <Name> "in" <BExpr> <Body> => Expr::For(<>),
+    <IfExpr>
+}
+
+IfExpr: Expr<'input> = {
+    "if" <BExpr> <Body> <("else" <Body>)?> => Expr::If(<>),
+    <OrExpr>
+}
 
 Tier<Op,NextTier>: Expr<'input> = {
     <l:Tier<Op,NextTier>> <o:Op> <r:NextTier> => Expr::BinOp(Box::new(l), o, Box::new(r)),
     NextTier
 };
-
 
 OrExpr            = Tier<LogicalOr,        AndExpr>;
 AndExpr           = Tier<LogicalAnd,       EqualityExpr>;
@@ -83,6 +92,7 @@ EqualityExpr      = Tier<EqualityOp,       ComparisonExpr>;
 ComparisonExpr    = Tier<ComparisonOp,     AdditiveExpr>;
 AdditiveExpr      = Tier<AdditionOp,       MultiplicitveExpr>;
 MultiplicitveExpr = Tier<MultiplicationOp, UnaryExpr>;
+
 
 UnaryExpr: Expr<'input> = {
     <PostfixExpr>,

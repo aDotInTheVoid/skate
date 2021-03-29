@@ -7,28 +7,32 @@ name: main
 args: []
 ret: ~
 body:
-  - For:
-      - i
-      - Var: z
-      - - Print:
-            Var: z
-        - Print:
-            Var: i
-        - Let:
-            - i
-            - Block:
-                - If:
-                    - Var: a
-                    - - Expr:
-                          Var: d
-                    - ~
-                - If:
-                    - Var: c
-                    - - Expr:
-                          Var: e
-                    - - If:
-                          - Var: f
-                          - - Expr:
-                                Var: g
-                          - ~
+  - Expr:
+      For:
+        - i
+        - Var: z
+        - - Print:
+              Var: z
+          - Print:
+              Var: i
+          - Let:
+              - i
+              - Block:
+                  - Expr:
+                      If:
+                        - Var: a
+                        - - Expr:
+                              Var: d
+                        - ~
+                  - Expr:
+                      If:
+                        - Var: c
+                        - - Expr:
+                              Var: e
+                        - - Expr:
+                              If:
+                                - Var: f
+                                - - Expr:
+                                      Var: g
+                                - ~
 

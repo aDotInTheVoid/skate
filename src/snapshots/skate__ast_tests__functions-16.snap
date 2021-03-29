@@ -7,15 +7,16 @@ name: main
 args: []
 ret: ~
 body:
-  - If:
-      - Var: x
-      - - Expr:
-            Var: xf
-        - Let:
-            - z
-            - Var: d
-      - - Expr:
-            Var: noo
+  - Expr:
+      If:
+        - Var: x
+        - - Expr:
+              Var: xf
+          - Let:
+              - z
+              - Var: d
+        - - Expr:
+              Var: noo
   - Print:
       Var: hell
 

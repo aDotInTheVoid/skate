@@ -8,13 +8,14 @@ BinOp:
       Integer: 1
   - Plus
   - Block:
-      - If:
-          - Literal:
-              Integer: 1
-          - - Expr:
-                Literal:
-                  Integer: 2
-          - - Expr:
-                Literal:
-                  Integer: 3
+      - Expr:
+          If:
+            - Literal:
+                Integer: 1
+            - - Expr:
+                  Literal:
+                    Integer: 2
+            - - Expr:
+                  Literal:
+                    Integer: 3
 
