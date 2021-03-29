@@ -1,9 +1,0 @@
----
-source: src/main.rs
-expression: f
-
----
-Print:
-  Literal:
-    String: "2"
-

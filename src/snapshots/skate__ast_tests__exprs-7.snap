@@ -1,0 +1,8 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+Literal:
+  String: "ab\\\""
+

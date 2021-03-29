@@ -1,0 +1,10 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+name: baz
+args: []
+ret: String
+body: []
+

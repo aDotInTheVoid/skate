@@ -1,0 +1,26 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+BinOp:
+  - BinOp:
+      - Literal:
+          Integer: 24
+      - Plus
+      - BinOp:
+          - BinOp:
+              - Literal:
+                  Integer: 24
+              - Times
+              - Literal:
+                  Integer: 32
+          - Devide
+          - UnaryOp:
+              - Minus
+              - Literal:
+                  Integer: 12
+  - Plus
+  - Literal:
+      Integer: 2
+

@@ -1,0 +1,20 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+BinOp:
+  - Literal:
+      Integer: 1
+  - Plus
+  - Block:
+      - If:
+          - Literal:
+              Integer: 1
+          - - Expr:
+                Literal:
+                  Integer: 2
+          - - Expr:
+                Literal:
+                  Integer: 3
+

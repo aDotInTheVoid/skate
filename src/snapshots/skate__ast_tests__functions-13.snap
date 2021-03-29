@@ -1,0 +1,19 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+name: e
+args: []
+ret: ~
+body:
+  - Let:
+      - x
+      - Block:
+          - Expr:
+              Var: x
+          - Expr:
+              Var: y
+          - Expr:
+              Var: z
+

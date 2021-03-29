@@ -1,0 +1,9 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+Print:
+  Literal:
+    Integer: 1
+

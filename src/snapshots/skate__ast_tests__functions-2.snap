@@ -1,0 +1,12 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+name: bar
+args:
+  - name: x
+    ty: Int
+ret: ~
+body: []
+

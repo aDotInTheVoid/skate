@@ -1,0 +1,31 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+name: main
+args: []
+ret: ~
+body:
+  - Let:
+      - z
+      - Call:
+          - FieldAccess:
+              - ArrayAccess:
+                  - FieldAccess:
+                      - FieldAccess:
+                          - Var: x
+                          - y
+                      - z
+                  - FieldAccess:
+                      - ArrayAccess:
+                          - FieldAccess:
+                              - Var: a
+                              - b
+                          - Var: z
+                      - c
+              - d
+          - - Var: e
+            - Var: f
+            - Var: g
+

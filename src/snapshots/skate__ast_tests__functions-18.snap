@@ -1,0 +1,34 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+name: main
+args: []
+ret: ~
+body:
+  - For:
+      - i
+      - Var: z
+      - - Print:
+            Var: z
+        - Print:
+            Var: i
+        - Let:
+            - i
+            - Block:
+                - If:
+                    - Var: a
+                    - - Expr:
+                          Var: d
+                    - ~
+                - If:
+                    - Var: c
+                    - - Expr:
+                          Var: e
+                    - - If:
+                          - Var: f
+                          - - Expr:
+                                Var: g
+                          - ~
+

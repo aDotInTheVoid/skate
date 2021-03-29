@@ -1,0 +1,16 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+BinOp:
+  - Literal:
+      Integer: 2
+  - Plus
+  - BinOp:
+      - Literal:
+          Integer: 4
+      - Times
+      - Literal:
+          Integer: 3
+

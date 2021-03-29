@@ -1,0 +1,35 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+- Function:
+    name: hello
+    args: []
+    ret: ~
+    body:
+      - Print:
+          Literal:
+            String: hello
+- Function:
+    name: world
+    args: []
+    ret: ~
+    body:
+      - Print:
+          Literal:
+            String: world
+- Function:
+    name: main
+    args: []
+    ret: ~
+    body:
+      - Expr:
+          Call:
+            - Var: hello
+            - []
+      - Expr:
+          Call:
+            - Var: world
+            - []
+

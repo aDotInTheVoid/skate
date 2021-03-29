@@ -1,0 +1,12 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+name: foo
+args:
+  - name: y
+    ty: Int
+ret: ~
+body: []
+

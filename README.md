@@ -1,6 +1,20 @@
 # Skate
 
 
+## Testing
+```bash
+# Runs unit tests
+
+cargo test
+# Runs e2e tests. Note that if these fail, it will not show
+# but instead just change the file, which will show up in git.
+# One day this should change
+python test.py
+
+# Update snapshots
+cargo insta test --accept --delete-unreferenced-snapshots
+```
+
 ## Conduct
 
 In all Skate-related forums, we follow the [Rust Code of Conduct]. For
