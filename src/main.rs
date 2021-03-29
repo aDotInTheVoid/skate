@@ -11,6 +11,19 @@ use fs_err as fs;
 mod ast_tests;
 
 fn main() -> eyre::Result<()> {
+    let has_error = realmain()?;
+    if has_error {
+        std::process::exit(1)
+    }
+    Ok(())
+}
+
+// Err(_) -> Fail with interpriter code error
+// Ok(false) -> Sucess
+// Ok(true) -> Error reported, exit(1) but dont fail
+// This is because for an error in user code, we dont want print the eyre backtrace through
+// interpriter code, as this is a hot path
+fn realmain() -> eyre::Result<bool> {
     let prog = std::env::args()
         .nth(1)
         .ok_or_else(|| eyre::eyre!("Useage: skate <program>"))?;
@@ -23,11 +36,11 @@ fn main() -> eyre::Result<()> {
         Ok(p) => p,
         Err(e) => {
             eprintln!("{}", e);
-            eyre::bail!("Parse error");
+            return Ok(true);
         }
     };
 
     exec::run(prog)?;
 
-    Ok(())
+    Ok(false)
 }
