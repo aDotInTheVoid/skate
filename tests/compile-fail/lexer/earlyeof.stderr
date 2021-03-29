@@ -1,0 +1,2 @@
+Unrecognized EOF found at 12
+Expected one of "!", "(", "-", "for", "if", "let", "print", "return", "while", "{", "}", r#"\"(\\\\.|[^\"\\\\])*\""#, r#"[+-]?[0-9]+[.][0-9]*"#, r#"[0-9]+"# or r#"[a-z]+"#

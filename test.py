@@ -29,7 +29,9 @@ def run_pass(path):
 
 
 def compile_fail(path):
-    output = subprocess.run([SKATE_BINARY, path], check=False, capture_output=True)
+    output = subprocess.run(
+        [SKATE_BINARY, path], check=False, capture_output=True, env={"NO_COLOR": "1"}
+    )
     stderr_file = pathlib.Path(path).with_suffix(".stderr")
     # TODO: Sort this out. decide something like exit(1) = program failed.
     # exit(2) = internal interpriter error
