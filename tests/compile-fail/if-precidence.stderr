@@ -1,28 +1,15 @@
 error: Unexpected token
-  ┌─ /home/nixon/git/skate/./tests/compile-fail/if-precidence.sk:2:7
+  ┌─ /home/nixon/git/skate/./tests/compile-fail/if-precidence.sk:2:14
   │
-2 │     z = 1 + if true { 2 } else { 3 }
-  │       ^
+2 │     let z = 1 + if true { 2 } else { 3 }
+  │                 ^^
   │
-  = Expected: "!="
-  = Expected: "&&"
+  = Expected: "!"
   = Expected: "("
-  = Expected: ")"
-  = Expected: "*"
-  = Expected: "+"
-  = Expected: ","
   = Expected: "-"
-  = Expected: "."
-  = Expected: "/"
-  = Expected: ";"
-  = Expected: "<"
-  = Expected: "<="
-  = Expected: "=="
-  = Expected: ">"
-  = Expected: ">="
-  = Expected: "["
-  = Expected: "]"
   = Expected: "{"
-  = Expected: "||"
-  = Expected: "}"
+  = Expected: r#"\"(\\\\.|[^\"\\\\])*\""#
+  = Expected: r#"[+-]?[0-9]+[.][0-9]*"#
+  = Expected: r#"[0-9]+"#
+  = Expected: r#"[a-z]+"#
 
