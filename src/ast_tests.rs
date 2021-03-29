@@ -100,6 +100,15 @@ fn stmt() {
     s(r#"print "2""#);
     s(r#"print "2" + "3""#);
     s("let x = if a {b} else {c}");
+    s("for i in if a {} else {} {e;}");
+    s("while if x{false}else{true} {
+        print 1 + (if z {a} else {d});
+        for i in while foo {bar} {
+            print zany;
+        }
+    }");
+    // TODO: Dont require parens
+    s("print 1 + (if z {}else{})");
 }
 
 #[test]

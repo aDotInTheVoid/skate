@@ -51,31 +51,33 @@ Name = { r"[a-z]+" }
 
 Body = { "{" <Semi<Stmt>> "}" }
 
-// TODO: Move to expression oriented
+// TODO: Should these be exprs? Should we have stmts?
 pub Stmt: Stmt<'input> = {
-    // Expr statement
     <Expr> => Stmt::Expr(<>),
-    // Let statement
     "let" <Name> "=" <Expr> => Stmt::Let(<>),
-    // Controll flow
-    // "for" <Name> "in" <Expr> <Body> => Stmt::For(<>),
     "print" <Expr> => Stmt::Print(<>),
-    "while" <Expr> <Body> => Stmt::While(<>),
     "return" <Expr> => Stmt::Return(<>),
 }
 
 // Rename for convenience
-pub Expr = { <ForExpr> }
+pub Expr = { <WhileExpr> }
 BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 
 // See http://www.craftinginterpreters.com/appendix-i.html
 // https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+
+
+WhileExpr: Expr<'input> = {
+    "while" <BExpr> <Body> => Expr::While(<>),
+    <ForExpr>
+}
 
 ForExpr: Expr<'input> = {
     "for" <Name> "in" <BExpr> <Body> => Expr::For(<>),
     <IfExpr>
 }
 
+// TODO: Else if
 IfExpr: Expr<'input> = {
     "if" <BExpr> <Body> <("else" <Body>)?> => Expr::If(<>),
     <OrExpr>

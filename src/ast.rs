@@ -53,12 +53,7 @@ pub enum Type {
 pub enum Stmt<'a> {
     Let(&'a str, Expr<'a>),
     Expr(Expr<'a>),
-    If(Expr<'a>, Block<'a>, Option<Block<'a>>),
-    For(&'a str, Expr<'a>, Block<'a>),
     Print(Expr<'a>),
-    While(Expr<'a>, Block<'a>),
-    // This may need do {a} while b;
-    // DoWhile(Block<'a>, Expr<'a>),
     Return(Expr<'a>),
 }
 
@@ -75,6 +70,7 @@ pub enum Expr<'a> {
     // Test, truecase, falsecase
     If(Box<Expr<'a>>, Block<'a>, Option<Block<'a>>),
     For(&'a str, Box<Expr<'a>>, Block<'a>),
+    While(Box<Expr<'a>>, Block<'a>),
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

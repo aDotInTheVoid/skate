@@ -1,0 +1,34 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+Expr:
+  While:
+    - If:
+        - Var: x
+        - - Expr:
+              Var: "false"
+        - - Expr:
+              Var: "true"
+    - - Print:
+          BinOp:
+            - Literal:
+                Integer: 1
+            - Plus
+            - If:
+                - Var: z
+                - - Expr:
+                      Var: a
+                - - Expr:
+                      Var: d
+      - Expr:
+          For:
+            - i
+            - While:
+                - Var: foo
+                - - Expr:
+                      Var: bar
+            - - Print:
+                  Var: zany
+
