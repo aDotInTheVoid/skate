@@ -70,36 +70,19 @@ pub Expr = { <OrExpr> }
 
 // See http://www.craftinginterpreters.com/appendix-i.html
 // https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
-OrExpr: Expr<'input> = {
-    <AndExpr>,
-    <l:OrExpr> <o:LogicalOr> <r:AndExpr> => Expr::BinOp(Box::new(l), o, Box::new(r))
-}
 
-AndExpr: Expr<'input> = {
-    <EqualityExpr>,
-    <l: AndExpr> <o:LogicalAnd> <r:EqualityExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
-}
+Tier<Op,NextTier>: Expr<'input> = {
+    <l:Tier<Op,NextTier>> <o:Op> <r:NextTier> => Expr::BinOp(Box::new(l), o, Box::new(r)),
+    NextTier
+};
 
-EqualityExpr: Expr<'input> = {
-    <ComparisonExpr>,
-    <l:EqualityExpr> <o:EqualityOp> <r:ComparisonExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
-}
 
-ComparisonExpr: Expr<'input> = {
-    <AdditiveExpr>,
-    <l:ComparisonExpr> <o:ComparisonOp> <r:AdditiveExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
-
-}
-
-AdditiveExpr: Expr<'input> = {
-    <MultiplicitveExpr>,
-    <l:AdditiveExpr> <o:AdditionOp> <r:MultiplicitveExpr>  => Expr::BinOp(Box::new(l), o, Box::new(r)),
-}
-
-MultiplicitveExpr: Expr<'input> = {
-    <UnaryExpr>,
-    <l:MultiplicitveExpr> <o:MultiplicationOp> <r:UnaryExpr> => Expr::BinOp(Box::new(l), o, Box::new(r)),
-}
+OrExpr            = Tier<LogicalOr,        AndExpr>;
+AndExpr           = Tier<LogicalAnd,       EqualityExpr>;
+EqualityExpr      = Tier<EqualityOp,       ComparisonExpr>;
+ComparisonExpr    = Tier<ComparisonOp,     AdditiveExpr>;
+AdditiveExpr      = Tier<AdditionOp,       MultiplicitveExpr>;
+MultiplicitveExpr = Tier<MultiplicationOp, UnaryExpr>;
 
 UnaryExpr: Expr<'input> = {
     <PostfixExpr>,

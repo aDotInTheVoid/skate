@@ -1,4 +1,3 @@
-
 #[track_caller]
 fn f(s: &str) {
     let p = crate::grammar::FunctionParser::new();
