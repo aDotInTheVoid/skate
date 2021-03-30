@@ -45,8 +45,7 @@ impl<'a> Env<'a> {
         Self { functions }
     }
 
-    // TODO: Should this take &mut
-    pub fn call(&mut self, fn_name: &str, args: &[Value]) -> Result<Value> {
+    pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
         let function = self.functions[fn_name];
         assert_eq!(args.len(), function.args.len());
         let mut scope = Scope::default();
@@ -67,6 +66,10 @@ impl<'a> Env<'a> {
                 Print(e) => {
                     let val = self.eval_in(&mut scope, e)?;
                     print_value(&val);
+                }
+                Return(e) => {
+                    let val = self.eval_in(&mut scope, e)?;
+                    return Ok(val);
                 }
                 // TODO: only show the stmt type, not the whole expr
                 other => bail!("Unimplemented {:?}", other),
@@ -92,6 +95,16 @@ impl<'a> Env<'a> {
                 let l = self.eval_in(scope, l)?;
                 let r = self.eval_in(scope, r)?;
                 binop(l, *o, r)?
+            }
+            Call(function, args) => {
+                if let Expr::Var(name) = **function {
+                    let args = args
+                        .iter()
+                        .map(|e| self.eval_in(scope, e))
+                        .collect::<Result<Vec<_>, _>>()?;
+                    return self.call(name, &args);
+                }
+                bail!("Expeced {:?} to be a plain var", function)
             }
             Var(name) => scope.vars.get(name).unwrap().clone(),
             other => bail!("Unimplemented {:?}", other),

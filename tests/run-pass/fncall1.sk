@@ -1,0 +1,16 @@
+fn get_hello() {
+    return "hello";
+}
+
+fn get_world() {
+    return "world";
+}
+
+fn concat(l: string, r: string) {
+    return l + r;
+}
+
+fn main() {
+    let hw = concat(get_hello(), concat(" ", get_world()));
+    print hw;
+}
