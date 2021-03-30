@@ -1,0 +1,15 @@
+fn a(x: bool) {
+    print 0;
+    if x {
+        print 1;
+    } else {
+        return 5;
+    };
+    print 2;
+    return 3;
+}
+
+fn main() {
+    print a(true);
+    print a(false);
+}
