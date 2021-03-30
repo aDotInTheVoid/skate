@@ -5,6 +5,8 @@ import os
 import subprocess
 import pathlib
 
+# TODO: Show num success, num fail
+
 BASE_DIR = path.dirname(__file__)
 
 os.chdir(BASE_DIR)
@@ -22,7 +24,15 @@ COMPILE_FAIL_GLOB = path.join(COMPILE_FAIL, SK_GLOB)
 
 
 def run_pass(path):
-    output = subprocess.run([SKATE_BINARY, path], check=True, capture_output=True)
+    output = subprocess.run([SKATE_BINARY, path], capture_output=True)
+    if output.returncode != 0:
+        print(f"Running {SKATE_BINARY} {path} returned code {output.returncode}")
+        print("--- stderr ---")
+        print(output.stderr.decode())
+        print("--------------")
+        # TODO: Show all failures
+        exit(1)
+
     stdout_file = pathlib.Path(path).with_suffix(".stdout")
     with open(stdout_file, "w") as f:
         f.write(output.stdout.decode())
@@ -30,7 +40,7 @@ def run_pass(path):
 
 def compile_fail(path):
     output = subprocess.run(
-        [SKATE_BINARY, path], check=False, capture_output=True, env={"NO_COLOR": "1"}
+        [SKATE_BINARY, path], capture_output=True, env={"NO_COLOR": "1"}
     )
     stderr_file = pathlib.Path(path).with_suffix(".stderr")
     # TODO: Sort this out. decide something like exit(1) = program failed.

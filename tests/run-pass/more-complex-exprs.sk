@@ -1,0 +1,6 @@
+fn main() {
+    let x = 2;
+    let y = 5;
+    print x + y;
+    print x * y;
+}

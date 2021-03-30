@@ -1,3 +1,4 @@
+/// Tree walk interpriter
 use std::collections::HashMap;
 
 use eyre::{bail, Result};
@@ -102,6 +103,12 @@ fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
     use Value::*;
     Ok(match (o, l, r) {
         (BinOp::Plus, String(l), String(r)) => String(l + &r),
+        (BinOp::Plus, Number(l), Number(r)) => {
+            Number(serde_json::Number::from_f64(l.as_f64().unwrap() + r.as_f64().unwrap()).unwrap())
+        }
+        (BinOp::Times, Number(l), Number(r)) => {
+            Number(serde_json::Number::from_f64(l.as_f64().unwrap() * r.as_f64().unwrap()).unwrap())
+        }
 
         // Base case
         (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
