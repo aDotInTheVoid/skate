@@ -9,7 +9,7 @@ use serde_json::Value;
 
 pub fn run(p: Program) -> Result<i64> {
     // If nothing failed, we suceed
-    let mut env = Env::new(&p);
+    let env = Env::new(&p);
 
     let result = env.call("main", &[])?;
 
@@ -134,10 +134,7 @@ impl<'a> Env<'a> {
                     bail!("Expeced {:?} to be a plain var", function)
                 }
             }
-            Var(name) => {
-                dbg!(&scope, name);
-                scope.vars.get(name).unwrap().clone()
-            }
+            Var(name) => scope.vars.get(name).unwrap().clone(),
             If(test, ifcase, elsecase) => {
                 let test = get!(self.eval_in(scope, &*test)?);
                 let eval_result = if is_truthy(test)? {
@@ -170,7 +167,17 @@ fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
         }
         (BinOp::Equals, l, r) => Bool(l == r),
         (BinOp::LogicalOr, Bool(l), Bool(r)) => Bool(l || r),
-
+        (BinOp::Minus, Number(l), Number(r)) => {
+            let l = l.as_f64().unwrap();
+            let r = r.as_f64().unwrap();
+            Number(serde_json::Number::from_f64(l - r).unwrap())
+        }
+        (BinOp::GreaterThanEquals, Number(l), Number(r)) => {
+            let l = l.as_f64().unwrap();
+            let r = r.as_f64().unwrap();
+            let e = l >= r;
+            Bool(e)
+        }
         // Base case
         (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
     })

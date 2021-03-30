@@ -1,0 +1,17 @@
+fn fib(n: int) -> int {
+    if n == 0 || n == 1 {
+        return 1;
+    };
+    return fib(n - 1) + fib(n - 2);
+}
+
+fn recurse_fib(n: int) {
+    print fib(n);
+    if n >= 1 {
+        recurse_fib(n - 1)
+    };
+}
+
+fn main() {
+    recurse_fib(15);
+}

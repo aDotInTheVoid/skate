@@ -1,0 +1,10 @@
+fn rec(n: int) {
+    print n;
+    if n >= 1 {
+        rec(n-1)
+    }
+}
+
+fn main() {
+    rec(5)
+}
