@@ -1,0 +1,20 @@
+fn bar(x: int) {
+	let z = if x == 2 {
+		return "a";
+	} else {
+		x
+	};
+	if z + x == z {
+		print "zero";
+		return 0;
+	};
+	print "here";
+	return if z==10 { return 8 } else { z };
+}
+
+fn main() {
+	print bar(2);
+	print bar(0);
+	print bar(1);
+	print bar(10);
+}
