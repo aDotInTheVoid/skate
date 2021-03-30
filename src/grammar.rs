@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: a9fd45db2bdf8a26ed352bcf74ce55ea7c945fb2c36b4371e8bcb1b9a8df3
+// sha3: 5c9b89d1bd98f46cedc823641fc8b2ff315da7e42cc715d2528becf273c353f2
 use crate::ast::*;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as __lalrpop_util;
@@ -572,7 +572,7 @@ mod __parse__Expr {
             r###"r#"\"(\\\\.|[^\"\\\\])*\""#"###,
             r###"r#"[+-]?[0-9]+[.][0-9]*"#"###,
             r###"r#"[0-9]+"#"###,
-            r###"r#"[a-z]+"#"###,
+            r###"r#"[a-zA-Z][a-zA-Z0-9_]*"#"###,
         ];
         __TERMINAL
             .iter()
@@ -3079,7 +3079,7 @@ mod __parse__Expr {
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize) {
-        // Name = r#"[a-z]+"# => ActionFn(13);
+        // Name = r#"[a-zA-Z][a-zA-Z0-9_]*"# => ActionFn(13);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
@@ -4427,7 +4427,7 @@ mod __parse__Function {
             r###"r#"\"(\\\\.|[^\"\\\\])*\""#"###,
             r###"r#"[+-]?[0-9]+[.][0-9]*"#"###,
             r###"r#"[0-9]+"#"###,
-            r###"r#"[a-z]+"#"###,
+            r###"r#"[a-zA-Z][a-zA-Z0-9_]*"#"###,
         ];
         __TERMINAL
             .iter()
@@ -6935,7 +6935,7 @@ mod __parse__Function {
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize) {
-        // Name = r#"[a-z]+"# => ActionFn(13);
+        // Name = r#"[a-zA-Z][a-zA-Z0-9_]*"# => ActionFn(13);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
@@ -8287,7 +8287,7 @@ mod __parse__Item {
             r###"r#"\"(\\\\.|[^\"\\\\])*\""#"###,
             r###"r#"[+-]?[0-9]+[.][0-9]*"#"###,
             r###"r#"[0-9]+"#"###,
-            r###"r#"[a-z]+"#"###,
+            r###"r#"[a-zA-Z][a-zA-Z0-9_]*"#"###,
         ];
         __TERMINAL
             .iter()
@@ -10794,7 +10794,7 @@ mod __parse__Item {
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize) {
-        // Name = r#"[a-z]+"# => ActionFn(13);
+        // Name = r#"[a-zA-Z][a-zA-Z0-9_]*"# => ActionFn(13);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
@@ -12160,7 +12160,7 @@ mod __parse__Program {
             r###"r#"\"(\\\\.|[^\"\\\\])*\""#"###,
             r###"r#"[+-]?[0-9]+[.][0-9]*"#"###,
             r###"r#"[0-9]+"#"###,
-            r###"r#"[a-z]+"#"###,
+            r###"r#"[a-zA-Z][a-zA-Z0-9_]*"#"###,
         ];
         __TERMINAL
             .iter()
@@ -14668,7 +14668,7 @@ mod __parse__Program {
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize) {
-        // Name = r#"[a-z]+"# => ActionFn(13);
+        // Name = r#"[a-zA-Z][a-zA-Z0-9_]*"# => ActionFn(13);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
@@ -15937,7 +15937,7 @@ mod __parse__Stmt {
             r###"r#"\"(\\\\.|[^\"\\\\])*\""#"###,
             r###"r#"[+-]?[0-9]+[.][0-9]*"#"###,
             r###"r#"[0-9]+"#"###,
-            r###"r#"[a-z]+"#"###,
+            r###"r#"[a-zA-Z][a-zA-Z0-9_]*"#"###,
         ];
         __TERMINAL
             .iter()
@@ -18444,7 +18444,7 @@ mod __parse__Stmt {
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
         _: core::marker::PhantomData<(&'input ())>,
     ) -> (usize, usize) {
-        // Name = r#"[a-z]+"# => ActionFn(13);
+        // Name = r#"[a-zA-Z][a-zA-Z0-9_]*"# => ActionFn(13);
         let __sym0 = __pop_Variant0(__symbols);
         let __start = __sym0.0.clone();
         let __end = __sym0.2.clone();
@@ -19166,7 +19166,7 @@ mod __intern_token {
             ),
             ("^([\\+\\-]?[0-9]+[\\.][0-9]*)", false),
             ("^([0-9]+)", false),
-            ("^([a-z]+)", false),
+            ("^([A-Za-z][0-9A-Z_a-z]*)", false),
             ("^(!)", false),
             ("^(!=)", false),
             ("^(\\&\\&)", false),

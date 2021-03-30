@@ -1,0 +1,8 @@
+error: Unexpected token
+  ┌─ /home/nixon/git/skate/./tests/compile-fail/lexer/names/leading_num.sk:1:4
+  │
+1 │ fn 100names() {}
+  │    ^^^
+  │
+  = Expected: r#"[a-zA-Z][a-zA-Z0-9_]*"#
+

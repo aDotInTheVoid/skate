@@ -22,6 +22,8 @@ SK_GLOB = path.join("**", "*.sk")
 RUN_PASS_GLOB = path.join(RUN_PASS, SK_GLOB)
 COMPILE_FAIL_GLOB = path.join(COMPILE_FAIL, SK_GLOB)
 
+passing = True
+
 
 def run_pass(path):
     output = subprocess.run([SKATE_BINARY, path], capture_output=True)
@@ -30,8 +32,8 @@ def run_pass(path):
         print("--- stderr ---")
         print(output.stderr.decode())
         print("--------------")
-        # TODO: Show all failures
-        exit(1)
+        global passing
+        passing = False
 
     stdout_file = pathlib.Path(path).with_suffix(".stdout")
     with open(stdout_file, "w") as f:
@@ -55,3 +57,6 @@ for i in glob.glob(RUN_PASS_GLOB, recursive=True):
 
 for i in glob.glob(COMPILE_FAIL_GLOB, recursive=True):
     compile_fail(i)
+
+if not passing:
+    exit(1)

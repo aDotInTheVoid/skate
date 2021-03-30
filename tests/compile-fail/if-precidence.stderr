@@ -11,5 +11,5 @@ error: Unexpected token
   = Expected: r#"\"(\\\\.|[^\"\\\\])*\""#
   = Expected: r#"[+-]?[0-9]+[.][0-9]*"#
   = Expected: r#"[0-9]+"#
-  = Expected: r#"[a-z]+"#
+  = Expected: r#"[a-zA-Z][a-zA-Z0-9_]*"#
 

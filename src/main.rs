@@ -47,26 +47,39 @@ fn realmain() -> eyre::Result<bool> {
     let prog = match prog {
         Ok(p) => p,
         Err(e) => {
-            if let ParseError::UnrecognizedToken { token, expected } = e {
-                let parse_error = Diagnostic::error()
-                    .with_message("Unexpected token")
-                    .with_labels(vec![Label::primary(main_file_id, token.0..token.2)])
-                    .with_notes(
-                        expected
-                            .iter()
-                            .map(|e| format!("Expected: {}", e))
-                            .collect(),
-                    );
+            match e {
+                ParseError::UnrecognizedToken { token, expected } => {
+                    let parse_error = Diagnostic::error()
+                        .with_message("Unexpected token")
+                        .with_labels(vec![Label::primary(main_file_id, token.0..token.2)])
+                        .with_notes(
+                            expected
+                                .iter()
+                                .map(|e| format!("Expected: {}", e))
+                                .collect(),
+                        );
 
-                emit(
-                    &mut err_writer.lock(),
-                    &err_config,
-                    &err_files,
-                    &parse_error,
-                )?;
-            } else {
+                    emit(
+                        &mut err_writer.lock(),
+                        &err_config,
+                        &err_files,
+                        &parse_error,
+                    )?;
+                }
+                ParseError::InvalidToken { location } => {
+                    let parse_error = Diagnostic::error()
+                        .with_message("Invalid token")
+                        .with_labels(vec![Label::primary(main_file_id, location..location + 1)]);
+
+                    emit(
+                        &mut err_writer.lock(),
+                        &err_config,
+                        &err_files,
+                        &parse_error,
+                    )?;
+                }
                 // TODO: Use nice reporting for the rest
-                eprintln!("{}", e);
+                _ => eprintln!("{}", e),
             }
 
             return Ok(true);
