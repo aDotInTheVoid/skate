@@ -7,6 +7,8 @@ error: Unexpected token
   = Expected: "!"
   = Expected: "("
   = Expected: "-"
+  = Expected: "false"
+  = Expected: "true"
   = Expected: "{"
   = Expected: r#"\"(\\\\.|[^\"\\\\])*\""#
   = Expected: r#"[+-]?[0-9]+[.][0-9]*"#

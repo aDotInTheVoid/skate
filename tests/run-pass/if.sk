@@ -1,0 +1,28 @@
+fn a(x: bool){
+    if x {
+        print "1"
+    }
+}
+
+fn b(x: bool) {
+    if x {} else {
+        print 2
+    }
+}
+
+fn c (x: bool) {
+    if { return x } { print "no" } else { print "no" }
+}
+
+fn main() {
+    a(true);
+    print("a");
+    a(false);
+    print("b");
+    b(true);
+    print("a");
+    b(false);
+    print("b");
+    c(true);
+    c(false);
+}

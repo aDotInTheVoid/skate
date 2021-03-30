@@ -100,4 +100,5 @@ pub enum Literal<'a> {
     String(&'a str),
     Integer(i64),
     Float(f64),
+    Bool(bool),
 }

@@ -118,13 +118,19 @@ BaseExpr: Expr<'input> = {
 Literal: Literal<'input> = {
     <s:StringLit> => Literal::String(&s[1..s.len()-1]),
     <FloatLit> => Literal::Float(<>.parse().unwrap()),
-    <IntLit> => Literal::Integer(<>.parse().unwrap())
+    <IntLit> => Literal::Integer(<>.parse().unwrap()),
+    <BoolLit> => Literal::Bool(<>)
 }
 
 // https://stackoverflow.com/a/2039820
 StringLit = { r#""(\\.|[^"\\])*""# }
 FloatLit = { r#"[+-]?[0-9]+[.][0-9]*"# }
 IntLit = { r"[0-9]+" }
+BoolLit: bool = {
+    "true" => true,
+    "false" => false
+}
+
 
 LogicalOr:         BinOp = { "||" => BinOp::LogicalOr }
 LogicalAnd:        BinOp = { "&&" => BinOp::LogicalAnd }

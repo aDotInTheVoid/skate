@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use eyre::{bail, Result};
 
-use crate::ast::{BinOp, Expr, Function, Item, Program};
+use crate::ast::{BinOp, Expr, Function, Item, Program, Stmt};
 
 use serde_json::Value;
 
@@ -33,6 +33,20 @@ struct Scope<'a> {
     vars: HashMap<&'a str, Value>,
 }
 
+enum BlockEvalResult {
+    FnRet(Value),
+    LocalRet(Value),
+}
+
+macro_rules! get {
+    ($e: expr) => {
+        match $e {
+            BlockEvalResult::LocalRet(x) => x,
+            x @ BlockEvalResult::FnRet(_) => return Ok(x),
+        }
+    };
+}
+
 impl<'a> Env<'a> {
     pub fn new(p: &'a Program) -> Self {
         let mut functions = HashMap::new();
@@ -55,60 +69,92 @@ impl<'a> Env<'a> {
             scope.vars.insert(name.name, val.clone());
         }
 
-        use crate::ast::Stmt::*;
-
-        for i in &function.body {
-            match i {
-                Let(name, expr) => {
-                    let val = self.eval_in(&mut scope, expr)?;
-                    scope.vars.insert(*name, val);
-                }
-                Print(e) => {
-                    let val = self.eval_in(&mut scope, e)?;
-                    print_value(&val);
-                }
-                Return(e) => {
-                    let val = self.eval_in(&mut scope, e)?;
-                    return Ok(val);
-                }
-                // TODO: only show the stmt type, not the whole expr
-                other => bail!("Unimplemented {:?}", other),
-            }
-        }
-
-        // Default exit value
-        Ok(Value::Null)
+        // In functions, a trailing expression returns
+        Ok(match self.eval_block_in(&function.body, &mut scope)? {
+            BlockEvalResult::FnRet(x) => x,
+            BlockEvalResult::LocalRet(x) => x,
+        })
     }
 
-    fn eval_in(&self, scope: &mut Scope, e: &Expr) -> Result<Value> {
+    fn eval_block_in(&self, block: &[Stmt<'a>], scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
+        use Stmt::*;
+
+        let mut last_val = Value::Null;
+        for i in block {
+            match i {
+                Let(name, expr) => {
+                    let val = get!(self.eval_in(scope, expr)?);
+                    scope.vars.insert(*name, val);
+                    last_val = Value::Null;
+                }
+                Print(e) => {
+                    let val = get!(self.eval_in(scope, e)?);
+                    print_value(&val);
+                    last_val = Value::Null;
+                }
+                Return(e) => {
+                    let val = get!(self.eval_in(scope, e)?);
+                    return Ok(BlockEvalResult::FnRet(val));
+                }
+                Expr(e) => {
+                    let e = get!(self.eval_in(scope, e)?);
+                    last_val = e;
+                }
+            }
+        }
+        Ok(BlockEvalResult::LocalRet(last_val))
+    }
+
+    fn eval_in(&self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
         use crate::ast::Literal;
         use Expr::*;
-        Ok(match e {
+
+        Ok(BlockEvalResult::LocalRet(match e {
             Literal(l) => match l {
                 Literal::String(s) => Value::String((*s).to_owned()),
                 Literal::Float(f) => Value::Number(serde_json::Number::from_f64(*f).unwrap()),
                 Literal::Integer(i) => {
                     Value::Number(serde_json::Number::from_f64(*i as f64).unwrap())
                 }
+                Literal::Bool(b) => Value::Bool(*b),
             },
             BinOp(l, o, r) => {
                 let l = self.eval_in(scope, l)?;
                 let r = self.eval_in(scope, r)?;
-                binop(l, *o, r)?
+                binop(get!(l), *o, get!(r))?
             }
             Call(function, args) => {
                 if let Expr::Var(name) = **function {
-                    let args = args
-                        .iter()
-                        .map(|e| self.eval_in(scope, e))
-                        .collect::<Result<Vec<_>, _>>()?;
-                    return self.call(name, &args);
+                    let mut args_evald = Vec::with_capacity(args.len());
+                    for i in args {
+                        args_evald.push(get!(self.eval_in(scope, i)?));
+                    }
+                    self.call(name, &args_evald)?
+                } else {
+                    bail!("Expeced {:?} to be a plain var", function)
                 }
-                bail!("Expeced {:?} to be a plain var", function)
             }
-            Var(name) => scope.vars.get(name).unwrap().clone(),
+            Var(name) => {
+                dbg!(&scope, name);
+                scope.vars.get(name).unwrap().clone()
+            }
+            If(test, ifcase, elsecase) => {
+                let test = get!(self.eval_in(scope, &*test)?);
+                let eval_result = if is_truthy(test)? {
+                    self.eval_block_in(&ifcase, scope)?
+                } else if let Some(block) = elsecase {
+                    self.eval_block_in(&block, scope)?
+                } else {
+                    BlockEvalResult::LocalRet(Value::Null)
+                };
+                get!(eval_result)
+            }
+            Block(b) => {
+                let bval = self.eval_block_in(&b, scope)?;
+                get!(bval)
+            }
             other => bail!("Unimplemented {:?}", other),
-        })
+        }))
     }
 }
 
@@ -122,10 +168,20 @@ fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
         (BinOp::Times, Number(l), Number(r)) => {
             Number(serde_json::Number::from_f64(l.as_f64().unwrap() * r.as_f64().unwrap()).unwrap())
         }
+        (BinOp::Equals, l, r) => Bool(l == r),
+        (BinOp::LogicalOr, Bool(l), Bool(r)) => Bool(l || r),
 
         // Base case
         (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
     })
+}
+
+fn is_truthy(val: Value) -> Result<bool> {
+    if let Value::Bool(b) = val {
+        Ok(b)
+    } else {
+        bail!("Not a boolean: {:?}", val)
+    }
 }
 
 // TODO: This should return a string
