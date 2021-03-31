@@ -1,0 +1,9 @@
+fn bar(x: bool) {
+	let z = 1 + if x { print "x"; 2 } else { print "y"; 3 };
+	return z;
+}
+
+fn main() {
+	print bar(true);
+	print bar(false);
+}

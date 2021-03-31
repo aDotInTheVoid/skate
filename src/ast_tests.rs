@@ -107,8 +107,8 @@ fn stmt() {
             print zany;
         }
     }");
-    // TODO: Dont require parens
     s("print 1 + (if z {}else{})");
+    s("print 1 + if z {}else{}");
 }
 
 #[test]
