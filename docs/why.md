@@ -29,6 +29,10 @@ your own primitaves in Go is litteraly impossable, unless you just mean using `i
 
 What would a "skateboard" language be like? How do we get there?
 
+---
+
+This text was adapted from [this podcast](https://anchor.fm/futurepaul/episodes/Hmm-are-we-using-computers-correctly-edr27i/a-a258knh) from [@futurepaul](https://twitter.com/futurepaul/), which also served as part of the insperation for the language.
+
 <style>
 main .warning p {
     padding: 10px 20px;
