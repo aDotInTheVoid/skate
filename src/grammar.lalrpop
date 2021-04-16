@@ -25,11 +25,15 @@ Semi<T>: Vec<T> = {
     }
 };
 
+Spaned<T>: (T, Span) = {
+    <l:@L> <t:T> <r:@R> => (t, (l,r))
+}
+
 
 pub Program: Program<'input>  = { <Item*> }
 
 pub Item: Item<'input> = {
-    <Function> => Item::Function(<>)
+    <Spaned<Function>> => Item::Function(<>)
 }
 
 pub Function: Function<'input> = {

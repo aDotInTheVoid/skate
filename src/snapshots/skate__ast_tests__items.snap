@@ -4,8 +4,10 @@ expression: f
 
 ---
 Function:
-  name: main
-  args: []
-  ret: ~
-  body: []
+  - name: main
+    args: []
+    ret: ~
+    body: []
+  - - 0
+    - 11
 

@@ -1,4 +1,4 @@
-#![allow(clippy::all)]
+#[allow(clippy::all)]
 mod grammar; // synthesized by LALRPOP
 
 mod ast;

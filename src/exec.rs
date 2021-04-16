@@ -52,7 +52,7 @@ impl<'a> Env<'a> {
         let mut functions = HashMap::new();
         for i in p {
             match i {
-                Item::Function(f) => assert!(functions.insert(f.name, f).is_none()),
+                Item::Function((f, _)) => assert!(functions.insert(f.name, f).is_none()),
             };
         }
 

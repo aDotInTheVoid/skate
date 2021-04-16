@@ -1,31 +1,13 @@
-// struct Program(Vec<Item>);
-
-// enum Item {
-//     Function(Function),
-// }
-
-// struct Function {
-//     name: String,
-//     Body: Vec<Stmt>,
-// }
-
-// enum Stmt {
-//     Let(Let),
-// }
-
-// struct Let {
-//     left: String,
-//     right: String,
-// }
-
 use serde::{Deserialize, Serialize};
 
 pub type Block<'a> = Vec<Stmt<'a>>;
 pub type Program<'a> = Vec<Item<'a>>;
+pub type Span = (usize, usize);
+pub type Spanned<T> = (T, Span);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Item<'a> {
-    Function(#[serde(borrow)] Function<'a>),
+    Function(#[serde(borrow)] Spanned<Function<'a>>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
