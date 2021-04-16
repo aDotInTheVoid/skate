@@ -6,21 +6,56 @@ expression: f
 BinOp:
   - BinOp:
       - Literal:
-          Integer: 24
-      - Plus
+          node:
+            Integer: 24
+          span:
+            - 0
+            - 2
+      - node: Plus
+        span:
+          - 2
+          - 3
       - BinOp:
           - BinOp:
               - Literal:
-                  Integer: 24
-              - Times
+                  node:
+                    Integer: 24
+                  span:
+                    - 3
+                    - 5
+              - node: Times
+                span:
+                  - 5
+                  - 6
               - Literal:
-                  Integer: 32
-          - Devide
+                  node:
+                    Integer: 32
+                  span:
+                    - 6
+                    - 8
+          - node: Devide
+            span:
+              - 8
+              - 9
           - UnaryOp:
-              - Minus
+              - node: Minus
+                span:
+                  - 9
+                  - 10
               - Literal:
-                  Integer: 12
-  - Plus
+                  node:
+                    Integer: 12
+                  span:
+                    - 10
+                    - 12
+  - node: Plus
+    span:
+      - 12
+      - 13
   - Literal:
-      Integer: 2
+      node:
+        Integer: 2
+      span:
+        - 13
+        - 14
 

@@ -4,5 +4,9 @@ expression: f
 
 ---
 Literal:
-  String: "ab\\\""
+  node:
+    String: "ab\\\""
+  span:
+    - 0
+    - 6
 

@@ -7,9 +7,17 @@ Expr:
   For:
     - i
     - If:
-        - Var: a
+        - Var:
+            node: a
+            span:
+              - 12
+              - 13
         - []
         - []
     - - Expr:
-          Var: e
+          Var:
+            node: e
+            span:
+              - 26
+              - 27
 

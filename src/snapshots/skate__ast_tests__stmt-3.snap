@@ -6,8 +6,19 @@ expression: f
 Print:
   BinOp:
     - Literal:
-        String: "2"
-    - Plus
+        node:
+          String: "2"
+        span:
+          - 6
+          - 9
+    - node: Plus
+      span:
+        - 10
+        - 11
     - Literal:
-        String: "3"
+        node:
+          String: "3"
+        span:
+          - 12
+          - 15
 

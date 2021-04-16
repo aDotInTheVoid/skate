@@ -5,5 +5,9 @@ expression: f
 ---
 Print:
   Literal:
-    String: "2"
+    node:
+      String: "2"
+    span:
+      - 6
+      - 9
 

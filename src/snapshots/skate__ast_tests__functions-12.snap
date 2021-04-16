@@ -22,8 +22,16 @@ body:
             - 12
             - 13
         - Block:
-            - Expr:
-                Var: y
+            node:
+              - Expr:
+                  Var:
+                    node: y
+                    span:
+                      - 17
+                      - 18
+            span:
+              - 16
+              - 19
   span:
     - 6
     - 21

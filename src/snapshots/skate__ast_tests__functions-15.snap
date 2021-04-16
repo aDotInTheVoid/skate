@@ -18,9 +18,17 @@ body:
   node:
     - Expr:
         If:
-          - Var: x
+          - Var:
+              node: x
+              span:
+                - 27
+                - 28
           - - Expr:
-                Var: y
+                Var:
+                  node: y
+                  span:
+                    - 47
+                    - 48
           - ~
   span:
     - 10

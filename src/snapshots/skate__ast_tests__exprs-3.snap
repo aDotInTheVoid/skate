@@ -5,12 +5,30 @@ expression: f
 ---
 BinOp:
   - Literal:
-      Integer: 2
-  - Plus
+      node:
+        Integer: 2
+      span:
+        - 0
+        - 1
+  - node: Plus
+    span:
+      - 1
+      - 2
   - BinOp:
       - Literal:
-          Integer: 4
-      - Times
+          node:
+            Integer: 4
+          span:
+            - 2
+            - 3
+      - node: Times
+        span:
+          - 3
+          - 4
       - Literal:
-          Integer: 3
+          node:
+            Integer: 3
+          span:
+            - 4
+            - 5
 

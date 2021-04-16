@@ -6,10 +6,21 @@ expression: f
 Print:
   BinOp:
     - Literal:
-        Integer: 1
-    - Plus
+        node:
+          Integer: 1
+        span:
+          - 6
+          - 7
+    - node: Plus
+      span:
+        - 8
+        - 9
     - If:
-        - Var: z
+        - Var:
+            node: z
+            span:
+              - 14
+              - 15
         - []
         - []
 

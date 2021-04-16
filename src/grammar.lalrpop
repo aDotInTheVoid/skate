@@ -25,6 +25,7 @@ Semi<T>: Vec<T> = {
     }
 };
 
+// TODO: decide how many ns in spannnned
 Spaned<T>: Spanned<T> = {
     <l:@L> <t:T> <r:@R> => Spanned{node:t, span:(l,r)}
 }
@@ -73,7 +74,7 @@ BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 
 
 Tier<Op,NextTier>: Expr<'input> = {
-    <l:Tier<Op,NextTier>> <o:Op> <r:NextTier> => Expr::BinOp(Box::new(l), o, Box::new(r)),
+    <l:Tier<Op,NextTier>> <o:Spaned<Op>> <r:NextTier> => Expr::BinOp(Box::new(l), o, Box::new(r)),
     NextTier
 };
 
@@ -87,14 +88,14 @@ MultiplicitveExpr = Tier<MultiplicationOp, UnaryExpr>;
 
 UnaryExpr: Expr<'input> = {
     <PostfixExpr>,
-    <o:UnaryOp> <e:UnaryExpr> => Expr::UnaryOp(o, Box::new(e)),
+    <o:Spaned<UnaryOp>> <e:UnaryExpr> => Expr::UnaryOp(o, Box::new(e)),
 }
 
 PostfixExpr: Expr<'input> = {
     <BaseExpr>,
     <l:PostfixExpr> "[" <r:Expr> "]" => Expr::ArrayAccess(Box::new(l), Box::new(r)),
     <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => Expr::Call(Box::new(l), r),
-    <l:PostfixExpr> "." <r: Name> => Expr::FieldAccess(Box::new(l), r),
+    <l:PostfixExpr> "." <r: Spaned<Name>> => Expr::FieldAccess(Box::new(l), r),
 }
 
 BaseExpr: Expr<'input> = {
@@ -102,10 +103,10 @@ BaseExpr: Expr<'input> = {
     "if" <BExpr> <Body> <("else" <Body>)?> => Expr::If(<>),
     "for" <Name> "in" <BExpr> <Body> => Expr::For(<>),
     "while" <BExpr> <Body> => Expr::While(<>),
-    <Name> => Expr::Var(<>),
-    <Body> => Expr::Block(<>),
+    <Spaned<Name>> => Expr::Var(<>),
+    <Spaned<Body>> => Expr::Block(<>),
     "(" <Expr> ")" => <>,
-    <Literal> => Expr::Literal(<>) 
+    <Spaned<Literal>> => Expr::Literal(<>) 
 }
 
 Literal: Literal<'input> = {

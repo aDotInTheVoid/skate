@@ -4,7 +4,7 @@ pub type Block<'a> = Vec<Stmt<'a>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Span = (usize, usize);
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub struct Spanned<T> {
     pub node: T,
     pub span: Span,
@@ -64,13 +64,13 @@ pub enum Stmt<'a> {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Expr<'a> {
-    Literal(Literal<'a>),
-    Var(&'a str),
-    Block(Block<'a>),
+    Literal(Spanned<Literal<'a>>),
+    Var(Spanned<&'a str>),
+    Block(Spanned<Block<'a>>),
     Call(Box<Expr<'a>>, Vec<Expr<'a>>),
-    BinOp(Box<Expr<'a>>, BinOp, Box<Expr<'a>>),
-    UnaryOp(UnaryOp, Box<Expr<'a>>),
-    FieldAccess(Box<Expr<'a>>, &'a str),
+    BinOp(Box<Expr<'a>>, Spanned<BinOp>, Box<Expr<'a>>),
+    UnaryOp(Spanned<UnaryOp>, Box<Expr<'a>>),
+    FieldAccess(Box<Expr<'a>>, Spanned<&'a str>),
     ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
     // Test, truecase, falsecase
     If(Box<Expr<'a>>, Block<'a>, Option<Block<'a>>),

@@ -6,31 +6,74 @@ expression: f
 Expr:
   While:
     - If:
-        - Var: x
+        - Var:
+            node: x
+            span:
+              - 9
+              - 10
         - - Expr:
               Literal:
-                Bool: false
+                node:
+                  Bool: false
+                span:
+                  - 11
+                  - 16
         - - Expr:
               Literal:
-                Bool: true
+                node:
+                  Bool: true
+                span:
+                  - 22
+                  - 26
     - - Print:
           BinOp:
             - Literal:
-                Integer: 1
-            - Plus
+                node:
+                  Integer: 1
+                span:
+                  - 44
+                  - 45
+            - node: Plus
+              span:
+                - 46
+                - 47
             - If:
-                - Var: z
+                - Var:
+                    node: z
+                    span:
+                      - 52
+                      - 53
                 - - Expr:
-                      Var: a
+                      Var:
+                        node: a
+                        span:
+                          - 55
+                          - 56
                 - - Expr:
-                      Var: d
+                      Var:
+                        node: d
+                        span:
+                          - 64
+                          - 65
       - Expr:
           For:
             - i
             - While:
-                - Var: foo
+                - Var:
+                    node: foo
+                    span:
+                      - 92
+                      - 95
                 - - Expr:
-                      Var: bar
+                      Var:
+                        node: bar
+                        span:
+                          - 97
+                          - 100
             - - Print:
-                  Var: zany
+                  Var:
+                    node: zany
+                    span:
+                      - 122
+                      - 126
 

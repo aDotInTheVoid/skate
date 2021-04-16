@@ -20,7 +20,11 @@ expression: f
         node:
           - Print:
               Literal:
-                String: hello
+                node:
+                  String: hello
+                span:
+                  - 18
+                  - 25
         span:
           - 11
           - 27
@@ -44,7 +48,11 @@ expression: f
         node:
           - Print:
               Literal:
-                String: world
+                node:
+                  String: world
+                span:
+                  - 59
+                  - 66
         span:
           - 51
           - 69
@@ -68,11 +76,19 @@ expression: f
         node:
           - Expr:
               Call:
-                - Var: hello
+                - Var:
+                    node: hello
+                    span:
+                      - 110
+                      - 115
                 - []
           - Expr:
               Call:
-                - Var: world
+                - Var:
+                    node: world
+                    span:
+                      - 135
+                      - 140
                 - []
         span:
           - 92

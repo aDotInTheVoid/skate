@@ -18,19 +18,39 @@ body:
   node:
     - Expr:
         If:
-          - Var: x
+          - Var:
+              node: x
+              span:
+                - 27
+                - 28
           - - Expr:
-                Var: xf
+                Var:
+                  node: xf
+                  span:
+                    - 47
+                    - 49
             - Let:
                 - node: z
                   span:
                     - 71
                     - 72
-                - Var: d
+                - Var:
+                    node: d
+                    span:
+                      - 75
+                      - 76
           - - Expr:
-                Var: noo
+                Var:
+                  node: noo
+                  span:
+                    - 115
+                    - 118
     - Print:
-        Var: hell
+        Var:
+          node: hell
+          span:
+            - 153
+            - 157
   span:
     - 10
     - 167

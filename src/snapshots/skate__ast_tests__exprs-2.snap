@@ -5,17 +5,40 @@ expression: f
 ---
 BinOp:
   - Literal:
-      Integer: 1
-  - Plus
+      node:
+        Integer: 1
+      span:
+        - 0
+        - 1
+  - node: Plus
+    span:
+      - 2
+      - 3
   - Block:
-      - Expr:
-          If:
-            - Literal:
-                Integer: 1
-            - - Expr:
-                  Literal:
-                    Integer: 2
-            - - Expr:
-                  Literal:
-                    Integer: 3
+      node:
+        - Expr:
+            If:
+              - Literal:
+                  node:
+                    Integer: 1
+                  span:
+                    - 8
+                    - 9
+              - - Expr:
+                    Literal:
+                      node:
+                        Integer: 2
+                      span:
+                        - 11
+                        - 12
+              - - Expr:
+                    Literal:
+                      node:
+                        Integer: 3
+                      span:
+                        - 20
+                        - 21
+      span:
+        - 4
+        - 23
 

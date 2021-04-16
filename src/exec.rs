@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use eyre::{bail, Result};
 
-use crate::ast::{BinOp, Expr, Function, Item, Program, Stmt};
+use crate::ast::{BinOp, Expr, Function, Item, Program, Spanned, Stmt};
 
 use serde_json::Value;
 
@@ -110,18 +110,18 @@ impl<'a> Env<'a> {
         use Expr::*;
 
         Ok(BlockEvalResult::LocalRet(match e {
-            Literal(l) => match l {
+            Literal(l) => match l.node {
                 Literal::String(s) => Value::String((*s).to_owned()),
-                Literal::Float(f) => Value::Number(serde_json::Number::from_f64(*f).unwrap()),
+                Literal::Float(f) => Value::Number(serde_json::Number::from_f64(f).unwrap()),
                 Literal::Integer(i) => {
-                    Value::Number(serde_json::Number::from_f64(*i as f64).unwrap())
+                    Value::Number(serde_json::Number::from_f64(i as f64).unwrap())
                 }
-                Literal::Bool(b) => Value::Bool(*b),
+                Literal::Bool(b) => Value::Bool(b),
             },
             BinOp(l, o, r) => {
                 let l = self.eval_in(scope, l)?;
                 let r = self.eval_in(scope, r)?;
-                binop(get!(l), *o, get!(r))?
+                binop(get!(l), **o, get!(r))?
             }
             Call(function, args) => {
                 if let Expr::Var(name) = **function {
@@ -129,12 +129,12 @@ impl<'a> Env<'a> {
                     for i in args {
                         args_evald.push(get!(self.eval_in(scope, i)?));
                     }
-                    self.call(name, &args_evald)?
+                    self.call(&name, &args_evald)?
                 } else {
                     bail!("Expeced {:?} to be a plain var", function)
                 }
             }
-            Var(name) => scope.vars.get(name).unwrap().clone(),
+            Var(Spanned { node, .. }) => scope.vars.get(node).unwrap().clone(),
             If(test, ifcase, elsecase) => {
                 let test = get!(self.eval_in(scope, &*test)?);
                 let eval_result = if is_truthy(test)? {

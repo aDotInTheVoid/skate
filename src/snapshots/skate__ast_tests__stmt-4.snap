@@ -9,9 +9,21 @@ Let:
       - 4
       - 5
   - If:
-      - Var: a
+      - Var:
+          node: a
+          span:
+            - 11
+            - 12
       - - Expr:
-            Var: b
+            Var:
+              node: b
+              span:
+                - 14
+                - 15
       - - Expr:
-            Var: c
+            Var:
+              node: c
+              span:
+                - 23
+                - 24
 

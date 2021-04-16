@@ -23,9 +23,19 @@ body:
             - 16
         - FieldAccess:
             - FieldAccess:
-                - Var: a
-                - b
-            - c
+                - Var:
+                    node: a
+                    span:
+                      - 19
+                      - 20
+                - node: b
+                  span:
+                    - 21
+                    - 22
+            - node: c
+              span:
+                - 23
+                - 24
   span:
     - 10
     - 26

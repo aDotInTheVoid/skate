@@ -5,5 +5,9 @@ expression: f
 ---
 Print:
   Literal:
-    Integer: 1
+    node:
+      Integer: 1
+    span:
+      - 6
+      - 7
 

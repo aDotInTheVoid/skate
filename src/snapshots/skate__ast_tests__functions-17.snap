@@ -17,11 +17,23 @@ ret: ~
 body:
   node:
     - Print:
-        Var: a
+        Var:
+          node: a
+          span:
+            - 30
+            - 31
     - Print:
-        Var: b
+        Var:
+          node: b
+          span:
+            - 51
+            - 52
     - Print:
-        Var: xxxxxx
+        Var:
+          node: xxxxxx
+          span:
+            - 72
+            - 78
   span:
     - 10
     - 92
