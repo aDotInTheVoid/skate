@@ -21,64 +21,120 @@ body:
           span:
             - 16
             - 17
-        - Call:
-            - FieldAccess:
-                - ArrayAccess:
-                    - FieldAccess:
-                        - FieldAccess:
-                            - Var:
-                                node: x
-                                span:
-                                  - 20
-                                  - 21
-                            - node: y
-                              span:
-                                - 22
-                                - 23
-                        - node: z
-                          span:
-                            - 24
-                            - 25
-                    - FieldAccess:
-                        - ArrayAccess:
-                            - FieldAccess:
-                                - Var:
-                                    node: a
-                                    span:
-                                      - 26
-                                      - 27
-                                - node: b
+        - node:
+            Call:
+              - node:
+                  FieldAccess:
+                    - node:
+                        ArrayAccess:
+                          - node:
+                              FieldAccess:
+                                - node:
+                                    FieldAccess:
+                                      - node:
+                                          Var:
+                                            node: x
+                                            span:
+                                              - 20
+                                              - 21
+                                        span:
+                                          - 20
+                                          - 21
+                                      - node: y
+                                        span:
+                                          - 22
+                                          - 23
                                   span:
-                                    - 28
-                                    - 29
-                            - Var:
-                                node: z
-                                span:
-                                  - 30
-                                  - 31
-                        - node: c
-                          span:
-                            - 33
-                            - 34
-                - node: d
-                  span:
-                    - 36
-                    - 37
-            - - Var:
-                  node: e
+                                    - 20
+                                    - 23
+                                - node: z
+                                  span:
+                                    - 24
+                                    - 25
+                            span:
+                              - 20
+                              - 25
+                          - node:
+                              FieldAccess:
+                                - node:
+                                    ArrayAccess:
+                                      - node:
+                                          FieldAccess:
+                                            - node:
+                                                Var:
+                                                  node: a
+                                                  span:
+                                                    - 26
+                                                    - 27
+                                              span:
+                                                - 26
+                                                - 27
+                                            - node: b
+                                              span:
+                                                - 28
+                                                - 29
+                                        span:
+                                          - 26
+                                          - 29
+                                      - node:
+                                          Var:
+                                            node: z
+                                            span:
+                                              - 30
+                                              - 31
+                                        span:
+                                          - 30
+                                          - 31
+                                  span:
+                                    - 26
+                                    - 32
+                                - node: c
+                                  span:
+                                    - 33
+                                    - 34
+                            span:
+                              - 26
+                              - 34
+                      span:
+                        - 20
+                        - 35
+                    - node: d
+                      span:
+                        - 36
+                        - 37
+                span:
+                  - 20
+                  - 37
+              - - node:
+                    Var:
+                      node: e
+                      span:
+                        - 38
+                        - 39
                   span:
                     - 38
                     - 39
-              - Var:
-                  node: f
+                - node:
+                    Var:
+                      node: f
+                      span:
+                        - 40
+                        - 41
                   span:
                     - 40
                     - 41
-              - Var:
-                  node: g
+                - node:
+                    Var:
+                      node: g
+                      span:
+                        - 42
+                        - 43
                   span:
                     - 42
                     - 43
+          span:
+            - 20
+            - 44
   span:
     - 10
     - 46

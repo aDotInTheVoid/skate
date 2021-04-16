@@ -8,30 +8,46 @@ Let:
     span:
       - 4
       - 5
-  - If:
-      - Var:
-          node: a
+  - node:
+      If:
+        - node:
+            Var:
+              node: a
+              span:
+                - 11
+                - 12
           span:
             - 11
             - 12
-      - node:
-          - Expr:
-              Var:
-                node: b
+        - node:
+            - Expr:
+                node:
+                  Var:
+                    node: b
+                    span:
+                      - 14
+                      - 15
                 span:
                   - 14
                   - 15
-        span:
-          - 13
-          - 16
-      - node:
-          - Expr:
-              Var:
-                node: c
+          span:
+            - 13
+            - 16
+        - node:
+            - Expr:
+                node:
+                  Var:
+                    node: c
+                    span:
+                      - 23
+                      - 24
                 span:
                   - 23
                   - 24
-        span:
-          - 22
-          - 25
+          span:
+            - 22
+            - 25
+    span:
+      - 8
+      - 25
 

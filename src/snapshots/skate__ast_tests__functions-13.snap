@@ -21,29 +21,45 @@ body:
           span:
             - 11
             - 12
-        - Block:
-            node:
-              - Expr:
-                  Var:
-                    node: x
+        - node:
+            Block:
+              node:
+                - Expr:
+                    node:
+                      Var:
+                        node: x
+                        span:
+                          - 16
+                          - 17
                     span:
                       - 16
                       - 17
-              - Expr:
-                  Var:
-                    node: y
+                - Expr:
+                    node:
+                      Var:
+                        node: y
+                        span:
+                          - 18
+                          - 19
                     span:
                       - 18
                       - 19
-              - Expr:
-                  Var:
-                    node: z
+                - Expr:
+                    node:
+                      Var:
+                        node: z
+                        span:
+                          - 20
+                          - 21
                     span:
                       - 20
                       - 21
-            span:
-              - 15
-              - 23
+              span:
+                - 15
+                - 23
+          span:
+            - 15
+            - 23
   span:
     - 6
     - 24

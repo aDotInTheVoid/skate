@@ -4,29 +4,45 @@ expression: f
 
 ---
 Print:
-  BinOp:
-    - Literal:
-        node:
-          Integer: 1
+  node:
+    BinOp:
+      - node:
+          Literal:
+            node:
+              Integer: 1
+            span:
+              - 6
+              - 7
         span:
           - 6
           - 7
-    - node: Plus
-      span:
-        - 8
-        - 9
-    - If:
-        - Var:
-            node: z
-            span:
-              - 13
-              - 14
-        - node: []
-          span:
-            - 15
-            - 17
-        - node: []
-          span:
-            - 21
-            - 23
+      - node: Plus
+        span:
+          - 8
+          - 9
+      - node:
+          If:
+            - node:
+                Var:
+                  node: z
+                  span:
+                    - 13
+                    - 14
+              span:
+                - 13
+                - 14
+            - node: []
+              span:
+                - 15
+                - 17
+            - node: []
+              span:
+                - 21
+                - 23
+        span:
+          - 10
+          - 23
+  span:
+    - 6
+    - 23
 

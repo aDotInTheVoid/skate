@@ -73,10 +73,13 @@ BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 // https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 
 
+RawTier<Op, NextTier>: RawExpr<'input> = {
+    <l:Tier<Op,NextTier>> <o:Spaned<Op>> <r:NextTier> => RawExpr::BinOp(Box::new(l), o, Box::new(r)),
+}
 
 Tier<Op,NextTier>: Expr<'input> = {
-    <l:Tier<Op,NextTier>> <o:Spaned<Op>> <r:NextTier> => Expr::BinOp(Box::new(l), o, Box::new(r)),
-    NextTier
+    Spaned<RawTier<Op,NextTier>>,
+    NextTier 
 };
 
 OrExpr            = Tier<LogicalOr,        AndExpr>;
@@ -86,28 +89,32 @@ ComparisonExpr    = Tier<ComparisonOp,     AdditiveExpr>;
 AdditiveExpr      = Tier<AdditionOp,       MultiplicitveExpr>;
 MultiplicitveExpr = Tier<MultiplicationOp, UnaryExpr>;
 
-
-UnaryExpr: Expr<'input> = {
-    <PostfixExpr>,
-    <o:Spaned<UnaryOp>> <e:UnaryExpr> => Expr::UnaryOp(o, Box::new(e)),
+UnaryExpr = Spaned<UnaryExprRaw>; 
+UnaryExprRaw: RawExpr<'input> = {
+    <PostfixExprRaw>,
+    <o:Spaned<UnaryOp>> <e:UnaryExpr> => RawExpr::UnaryOp(o, Box::new(e)),
 }
 
-PostfixExpr: Expr<'input> = {
-    <BaseExpr>,
-    <l:PostfixExpr> "[" <r:Expr> "]" => Expr::ArrayAccess(Box::new(l), Box::new(r)),
-    <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => Expr::Call(Box::new(l), r),
-    <l:PostfixExpr> "." <r: Spaned<Name>> => Expr::FieldAccess(Box::new(l), r),
+PostfixExpr = Spaned<PostfixExprRaw>;
+PostfixExprRaw: RawExpr<'input> = {
+    <BaseExprRaw>,
+    <l:PostfixExpr> "[" <r:Expr> "]" => RawExpr::ArrayAccess(Box::new(l), Box::new(r)),
+    <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => RawExpr::Call(Box::new(l), r),
+    <l:PostfixExpr> "." <r: Spaned<Name>> => RawExpr::FieldAccess(Box::new(l), r),
 }
 
-BaseExpr: Expr<'input> = {
+// BaseExpr = Spaned<BaseExprRaw>;
+BaseExprRaw: RawExpr<'input> = {
     // TODO: Else if
-    "if" <BExpr> <Body> <("else" <Body>)?> => Expr::If(<>),
-    "for" <Name> "in" <BExpr> <Body> => Expr::For(<>),
-    "while" <BExpr> <Body> => Expr::While(<>),
-    <Spaned<Name>> => Expr::Var(<>),
-    <Body> => Expr::Block(<>),
-    "(" <Expr> ")" => <>,
-    <Spaned<Literal>> => Expr::Literal(<>) 
+    "if" <BExpr> <Body> <("else" <Body>)?> => RawExpr::If(<>),
+    "for" <Name> "in" <BExpr> <Body> => RawExpr::For(<>),
+    "while" <BExpr> <Body> => RawExpr::While(<>),
+    <Spaned<Name>> => RawExpr::Var(<>),
+    <Body> => RawExpr::Block(<>),
+    // This is a hack where we remove the span of the inner expr
+    // I'm not sure if this is good
+    "(" <e:Expr> ")" => e.node,
+    <Spaned<Literal>> => RawExpr::Literal(<>) 
 }
 
 Literal: Literal<'input> = {

@@ -21,21 +21,33 @@ body:
           span:
             - 15
             - 16
-        - FieldAccess:
-            - FieldAccess:
-                - Var:
-                    node: a
-                    span:
-                      - 19
-                      - 20
-                - node: b
-                  span:
-                    - 21
-                    - 22
-            - node: c
-              span:
-                - 23
-                - 24
+        - node:
+            FieldAccess:
+              - node:
+                  FieldAccess:
+                    - node:
+                        Var:
+                          node: a
+                          span:
+                            - 19
+                            - 20
+                      span:
+                        - 19
+                        - 20
+                    - node: b
+                      span:
+                        - 21
+                        - 22
+                span:
+                  - 19
+                  - 22
+              - node: c
+                span:
+                  - 23
+                  - 24
+          span:
+            - 19
+            - 24
   span:
     - 10
     - 26

@@ -17,48 +17,72 @@ ret: ~
 body:
   node:
     - Expr:
-        If:
-          - Var:
-              node: x
+        node:
+          If:
+            - node:
+                Var:
+                  node: x
+                  span:
+                    - 27
+                    - 28
               span:
                 - 27
                 - 28
-          - node:
-              - Expr:
-                  Var:
-                    node: xf
+            - node:
+                - Expr:
+                    node:
+                      Var:
+                        node: xf
+                        span:
+                          - 47
+                          - 49
                     span:
                       - 47
                       - 49
-              - Let:
-                  - node: z
-                    span:
-                      - 71
-                      - 72
-                  - Var:
-                      node: d
+                - Let:
+                    - node: z
+                      span:
+                        - 71
+                        - 72
+                    - node:
+                        Var:
+                          node: d
+                          span:
+                            - 75
+                            - 76
                       span:
                         - 75
                         - 76
-            span:
-              - 29
-              - 91
-          - node:
-              - Expr:
-                  Var:
-                    node: noo
+              span:
+                - 29
+                - 91
+            - node:
+                - Expr:
+                    node:
+                      Var:
+                        node: noo
+                        span:
+                          - 115
+                          - 118
                     span:
                       - 115
                       - 118
-            span:
-              - 97
-              - 133
+              span:
+                - 97
+                - 133
+        span:
+          - 24
+          - 133
     - Print:
-        Var:
-          node: hell
-          span:
-            - 153
-            - 157
+        node:
+          Var:
+            node: hell
+            span:
+              - 153
+              - 157
+        span:
+          - 153
+          - 157
   span:
     - 10
     - 167

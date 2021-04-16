@@ -4,104 +4,168 @@ expression: f
 
 ---
 Expr:
-  While:
-    - If:
-        - Var:
-            node: x
-            span:
-              - 9
-              - 10
-        - node:
-            - Expr:
-                Literal:
-                  node:
-                    Bool: false
+  node:
+    While:
+      - node:
+          If:
+            - node:
+                Var:
+                  node: x
                   span:
-                    - 11
-                    - 16
-          span:
-            - 10
-            - 17
-        - node:
-            - Expr:
-                Literal:
-                  node:
-                    Bool: true
-                  span:
-                    - 22
-                    - 26
-          span:
-            - 21
-            - 27
-    - node:
-        - Print:
-            BinOp:
-              - Literal:
-                  node:
-                    Integer: 1
-                  span:
-                    - 44
-                    - 45
-              - node: Plus
-                span:
-                  - 46
-                  - 47
-              - If:
-                  - Var:
-                      node: z
-                      span:
-                        - 52
-                        - 53
-                  - node:
-                      - Expr:
-                          Var:
-                            node: a
-                            span:
-                              - 55
-                              - 56
-                    span:
-                      - 54
-                      - 57
-                  - node:
-                      - Expr:
-                          Var:
-                            node: d
-                            span:
-                              - 64
-                              - 65
-                    span:
-                      - 63
-                      - 66
-        - Expr:
-            For:
-              - i
-              - While:
-                  - Var:
-                      node: foo
-                      span:
-                        - 92
-                        - 95
-                  - node:
-                      - Expr:
-                          Var:
-                            node: bar
-                            span:
-                              - 97
-                              - 100
-                    span:
-                      - 96
-                      - 101
-              - node:
-                  - Print:
-                      Var:
-                        node: zany
+                    - 9
+                    - 10
+              span:
+                - 9
+                - 10
+            - node:
+                - Expr:
+                    node:
+                      Literal:
+                        node:
+                          Bool: false
                         span:
-                          - 122
-                          - 126
-                span:
-                  - 102
-                  - 137
-      span:
-        - 28
-        - 143
+                          - 11
+                          - 16
+                    span:
+                      - 11
+                      - 16
+              span:
+                - 10
+                - 17
+            - node:
+                - Expr:
+                    node:
+                      Literal:
+                        node:
+                          Bool: true
+                        span:
+                          - 22
+                          - 26
+                    span:
+                      - 22
+                      - 26
+              span:
+                - 21
+                - 27
+        span:
+          - 6
+          - 27
+      - node:
+          - Print:
+              node:
+                BinOp:
+                  - node:
+                      Literal:
+                        node:
+                          Integer: 1
+                        span:
+                          - 44
+                          - 45
+                    span:
+                      - 44
+                      - 45
+                  - node: Plus
+                    span:
+                      - 46
+                      - 47
+                  - node:
+                      If:
+                        - node:
+                            Var:
+                              node: z
+                              span:
+                                - 52
+                                - 53
+                          span:
+                            - 52
+                            - 53
+                        - node:
+                            - Expr:
+                                node:
+                                  Var:
+                                    node: a
+                                    span:
+                                      - 55
+                                      - 56
+                                span:
+                                  - 55
+                                  - 56
+                          span:
+                            - 54
+                            - 57
+                        - node:
+                            - Expr:
+                                node:
+                                  Var:
+                                    node: d
+                                    span:
+                                      - 64
+                                      - 65
+                                span:
+                                  - 64
+                                  - 65
+                          span:
+                            - 63
+                            - 66
+                    span:
+                      - 48
+                      - 67
+              span:
+                - 44
+                - 67
+          - Expr:
+              node:
+                For:
+                  - i
+                  - node:
+                      While:
+                        - node:
+                            Var:
+                              node: foo
+                              span:
+                                - 92
+                                - 95
+                          span:
+                            - 92
+                            - 95
+                        - node:
+                            - Expr:
+                                node:
+                                  Var:
+                                    node: bar
+                                    span:
+                                      - 97
+                                      - 100
+                                span:
+                                  - 97
+                                  - 100
+                          span:
+                            - 96
+                            - 101
+                    span:
+                      - 86
+                      - 101
+                  - node:
+                      - Print:
+                          node:
+                            Var:
+                              node: zany
+                              span:
+                                - 122
+                                - 126
+                          span:
+                            - 122
+                            - 126
+                    span:
+                      - 102
+                      - 137
+              span:
+                - 77
+                - 137
+        span:
+          - 28
+          - 143
+  span:
+    - 0
+    - 143
 

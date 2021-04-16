@@ -4,10 +4,14 @@ expression: f
 
 ---
 Print:
-  Literal:
-    node:
-      Integer: 1
-    span:
-      - 6
-      - 7
+  node:
+    Literal:
+      node:
+        Integer: 1
+      span:
+        - 6
+        - 7
+  span:
+    - 6
+    - 7
 

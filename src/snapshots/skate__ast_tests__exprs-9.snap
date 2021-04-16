@@ -3,59 +3,99 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-BinOp:
-  - BinOp:
-      - Literal:
-          node:
-            Integer: 24
-          span:
-            - 0
-            - 2
-      - node: Plus
-        span:
-          - 2
-          - 3
-      - BinOp:
-          - BinOp:
-              - Literal:
-                  node:
-                    Integer: 24
+node:
+  BinOp:
+    - node:
+        BinOp:
+          - node:
+              Literal:
+                node:
+                  Integer: 24
+                span:
+                  - 0
+                  - 2
+            span:
+              - 0
+              - 2
+          - node: Plus
+            span:
+              - 2
+              - 3
+          - node:
+              BinOp:
+                - node:
+                    BinOp:
+                      - node:
+                          Literal:
+                            node:
+                              Integer: 24
+                            span:
+                              - 3
+                              - 5
+                        span:
+                          - 3
+                          - 5
+                      - node: Times
+                        span:
+                          - 5
+                          - 6
+                      - node:
+                          Literal:
+                            node:
+                              Integer: 32
+                            span:
+                              - 6
+                              - 8
+                        span:
+                          - 6
+                          - 8
                   span:
                     - 3
-                    - 5
-              - node: Times
-                span:
-                  - 5
-                  - 6
-              - Literal:
-                  node:
-                    Integer: 32
-                  span:
-                    - 6
                     - 8
-          - node: Devide
-            span:
-              - 8
-              - 9
-          - UnaryOp:
-              - node: Minus
-                span:
-                  - 9
-                  - 10
-              - Literal:
-                  node:
-                    Integer: 12
+                - node: Devide
                   span:
-                    - 10
+                    - 8
+                    - 9
+                - node:
+                    UnaryOp:
+                      - node: Minus
+                        span:
+                          - 9
+                          - 10
+                      - node:
+                          Literal:
+                            node:
+                              Integer: 12
+                            span:
+                              - 10
+                              - 12
+                        span:
+                          - 10
+                          - 12
+                  span:
+                    - 9
                     - 12
-  - node: Plus
-    span:
-      - 12
-      - 13
-  - Literal:
-      node:
-        Integer: 2
+            span:
+              - 3
+              - 12
+      span:
+        - 0
+        - 12
+    - node: Plus
+      span:
+        - 12
+        - 13
+    - node:
+        Literal:
+          node:
+            Integer: 2
+          span:
+            - 13
+            - 14
       span:
         - 13
         - 14
+span:
+  - 0
+  - 14
 

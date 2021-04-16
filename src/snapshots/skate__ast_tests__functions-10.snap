@@ -21,11 +21,15 @@ body:
           span:
             - 11
             - 12
-        - Var:
-            node: y
-            span:
-              - 15
-              - 16
+        - node:
+            Var:
+              node: y
+              span:
+                - 15
+                - 16
+          span:
+            - 15
+            - 16
   span:
     - 6
     - 18

@@ -21,17 +21,25 @@ body:
           span:
             - 12
             - 13
-        - Block:
-            node:
-              - Expr:
-                  Var:
-                    node: y
+        - node:
+            Block:
+              node:
+                - Expr:
+                    node:
+                      Var:
+                        node: y
+                        span:
+                          - 17
+                          - 18
                     span:
                       - 17
                       - 18
-            span:
-              - 16
-              - 19
+              span:
+                - 16
+                - 19
+          span:
+            - 16
+            - 19
   span:
     - 6
     - 21

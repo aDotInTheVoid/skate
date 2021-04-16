@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use eyre::{bail, Result};
 
-use crate::ast::{BinOp, Expr, Function, Item, Program, Spanned, Stmt};
+use crate::ast::{BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
 
 use serde_json::Value;
 
@@ -107,9 +107,9 @@ impl<'a> Env<'a> {
 
     fn eval_in(&self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
         use crate::ast::Literal;
-        use Expr::*;
+        use RawExpr::*;
 
-        Ok(BlockEvalResult::LocalRet(match e {
+        Ok(BlockEvalResult::LocalRet(match &e.node {
             Literal(l) => match l.node {
                 Literal::String(s) => Value::String((*s).to_owned()),
                 Literal::Float(f) => Value::Number(serde_json::Number::from_f64(f).unwrap()),
@@ -119,15 +119,15 @@ impl<'a> Env<'a> {
                 Literal::Bool(b) => Value::Bool(b),
             },
             BinOp(l, o, r) => {
-                let l = self.eval_in(scope, l)?;
-                let r = self.eval_in(scope, r)?;
-                binop(get!(l), **o, get!(r))?
+                let l = self.eval_in(scope, &l)?;
+                let r = self.eval_in(scope, &r)?;
+                binop(get!(l), o.node, get!(r))?
             }
             Call(function, args) => {
-                if let Expr::Var(name) = **function {
+                if let RawExpr::Var(name) = function.node {
                     let mut args_evald = Vec::with_capacity(args.len());
                     for i in args {
-                        args_evald.push(get!(self.eval_in(scope, i)?));
+                        args_evald.push(get!(self.eval_in(scope, &i)?));
                     }
                     self.call(&name, &args_evald)?
                 } else {

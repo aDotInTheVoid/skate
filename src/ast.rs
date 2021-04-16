@@ -1,5 +1,8 @@
 use serde::{Deserialize, Serialize};
 
+// TODO: Clean up "outer" vs inner spans
+// Eg
+
 pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Span = (usize, usize);
@@ -62,8 +65,9 @@ pub enum Stmt<'a> {
     Return(Expr<'a>),
 }
 
+pub type Expr<'a> = Spanned<RawExpr<'a>>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Expr<'a> {
+pub enum RawExpr<'a> {
     Literal(Spanned<Literal<'a>>),
     Var(Spanned<&'a str>),
     Block(Block<'a>),

@@ -4,30 +4,46 @@ expression: f
 
 ---
 Expr:
-  For:
-    - i
-    - If:
-        - Var:
-            node: a
-            span:
-              - 12
-              - 13
-        - node: []
-          span:
-            - 14
-            - 16
-        - node: []
-          span:
-            - 22
-            - 24
-    - node:
-        - Expr:
-            Var:
-              node: e
+  node:
+    For:
+      - i
+      - node:
+          If:
+            - node:
+                Var:
+                  node: a
+                  span:
+                    - 12
+                    - 13
+              span:
+                - 12
+                - 13
+            - node: []
+              span:
+                - 14
+                - 16
+            - node: []
+              span:
+                - 22
+                - 24
+        span:
+          - 9
+          - 24
+      - node:
+          - Expr:
+              node:
+                Var:
+                  node: e
+                  span:
+                    - 26
+                    - 27
               span:
                 - 26
                 - 27
-      span:
-        - 25
-        - 29
+        span:
+          - 25
+          - 29
+  span:
+    - 0
+    - 29
 

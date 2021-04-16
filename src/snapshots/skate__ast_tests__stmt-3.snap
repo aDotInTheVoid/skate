@@ -4,21 +4,33 @@ expression: f
 
 ---
 Print:
-  BinOp:
-    - Literal:
-        node:
-          String: "2"
+  node:
+    BinOp:
+      - node:
+          Literal:
+            node:
+              String: "2"
+            span:
+              - 6
+              - 9
         span:
           - 6
           - 9
-    - node: Plus
-      span:
-        - 10
-        - 11
-    - Literal:
-        node:
-          String: "3"
+      - node: Plus
+        span:
+          - 10
+          - 11
+      - node:
+          Literal:
+            node:
+              String: "3"
+            span:
+              - 12
+              - 15
         span:
           - 12
           - 15
+  span:
+    - 6
+    - 15
 

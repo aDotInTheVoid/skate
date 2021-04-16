@@ -17,49 +17,73 @@ ret: ~
 body:
   node:
     - Expr:
-        Block:
-          node:
-            - Let:
-                - node: a
-                  span:
-                    - 13
-                    - 14
-                - Var:
-                    node: b
+        node:
+          Block:
+            node:
+              - Let:
+                  - node: a
+                    span:
+                      - 13
+                      - 14
+                  - node:
+                      Var:
+                        node: b
+                        span:
+                          - 17
+                          - 18
                     span:
                       - 17
                       - 18
-            - Let:
-                - node: c
-                  span:
-                    - 24
-                    - 25
-                - Block:
-                    node:
-                      - Expr:
-                          Var:
-                            node: d
-                            span:
-                              - 29
-                              - 30
-                      - Expr:
-                          Var:
-                            node: e
-                            span:
-                              - 31
-                              - 32
+              - Let:
+                  - node: c
+                    span:
+                      - 24
+                      - 25
+                  - node:
+                      Block:
+                        node:
+                          - Expr:
+                              node:
+                                Var:
+                                  node: d
+                                  span:
+                                    - 29
+                                    - 30
+                              span:
+                                - 29
+                                - 30
+                          - Expr:
+                              node:
+                                Var:
+                                  node: e
+                                  span:
+                                    - 31
+                                    - 32
+                              span:
+                                - 31
+                                - 32
+                        span:
+                          - 28
+                          - 33
                     span:
                       - 28
                       - 33
-          span:
-            - 8
-            - 34
+            span:
+              - 8
+              - 34
+        span:
+          - 8
+          - 34
     - Expr:
-        Var:
-          node: f
-          span:
-            - 36
-            - 37
+        node:
+          Var:
+            node: f
+            span:
+              - 36
+              - 37
+        span:
+          - 36
+          - 37
   span:
     - 6
     - 38

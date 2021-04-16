@@ -3,10 +3,14 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-Literal:
-  node:
-    String: ""
-  span:
-    - 0
-    - 2
+node:
+  Literal:
+    node:
+      String: ""
+    span:
+      - 0
+      - 2
+span:
+  - 0
+  - 2
 

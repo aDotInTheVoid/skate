@@ -17,23 +17,35 @@ ret: ~
 body:
   node:
     - Expr:
-        Var:
-          node: a
-          span:
-            - 7
-            - 8
+        node:
+          Var:
+            node: a
+            span:
+              - 7
+              - 8
+        span:
+          - 7
+          - 8
     - Expr:
-        Var:
-          node: b
-          span:
-            - 9
-            - 10
+        node:
+          Var:
+            node: b
+            span:
+              - 9
+              - 10
+        span:
+          - 9
+          - 10
     - Expr:
-        Var:
-          node: c
-          span:
-            - 11
-            - 12
+        node:
+          Var:
+            node: c
+            span:
+              - 11
+              - 12
+        span:
+          - 11
+          - 12
   span:
     - 6
     - 14
