@@ -49,10 +49,10 @@ macro_rules! get {
 
 impl<'a> Env<'a> {
     pub fn new(p: &'a Program) -> Self {
-        let mut functions = HashMap::new();
+        let mut functions: HashMap<&str, &Function> = HashMap::new();
         for i in p {
             match i {
-                Item::Function(f) => assert!(functions.insert(f.node.name.node, &f.node).is_none()),
+                Item::Function(f) => assert!(functions.insert(&f.name, &f).is_none()),
             };
         }
 
@@ -61,16 +61,16 @@ impl<'a> Env<'a> {
 
     pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
         let function = self.functions[fn_name];
-        assert_eq!(args.len(), function.args.node.len());
+        assert_eq!(args.len(), function.args.len());
         let mut scope = Scope::default();
 
-        for (name, val) in function.args.node.iter().zip(args.iter()) {
+        for (name, val) in function.args.iter().zip(args.iter()) {
             // TODO: less cloning
-            scope.vars.insert(name.name.node, val.clone());
+            scope.vars.insert(&name.name, val.clone());
         }
 
         // In functions, a trailing expression returns
-        Ok(match self.eval_block_in(&function.body.node, &mut scope)? {
+        Ok(match self.eval_block_in(&function.body, &mut scope)? {
             BlockEvalResult::FnRet(x) => x,
             BlockEvalResult::LocalRet(x) => x,
         })
@@ -84,7 +84,7 @@ impl<'a> Env<'a> {
             match i {
                 Let(name, expr) => {
                     let val = get!(self.eval_in(scope, expr)?);
-                    scope.vars.insert(name.node, val);
+                    scope.vars.insert(name, val);
                     last_val = Value::Null;
                 }
                 Print(e) => {

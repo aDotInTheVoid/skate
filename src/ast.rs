@@ -10,6 +10,20 @@ pub struct Spanned<T> {
     pub span: Span,
 }
 
+// TODO: Decide if this is a good idea
+impl<T> std::ops::Deref for Spanned<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.node
+    }
+}
+impl<T> std::ops::DerefMut for Spanned<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.node
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Item<'a> {
     Function(#[serde(borrow)] Spanned<Function<'a>>),
