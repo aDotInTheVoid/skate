@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Span = (usize, usize);
+pub type Name<'a> = Spanned<&'a str>;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub struct Spanned<T> {
@@ -35,7 +36,7 @@ pub enum Item<'a> {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Function<'a> {
     #[serde(borrow)]
-    pub name: Spanned<&'a str>,
+    pub name: Name<'a>,
     #[serde(borrow)]
     pub args: Spanned<Vec<Arg<'a>>>,
     pub ret: Option<Spanned<Type>>,
@@ -46,7 +47,7 @@ pub struct Function<'a> {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Arg<'a> {
     #[serde(borrow)]
-    pub name: Spanned<&'a str>,
+    pub name: Name<'a>,
     pub ty: Spanned<Type>,
 }
 
@@ -59,7 +60,7 @@ pub enum Type {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Stmt<'a> {
-    Let(#[serde(borrow)] Spanned<&'a str>, Expr<'a>),
+    Let(#[serde(borrow)] Name<'a>, Expr<'a>),
     Expr(Expr<'a>),
     Print(Expr<'a>),
     Return(Expr<'a>),
@@ -69,16 +70,16 @@ pub type Expr<'a> = Spanned<RawExpr<'a>>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum RawExpr<'a> {
     Literal(Spanned<Literal<'a>>),
-    Var(Spanned<&'a str>),
+    Var(Name<'a>),
     Block(Block<'a>),
     Call(Box<Expr<'a>>, Vec<Expr<'a>>),
     BinOp(Box<Expr<'a>>, Spanned<BinOp>, Box<Expr<'a>>),
     UnaryOp(Spanned<UnaryOp>, Box<Expr<'a>>),
-    FieldAccess(Box<Expr<'a>>, Spanned<&'a str>),
+    FieldAccess(Box<Expr<'a>>, #[serde(borrow)] Name<'a>),
     ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
     // Test, truecase, falsecase
     If(Box<Expr<'a>>, Block<'a>, Option<Block<'a>>),
-    For(&'a str, Box<Expr<'a>>, Block<'a>),
+    For(Name<'a>, Box<Expr<'a>>, Block<'a>),
     While(Box<Expr<'a>>, Block<'a>),
 }
 

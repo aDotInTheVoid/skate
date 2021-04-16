@@ -19,7 +19,10 @@ body:
     - Expr:
         node:
           For:
-            - i
+            - node: i
+              span:
+                - 28
+                - 29
             - node:
                 Var:
                   node: z

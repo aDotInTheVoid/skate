@@ -38,13 +38,13 @@ pub Item: Item<'input> = {
 }
 
 pub Function: Function<'input> = {
-    "fn" <name:Spaned<Name>> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Body> => Function{<>}
+    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Body> => Function{<>}
 }
 
 Args = { "(" <Comma<Arg>> ")"  }
 
 // TODO: Maybe dont have names things, use a tuple, not a struct.
-Arg: Arg<'input> = { <name:Spaned<Name>> ":" <ty:Spaned<Type>> => Arg{<>} }
+Arg: Arg<'input> = { <name:Name> ":" <ty:Spaned<Type>> => Arg{<>} }
 
 Type: Type = {
     "int" => Type::Int,
@@ -52,7 +52,8 @@ Type: Type = {
     "string" => Type::String,
 }
 
-Name = { r"[a-zA-Z][a-zA-Z0-9_]*" }
+Name = Spaned<RawName>;
+RawName = { r"[a-zA-Z][a-zA-Z0-9_]*" }
 
 Body = Spaned<BodyRaw>;
 BodyRaw = { "{" <Semi<Stmt>> "}" }
@@ -60,7 +61,7 @@ BodyRaw = { "{" <Semi<Stmt>> "}" }
 // TODO: Should these be exprs? Should we have stmts?
 pub Stmt: Stmt<'input> = {
     <Expr> => Stmt::Expr(<>),
-    "let" <Spaned<Name>> "=" <Expr> => Stmt::Let(<>),
+    "let" <Name> "=" <Expr> => Stmt::Let(<>),
     "print" <Expr> => Stmt::Print(<>),
     "return" <Expr> => Stmt::Return(<>),
 }
@@ -100,7 +101,7 @@ PostfixExprRaw: RawExpr<'input> = {
     <BaseExprRaw>,
     <l:PostfixExpr> "[" <r:Expr> "]" => RawExpr::ArrayAccess(Box::new(l), Box::new(r)),
     <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => RawExpr::Call(Box::new(l), r),
-    <l:PostfixExpr> "." <r: Spaned<Name>> => RawExpr::FieldAccess(Box::new(l), r),
+    <l:PostfixExpr> "." <r: Name> => RawExpr::FieldAccess(Box::new(l), r),
 }
 
 // BaseExpr = Spaned<BaseExprRaw>;
@@ -109,7 +110,7 @@ BaseExprRaw: RawExpr<'input> = {
     "if" <BExpr> <Body> <("else" <Body>)?> => RawExpr::If(<>),
     "for" <Name> "in" <BExpr> <Body> => RawExpr::For(<>),
     "while" <BExpr> <Body> => RawExpr::While(<>),
-    <Spaned<Name>> => RawExpr::Var(<>),
+    <Name> => RawExpr::Var(<>),
     <Body> => RawExpr::Block(<>),
     // This is a hack where we remove the span of the inner expr
     // I'm not sure if this is good
