@@ -12,10 +12,13 @@ pub enum Item<'a> {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Function<'a> {
-    pub name: &'a str,
-    pub args: Vec<Arg<'a>>,
-    pub ret: Option<Type>,
-    pub body: Block<'a>,
+    #[serde(borrow)]
+    pub name: Spanned<&'a str>,
+    #[serde(borrow)]
+    pub args: Spanned<Vec<Arg<'a>>>,
+    pub ret: Option<Spanned<Type>>,
+    #[serde(borrow)]
+    pub body: Spanned<Block<'a>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

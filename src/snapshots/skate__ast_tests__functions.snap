@@ -3,8 +3,17 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: main
-args: []
+name:
+  - main
+  - - 3
+    - 7
+args:
+  - []
+  - - 7
+    - 9
 ret: ~
-body: []
+body:
+  - []
+  - - 9
+    - 11
 

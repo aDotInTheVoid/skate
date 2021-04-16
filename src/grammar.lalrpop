@@ -37,7 +37,7 @@ pub Item: Item<'input> = {
 }
 
 pub Function: Function<'input> = {
-    "fn" <name:Name> <args:Args> <ret:("->" <Type> )?> <body:Body> => Function{<>}
+    "fn" <name:Spaned<Name>> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Spaned<Body>> => Function{<>}
 }
 
 Args = { "(" <Comma<Arg>> ")"  }

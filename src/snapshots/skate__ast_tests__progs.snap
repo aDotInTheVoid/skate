@@ -4,38 +4,62 @@ expression: f
 
 ---
 - Function:
-    - name: hello
-      args: []
+    - name:
+        - hello
+        - - 3
+          - 8
+      args:
+        - []
+        - - 8
+          - 10
       ret: ~
       body:
-        - Print:
-            Literal:
-              String: hello
+        - - Print:
+              Literal:
+                String: hello
+        - - 11
+          - 27
     - - 0
       - 27
 - Function:
-    - name: world
-      args: []
+    - name:
+        - world
+        - - 43
+          - 48
+      args:
+        - []
+        - - 48
+          - 50
       ret: ~
       body:
-        - Print:
-            Literal:
-              String: world
+        - - Print:
+              Literal:
+                String: world
+        - - 51
+          - 69
     - - 40
       - 69
 - Function:
-    - name: main
-      args: []
+    - name:
+        - main
+        - - 85
+          - 89
+      args:
+        - []
+        - - 89
+          - 91
       ret: ~
       body:
-        - Expr:
-            Call:
-              - Var: hello
-              - []
-        - Expr:
-            Call:
-              - Var: world
-              - []
+        - - Expr:
+              Call:
+                - Var: hello
+                - []
+          - Expr:
+              Call:
+                - Var: world
+                - []
+        - - 92
+          - 157
     - - 82
       - 157
 

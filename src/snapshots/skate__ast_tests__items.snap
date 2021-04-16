@@ -4,10 +4,19 @@ expression: f
 
 ---
 Function:
-  - name: main
-    args: []
+  - name:
+      - main
+      - - 3
+        - 7
+    args:
+      - []
+      - - 7
+        - 9
     ret: ~
-    body: []
+    body:
+      - []
+      - - 9
+        - 11
   - - 0
     - 11
 
