@@ -3,15 +3,27 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: main
-args: []
+name:
+  node: main
+  span:
+    - 3
+    - 7
+args:
+  node: []
+  span:
+    - 7
+    - 9
 ret: ~
 body:
-  - Let:
-      - z
-      - FieldAccess:
-          - FieldAccess:
-              - Var: a
-              - b
-          - c
+  node:
+    - Let:
+        - z
+        - FieldAccess:
+            - FieldAccess:
+                - Var: a
+                - b
+            - c
+  span:
+    - 10
+    - 26
 

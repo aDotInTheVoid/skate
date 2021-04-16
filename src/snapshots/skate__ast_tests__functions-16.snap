@@ -3,20 +3,32 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: main
-args: []
+name:
+  node: main
+  span:
+    - 3
+    - 7
+args:
+  node: []
+  span:
+    - 7
+    - 9
 ret: ~
 body:
-  - Expr:
-      If:
-        - Var: x
-        - - Expr:
-              Var: xf
-          - Let:
-              - z
-              - Var: d
-        - - Expr:
-              Var: noo
-  - Print:
-      Var: hell
+  node:
+    - Expr:
+        If:
+          - Var: x
+          - - Expr:
+                Var: xf
+            - Let:
+                - z
+                - Var: d
+          - - Expr:
+                Var: noo
+    - Print:
+        Var: hell
+  span:
+    - 10
+    - 167
 

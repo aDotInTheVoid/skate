@@ -3,12 +3,28 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: baz
+name:
+  node: baz
+  span:
+    - 3
+    - 6
 args:
-  - name: y
-    ty: Int
-  - name: z
-    ty: String
-ret: Int
-body: []
+  node:
+    - name: y
+      ty: Int
+    - name: z
+      ty: String
+  span:
+    - 6
+    - 23
+ret:
+  node: Int
+  span:
+    - 27
+    - 30
+body:
+  node: []
+  span:
+    - 31
+    - 33
 

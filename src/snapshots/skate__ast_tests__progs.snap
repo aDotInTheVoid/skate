@@ -4,53 +4,69 @@ expression: f
 
 ---
 - Function:
-    - name:
-        - hello
-        - - 3
+    node:
+      name:
+        node: hello
+        span:
+          - 3
           - 8
       args:
-        - []
-        - - 8
+        node: []
+        span:
+          - 8
           - 10
       ret: ~
       body:
-        - - Print:
+        node:
+          - Print:
               Literal:
                 String: hello
-        - - 11
+        span:
+          - 11
           - 27
-    - - 0
+    span:
+      - 0
       - 27
 - Function:
-    - name:
-        - world
-        - - 43
+    node:
+      name:
+        node: world
+        span:
+          - 43
           - 48
       args:
-        - []
-        - - 48
+        node: []
+        span:
+          - 48
           - 50
       ret: ~
       body:
-        - - Print:
+        node:
+          - Print:
               Literal:
                 String: world
-        - - 51
+        span:
+          - 51
           - 69
-    - - 40
+    span:
+      - 40
       - 69
 - Function:
-    - name:
-        - main
-        - - 85
+    node:
+      name:
+        node: main
+        span:
+          - 85
           - 89
       args:
-        - []
-        - - 89
+        node: []
+        span:
+          - 89
           - 91
       ret: ~
       body:
-        - - Expr:
+        node:
+          - Expr:
               Call:
                 - Var: hello
                 - []
@@ -58,8 +74,10 @@ expression: f
               Call:
                 - Var: world
                 - []
-        - - 92
+        span:
+          - 92
           - 157
-    - - 82
+    span:
+      - 82
       - 157
 

@@ -3,22 +3,34 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: f
-args: []
+name:
+  node: f
+  span:
+    - 3
+    - 4
+args:
+  node: []
+  span:
+    - 4
+    - 6
 ret: ~
 body:
-  - Expr:
-      Block:
-        - Let:
-            - a
-            - Var: b
-        - Let:
-            - c
-            - Block:
-                - Expr:
-                    Var: d
-                - Expr:
-                    Var: e
-  - Expr:
-      Var: f
+  node:
+    - Expr:
+        Block:
+          - Let:
+              - a
+              - Var: b
+          - Let:
+              - c
+              - Block:
+                  - Expr:
+                      Var: d
+                  - Expr:
+                      Var: e
+    - Expr:
+        Var: f
+  span:
+    - 6
+    - 38
 

@@ -3,7 +3,12 @@ use serde::{Deserialize, Serialize};
 pub type Block<'a> = Vec<Stmt<'a>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Span = (usize, usize);
-pub type Spanned<T> = (T, Span);
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Spanned<T> {
+    pub node: T,
+    pub span: Span,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Item<'a> {

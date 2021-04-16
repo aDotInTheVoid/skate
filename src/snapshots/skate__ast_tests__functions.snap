@@ -4,16 +4,19 @@ expression: f
 
 ---
 name:
-  - main
-  - - 3
+  node: main
+  span:
+    - 3
     - 7
 args:
-  - []
-  - - 7
+  node: []
+  span:
+    - 7
     - 9
 ret: ~
 body:
-  - []
-  - - 9
+  node: []
+  span:
+    - 9
     - 11
 

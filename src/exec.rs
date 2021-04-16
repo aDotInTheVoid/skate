@@ -52,7 +52,7 @@ impl<'a> Env<'a> {
         let mut functions = HashMap::new();
         for i in p {
             match i {
-                Item::Function((f, _)) => assert!(functions.insert(f.name.0, f).is_none()),
+                Item::Function(f) => assert!(functions.insert(f.node.name.node, &f.node).is_none()),
             };
         }
 
@@ -61,16 +61,16 @@ impl<'a> Env<'a> {
 
     pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
         let function = self.functions[fn_name];
-        assert_eq!(args.len(), function.args.0.len());
+        assert_eq!(args.len(), function.args.node.len());
         let mut scope = Scope::default();
 
-        for (name, val) in function.args.0.iter().zip(args.iter()) {
+        for (name, val) in function.args.node.iter().zip(args.iter()) {
             // TODO: less cloning
             scope.vars.insert(name.name, val.clone());
         }
 
         // In functions, a trailing expression returns
-        Ok(match self.eval_block_in(&function.body.0, &mut scope)? {
+        Ok(match self.eval_block_in(&function.body.node, &mut scope)? {
             BlockEvalResult::FnRet(x) => x,
             BlockEvalResult::LocalRet(x) => x,
         })

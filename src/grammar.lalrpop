@@ -25,8 +25,8 @@ Semi<T>: Vec<T> = {
     }
 };
 
-Spaned<T>: (T, Span) = {
-    <l:@L> <t:T> <r:@R> => (t, (l,r))
+Spaned<T>: Spanned<T> = {
+    <l:@L> <t:T> <r:@R> => Spanned{node:t, span:(l,r)}
 }
 
 

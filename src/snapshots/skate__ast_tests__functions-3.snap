@@ -3,10 +3,22 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: foo
+name:
+  node: foo
+  span:
+    - 3
+    - 6
 args:
-  - name: y
-    ty: Int
+  node:
+    - name: y
+      ty: Int
+  span:
+    - 6
+    - 14
 ret: ~
-body: []
+body:
+  node: []
+  span:
+    - 14
+    - 16
 

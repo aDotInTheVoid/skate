@@ -3,29 +3,41 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name: main
-args: []
+name:
+  node: main
+  span:
+    - 3
+    - 7
+args:
+  node: []
+  span:
+    - 7
+    - 9
 ret: ~
 body:
-  - Let:
-      - z
-      - Call:
-          - FieldAccess:
-              - ArrayAccess:
-                  - FieldAccess:
-                      - FieldAccess:
-                          - Var: x
-                          - y
-                      - z
-                  - FieldAccess:
-                      - ArrayAccess:
-                          - FieldAccess:
-                              - Var: a
-                              - b
-                          - Var: z
-                      - c
-              - d
-          - - Var: e
-            - Var: f
-            - Var: g
+  node:
+    - Let:
+        - z
+        - Call:
+            - FieldAccess:
+                - ArrayAccess:
+                    - FieldAccess:
+                        - FieldAccess:
+                            - Var: x
+                            - y
+                        - z
+                    - FieldAccess:
+                        - ArrayAccess:
+                            - FieldAccess:
+                                - Var: a
+                                - b
+                            - Var: z
+                        - c
+                - d
+            - - Var: e
+              - Var: f
+              - Var: g
+  span:
+    - 10
+    - 46
 
