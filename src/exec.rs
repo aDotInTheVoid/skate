@@ -66,7 +66,7 @@ impl<'a> Env<'a> {
 
         for (name, val) in function.args.node.iter().zip(args.iter()) {
             // TODO: less cloning
-            scope.vars.insert(name.name, val.clone());
+            scope.vars.insert(name.name.node, val.clone());
         }
 
         // In functions, a trailing expression returns

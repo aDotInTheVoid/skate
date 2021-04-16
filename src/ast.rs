@@ -28,8 +28,9 @@ pub struct Function<'a> {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Arg<'a> {
-    pub name: &'a str,
-    pub ty: Type,
+    #[serde(borrow)]
+    pub name: Spanned<&'a str>,
+    pub ty: Spanned<Type>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

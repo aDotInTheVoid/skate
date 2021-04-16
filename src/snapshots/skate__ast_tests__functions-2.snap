@@ -10,8 +10,16 @@ name:
     - 6
 args:
   node:
-    - name: x
-      ty: Int
+    - name:
+        node: x
+        span:
+          - 7
+          - 8
+      ty:
+        node: Int
+        span:
+          - 9
+          - 12
   span:
     - 6
     - 13

@@ -10,10 +10,26 @@ name:
     - 6
 args:
   node:
-    - name: y
-      ty: Int
-    - name: z
-      ty: String
+    - name:
+        node: y
+        span:
+          - 7
+          - 8
+      ty:
+        node: Int
+        span:
+          - 9
+          - 12
+    - name:
+        node: z
+        span:
+          - 13
+          - 14
+      ty:
+        node: String
+        span:
+          - 15
+          - 21
   span:
     - 6
     - 22
