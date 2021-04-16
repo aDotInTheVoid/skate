@@ -14,6 +14,7 @@ pub fn run(p: Program) -> Result<i64> {
     let result = env.call("main", &[])?;
 
     // TODO: Figure out exit codes 0/1/101
+    // One for script exited with error, one for IIE
     let exit_code = match result {
         Value::Null => 0,
         Value::Number(x) => x.as_i64().unwrap_or(101),
@@ -23,6 +24,7 @@ pub fn run(p: Program) -> Result<i64> {
     Ok(exit_code)
 }
 
+// TODO: unify env and scope, by understanding scheme
 #[derive(Debug, Default)]
 struct Env<'a> {
     functions: HashMap<&'a str, &'a Function<'a>>,
@@ -60,7 +62,10 @@ impl<'a> Env<'a> {
     }
 
     pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
+        // TODO: nice error if no function found
         let function = self.functions[fn_name];
+
+        // TODO: Nice errors
         assert_eq!(args.len(), function.args.len());
         let mut scope = Scope::default();
 
@@ -131,6 +136,7 @@ impl<'a> Env<'a> {
                     }
                     self.call(&name, &args_evald)?
                 } else {
+                    // TODO: Nice error
                     bail!("Expeced {:?} to be a plain var", function)
                 }
             }
@@ -150,6 +156,7 @@ impl<'a> Env<'a> {
                 let bval = self.eval_block_in(&b, scope)?;
                 get!(bval)
             }
+            // TODO: Nice error
             other => bail!("Unimplemented {:?}", other),
         }))
     }
@@ -179,6 +186,7 @@ fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
             Bool(e)
         }
         // Base case
+        // TODO: Nice error
         (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
     })
 }
@@ -187,6 +195,7 @@ fn is_truthy(val: Value) -> Result<bool> {
     if let Value::Bool(b) = val {
         Ok(b)
     } else {
+        // TODO: Nice error
         bail!("Not a boolean: {:?}", val)
     }
 }

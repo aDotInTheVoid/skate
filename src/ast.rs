@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 // TODO: Clean up "outer" vs inner spans
-// Eg
+// Eg an Expr has its own assocd span, but a BinOp doesnt
 
 pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
