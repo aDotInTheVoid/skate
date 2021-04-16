@@ -25,7 +25,10 @@ body:
             - Print:
                 Var: i
             - Let:
-                - i
+                - node: i
+                  span:
+                    - 107
+                    - 108
                 - Block:
                     - Expr:
                         If:

@@ -84,7 +84,7 @@ impl<'a> Env<'a> {
             match i {
                 Let(name, expr) => {
                     let val = get!(self.eval_in(scope, expr)?);
-                    scope.vars.insert(*name, val);
+                    scope.vars.insert(name.node, val);
                     last_val = Value::Null;
                 }
                 Print(e) => {

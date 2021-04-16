@@ -22,7 +22,10 @@ body:
           - - Expr:
                 Var: xf
             - Let:
-                - z
+                - node: z
+                  span:
+                    - 71
+                    - 72
                 - Var: d
           - - Expr:
                 Var: noo

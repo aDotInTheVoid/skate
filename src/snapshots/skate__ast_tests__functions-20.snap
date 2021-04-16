@@ -17,7 +17,10 @@ ret: ~
 body:
   node:
     - Let:
-        - z
+        - node: z
+          span:
+            - 15
+            - 16
         - FieldAccess:
             - FieldAccess:
                 - Var: a

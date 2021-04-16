@@ -4,7 +4,10 @@ expression: f
 
 ---
 Let:
-  - x
+  - node: x
+    span:
+      - 4
+      - 5
   - If:
       - Var: a
       - - Expr:

@@ -58,7 +58,7 @@ Body = { "{" <Semi<Stmt>> "}" }
 // TODO: Should these be exprs? Should we have stmts?
 pub Stmt: Stmt<'input> = {
     <Expr> => Stmt::Expr(<>),
-    "let" <Name> "=" <Expr> => Stmt::Let(<>),
+    "let" <Spaned<Name>> "=" <Expr> => Stmt::Let(<>),
     "print" <Expr> => Stmt::Print(<>),
     "return" <Expr> => Stmt::Return(<>),
 }

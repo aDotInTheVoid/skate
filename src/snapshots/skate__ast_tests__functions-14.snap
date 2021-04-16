@@ -19,10 +19,16 @@ body:
     - Expr:
         Block:
           - Let:
-              - a
+              - node: a
+                span:
+                  - 13
+                  - 14
               - Var: b
           - Let:
-              - c
+              - node: c
+                span:
+                  - 24
+                  - 25
               - Block:
                   - Expr:
                       Var: d

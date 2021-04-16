@@ -17,7 +17,10 @@ ret: ~
 body:
   node:
     - Let:
-        - z
+        - node: z
+          span:
+            - 16
+            - 17
         - Call:
             - FieldAccess:
                 - ArrayAccess:

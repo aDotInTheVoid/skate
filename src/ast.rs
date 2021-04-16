@@ -42,7 +42,7 @@ pub enum Type {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Stmt<'a> {
-    Let(&'a str, Expr<'a>),
+    Let(#[serde(borrow)] Spanned<&'a str>, Expr<'a>),
     Expr(Expr<'a>),
     Print(Expr<'a>),
     Return(Expr<'a>),
