@@ -24,69 +24,89 @@ body:
               span:
                 - 33
                 - 34
-          - - Print:
-                Var:
-                  node: z
-                  span:
-                    - 59
-                    - 60
-            - Print:
-                Var:
-                  node: i
-                  span:
-                    - 84
-                    - 85
-            - Let:
-                - node: i
-                  span:
-                    - 107
-                    - 108
-                - Block:
-                    node:
-                      - Expr:
-                          If:
-                            - Var:
-                                node: a
-                                span:
-                                  - 136
-                                  - 137
-                            - - Expr:
-                                  Var:
-                                    node: d
-                                    span:
-                                      - 139
-                                      - 140
-                            - ~
-                      - Expr:
-                          If:
-                            - Var:
-                                node: c
-                                span:
-                                  - 166
-                                  - 167
-                            - - Expr:
-                                  Var:
-                                    node: e
-                                    span:
-                                      - 169
-                                      - 170
-                            - - Expr:
-                                  If:
-                                    - Var:
-                                        node: f
-                                        span:
-                                          - 182
-                                          - 183
-                                    - - Expr:
-                                          Var:
-                                            node: g
-                                            span:
-                                              - 185
-                                              - 186
-                                    - ~
+          - node:
+              - Print:
+                  Var:
+                    node: z
                     span:
-                      - 111
-                      - 207
+                      - 59
+                      - 60
+              - Print:
+                  Var:
+                    node: i
+                    span:
+                      - 84
+                      - 85
+              - Let:
+                  - node: i
+                    span:
+                      - 107
+                      - 108
+                  - Block:
+                      node:
+                        - Expr:
+                            If:
+                              - Var:
+                                  node: a
+                                  span:
+                                    - 136
+                                    - 137
+                              - node:
+                                  - Expr:
+                                      Var:
+                                        node: d
+                                        span:
+                                          - 139
+                                          - 140
+                                span:
+                                  - 138
+                                  - 141
+                              - ~
+                        - Expr:
+                            If:
+                              - Var:
+                                  node: c
+                                  span:
+                                    - 166
+                                    - 167
+                              - node:
+                                  - Expr:
+                                      Var:
+                                        node: e
+                                        span:
+                                          - 169
+                                          - 170
+                                span:
+                                  - 168
+                                  - 171
+                              - node:
+                                  - Expr:
+                                      If:
+                                        - Var:
+                                            node: f
+                                            span:
+                                              - 182
+                                              - 183
+                                        - node:
+                                            - Expr:
+                                                Var:
+                                                  node: g
+                                                  span:
+                                                    - 185
+                                                    - 186
+                                          span:
+                                            - 184
+                                            - 187
+                                        - ~
+                                span:
+                                  - 177
+                                  - 189
+                      span:
+                        - 111
+                        - 207
+            span:
+              - 35
+              - 221
   span:
     - 10
     - 231

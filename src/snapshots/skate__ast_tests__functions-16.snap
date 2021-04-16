@@ -23,28 +23,36 @@ body:
               span:
                 - 27
                 - 28
-          - - Expr:
-                Var:
-                  node: xf
-                  span:
-                    - 47
-                    - 49
-            - Let:
-                - node: z
-                  span:
-                    - 71
-                    - 72
-                - Var:
-                    node: d
+          - node:
+              - Expr:
+                  Var:
+                    node: xf
                     span:
-                      - 75
-                      - 76
-          - - Expr:
-                Var:
-                  node: noo
-                  span:
-                    - 115
-                    - 118
+                      - 47
+                      - 49
+              - Let:
+                  - node: z
+                    span:
+                      - 71
+                      - 72
+                  - Var:
+                      node: d
+                      span:
+                        - 75
+                        - 76
+            span:
+              - 29
+              - 91
+          - node:
+              - Expr:
+                  Var:
+                    node: noo
+                    span:
+                      - 115
+                      - 118
+            span:
+              - 97
+              - 133
     - Print:
         Var:
           node: hell

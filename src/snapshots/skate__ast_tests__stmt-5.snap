@@ -12,12 +12,22 @@ Expr:
             span:
               - 12
               - 13
-        - []
-        - []
-    - - Expr:
-          Var:
-            node: e
-            span:
-              - 26
-              - 27
+        - node: []
+          span:
+            - 14
+            - 16
+        - node: []
+          span:
+            - 22
+            - 24
+    - node:
+        - Expr:
+            Var:
+              node: e
+              span:
+                - 26
+                - 27
+      span:
+        - 25
+        - 29
 

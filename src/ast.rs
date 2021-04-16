@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-pub type Block<'a> = Vec<Stmt<'a>>;
+pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Span = (usize, usize);
 
@@ -37,7 +37,7 @@ pub struct Function<'a> {
     pub args: Spanned<Vec<Arg<'a>>>,
     pub ret: Option<Spanned<Type>>,
     #[serde(borrow)]
-    pub body: Spanned<Block<'a>>,
+    pub body: Block<'a>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -66,7 +66,7 @@ pub enum Stmt<'a> {
 pub enum Expr<'a> {
     Literal(Spanned<Literal<'a>>),
     Var(Spanned<&'a str>),
-    Block(Spanned<Block<'a>>),
+    Block(Block<'a>),
     Call(Box<Expr<'a>>, Vec<Expr<'a>>),
     BinOp(Box<Expr<'a>>, Spanned<BinOp>, Box<Expr<'a>>),
     UnaryOp(Spanned<UnaryOp>, Box<Expr<'a>>),

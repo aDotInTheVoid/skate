@@ -23,12 +23,16 @@ body:
               span:
                 - 27
                 - 28
-          - - Expr:
-                Var:
-                  node: y
-                  span:
-                    - 47
-                    - 48
+          - node:
+              - Expr:
+                  Var:
+                    node: y
+                    span:
+                      - 47
+                      - 48
+            span:
+              - 29
+              - 62
           - ~
   span:
     - 10

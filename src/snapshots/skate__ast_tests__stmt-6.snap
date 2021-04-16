@@ -11,69 +11,97 @@ Expr:
             span:
               - 9
               - 10
-        - - Expr:
-              Literal:
-                node:
-                  Bool: false
+        - node:
+            - Expr:
+                Literal:
+                  node:
+                    Bool: false
+                  span:
+                    - 11
+                    - 16
+          span:
+            - 10
+            - 17
+        - node:
+            - Expr:
+                Literal:
+                  node:
+                    Bool: true
+                  span:
+                    - 22
+                    - 26
+          span:
+            - 21
+            - 27
+    - node:
+        - Print:
+            BinOp:
+              - Literal:
+                  node:
+                    Integer: 1
+                  span:
+                    - 44
+                    - 45
+              - node: Plus
                 span:
-                  - 11
-                  - 16
-        - - Expr:
-              Literal:
-                node:
-                  Bool: true
+                  - 46
+                  - 47
+              - If:
+                  - Var:
+                      node: z
+                      span:
+                        - 52
+                        - 53
+                  - node:
+                      - Expr:
+                          Var:
+                            node: a
+                            span:
+                              - 55
+                              - 56
+                    span:
+                      - 54
+                      - 57
+                  - node:
+                      - Expr:
+                          Var:
+                            node: d
+                            span:
+                              - 64
+                              - 65
+                    span:
+                      - 63
+                      - 66
+        - Expr:
+            For:
+              - i
+              - While:
+                  - Var:
+                      node: foo
+                      span:
+                        - 92
+                        - 95
+                  - node:
+                      - Expr:
+                          Var:
+                            node: bar
+                            span:
+                              - 97
+                              - 100
+                    span:
+                      - 96
+                      - 101
+              - node:
+                  - Print:
+                      Var:
+                        node: zany
+                        span:
+                          - 122
+                          - 126
                 span:
-                  - 22
-                  - 26
-    - - Print:
-          BinOp:
-            - Literal:
-                node:
-                  Integer: 1
-                span:
-                  - 44
-                  - 45
-            - node: Plus
-              span:
-                - 46
-                - 47
-            - If:
-                - Var:
-                    node: z
-                    span:
-                      - 52
-                      - 53
-                - - Expr:
-                      Var:
-                        node: a
-                        span:
-                          - 55
-                          - 56
-                - - Expr:
-                      Var:
-                        node: d
-                        span:
-                          - 64
-                          - 65
-      - Expr:
-          For:
-            - i
-            - While:
-                - Var:
-                    node: foo
-                    span:
-                      - 92
-                      - 95
-                - - Expr:
-                      Var:
-                        node: bar
-                        span:
-                          - 97
-                          - 100
-            - - Print:
-                  Var:
-                    node: zany
-                    span:
-                      - 122
-                      - 126
+                  - 102
+                  - 137
+      span:
+        - 28
+        - 143
 

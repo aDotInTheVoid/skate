@@ -24,20 +24,28 @@ BinOp:
                   span:
                     - 8
                     - 9
-              - - Expr:
-                    Literal:
-                      node:
-                        Integer: 2
-                      span:
-                        - 11
-                        - 12
-              - - Expr:
-                    Literal:
-                      node:
-                        Integer: 3
-                      span:
-                        - 20
-                        - 21
+              - node:
+                  - Expr:
+                      Literal:
+                        node:
+                          Integer: 2
+                        span:
+                          - 11
+                          - 12
+                span:
+                  - 10
+                  - 13
+              - node:
+                  - Expr:
+                      Literal:
+                        node:
+                          Integer: 3
+                        span:
+                          - 20
+                          - 21
+                span:
+                  - 19
+                  - 22
       span:
         - 4
         - 23
