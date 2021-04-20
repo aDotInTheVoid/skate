@@ -1,0 +1,7 @@
+fn not_enough(a: int, b: int, c: int) {
+
+}
+
+fn main() {
+    not_enough(false);
+}

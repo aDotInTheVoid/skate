@@ -17,15 +17,21 @@ mod ast_tests;
 
 fn main() -> eyre::Result<()> {
     let has_error = realmain()?;
+    // Error codes
+    // 101 -> Rust panic
+    // 1 -> Rust main returned Err(_)
+    // 66 -> Skate Compiller error
+    // TODO: Custom exit for Rt error (currently 1)
     if has_error {
-        std::process::exit(101)
+        std::process::exit(66)
     }
     Ok(())
 }
 
-// Err(_) -> Fail with interpriter code error
-// Ok(false) -> Sucess
-// Ok(true) -> Error reported, exit(1) but dont fail
+// Err(_) -> Fail with interpriter code error. This should be less common, as we dont realy want a
+//           backtrace through user code
+// Ok(false) -> Sucess, exit 0
+// Ok(true) -> Error reported, main should exit with error code
 // This is because for an error in user code, we dont want print the eyre backtrace through
 // interpriter code, as this is a hot path
 fn realmain() -> eyre::Result<bool> {

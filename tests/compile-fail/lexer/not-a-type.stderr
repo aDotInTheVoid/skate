@@ -1,0 +1,10 @@
+error: Unexpected token
+  ┌─ $DD/tests/compile-fail/lexer/not-a-type.sk:1:11
+  │
+1 │ fn foo(x: bax){}
+  │           ^^^
+  │
+  = Expected: "bool"
+  = Expected: "int"
+  = Expected: "string"
+

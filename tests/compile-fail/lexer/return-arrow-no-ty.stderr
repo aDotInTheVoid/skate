@@ -1,0 +1,10 @@
+error: Unexpected token
+  ┌─ $DD/tests/compile-fail/lexer/return-arrow-no-ty.sk:1:13
+  │
+1 │ fn ret() -> {}
+  │             ^
+  │
+  = Expected: "bool"
+  = Expected: "int"
+  = Expected: "string"
+

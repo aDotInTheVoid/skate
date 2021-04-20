@@ -34,7 +34,8 @@ COMPILE_FAIL_GLOB = mkglob("compile-fail")
 RUN_FAIL_GLOB = mkglob("run-fail")
 
 EXIT_PASS = 0
-EXIT_COMPILE_FAIL = 101
+EXIT_COMPILE_FAIL = 66
+# TODO: change this, see comment in main
 EXIT_RUN_FAIL = 1
 
 passing = True
@@ -66,7 +67,9 @@ def process(stream, file):
 def run_pass(path):
     output = subprocess.run([SKATE_BINARY, path], capture_output=True)
     if output.returncode != 0:
-        print(f"Running {SKATE_BINARY} {path} returned code {output.returncode}")
+        print(
+            f"Running {ppath(SKATE_BINARY)} {ppath(path)} returned code {output.returncode}"
+        )
         print("--- stderr ---")
         print(output.stderr.decode())
         print("--------------")
@@ -82,7 +85,7 @@ def compile_fail(path, errcode):
     )
     if output.returncode != errcode:
         print(
-            f"Running {SKATE_BINARY} {path} returned code {output.returncode} (expected {errcode})"
+            f"Running {ppath(SKATE_BINARY)} {ppath(path)} returned code {output.returncode} (expected {errcode})"
         )
         print("--- stderr ---")
         print(output.stderr.decode())

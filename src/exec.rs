@@ -1,7 +1,7 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
 
-use eyre::{bail, Result};
+use eyre::{bail, eyre, Result};
 
 use crate::ast::{BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
 
@@ -63,10 +63,20 @@ impl<'a> Env<'a> {
 
     pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
         // TODO: nice error if no function found
-        let function = self.functions[fn_name];
+        let function = self
+            .functions
+            .get(fn_name)
+            .ok_or_else(|| eyre!("No function with name `{}`", fn_name))?;
 
         // TODO: Nice errors
-        assert_eq!(args.len(), function.args.len());
+        if args.len() != function.args.len() {
+            bail!(
+                "Calling `{}`: Expected {} args, found {}",
+                fn_name,
+                function.args.len(),
+                args.len()
+            )
+        }
         let mut scope = Scope::default();
 
         for (name, val) in function.args.iter().zip(args.iter()) {
@@ -140,7 +150,11 @@ impl<'a> Env<'a> {
                     bail!("Expeced {:?} to be a plain var", function)
                 }
             }
-            Var(Spanned { node, .. }) => scope.vars.get(node).unwrap().clone(),
+            Var(Spanned { node, .. }) => scope
+                .vars
+                .get(node)
+                .ok_or_else(|| eyre!("No var in scope with name `{}`", node))?
+                .clone(),
             If(test, ifcase, elsecase) => {
                 let test = get!(self.eval_in(scope, &*test)?);
                 let eval_result = if is_truthy(test)? {

@@ -1,0 +1,7 @@
+fn to_many(a: int) {
+
+}
+
+fn main() {
+    to_many(1,2,3);
+}

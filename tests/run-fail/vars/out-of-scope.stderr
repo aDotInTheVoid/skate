@@ -1,0 +1,4 @@
+Error: No var in scope with name `z`
+
+Location:
+    src/exec.rs:156:32
