@@ -14,12 +14,17 @@ parser.add_argument("-b", "--bless", help="Update the tests", action="store_true
 parser.add_argument(
     "-s", "--skip-build", help="Skip rebuilding the binary", action="store_true"
 )
+parser.add_argument(
+    "-r", "--release", help="Build skate in release_mode", action="store_true"
+)
 args = parser.parse_args()
 
 BASE_DIR = path.realpath(path.dirname(__file__))
 os.chdir(BASE_DIR)
 if not args.skip_build:
-    os.system("cargo build")
+    rflags = "--release" if args.release else ""
+    os.system(f"cargo build {rflags}")
+    os.system(f"cargo test {rflags}")
 
 # TODO: Allow release mode
 SKATE_BINARY = path.join(BASE_DIR, "target", "debug", "skate")
