@@ -25,19 +25,34 @@ if not args.skip_build:
 SKATE_BINARY = path.join(BASE_DIR, "target", "debug", "skate")
 
 TEST_DIR = path.join(BASE_DIR, "tests")
-RUN_PASS = path.join(TEST_DIR, "run-pass")
-COMPILE_FAIL = path.join(TEST_DIR, "compile-fail")
+
 SK_GLOB = path.join("**", "*.sk")
-RUN_PASS_GLOB = path.join(RUN_PASS, SK_GLOB)
-COMPILE_FAIL_GLOB = path.join(COMPILE_FAIL, SK_GLOB)
+mkglob = lambda dir: path.join(TEST_DIR, dir, SK_GLOB)
+
+RUN_PASS_GLOB = mkglob("run-pass")
+COMPILE_FAIL_GLOB = mkglob("compile-fail")
+RUN_FAIL_GLOB = mkglob("run-fail")
+
+EXIT_PASS = 0
+EXIT_COMPILE_FAIL = 101
+EXIT_RUN_FAIL = 1
 
 passing = True
+
+
+def fail():
+    global passing
+    passing = False
+
+
+def ppath(path):
+    return str(path).replace(BASE_DIR, ".")
 
 
 def process(stream, file):
     stream = stream.decode()
     output = stream.replace(BASE_DIR, "$DD")
-    prity_file = str(file).replace(BASE_DIR, ".")
+    prity_file = ppath(file)
     if args.bless:
         with open(file, "w") as f:
             f.write(output)
@@ -55,29 +70,37 @@ def run_pass(path):
         print("--- stderr ---")
         print(output.stderr.decode())
         print("--------------")
-        global passing
-        passing = False
+        fail()
+    else:
+        stdout_file = pathlib.Path(path).with_suffix(".stdout")
+        process(output.stdout, stdout_file)
 
-    stdout_file = pathlib.Path(path).with_suffix(".stdout")
-    process(output.stdout, stdout_file)
 
-
-def compile_fail(path):
+def compile_fail(path, errcode):
     output = subprocess.run(
         [SKATE_BINARY, path], capture_output=True, env={"NO_COLOR": "1"}
     )
-    stderr_file = pathlib.Path(path).with_suffix(".stderr")
-    # TODO: Sort this out. decide something like exit(1) = program failed.
-    # exit(2) = internal interpriter error
-    assert output.returncode != 0
-    process(output.stderr, stderr_file)
+    if output.returncode != errcode:
+        print(
+            f"Running {SKATE_BINARY} {path} returned code {output.returncode} (expected {errcode})"
+        )
+        print("--- stderr ---")
+        print(output.stderr.decode())
+        print("--------------")
+        fail()
+    else:
+        stderr_file = pathlib.Path(path).with_suffix(".stderr")
+        process(output.stderr, stderr_file)
 
 
 for i in glob.glob(RUN_PASS_GLOB, recursive=True):
     run_pass(i)
 
 for i in glob.glob(COMPILE_FAIL_GLOB, recursive=True):
-    compile_fail(i)
+    compile_fail(i, EXIT_COMPILE_FAIL)
+
+for i in glob.glob(RUN_FAIL_GLOB, recursive=True):
+    compile_fail(i, EXIT_RUN_FAIL)
 
 if not passing:
     exit(1)

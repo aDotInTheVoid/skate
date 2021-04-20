@@ -18,7 +18,7 @@ mod ast_tests;
 fn main() -> eyre::Result<()> {
     let has_error = realmain()?;
     if has_error {
-        std::process::exit(1)
+        std::process::exit(101)
     }
     Ok(())
 }
