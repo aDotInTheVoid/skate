@@ -116,7 +116,10 @@ Expr:
           - Expr:
               node:
                 For:
-                  - i
+                  - node: i
+                    span:
+                      - 81
+                      - 82
                   - node:
                       While:
                         - node:

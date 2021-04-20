@@ -24,6 +24,10 @@ COMPILE_FAIL_GLOB = path.join(COMPILE_FAIL, SK_GLOB)
 
 passing = True
 
+def prosess(stream):
+    stream = stream.decode()
+    # breakpoint()
+    return stream.replace(BASE_DIR, "$DD")
 
 def run_pass(path):
     output = subprocess.run([SKATE_BINARY, path], capture_output=True)
@@ -37,7 +41,7 @@ def run_pass(path):
 
     stdout_file = pathlib.Path(path).with_suffix(".stdout")
     with open(stdout_file, "w") as f:
-        f.write(output.stdout.decode())
+        f.write(prosess(output.stdout))
 
 
 def compile_fail(path):
@@ -49,7 +53,7 @@ def compile_fail(path):
     # exit(2) = internal interpriter error
     assert output.returncode != 0
     with open(stderr_file, "w") as f:
-        f.write(output.stderr.decode())
+        f.write(prosess(output.stderr))
 
 
 for i in glob.glob(RUN_PASS_GLOB, recursive=True):

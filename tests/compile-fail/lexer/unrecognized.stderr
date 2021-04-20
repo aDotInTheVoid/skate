@@ -1,5 +1,5 @@
 error: Unexpected token
-  ┌─ /home/nixon/git/skate/./tests/compile-fail/lexer/unrecognized.sk:2:11
+  ┌─ $DD/tests/compile-fail/lexer/unrecognized.sk:2:11
   │
 2 │     let x := 2;
   │           ^

@@ -1,5 +1,5 @@
 error: Unexpected token
-  ┌─ /home/nixon/git/skate/./tests/compile-fail/lexer/names/leading_num.sk:1:4
+  ┌─ $DD/tests/compile-fail/lexer/names/leading_num.sk:1:4
   │
 1 │ fn 100names() {}
   │    ^^^

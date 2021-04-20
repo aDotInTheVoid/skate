@@ -1,5 +1,5 @@
 error: Invalid token
-  ┌─ /home/nixon/git/skate/./tests/compile-fail/lexer/names/leading_underscore.sk:1:4
+  ┌─ $DD/tests/compile-fail/lexer/names/leading_underscore.sk:1:4
   │
 1 │ fn _hidden(){}
   │    ^

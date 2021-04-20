@@ -1,5 +1,5 @@
 error: Unexpected token
-  ┌─ /home/nixon/git/skate/./tests/compile-fail/lexer/random.sk:1:1
+  ┌─ $DD/tests/compile-fail/lexer/random.sk:1:1
   │
 1 │ sss
   │ ^^^

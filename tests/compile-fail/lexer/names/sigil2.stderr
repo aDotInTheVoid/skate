@@ -1,5 +1,5 @@
 error: Invalid token
-  ┌─ /home/nixon/git/skate/./tests/compile-fail/lexer/names/sigil2.sk:1:7
+  ┌─ $DD/tests/compile-fail/lexer/names/sigil2.sk:1:7
   │
 1 │ fn foo$bar() {}
   │       ^
