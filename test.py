@@ -4,13 +4,22 @@ from os import path
 import os
 import subprocess
 import pathlib
+import argparse
 
 # TODO: Show num success, num fail
+# TODO: Always run all tests, and show which ones failed
 
-BASE_DIR = path.dirname(__file__)
+parser = argparse.ArgumentParser()
+parser.add_argument("-b", "--bless", help="Update the tests", action="store_true")
+parser.add_argument(
+    "-s", "--skip-build", help="Skip rebuilding the binary", action="store_true"
+)
+args = parser.parse_args()
 
+BASE_DIR = path.realpath(path.dirname(__file__))
 os.chdir(BASE_DIR)
-os.system("cargo build")
+if not args.skip_build:
+    os.system("cargo build")
 
 # TODO: Allow release mode
 SKATE_BINARY = path.join(BASE_DIR, "target", "debug", "skate")
@@ -24,10 +33,20 @@ COMPILE_FAIL_GLOB = path.join(COMPILE_FAIL, SK_GLOB)
 
 passing = True
 
-def prosess(stream):
+
+def process(stream, file):
     stream = stream.decode()
-    # breakpoint()
-    return stream.replace(BASE_DIR, "$DD")
+    output = stream.replace(BASE_DIR, "$DD")
+    prity_file = str(file).replace(BASE_DIR, ".")
+    if args.bless:
+        with open(file, "w") as f:
+            f.write(output)
+        print(f"BLESSED {prity_file}")
+    else:
+        with open(file, "r") as f:
+            assert output == f.read()
+            print(f"PASSED {prity_file}")
+
 
 def run_pass(path):
     output = subprocess.run([SKATE_BINARY, path], capture_output=True)
@@ -40,8 +59,7 @@ def run_pass(path):
         passing = False
 
     stdout_file = pathlib.Path(path).with_suffix(".stdout")
-    with open(stdout_file, "w") as f:
-        f.write(prosess(output.stdout))
+    process(output.stdout, stdout_file)
 
 
 def compile_fail(path):
@@ -52,8 +70,7 @@ def compile_fail(path):
     # TODO: Sort this out. decide something like exit(1) = program failed.
     # exit(2) = internal interpriter error
     assert output.returncode != 0
-    with open(stderr_file, "w") as f:
-        f.write(prosess(output.stderr))
+    process(output.stderr, stderr_file)
 
 
 for i in glob.glob(RUN_PASS_GLOB, recursive=True):
