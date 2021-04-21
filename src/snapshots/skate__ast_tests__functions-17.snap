@@ -6,15 +6,15 @@ expression: f
 name:
   node: main
   span:
-    - 3
-    - 7
-    - 100
+    start: 3
+    end: 7
+    file_id: 100
 args:
   node: []
   span:
-    - 7
-    - 9
-    - 100
+    start: 7
+    end: 9
+    file_id: 100
 ret: ~
 body:
   node:
@@ -23,39 +23,39 @@ body:
           Var:
             node: a
             span:
-              - 30
-              - 31
-              - 100
+              start: 30
+              end: 31
+              file_id: 100
         span:
-          - 30
-          - 31
-          - 100
+          start: 30
+          end: 31
+          file_id: 100
     - Print:
         node:
           Var:
             node: b
             span:
-              - 51
-              - 52
-              - 100
+              start: 51
+              end: 52
+              file_id: 100
         span:
-          - 51
-          - 52
-          - 100
+          start: 51
+          end: 52
+          file_id: 100
     - Print:
         node:
           Var:
             node: xxxxxx
             span:
-              - 72
-              - 78
-              - 100
+              start: 72
+              end: 78
+              file_id: 100
         span:
-          - 72
-          - 78
-          - 100
+          start: 72
+          end: 78
+          file_id: 100
   span:
-    - 10
-    - 92
-    - 100
+    start: 10
+    end: 92
+    file_id: 100
 

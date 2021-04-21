@@ -11,47 +11,47 @@ Print:
             node:
               Integer: 1
             span:
-              - 6
-              - 7
-              - 100
+              start: 6
+              end: 7
+              file_id: 100
         span:
-          - 6
-          - 7
-          - 100
+          start: 6
+          end: 7
+          file_id: 100
       - node: Plus
         span:
-          - 8
-          - 9
-          - 100
+          start: 8
+          end: 9
+          file_id: 100
       - node:
           If:
             - node:
                 Var:
                   node: z
                   span:
-                    - 14
-                    - 15
-                    - 100
+                    start: 14
+                    end: 15
+                    file_id: 100
               span:
-                - 14
-                - 15
-                - 100
+                start: 14
+                end: 15
+                file_id: 100
             - node: []
               span:
-                - 16
-                - 18
-                - 100
+                start: 16
+                end: 18
+                file_id: 100
             - node: []
               span:
-                - 22
-                - 24
-                - 100
+                start: 22
+                end: 24
+                file_id: 100
         span:
-          - 10
-          - 25
-          - 100
+          start: 10
+          end: 25
+          file_id: 100
   span:
-    - 6
-    - 25
-    - 100
+    start: 6
+    end: 25
+    file_id: 100
 

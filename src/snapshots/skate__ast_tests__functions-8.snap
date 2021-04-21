@@ -6,25 +6,25 @@ expression: f
 name:
   node: baz
   span:
-    - 3
-    - 6
-    - 100
+    start: 3
+    end: 6
+    file_id: 100
 args:
   node: []
   span:
-    - 6
-    - 8
-    - 100
+    start: 6
+    end: 8
+    file_id: 100
 ret:
   node: String
   span:
-    - 10
-    - 16
-    - 100
+    start: 10
+    end: 16
+    file_id: 100
 body:
   node: []
   span:
-    - 16
-    - 18
-    - 100
+    start: 16
+    end: 18
+    file_id: 100
 

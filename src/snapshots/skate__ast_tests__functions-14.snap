@@ -6,15 +6,15 @@ expression: f
 name:
   node: f
   span:
-    - 3
-    - 4
-    - 100
+    start: 3
+    end: 4
+    file_id: 100
 args:
   node: []
   span:
-    - 4
-    - 6
-    - 100
+    start: 4
+    end: 6
+    file_id: 100
 ret: ~
 body:
   node:
@@ -25,26 +25,26 @@ body:
               - Let:
                   - node: a
                     span:
-                      - 13
-                      - 14
-                      - 100
+                      start: 13
+                      end: 14
+                      file_id: 100
                   - node:
                       Var:
                         node: b
                         span:
-                          - 17
-                          - 18
-                          - 100
+                          start: 17
+                          end: 18
+                          file_id: 100
                     span:
-                      - 17
-                      - 18
-                      - 100
+                      start: 17
+                      end: 18
+                      file_id: 100
               - Let:
                   - node: c
                     span:
-                      - 24
-                      - 25
-                      - 100
+                      start: 24
+                      end: 25
+                      file_id: 100
                   - node:
                       Block:
                         node:
@@ -53,55 +53,55 @@ body:
                                 Var:
                                   node: d
                                   span:
-                                    - 29
-                                    - 30
-                                    - 100
+                                    start: 29
+                                    end: 30
+                                    file_id: 100
                               span:
-                                - 29
-                                - 30
-                                - 100
+                                start: 29
+                                end: 30
+                                file_id: 100
                           - Expr:
                               node:
                                 Var:
                                   node: e
                                   span:
-                                    - 31
-                                    - 32
-                                    - 100
+                                    start: 31
+                                    end: 32
+                                    file_id: 100
                               span:
-                                - 31
-                                - 32
-                                - 100
+                                start: 31
+                                end: 32
+                                file_id: 100
                         span:
-                          - 28
-                          - 33
-                          - 100
+                          start: 28
+                          end: 33
+                          file_id: 100
                     span:
-                      - 28
-                      - 33
-                      - 100
+                      start: 28
+                      end: 33
+                      file_id: 100
             span:
-              - 8
-              - 34
-              - 100
+              start: 8
+              end: 34
+              file_id: 100
         span:
-          - 8
-          - 34
-          - 100
+          start: 8
+          end: 34
+          file_id: 100
     - Expr:
         node:
           Var:
             node: f
             span:
-              - 36
-              - 37
-              - 100
+              start: 36
+              end: 37
+              file_id: 100
         span:
-          - 36
-          - 37
-          - 100
+          start: 36
+          end: 37
+          file_id: 100
   span:
-    - 6
-    - 38
-    - 100
+    start: 6
+    end: 38
+    file_id: 100
 

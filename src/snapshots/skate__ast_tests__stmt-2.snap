@@ -9,11 +9,11 @@ Print:
       node:
         String: "2"
       span:
-        - 6
-        - 9
-        - 100
+        start: 6
+        end: 9
+        file_id: 100
   span:
-    - 6
-    - 9
-    - 100
+    start: 6
+    end: 9
+    file_id: 100
 

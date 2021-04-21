@@ -8,15 +8,15 @@ expression: f
       name:
         node: hello
         span:
-          - 3
-          - 8
-          - 100
+          start: 3
+          end: 8
+          file_id: 100
       args:
         node: []
         span:
-          - 8
-          - 10
-          - 100
+          start: 8
+          end: 10
+          file_id: 100
       ret: ~
       body:
         node:
@@ -26,35 +26,35 @@ expression: f
                   node:
                     String: hello
                   span:
-                    - 18
-                    - 25
-                    - 100
+                    start: 18
+                    end: 25
+                    file_id: 100
               span:
-                - 18
-                - 25
-                - 100
+                start: 18
+                end: 25
+                file_id: 100
         span:
-          - 11
-          - 27
-          - 100
+          start: 11
+          end: 27
+          file_id: 100
     span:
-      - 0
-      - 27
-      - 100
+      start: 0
+      end: 27
+      file_id: 100
 - Function:
     node:
       name:
         node: world
         span:
-          - 43
-          - 48
-          - 100
+          start: 43
+          end: 48
+          file_id: 100
       args:
         node: []
         span:
-          - 48
-          - 50
-          - 100
+          start: 48
+          end: 50
+          file_id: 100
       ret: ~
       body:
         node:
@@ -64,35 +64,35 @@ expression: f
                   node:
                     String: world
                   span:
-                    - 59
-                    - 66
-                    - 100
+                    start: 59
+                    end: 66
+                    file_id: 100
               span:
-                - 59
-                - 66
-                - 100
+                start: 59
+                end: 66
+                file_id: 100
         span:
-          - 51
-          - 69
-          - 100
+          start: 51
+          end: 69
+          file_id: 100
     span:
-      - 40
-      - 69
-      - 100
+      start: 40
+      end: 69
+      file_id: 100
 - Function:
     node:
       name:
         node: main
         span:
-          - 85
-          - 89
-          - 100
+          start: 85
+          end: 89
+          file_id: 100
       args:
         node: []
         span:
-          - 89
-          - 91
-          - 100
+          start: 89
+          end: 91
+          file_id: 100
       ret: ~
       body:
         node:
@@ -103,18 +103,18 @@ expression: f
                       Var:
                         node: hello
                         span:
-                          - 110
-                          - 115
-                          - 100
+                          start: 110
+                          end: 115
+                          file_id: 100
                     span:
-                      - 110
-                      - 115
-                      - 100
+                      start: 110
+                      end: 115
+                      file_id: 100
                   - []
               span:
-                - 110
-                - 117
-                - 100
+                start: 110
+                end: 117
+                file_id: 100
           - Expr:
               node:
                 Call:
@@ -122,24 +122,24 @@ expression: f
                       Var:
                         node: world
                         span:
-                          - 135
-                          - 140
-                          - 100
+                          start: 135
+                          end: 140
+                          file_id: 100
                     span:
-                      - 135
-                      - 140
-                      - 100
+                      start: 135
+                      end: 140
+                      file_id: 100
                   - []
               span:
-                - 135
-                - 142
-                - 100
+                start: 135
+                end: 142
+                file_id: 100
         span:
-          - 92
-          - 157
-          - 100
+          start: 92
+          end: 157
+          file_id: 100
     span:
-      - 82
-      - 157
-      - 100
+      start: 82
+      end: 157
+      file_id: 100
 

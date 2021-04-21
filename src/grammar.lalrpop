@@ -28,7 +28,7 @@ Semi<T>: Vec<T> = {
 
 // TODO: decide how many ns in spannnned
 Spaned<T>: Spanned<T> = {
-    <l:@L> <t:T> <r:@R> => Spanned{node:t, span:(l,r,file_id)}
+    <start:@L> <t:T> <end:@R> => Spanned{node:t, span:Span{start,end,file_id}}
 }
 
 

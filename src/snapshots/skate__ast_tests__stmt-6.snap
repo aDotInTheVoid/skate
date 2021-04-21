@@ -12,13 +12,13 @@ Expr:
                 Var:
                   node: x
                   span:
-                    - 9
-                    - 10
-                    - 100
+                    start: 9
+                    end: 10
+                    file_id: 100
               span:
-                - 9
-                - 10
-                - 100
+                start: 9
+                end: 10
+                file_id: 100
             - node:
                 - Expr:
                     node:
@@ -26,17 +26,17 @@ Expr:
                         node:
                           Bool: false
                         span:
-                          - 11
-                          - 16
-                          - 100
+                          start: 11
+                          end: 16
+                          file_id: 100
                     span:
-                      - 11
-                      - 16
-                      - 100
+                      start: 11
+                      end: 16
+                      file_id: 100
               span:
-                - 10
-                - 17
-                - 100
+                start: 10
+                end: 17
+                file_id: 100
             - node:
                 - Expr:
                     node:
@@ -44,21 +44,21 @@ Expr:
                         node:
                           Bool: true
                         span:
-                          - 22
-                          - 26
-                          - 100
+                          start: 22
+                          end: 26
+                          file_id: 100
                     span:
-                      - 22
-                      - 26
-                      - 100
+                      start: 22
+                      end: 26
+                      file_id: 100
               span:
-                - 21
-                - 27
-                - 100
+                start: 21
+                end: 27
+                file_id: 100
         span:
-          - 6
-          - 27
-          - 100
+          start: 6
+          end: 27
+          file_id: 100
       - node:
           - Print:
               node:
@@ -68,142 +68,142 @@ Expr:
                         node:
                           Integer: 1
                         span:
-                          - 44
-                          - 45
-                          - 100
+                          start: 44
+                          end: 45
+                          file_id: 100
                     span:
-                      - 44
-                      - 45
-                      - 100
+                      start: 44
+                      end: 45
+                      file_id: 100
                   - node: Plus
                     span:
-                      - 46
-                      - 47
-                      - 100
+                      start: 46
+                      end: 47
+                      file_id: 100
                   - node:
                       If:
                         - node:
                             Var:
                               node: z
                               span:
-                                - 52
-                                - 53
-                                - 100
+                                start: 52
+                                end: 53
+                                file_id: 100
                           span:
-                            - 52
-                            - 53
-                            - 100
+                            start: 52
+                            end: 53
+                            file_id: 100
                         - node:
                             - Expr:
                                 node:
                                   Var:
                                     node: a
                                     span:
-                                      - 55
-                                      - 56
-                                      - 100
+                                      start: 55
+                                      end: 56
+                                      file_id: 100
                                 span:
-                                  - 55
-                                  - 56
-                                  - 100
+                                  start: 55
+                                  end: 56
+                                  file_id: 100
                           span:
-                            - 54
-                            - 57
-                            - 100
+                            start: 54
+                            end: 57
+                            file_id: 100
                         - node:
                             - Expr:
                                 node:
                                   Var:
                                     node: d
                                     span:
-                                      - 64
-                                      - 65
-                                      - 100
+                                      start: 64
+                                      end: 65
+                                      file_id: 100
                                 span:
-                                  - 64
-                                  - 65
-                                  - 100
+                                  start: 64
+                                  end: 65
+                                  file_id: 100
                           span:
-                            - 63
-                            - 66
-                            - 100
+                            start: 63
+                            end: 66
+                            file_id: 100
                     span:
-                      - 48
-                      - 67
-                      - 100
+                      start: 48
+                      end: 67
+                      file_id: 100
               span:
-                - 44
-                - 67
-                - 100
+                start: 44
+                end: 67
+                file_id: 100
           - Expr:
               node:
                 For:
                   - node: i
                     span:
-                      - 81
-                      - 82
-                      - 100
+                      start: 81
+                      end: 82
+                      file_id: 100
                   - node:
                       While:
                         - node:
                             Var:
                               node: foo
                               span:
-                                - 92
-                                - 95
-                                - 100
+                                start: 92
+                                end: 95
+                                file_id: 100
                           span:
-                            - 92
-                            - 95
-                            - 100
+                            start: 92
+                            end: 95
+                            file_id: 100
                         - node:
                             - Expr:
                                 node:
                                   Var:
                                     node: bar
                                     span:
-                                      - 97
-                                      - 100
-                                      - 100
+                                      start: 97
+                                      end: 100
+                                      file_id: 100
                                 span:
-                                  - 97
-                                  - 100
-                                  - 100
+                                  start: 97
+                                  end: 100
+                                  file_id: 100
                           span:
-                            - 96
-                            - 101
-                            - 100
+                            start: 96
+                            end: 101
+                            file_id: 100
                     span:
-                      - 86
-                      - 101
-                      - 100
+                      start: 86
+                      end: 101
+                      file_id: 100
                   - node:
                       - Print:
                           node:
                             Var:
                               node: zany
                               span:
-                                - 122
-                                - 126
-                                - 100
+                                start: 122
+                                end: 126
+                                file_id: 100
                           span:
-                            - 122
-                            - 126
-                            - 100
+                            start: 122
+                            end: 126
+                            file_id: 100
                     span:
-                      - 102
-                      - 137
-                      - 100
+                      start: 102
+                      end: 137
+                      file_id: 100
               span:
-                - 77
-                - 137
-                - 100
+                start: 77
+                end: 137
+                file_id: 100
         span:
-          - 28
-          - 143
-          - 100
+          start: 28
+          end: 143
+          file_id: 100
   span:
-    - 0
-    - 143
-    - 100
+    start: 0
+    end: 143
+    file_id: 100
 

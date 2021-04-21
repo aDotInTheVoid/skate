@@ -11,32 +11,32 @@ Print:
             node:
               String: "2"
             span:
-              - 6
-              - 9
-              - 100
+              start: 6
+              end: 9
+              file_id: 100
         span:
-          - 6
-          - 9
-          - 100
+          start: 6
+          end: 9
+          file_id: 100
       - node: Plus
         span:
-          - 10
-          - 11
-          - 100
+          start: 10
+          end: 11
+          file_id: 100
       - node:
           Literal:
             node:
               String: "3"
             span:
-              - 12
-              - 15
-              - 100
+              start: 12
+              end: 15
+              file_id: 100
         span:
-          - 12
-          - 15
-          - 100
+          start: 12
+          end: 15
+          file_id: 100
   span:
-    - 6
-    - 15
-    - 100
+    start: 6
+    end: 15
+    file_id: 100
 

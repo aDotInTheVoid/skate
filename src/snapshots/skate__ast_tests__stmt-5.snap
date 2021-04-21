@@ -8,55 +8,55 @@ Expr:
     For:
       - node: i
         span:
-          - 4
-          - 5
-          - 100
+          start: 4
+          end: 5
+          file_id: 100
       - node:
           If:
             - node:
                 Var:
                   node: a
                   span:
-                    - 12
-                    - 13
-                    - 100
+                    start: 12
+                    end: 13
+                    file_id: 100
               span:
-                - 12
-                - 13
-                - 100
+                start: 12
+                end: 13
+                file_id: 100
             - node: []
               span:
-                - 14
-                - 16
-                - 100
+                start: 14
+                end: 16
+                file_id: 100
             - node: []
               span:
-                - 22
-                - 24
-                - 100
+                start: 22
+                end: 24
+                file_id: 100
         span:
-          - 9
-          - 24
-          - 100
+          start: 9
+          end: 24
+          file_id: 100
       - node:
           - Expr:
               node:
                 Var:
                   node: e
                   span:
-                    - 26
-                    - 27
-                    - 100
+                    start: 26
+                    end: 27
+                    file_id: 100
               span:
-                - 26
-                - 27
-                - 100
+                start: 26
+                end: 27
+                file_id: 100
         span:
-          - 25
-          - 29
-          - 100
+          start: 25
+          end: 29
+          file_id: 100
   span:
-    - 0
-    - 29
-    - 100
+    start: 0
+    end: 29
+    file_id: 100
 

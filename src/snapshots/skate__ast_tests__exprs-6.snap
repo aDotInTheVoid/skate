@@ -8,11 +8,11 @@ node:
     node:
       String: ""
     span:
-      - 0
-      - 2
-      - 100
+      start: 0
+      end: 2
+      file_id: 100
 span:
-  - 0
-  - 2
-  - 100
+  start: 0
+  end: 2
+  file_id: 100
 

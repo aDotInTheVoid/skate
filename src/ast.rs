@@ -7,8 +7,14 @@ use crate::diagnostics;
 
 pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
-pub type Span = (usize, usize, diagnostics::FileId);
 pub type Name<'a> = Spanned<&'a str>;
+
+#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+pub struct Span {
+    pub start: usize,
+    pub end: usize,
+    pub file_id: diagnostics::FileId,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub struct Spanned<T> {

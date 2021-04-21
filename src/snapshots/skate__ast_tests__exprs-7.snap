@@ -8,11 +8,11 @@ node:
     node:
       String: "ab\\\""
     span:
-      - 0
-      - 6
-      - 100
+      start: 0
+      end: 6
+      file_id: 100
 span:
-  - 0
-  - 6
-  - 100
+  start: 0
+  end: 6
+  file_id: 100
 

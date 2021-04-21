@@ -6,32 +6,32 @@ expression: f
 name:
   node: bar
   span:
-    - 3
-    - 6
-    - 100
+    start: 3
+    end: 6
+    file_id: 100
 args:
   node:
     - name:
         node: x
         span:
-          - 7
-          - 8
-          - 100
+          start: 7
+          end: 8
+          file_id: 100
       ty:
         node: Int
         span:
-          - 9
-          - 12
-          - 100
+          start: 9
+          end: 12
+          file_id: 100
   span:
-    - 6
-    - 13
-    - 100
+    start: 6
+    end: 13
+    file_id: 100
 ret: ~
 body:
   node: []
   span:
-    - 13
-    - 15
-    - 100
+    start: 13
+    end: 15
+    file_id: 100
 

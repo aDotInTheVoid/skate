@@ -6,24 +6,24 @@ expression: f
 name:
   node: main
   span:
-    - 3
-    - 7
-    - 100
+    start: 3
+    end: 7
+    file_id: 100
 args:
   node: []
   span:
-    - 7
-    - 9
-    - 100
+    start: 7
+    end: 9
+    file_id: 100
 ret: ~
 body:
   node:
     - Let:
         - node: z
           span:
-            - 15
-            - 16
-            - 100
+            start: 15
+            end: 16
+            file_id: 100
         - node:
             FieldAccess:
               - node:
@@ -32,33 +32,33 @@ body:
                         Var:
                           node: a
                           span:
-                            - 19
-                            - 20
-                            - 100
+                            start: 19
+                            end: 20
+                            file_id: 100
                       span:
-                        - 19
-                        - 20
-                        - 100
+                        start: 19
+                        end: 20
+                        file_id: 100
                     - node: b
                       span:
-                        - 21
-                        - 22
-                        - 100
+                        start: 21
+                        end: 22
+                        file_id: 100
                 span:
-                  - 19
-                  - 22
-                  - 100
+                  start: 19
+                  end: 22
+                  file_id: 100
               - node: c
                 span:
-                  - 23
-                  - 24
-                  - 100
+                  start: 23
+                  end: 24
+                  file_id: 100
           span:
-            - 19
-            - 24
-            - 100
+            start: 19
+            end: 24
+            file_id: 100
   span:
-    - 10
-    - 26
-    - 100
+    start: 10
+    end: 26
+    file_id: 100
 
