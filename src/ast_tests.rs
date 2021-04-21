@@ -3,21 +3,12 @@ use crate::diagnostics;
 const FID: diagnostics::FileId = diagnostics::FileId(100);
 
 #[track_caller]
-fn f(s: &str) {
-    p(s);
-}
-#[track_caller]
 fn e(s: &str) {
     p(&format!("fn rand(){{ {}; }}", s));
 }
 #[track_caller]
 fn s(s: &str) {
     p(&format!("fn rand(){{ {} }}", s));
-}
-
-#[track_caller]
-fn i(s: &str) {
-    p(s);
 }
 
 #[track_caller]
@@ -29,26 +20,26 @@ fn p(s: &str) {
 
 #[test]
 fn functions() {
-    f("fn main(){}");
-    f("fn bar(x:int){}");
-    f("fn foo(y:int,){}");
-    f("fn baz(y:int,z:string){}");
-    f("fn baz(y:int, z:string){}");
-    f("fn baz(y:int, z:string) -> int {}");
-    f("fn baz(y:int,)->bool  {}");
-    f("fn baz()->string{}");
-    f("fn a(){a;b;c;}");
-    f("fn b(){let x = y;}");
-    f("fn c(){let x = y}");
-    f("fn d(){ let x = {y};}");
-    f("fn e(){let x = {x;y;z;}}");
-    f("fn f(){ {let a = b; let c = {d;e}}; f}");
-    f("fn main() {
+    p("fn main(){}");
+    p("fn bar(x:int){}");
+    p("fn foo(y:int,){}");
+    p("fn baz(y:int,z:string){}");
+    p("fn baz(y:int, z:string){}");
+    p("fn baz(y:int, z:string) -> int {}");
+    p("fn baz(y:int,)->bool  {}");
+    p("fn baz()->string{}");
+    p("fn a(){a;b;c;}");
+    p("fn b(){let x = y;}");
+    p("fn c(){let x = y}");
+    p("fn d(){ let x = {y};}");
+    p("fn e(){let x = {x;y;z;}}");
+    p("fn f(){ {let a = b; let c = {d;e}}; f}");
+    p("fn main() {
             if x {
                 y
             }
         }");
-    f("fn main() {
+    p("fn main() {
             if x {
                 xf;
                 let z = d;
@@ -57,12 +48,12 @@ fn functions() {
             };
             print hell
         }");
-    f("fn main() {
+    p("fn main() {
             print a;
             print b;
             print xxxxxx;   
         }");
-    f("fn main() {
+    p("fn main() {
             for i in z {
                 print z;
                 print i;
@@ -72,9 +63,9 @@ fn functions() {
                 }
             }
         }");
-    f("fn main() { let z = a.b }");
-    f("fn main() {let z = a.b.c;}");
-    f("fn main() { let z = x.y.z[a.b[z].c].d(e,f,g);}");
+    p("fn main() { let z = a.b }");
+    p("fn main() {let z = a.b.c;}");
+    p("fn main() { let z = x.y.z[a.b[z].c].d(e,f,g);}");
 }
 
 #[test]
@@ -120,5 +111,5 @@ fn progs() {
 
 #[test]
 fn items() {
-    i("fn main(){}");
+    p("fn main(){}");
 }
