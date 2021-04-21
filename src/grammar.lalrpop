@@ -28,11 +28,11 @@ Semi<T>: Vec<T> = {
 
 // TODO: decide how many ns in spannnned
 Spaned<T>: Spanned<T> = {
-    <start:@L> <t:T> <end:@R> => Spanned{node:t, span:Span{start,end,file_id}}
+    <start:@L> <node:T> <end:@R> => Spanned { node, span: Span { start, end, file_id } }
 }
 
-
-pub Program: Program<'input>  = { <Item*> }
+// Main Entry point
+pub Program: Program<'input> = { <Item*> }
 
 Item: Item<'input> = {
     <Spaned<Function>> => Item::Function(<>)
@@ -42,14 +42,14 @@ Function: Function<'input> = {
     "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Body> => Function{<>}
 }
 
-Args = { "(" <Comma<Arg>> ")"  }
+Args = { "(" <Comma<Arg>> ")" }
 
 // TODO: Maybe dont have names things, use a tuple, not a struct.
 Arg: Arg<'input> = { <name:Name> ":" <ty:Spaned<Type>> => Arg{<>} }
 
 Type: Type = {
-    "int" => Type::Int,
-    "bool" => Type::Bool,
+    "int"    => Type::Int,
+    "bool"   => Type::Bool,
     "string" => Type::String,
 }
 
@@ -131,7 +131,7 @@ StringLit = { r#""(\\.|[^"\\])*""# }
 FloatLit = { r#"[+-]?[0-9]+[.][0-9]*"# }
 IntLit = { r"[0-9]+" }
 BoolLit: bool = {
-    "true" => true,
+    "true"  => true,
     "false" => false
 }
 

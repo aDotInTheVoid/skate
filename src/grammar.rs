@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: 6de5403fec64b11e7a84e9f1864cdac14f05bc0afdfa6abb9dc2e69bb5d
+// sha3: ba3f2d1f5d037e8ae30728cc7ac25219d2767cdfbace070e6b27b3244e98d8
 use crate::ast::*;
 use crate::diagnostics::FileId;
 #[allow(unused_extern_crates)]
@@ -5837,11 +5837,11 @@ fn __action73<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, Literal<'input>, usize),
+    (_, node, _): (usize, Literal<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<Literal<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -5901,11 +5901,11 @@ fn __action78<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -5919,11 +5919,11 @@ fn __action79<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, UnaryOp, usize),
+    (_, node, _): (usize, UnaryOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<UnaryOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -5937,11 +5937,11 @@ fn __action80<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6080,11 +6080,11 @@ fn __action94<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, Vec<Stmt<'input>>, usize),
+    (_, node, _): (usize, Vec<Stmt<'input>>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<Vec<Stmt<'input>>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6098,11 +6098,11 @@ fn __action95<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, &'input str, usize),
+    (_, node, _): (usize, &'input str, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<&'input str> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6162,11 +6162,11 @@ fn __action100<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, Type, usize),
+    (_, node, _): (usize, Type, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<Type> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6180,11 +6180,11 @@ fn __action101<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, Vec<Arg<'input>>, usize),
+    (_, node, _): (usize, Vec<Arg<'input>>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<Vec<Arg<'input>>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6198,11 +6198,11 @@ fn __action102<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, Function<'input>, usize),
+    (_, node, _): (usize, Function<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<Function<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6354,11 +6354,11 @@ fn __action117<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6383,11 +6383,11 @@ fn __action119<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6412,11 +6412,11 @@ fn __action121<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6441,11 +6441,11 @@ fn __action123<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6470,11 +6470,11 @@ fn __action125<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6499,11 +6499,11 @@ fn __action127<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, RawExpr<'input>, usize),
+    (_, node, _): (usize, RawExpr<'input>, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<RawExpr<'input>> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6619,11 +6619,11 @@ fn __action138<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, BinOp, usize),
+    (_, node, _): (usize, BinOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<BinOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6637,11 +6637,11 @@ fn __action139<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, BinOp, usize),
+    (_, node, _): (usize, BinOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<BinOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6655,11 +6655,11 @@ fn __action140<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, BinOp, usize),
+    (_, node, _): (usize, BinOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<BinOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6673,11 +6673,11 @@ fn __action141<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, BinOp, usize),
+    (_, node, _): (usize, BinOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<BinOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6691,11 +6691,11 @@ fn __action142<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, BinOp, usize),
+    (_, node, _): (usize, BinOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<BinOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
@@ -6709,11 +6709,11 @@ fn __action143<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, t, _): (usize, BinOp, usize),
+    (_, node, _): (usize, BinOp, usize),
     (_, end, _): (usize, usize, usize),
 ) -> Spanned<BinOp> {
     Spanned {
-        node: t,
+        node,
         span: Span {
             start,
             end,
