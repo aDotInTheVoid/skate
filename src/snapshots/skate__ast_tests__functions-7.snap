@@ -3,40 +3,46 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name:
-  node: baz
-  span:
-    start: 3
-    end: 6
-    file_id: 100
-args:
-  node:
-    - name:
-        node: y
+- Function:
+    node:
+      name:
+        node: baz
         span:
-          start: 7
-          end: 8
+          start: 3
+          end: 6
           file_id: 100
-      ty:
-        node: Int
+      args:
+        node:
+          - name:
+              node: y
+              span:
+                start: 7
+                end: 8
+                file_id: 100
+            ty:
+              node: Int
+              span:
+                start: 9
+                end: 12
+                file_id: 100
         span:
-          start: 9
-          end: 12
+          start: 6
+          end: 14
           file_id: 100
-  span:
-    start: 6
-    end: 14
-    file_id: 100
-ret:
-  node: Bool
-  span:
-    start: 16
-    end: 20
-    file_id: 100
-body:
-  node: []
-  span:
-    start: 22
-    end: 24
-    file_id: 100
+      ret:
+        node: Bool
+        span:
+          start: 16
+          end: 20
+          file_id: 100
+      body:
+        node: []
+        span:
+          start: 22
+          end: 24
+          file_id: 100
+    span:
+      start: 0
+      end: 24
+      file_id: 100
 

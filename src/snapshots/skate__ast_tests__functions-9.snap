@@ -3,59 +3,65 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name:
-  node: a
-  span:
-    start: 3
-    end: 4
-    file_id: 100
-args:
-  node: []
-  span:
-    start: 4
-    end: 6
-    file_id: 100
-ret: ~
-body:
-  node:
-    - Expr:
-        node:
-          Var:
-            node: a
-            span:
-              start: 7
-              end: 8
-              file_id: 100
+- Function:
+    node:
+      name:
+        node: a
         span:
-          start: 7
-          end: 8
+          start: 3
+          end: 4
           file_id: 100
-    - Expr:
-        node:
-          Var:
-            node: b
-            span:
-              start: 9
-              end: 10
-              file_id: 100
+      args:
+        node: []
         span:
-          start: 9
-          end: 10
+          start: 4
+          end: 6
           file_id: 100
-    - Expr:
+      ret: ~
+      body:
         node:
-          Var:
-            node: c
-            span:
-              start: 11
-              end: 12
-              file_id: 100
+          - Expr:
+              node:
+                Var:
+                  node: a
+                  span:
+                    start: 7
+                    end: 8
+                    file_id: 100
+              span:
+                start: 7
+                end: 8
+                file_id: 100
+          - Expr:
+              node:
+                Var:
+                  node: b
+                  span:
+                    start: 9
+                    end: 10
+                    file_id: 100
+              span:
+                start: 9
+                end: 10
+                file_id: 100
+          - Expr:
+              node:
+                Var:
+                  node: c
+                  span:
+                    start: 11
+                    end: 12
+                    file_id: 100
+              span:
+                start: 11
+                end: 12
+                file_id: 100
         span:
-          start: 11
-          end: 12
+          start: 6
+          end: 14
           file_id: 100
-  span:
-    start: 6
-    end: 14
-    file_id: 100
+    span:
+      start: 0
+      end: 14
+      file_id: 100
 

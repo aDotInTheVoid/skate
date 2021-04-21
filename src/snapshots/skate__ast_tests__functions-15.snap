@@ -3,59 +3,65 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name:
-  node: main
-  span:
-    start: 3
-    end: 7
-    file_id: 100
-args:
-  node: []
-  span:
-    start: 7
-    end: 9
-    file_id: 100
-ret: ~
-body:
-  node:
-    - Expr:
+- Function:
+    node:
+      name:
+        node: main
+        span:
+          start: 3
+          end: 7
+          file_id: 100
+      args:
+        node: []
+        span:
+          start: 7
+          end: 9
+          file_id: 100
+      ret: ~
+      body:
         node:
-          If:
-            - node:
-                Var:
-                  node: x
-                  span:
-                    start: 27
-                    end: 28
-                    file_id: 100
-              span:
-                start: 27
-                end: 28
-                file_id: 100
-            - node:
-                - Expr:
-                    node:
+          - Expr:
+              node:
+                If:
+                  - node:
                       Var:
-                        node: y
+                        node: x
                         span:
-                          start: 47
-                          end: 48
+                          start: 27
+                          end: 28
                           file_id: 100
                     span:
-                      start: 47
-                      end: 48
+                      start: 27
+                      end: 28
                       file_id: 100
+                  - node:
+                      - Expr:
+                          node:
+                            Var:
+                              node: y
+                              span:
+                                start: 47
+                                end: 48
+                                file_id: 100
+                          span:
+                            start: 47
+                            end: 48
+                            file_id: 100
+                    span:
+                      start: 29
+                      end: 62
+                      file_id: 100
+                  - ~
               span:
-                start: 29
+                start: 24
                 end: 62
                 file_id: 100
-            - ~
         span:
-          start: 24
-          end: 62
+          start: 10
+          end: 72
           file_id: 100
-  span:
-    start: 10
-    end: 72
-    file_id: 100
+    span:
+      start: 0
+      end: 72
+      file_id: 100
 

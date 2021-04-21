@@ -3,47 +3,53 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name:
-  node: baz
-  span:
-    start: 3
-    end: 6
-    file_id: 100
-args:
-  node:
-    - name:
-        node: y
+- Function:
+    node:
+      name:
+        node: baz
         span:
-          start: 7
-          end: 8
+          start: 3
+          end: 6
           file_id: 100
-      ty:
-        node: Int
+      args:
+        node:
+          - name:
+              node: y
+              span:
+                start: 7
+                end: 8
+                file_id: 100
+            ty:
+              node: Int
+              span:
+                start: 9
+                end: 12
+                file_id: 100
+          - name:
+              node: z
+              span:
+                start: 14
+                end: 15
+                file_id: 100
+            ty:
+              node: String
+              span:
+                start: 16
+                end: 22
+                file_id: 100
         span:
-          start: 9
-          end: 12
+          start: 6
+          end: 23
           file_id: 100
-    - name:
-        node: z
+      ret: ~
+      body:
+        node: []
         span:
-          start: 14
-          end: 15
+          start: 23
+          end: 25
           file_id: 100
-      ty:
-        node: String
-        span:
-          start: 16
-          end: 22
-          file_id: 100
-  span:
-    start: 6
-    end: 23
-    file_id: 100
-ret: ~
-body:
-  node: []
-  span:
-    start: 23
-    end: 25
-    file_id: 100
+    span:
+      start: 0
+      end: 25
+      file_id: 100
 

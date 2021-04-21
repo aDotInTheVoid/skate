@@ -34,11 +34,11 @@ Spaned<T>: Spanned<T> = {
 
 pub Program: Program<'input>  = { <Item*> }
 
-pub Item: Item<'input> = {
+Item: Item<'input> = {
     <Spaned<Function>> => Item::Function(<>)
 }
 
-pub Function: Function<'input> = {
+Function: Function<'input> = {
     "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Body> => Function{<>}
 }
 
@@ -60,7 +60,7 @@ Body = Spaned<BodyRaw>;
 BodyRaw = { "{" <Semi<Stmt>> "}" }
 
 // TODO: Should these be exprs? Should we have stmts?
-pub Stmt: Stmt<'input> = {
+Stmt: Stmt<'input> = {
     <Expr> => Stmt::Expr(<>),
     "let" <Name> "=" <Expr> => Stmt::Let(<>),
     "print" <Expr> => Stmt::Print(<>),
@@ -68,7 +68,7 @@ pub Stmt: Stmt<'input> = {
 }
 
 // Rename for convenience
-pub Expr = { <OrExpr> }
+Expr = { <OrExpr> }
 BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 
 // See http://www.craftinginterpreters.com/appendix-i.html
@@ -81,7 +81,7 @@ RawTier<Op, NextTier>: RawExpr<'input> = {
 
 Tier<Op,NextTier>: Expr<'input> = {
     Spaned<RawTier<Op,NextTier>>,
-    NextTier 
+    NextTier
 };
 
 OrExpr            = Tier<LogicalOr,        AndExpr>;

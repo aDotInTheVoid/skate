@@ -3,76 +3,82 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-name:
-  node: e
-  span:
-    start: 3
-    end: 4
-    file_id: 100
-args:
-  node: []
-  span:
-    start: 4
-    end: 6
-    file_id: 100
-ret: ~
-body:
-  node:
-    - Let:
-        - node: x
-          span:
-            start: 11
-            end: 12
-            file_id: 100
-        - node:
-            Block:
-              node:
-                - Expr:
+- Function:
+    node:
+      name:
+        node: e
+        span:
+          start: 3
+          end: 4
+          file_id: 100
+      args:
+        node: []
+        span:
+          start: 4
+          end: 6
+          file_id: 100
+      ret: ~
+      body:
+        node:
+          - Let:
+              - node: x
+                span:
+                  start: 11
+                  end: 12
+                  file_id: 100
+              - node:
+                  Block:
                     node:
-                      Var:
-                        node: x
-                        span:
-                          start: 16
-                          end: 17
-                          file_id: 100
+                      - Expr:
+                          node:
+                            Var:
+                              node: x
+                              span:
+                                start: 16
+                                end: 17
+                                file_id: 100
+                          span:
+                            start: 16
+                            end: 17
+                            file_id: 100
+                      - Expr:
+                          node:
+                            Var:
+                              node: y
+                              span:
+                                start: 18
+                                end: 19
+                                file_id: 100
+                          span:
+                            start: 18
+                            end: 19
+                            file_id: 100
+                      - Expr:
+                          node:
+                            Var:
+                              node: z
+                              span:
+                                start: 20
+                                end: 21
+                                file_id: 100
+                          span:
+                            start: 20
+                            end: 21
+                            file_id: 100
                     span:
-                      start: 16
-                      end: 17
+                      start: 15
+                      end: 23
                       file_id: 100
-                - Expr:
-                    node:
-                      Var:
-                        node: y
-                        span:
-                          start: 18
-                          end: 19
-                          file_id: 100
-                    span:
-                      start: 18
-                      end: 19
-                      file_id: 100
-                - Expr:
-                    node:
-                      Var:
-                        node: z
-                        span:
-                          start: 20
-                          end: 21
-                          file_id: 100
-                    span:
-                      start: 20
-                      end: 21
-                      file_id: 100
-              span:
-                start: 15
-                end: 23
-                file_id: 100
-          span:
-            start: 15
-            end: 23
-            file_id: 100
-  span:
-    start: 6
-    end: 24
-    file_id: 100
+                span:
+                  start: 15
+                  end: 23
+                  file_id: 100
+        span:
+          start: 6
+          end: 24
+          file_id: 100
+    span:
+      start: 0
+      end: 24
+      file_id: 100
 

@@ -4,28 +4,20 @@ const FID: diagnostics::FileId = diagnostics::FileId(100);
 
 #[track_caller]
 fn f(s: &str) {
-    let p = crate::grammar::FunctionParser::new();
-    let f = p.parse(FID, s).unwrap();
-    insta::assert_yaml_snapshot!(f);
+    p(s);
 }
 #[track_caller]
 fn e(s: &str) {
-    let p = crate::grammar::ExprParser::new();
-    let f = p.parse(FID, s).unwrap();
-    insta::assert_yaml_snapshot!(f);
+    p(&format!("fn rand(){{ {}; }}", s));
 }
 #[track_caller]
 fn s(s: &str) {
-    let p = crate::grammar::StmtParser::new();
-    let f = p.parse(FID, s).unwrap();
-    insta::assert_yaml_snapshot!(f);
+    p(&format!("fn rand(){{ {} }}", s));
 }
 
 #[track_caller]
 fn i(s: &str) {
-    let p = crate::grammar::ItemParser::new();
-    let f = p.parse(FID, s).unwrap();
-    insta::assert_yaml_snapshot!(f);
+    p(s);
 }
 
 #[track_caller]

@@ -3,61 +3,86 @@ source: src/ast_tests.rs
 expression: f
 
 ---
-Let:
-  - node: x
-    span:
-      start: 4
-      end: 5
-      file_id: 100
-  - node:
-      If:
-        - node:
-            Var:
-              node: a
-              span:
-                start: 11
-                end: 12
-                file_id: 100
-          span:
-            start: 11
-            end: 12
-            file_id: 100
-        - node:
-            - Expr:
-                node:
-                  Var:
-                    node: b
-                    span:
-                      start: 14
-                      end: 15
-                      file_id: 100
+- Function:
+    node:
+      name:
+        node: rand
+        span:
+          start: 3
+          end: 7
+          file_id: 100
+      args:
+        node: []
+        span:
+          start: 7
+          end: 9
+          file_id: 100
+      ret: ~
+      body:
+        node:
+          - Let:
+              - node: x
                 span:
-                  start: 14
-                  end: 15
+                  start: 15
+                  end: 16
                   file_id: 100
-          span:
-            start: 13
-            end: 16
-            file_id: 100
-        - node:
-            - Expr:
-                node:
-                  Var:
-                    node: c
-                    span:
-                      start: 23
-                      end: 24
-                      file_id: 100
+              - node:
+                  If:
+                    - node:
+                        Var:
+                          node: a
+                          span:
+                            start: 22
+                            end: 23
+                            file_id: 100
+                      span:
+                        start: 22
+                        end: 23
+                        file_id: 100
+                    - node:
+                        - Expr:
+                            node:
+                              Var:
+                                node: b
+                                span:
+                                  start: 25
+                                  end: 26
+                                  file_id: 100
+                            span:
+                              start: 25
+                              end: 26
+                              file_id: 100
+                      span:
+                        start: 24
+                        end: 27
+                        file_id: 100
+                    - node:
+                        - Expr:
+                            node:
+                              Var:
+                                node: c
+                                span:
+                                  start: 34
+                                  end: 35
+                                  file_id: 100
+                            span:
+                              start: 34
+                              end: 35
+                              file_id: 100
+                      span:
+                        start: 33
+                        end: 36
+                        file_id: 100
                 span:
-                  start: 23
-                  end: 24
+                  start: 19
+                  end: 36
                   file_id: 100
-          span:
-            start: 22
-            end: 25
-            file_id: 100
+        span:
+          start: 9
+          end: 38
+          file_id: 100
     span:
-      start: 8
-      end: 25
+      start: 0
+      end: 38
       file_id: 100
 
