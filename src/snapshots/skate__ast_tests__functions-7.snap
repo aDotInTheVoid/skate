@@ -8,6 +8,7 @@ name:
   span:
     - 3
     - 6
+    - 100
 args:
   node:
     - name:
@@ -15,22 +16,27 @@ args:
         span:
           - 7
           - 8
+          - 100
       ty:
         node: Int
         span:
           - 9
           - 12
+          - 100
   span:
     - 6
     - 14
+    - 100
 ret:
   node: Bool
   span:
     - 16
     - 20
+    - 100
 body:
   node: []
   span:
     - 22
     - 24
+    - 100
 

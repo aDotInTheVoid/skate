@@ -8,11 +8,13 @@ name:
   span:
     - 3
     - 7
+    - 100
 args:
   node: []
   span:
     - 7
     - 9
+    - 100
 ret: ~
 body:
   node:
@@ -23,15 +25,18 @@ body:
               span:
                 - 28
                 - 29
+                - 100
             - node:
                 Var:
                   node: z
                   span:
                     - 33
                     - 34
+                    - 100
               span:
                 - 33
                 - 34
+                - 100
             - node:
                 - Print:
                     node:
@@ -40,9 +45,11 @@ body:
                         span:
                           - 59
                           - 60
+                          - 100
                     span:
                       - 59
                       - 60
+                      - 100
                 - Print:
                     node:
                       Var:
@@ -50,14 +57,17 @@ body:
                         span:
                           - 84
                           - 85
+                          - 100
                     span:
                       - 84
                       - 85
+                      - 100
                 - Let:
                     - node: i
                       span:
                         - 107
                         - 108
+                        - 100
                     - node:
                         Block:
                           node:
@@ -70,9 +80,11 @@ body:
                                           span:
                                             - 136
                                             - 137
+                                            - 100
                                       span:
                                         - 136
                                         - 137
+                                        - 100
                                     - node:
                                         - Expr:
                                             node:
@@ -81,16 +93,20 @@ body:
                                                 span:
                                                   - 139
                                                   - 140
+                                                  - 100
                                             span:
                                               - 139
                                               - 140
+                                              - 100
                                       span:
                                         - 138
                                         - 141
+                                        - 100
                                     - ~
                                 span:
                                   - 133
                                   - 141
+                                  - 100
                             - Expr:
                                 node:
                                   If:
@@ -100,9 +116,11 @@ body:
                                           span:
                                             - 166
                                             - 167
+                                            - 100
                                       span:
                                         - 166
                                         - 167
+                                        - 100
                                     - node:
                                         - Expr:
                                             node:
@@ -111,12 +129,15 @@ body:
                                                 span:
                                                   - 169
                                                   - 170
+                                                  - 100
                                             span:
                                               - 169
                                               - 170
+                                              - 100
                                       span:
                                         - 168
                                         - 171
+                                        - 100
                                     - node:
                                         - Expr:
                                             node:
@@ -127,9 +148,11 @@ body:
                                                       span:
                                                         - 182
                                                         - 183
+                                                        - 100
                                                   span:
                                                     - 182
                                                     - 183
+                                                    - 100
                                                 - node:
                                                     - Expr:
                                                         node:
@@ -138,35 +161,46 @@ body:
                                                             span:
                                                               - 185
                                                               - 186
+                                                              - 100
                                                         span:
                                                           - 185
                                                           - 186
+                                                          - 100
                                                   span:
                                                     - 184
                                                     - 187
+                                                    - 100
                                                 - ~
                                             span:
                                               - 179
                                               - 187
+                                              - 100
                                       span:
                                         - 177
                                         - 189
+                                        - 100
                                 span:
                                   - 163
                                   - 189
+                                  - 100
                           span:
                             - 111
                             - 207
+                            - 100
                       span:
                         - 111
                         - 207
+                        - 100
               span:
                 - 35
                 - 221
+                - 100
         span:
           - 24
           - 221
+          - 100
   span:
     - 10
     - 231
+    - 100
 

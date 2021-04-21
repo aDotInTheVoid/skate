@@ -2,6 +2,7 @@
 mod grammar; // synthesized by LALRPOP
 
 mod ast;
+mod diagnostics;
 mod exec;
 
 use codespan_reporting::diagnostic::{Diagnostic, Label};
@@ -48,7 +49,7 @@ fn realmain() -> eyre::Result<bool> {
     let main_file_id = err_files.add(&progname, &prog);
 
     // Due to lifetime reasons, we cant convert a parse err to an eyre err
-    let prog = grammar::ProgramParser::new().parse(&prog);
+    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), &prog);
 
     let prog = match prog {
         Ok(p) => p,
@@ -72,6 +73,7 @@ fn realmain() -> eyre::Result<bool> {
                         &parse_error,
                     )?;
                 }
+
                 ParseError::InvalidToken { location } => {
                     let parse_error = Diagnostic::error()
                         .with_message("Invalid token")

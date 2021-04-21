@@ -8,11 +8,13 @@ name:
   span:
     - 3
     - 4
+    - 100
 args:
   node: []
   span:
     - 4
     - 6
+    - 100
 ret: ~
 body:
   node:
@@ -25,20 +27,24 @@ body:
                     span:
                       - 13
                       - 14
+                      - 100
                   - node:
                       Var:
                         node: b
                         span:
                           - 17
                           - 18
+                          - 100
                     span:
                       - 17
                       - 18
+                      - 100
               - Let:
                   - node: c
                     span:
                       - 24
                       - 25
+                      - 100
                   - node:
                       Block:
                         node:
@@ -49,9 +55,11 @@ body:
                                   span:
                                     - 29
                                     - 30
+                                    - 100
                               span:
                                 - 29
                                 - 30
+                                - 100
                           - Expr:
                               node:
                                 Var:
@@ -59,21 +67,27 @@ body:
                                   span:
                                     - 31
                                     - 32
+                                    - 100
                               span:
                                 - 31
                                 - 32
+                                - 100
                         span:
                           - 28
                           - 33
+                          - 100
                     span:
                       - 28
                       - 33
+                      - 100
             span:
               - 8
               - 34
+              - 100
         span:
           - 8
           - 34
+          - 100
     - Expr:
         node:
           Var:
@@ -81,10 +95,13 @@ body:
             span:
               - 36
               - 37
+              - 100
         span:
           - 36
           - 37
+          - 100
   span:
     - 6
     - 38
+    - 100
 

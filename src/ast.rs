@@ -1,11 +1,13 @@
 use serde::{Deserialize, Serialize};
 
+use crate::diagnostics;
+
 // TODO: Clean up "outer" vs inner spans
 // Eg an Expr has its own assocd span, but a BinOp doesnt
 
 pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
-pub type Span = (usize, usize);
+pub type Span = (usize, usize, diagnostics::FileId);
 pub type Name<'a> = Spanned<&'a str>;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Copy)]

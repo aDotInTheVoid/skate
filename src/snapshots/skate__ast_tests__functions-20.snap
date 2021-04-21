@@ -8,11 +8,13 @@ name:
   span:
     - 3
     - 7
+    - 100
 args:
   node: []
   span:
     - 7
     - 9
+    - 100
 ret: ~
 body:
   node:
@@ -21,6 +23,7 @@ body:
           span:
             - 15
             - 16
+            - 100
         - node:
             FieldAccess:
               - node:
@@ -31,24 +34,31 @@ body:
                           span:
                             - 19
                             - 20
+                            - 100
                       span:
                         - 19
                         - 20
+                        - 100
                     - node: b
                       span:
                         - 21
                         - 22
+                        - 100
                 span:
                   - 19
                   - 22
+                  - 100
               - node: c
                 span:
                   - 23
                   - 24
+                  - 100
           span:
             - 19
             - 24
+            - 100
   span:
     - 10
     - 26
+    - 100
 

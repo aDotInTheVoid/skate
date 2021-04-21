@@ -1,6 +1,7 @@
 use crate::ast::*;
+use crate::diagnostics::FileId;
 
-grammar;
+grammar(file_id: FileId);
 
 Comma<T>: Vec<T> = { 
     <v:(<T> ",")*> <e:T?> => match e {
@@ -27,7 +28,7 @@ Semi<T>: Vec<T> = {
 
 // TODO: decide how many ns in spannnned
 Spaned<T>: Spanned<T> = {
-    <l:@L> <t:T> <r:@R> => Spanned{node:t, span:(l,r)}
+    <l:@L> <t:T> <r:@R> => Spanned{node:t, span:(l,r,file_id)}
 }
 
 

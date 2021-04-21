@@ -8,11 +8,13 @@ name:
   span:
     - 3
     - 7
+    - 100
 args:
   node: []
   span:
     - 7
     - 9
+    - 100
 ret: ~
 body:
   node:
@@ -25,9 +27,11 @@ body:
                   span:
                     - 27
                     - 28
+                    - 100
               span:
                 - 27
                 - 28
+                - 100
             - node:
                 - Expr:
                     node:
@@ -36,26 +40,32 @@ body:
                         span:
                           - 47
                           - 49
+                          - 100
                     span:
                       - 47
                       - 49
+                      - 100
                 - Let:
                     - node: z
                       span:
                         - 71
                         - 72
+                        - 100
                     - node:
                         Var:
                           node: d
                           span:
                             - 75
                             - 76
+                            - 100
                       span:
                         - 75
                         - 76
+                        - 100
               span:
                 - 29
                 - 91
+                - 100
             - node:
                 - Expr:
                     node:
@@ -64,15 +74,19 @@ body:
                         span:
                           - 115
                           - 118
+                          - 100
                     span:
                       - 115
                       - 118
+                      - 100
               span:
                 - 97
                 - 133
+                - 100
         span:
           - 24
           - 133
+          - 100
     - Print:
         node:
           Var:
@@ -80,10 +94,13 @@ body:
             span:
               - 153
               - 157
+              - 100
         span:
           - 153
           - 157
+          - 100
   span:
     - 10
     - 167
+    - 100
 

@@ -8,11 +8,13 @@ name:
   span:
     - 3
     - 7
+    - 100
 args:
   node: []
   span:
     - 7
     - 9
+    - 100
 ret: ~
 body:
   node:
@@ -23,9 +25,11 @@ body:
             span:
               - 30
               - 31
+              - 100
         span:
           - 30
           - 31
+          - 100
     - Print:
         node:
           Var:
@@ -33,9 +37,11 @@ body:
             span:
               - 51
               - 52
+              - 100
         span:
           - 51
           - 52
+          - 100
     - Print:
         node:
           Var:
@@ -43,10 +49,13 @@ body:
             span:
               - 72
               - 78
+              - 100
         span:
           - 72
           - 78
+          - 100
   span:
     - 10
     - 92
+    - 100
 

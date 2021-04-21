@@ -12,13 +12,16 @@ node:
           span:
             - 0
             - 1
+            - 100
       span:
         - 0
         - 1
+        - 100
     - node: Plus
       span:
         - 1
         - 2
+        - 100
     - node:
         BinOp:
           - node:
@@ -28,13 +31,16 @@ node:
                 span:
                   - 2
                   - 3
+                  - 100
             span:
               - 2
               - 3
+              - 100
           - node: Times
             span:
               - 3
               - 4
+              - 100
           - node:
               Literal:
                 node:
@@ -42,13 +48,17 @@ node:
                 span:
                   - 4
                   - 5
+                  - 100
             span:
               - 4
               - 5
+              - 100
       span:
         - 2
         - 5
+        - 100
 span:
   - 0
   - 5
+  - 100
 

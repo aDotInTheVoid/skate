@@ -10,6 +10,7 @@ Expr:
         span:
           - 4
           - 5
+          - 100
       - node:
           If:
             - node:
@@ -18,20 +19,25 @@ Expr:
                   span:
                     - 12
                     - 13
+                    - 100
               span:
                 - 12
                 - 13
+                - 100
             - node: []
               span:
                 - 14
                 - 16
+                - 100
             - node: []
               span:
                 - 22
                 - 24
+                - 100
         span:
           - 9
           - 24
+          - 100
       - node:
           - Expr:
               node:
@@ -40,13 +46,17 @@ Expr:
                   span:
                     - 26
                     - 27
+                    - 100
               span:
                 - 26
                 - 27
+                - 100
         span:
           - 25
           - 29
+          - 100
   span:
     - 0
     - 29
+    - 100
 

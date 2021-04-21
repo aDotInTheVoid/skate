@@ -10,11 +10,13 @@ expression: f
         span:
           - 3
           - 8
+          - 100
       args:
         node: []
         span:
           - 8
           - 10
+          - 100
       ret: ~
       body:
         node:
@@ -26,15 +28,19 @@ expression: f
                   span:
                     - 18
                     - 25
+                    - 100
               span:
                 - 18
                 - 25
+                - 100
         span:
           - 11
           - 27
+          - 100
     span:
       - 0
       - 27
+      - 100
 - Function:
     node:
       name:
@@ -42,11 +48,13 @@ expression: f
         span:
           - 43
           - 48
+          - 100
       args:
         node: []
         span:
           - 48
           - 50
+          - 100
       ret: ~
       body:
         node:
@@ -58,15 +66,19 @@ expression: f
                   span:
                     - 59
                     - 66
+                    - 100
               span:
                 - 59
                 - 66
+                - 100
         span:
           - 51
           - 69
+          - 100
     span:
       - 40
       - 69
+      - 100
 - Function:
     node:
       name:
@@ -74,11 +86,13 @@ expression: f
         span:
           - 85
           - 89
+          - 100
       args:
         node: []
         span:
           - 89
           - 91
+          - 100
       ret: ~
       body:
         node:
@@ -91,13 +105,16 @@ expression: f
                         span:
                           - 110
                           - 115
+                          - 100
                     span:
                       - 110
                       - 115
+                      - 100
                   - []
               span:
                 - 110
                 - 117
+                - 100
           - Expr:
               node:
                 Call:
@@ -107,17 +124,22 @@ expression: f
                         span:
                           - 135
                           - 140
+                          - 100
                     span:
                       - 135
                       - 140
+                      - 100
                   - []
               span:
                 - 135
                 - 142
+                - 100
         span:
           - 92
           - 157
+          - 100
     span:
       - 82
       - 157
+      - 100
 

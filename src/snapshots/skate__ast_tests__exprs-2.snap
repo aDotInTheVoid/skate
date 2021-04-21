@@ -12,13 +12,16 @@ node:
           span:
             - 0
             - 1
+            - 100
       span:
         - 0
         - 1
+        - 100
     - node: Plus
       span:
         - 2
         - 3
+        - 100
     - node:
         Block:
           node:
@@ -32,9 +35,11 @@ node:
                           span:
                             - 8
                             - 9
+                            - 100
                       span:
                         - 8
                         - 9
+                        - 100
                     - node:
                         - Expr:
                             node:
@@ -44,12 +49,15 @@ node:
                                 span:
                                   - 11
                                   - 12
+                                  - 100
                             span:
                               - 11
                               - 12
+                              - 100
                       span:
                         - 10
                         - 13
+                        - 100
                     - node:
                         - Expr:
                             node:
@@ -59,22 +67,29 @@ node:
                                 span:
                                   - 20
                                   - 21
+                                  - 100
                             span:
                               - 20
                               - 21
+                              - 100
                       span:
                         - 19
                         - 22
+                        - 100
                 span:
                   - 5
                   - 22
+                  - 100
           span:
             - 4
             - 23
+            - 100
       span:
         - 4
         - 23
+        - 100
 span:
   - 0
   - 23
+  - 100
 

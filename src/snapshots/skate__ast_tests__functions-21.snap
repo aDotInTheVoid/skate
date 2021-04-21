@@ -8,11 +8,13 @@ name:
   span:
     - 3
     - 7
+    - 100
 args:
   node: []
   span:
     - 7
     - 9
+    - 100
 ret: ~
 body:
   node:
@@ -21,6 +23,7 @@ body:
           span:
             - 16
             - 17
+            - 100
         - node:
             Call:
               - node:
@@ -37,23 +40,29 @@ body:
                                             span:
                                               - 20
                                               - 21
+                                              - 100
                                         span:
                                           - 20
                                           - 21
+                                          - 100
                                       - node: y
                                         span:
                                           - 22
                                           - 23
+                                          - 100
                                   span:
                                     - 20
                                     - 23
+                                    - 100
                                 - node: z
                                   span:
                                     - 24
                                     - 25
+                                    - 100
                             span:
                               - 20
                               - 25
+                              - 100
                           - node:
                               FieldAccess:
                                 - node:
@@ -66,76 +75,96 @@ body:
                                                   span:
                                                     - 26
                                                     - 27
+                                                    - 100
                                               span:
                                                 - 26
                                                 - 27
+                                                - 100
                                             - node: b
                                               span:
                                                 - 28
                                                 - 29
+                                                - 100
                                         span:
                                           - 26
                                           - 29
+                                          - 100
                                       - node:
                                           Var:
                                             node: z
                                             span:
                                               - 30
                                               - 31
+                                              - 100
                                         span:
                                           - 30
                                           - 31
+                                          - 100
                                   span:
                                     - 26
                                     - 32
+                                    - 100
                                 - node: c
                                   span:
                                     - 33
                                     - 34
+                                    - 100
                             span:
                               - 26
                               - 34
+                              - 100
                       span:
                         - 20
                         - 35
+                        - 100
                     - node: d
                       span:
                         - 36
                         - 37
+                        - 100
                 span:
                   - 20
                   - 37
+                  - 100
               - - node:
                     Var:
                       node: e
                       span:
                         - 38
                         - 39
+                        - 100
                   span:
                     - 38
                     - 39
+                    - 100
                 - node:
                     Var:
                       node: f
                       span:
                         - 40
                         - 41
+                        - 100
                   span:
                     - 40
                     - 41
+                    - 100
                 - node:
                     Var:
                       node: g
                       span:
                         - 42
                         - 43
+                        - 100
                   span:
                     - 42
                     - 43
+                    - 100
           span:
             - 20
             - 44
+            - 100
   span:
     - 10
     - 46
+    - 100
 
