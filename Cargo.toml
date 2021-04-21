@@ -1,8 +1,11 @@
 [package]
 name = "skate"
-version = "0.1.0"
+version = "0.0.0"
 authors = ["Nixon Enraght-Moony <nixon.emoony@gmail.com>"]
 edition = "2018"
+description = "A Programing language for rapid iteration"
+license = "MIT/Apache-2.0"
+repository = "https://github.com/aDotInTheVoid/skate/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
