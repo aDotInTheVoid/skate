@@ -72,11 +72,16 @@ def process(stream, file):
 def run_pass(path):
     output = subprocess.run([SKATE_BINARY, path], capture_output=True)
     if output.returncode != 0:
+        # TODO: Dry
         print(
             f"Running {ppath(SKATE_BINARY)} {ppath(path)} returned code {output.returncode}"
         )
         print("--- stderr ---")
         print(output.stderr.decode())
+        print("--------------")
+        print("")
+        print("--- stdout ---")
+        print(output.stdout.decode())
         print("--------------")
         fail()
     else:
@@ -94,6 +99,10 @@ def compile_fail(path, errcode):
         )
         print("--- stderr ---")
         print(output.stderr.decode())
+        print("--------------")
+        print("")
+        print("--- stdout ---")
+        print(output.stdout.decode())
         print("--------------")
         fail()
     else:

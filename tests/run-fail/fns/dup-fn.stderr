@@ -1,4 +1,4 @@
 Error: Duplicated function `a defined Span { start: 11, end: 20, file_id: FileId(0) } and Span { start: 0, end: 9, file_id: FileId(0) }`
 
 Location:
-    src/exec.rs:60:25
+    src/exec.rs:66:25

@@ -7,7 +7,10 @@ use crate::ast::{BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
 
 use serde_json::Value;
 
-pub fn run(p: Program) -> Result<i64> {
+// Err -> Exit err due to type error/rt error
+// Ok(false) -> Exit sucess
+// Ok(true) -> Exit err due to user code request
+pub fn run(p: Program) -> Result<bool> {
     // If nothing failed, we suceed
     let env = Env::new(&p)?;
 
@@ -15,13 +18,16 @@ pub fn run(p: Program) -> Result<i64> {
 
     // TODO: Figure out exit codes 0/1/101
     // One for script exited with error, one for IIE
-    let exit_code = match result {
-        Value::Null => 0,
-        Value::Number(x) => x.as_i64().unwrap_or(101),
-        _ => 101,
+    let is_fail = match result {
+        Value::Null => false,
+        Value::Number(x) => {
+            // TODO: Sort out numbers (probably move away from json)
+            x.as_f64() != Some(0.0)
+        }
+        x => bail!("`main` returned `{:?}`, expected number or Null", x),
     };
 
-    Ok(exit_code)
+    Ok(is_fail)
 }
 
 // TODO: unify env and scope, by understanding scheme

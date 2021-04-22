@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: ba3f2d1f5d037e8ae30728cc7ac25219d2767cdfbace070e6b27b3244e98d8
+// sha3: b746614205b9e678fcd5196382a2c679f5959f74682bb621850e659c8e1b
 use crate::ast::*;
 use crate::diagnostics::FileId;
 #[allow(unused_extern_crates)]
@@ -7773,7 +7773,7 @@ fn __action220<'input>(
     __action165(file_id, input, __0, __temp0)
 }
 
-#[allow(unused_variables)]
+// #[allow(unused_variables)]
 fn __action221<'input>(
     file_id: FileId,
     input: &'input str,

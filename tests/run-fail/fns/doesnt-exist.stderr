@@ -1,4 +1,4 @@
 Error: No function with name `boo`
 
 Location:
-    src/exec.rs:79:28
+    src/exec.rs:85:28
