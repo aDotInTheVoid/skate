@@ -1,4 +1,4 @@
 Error: No var in scope with name `z`
 
 Location:
-    src/exec.rs:156:32
+    src/exec.rs:166:32

@@ -1,4 +1,4 @@
 Error: Unknown binop String("2"), Plus, Number(2.0)
 
 Location:
-    src/exec.rs:204:22
+    src/exec.rs:214:22

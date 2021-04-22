@@ -9,7 +9,7 @@ use serde_json::Value;
 
 pub fn run(p: Program) -> Result<i64> {
     // If nothing failed, we suceed
-    let env = Env::new(&p);
+    let env = Env::new(&p)?;
 
     let result = env.call("main", &[])?;
 
@@ -27,7 +27,7 @@ pub fn run(p: Program) -> Result<i64> {
 // TODO: unify env and scope, by understanding scheme
 #[derive(Debug, Default)]
 struct Env<'a> {
-    functions: HashMap<&'a str, &'a Function<'a>>,
+    functions: HashMap<&'a str, &'a Spanned<Function<'a>>>,
 }
 
 #[derive(Debug, Default)]
@@ -50,15 +50,25 @@ macro_rules! get {
 }
 
 impl<'a> Env<'a> {
-    pub fn new(p: &'a Program) -> Self {
-        let mut functions: HashMap<&str, &Function> = HashMap::new();
+    pub fn new(p: &'a Program) -> eyre::Result<Self> {
+        let mut functions: HashMap<&str, &Spanned<Function>> = HashMap::new();
         for i in p {
             match i {
-                Item::Function(f) => assert!(functions.insert(&f.name, &f).is_none()),
+                Item::Function(f) => {
+                    if let Some(old_fn) = functions.insert(&f.name, &f) {
+                        // TODO: Should these be the function span of the name span
+                        bail!(
+                            "Duplicated function `{} defined {:?} and {:?}`",
+                            &f.name.node,
+                            f.span,
+                            old_fn.span
+                        )
+                    }
+                }
             };
         }
 
-        Self { functions }
+        Ok(Self { functions })
     }
 
     pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
