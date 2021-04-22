@@ -1,3 +1,7 @@
+use std::ops::Range;
+use std::usize;
+
+use codespan_reporting::diagnostic::Label;
 use serde::{Deserialize, Serialize};
 
 use crate::diagnostics;
@@ -16,10 +20,26 @@ pub struct Span {
     pub file_id: diagnostics::FileId,
 }
 
+impl Span {
+    pub fn to_range(&self) -> Range<usize> {
+        self.start..self.end
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub struct Spanned<T> {
     pub node: T,
     pub span: Span,
+}
+
+impl<T> Spanned<T> {
+    pub fn primary_label(&self) -> Label<usize> {
+        Label::primary(self.span.file_id.0, self.span.start..self.span.end)
+    }
+
+    pub fn secondary_label(&self) -> Label<usize> {
+        Label::secondary(self.span.file_id.0, self.span.start..self.span.end)
+    }
 }
 
 // TODO: Decide if this is a good idea

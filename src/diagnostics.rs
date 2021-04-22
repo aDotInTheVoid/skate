@@ -15,3 +15,5 @@ impl Display for RTError {
         f.write_str("THIS SHOULD NEVER COME UP. PLEASE FILE A BUG")
     }
 }
+
+impl std::error::Error for RTError {}

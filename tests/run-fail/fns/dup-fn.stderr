@@ -1,4 +1,9 @@
-Error: Duplicated function `a defined Span { start: 11, end: 20, file_id: FileId(0) } and Span { start: 0, end: 9, file_id: FileId(0) }`
+error: Function a defined twice
+  ┌─ $DD/tests/run-fail/fns/dup-fn.sk:1:1
+  │
+1 │ fn a() {}
+  │ --------- Defined once here
+2 │ 
+3 │ fn a() {}
+  │ --------- Defined again here
 
-Location:
-    src/exec.rs:66:25

@@ -1,0 +1,21 @@
+error: Function one defined twice
+   ┌─ $DD/tests/run-fail/fns/dup-fn-long.sk:1:1
+   │    
+ 1 │ ╭   fn one() {
+ 2 │ │   
+ 3 │ │   
+ 4 │ │   
+   · │  
+23 │ │   
+24 │ │   }
+   │ ╰───' Defined once here
+   · │  
+33 │   ╭ fn one() {
+34 │   │ 
+35 │   │ 
+36 │   │ 
+   ·   │
+48 │   │ 
+49 │   │ }
+   │   ╰─' Defined again here
+

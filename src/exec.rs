@@ -1,9 +1,11 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
 
+use codespan_reporting::diagnostic::{Diagnostic, Label};
 use eyre::{bail, eyre, Result};
 
 use crate::ast::{BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
+use crate::diagnostics::RTError;
 
 use serde_json::Value;
 
@@ -63,12 +65,16 @@ impl<'a> Env<'a> {
                 Item::Function(f) => {
                     if let Some(old_fn) = functions.insert(&f.name, &f) {
                         // TODO: Should these be the function span of the name span
-                        bail!(
-                            "Duplicated function `{} defined {:?} and {:?}`",
-                            &f.name.node,
-                            f.span,
-                            old_fn.span
-                        )
+                        let err = Diagnostic::error()
+                            .with_message(format!("Function `{}` defined twice", &f.name.node))
+                            .with_labels(vec![
+                                // TODO: Make this a method on Spaned type
+                                Label::secondary(old_fn.span.file_id.0, old_fn.span.to_range())
+                                    .with_message("Defined once here"),
+                                Label::secondary(f.span.file_id.0, f.span.to_range())
+                                    .with_message("Defined again here"),
+                            ]);
+                        return Err(RTError(err))?;
                     }
                 }
             };
