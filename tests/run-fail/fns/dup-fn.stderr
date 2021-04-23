@@ -1,4 +1,4 @@
-error: Function a defined twice
+error: Function `a` defined twice
   ┌─ $DD/tests/run-fail/fns/dup-fn.sk:1:1
   │
 1 │ fn a() {}

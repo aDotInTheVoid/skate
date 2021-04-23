@@ -1,10 +1,10 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
 
-use codespan_reporting::diagnostic::{Diagnostic, Label};
+use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, eyre, Result};
 
-use crate::ast::{BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
+use crate::ast::{self, BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
 use crate::diagnostics::RTError;
 
 use serde_json::Value;
@@ -16,7 +16,14 @@ pub fn run(p: Program) -> Result<bool> {
     // If nothing failed, we suceed
     let env = Env::new(&p)?;
 
-    let result = env.call("main", &[])?;
+    let result = env.call(
+        Spanned {
+            node: "main",
+            // TODO: give a real span to ensure the no
+            span: Default::default(),
+        },
+        &[],
+    )?;
 
     // TODO: Figure out exit codes 0/1/101
     // One for script exited with error, one for IIE
@@ -69,10 +76,8 @@ impl<'a> Env<'a> {
                             .with_message(format!("Function `{}` defined twice", &f.name.node))
                             .with_labels(vec![
                                 // TODO: Make this a method on Spaned type
-                                Label::secondary(old_fn.span.file_id.0, old_fn.span.to_range())
-                                    .with_message("Defined once here"),
-                                Label::secondary(f.span.file_id.0, f.span.to_range())
-                                    .with_message("Defined again here"),
+                                old_fn.secondary_label().with_message("Defined once here"),
+                                f.secondary_label().with_message("Defined again here"),
                             ]);
                         return Err(RTError(err))?;
                     }
@@ -83,12 +88,17 @@ impl<'a> Env<'a> {
         Ok(Self { functions })
     }
 
-    pub fn call(&self, fn_name: &str, args: &[Value]) -> Result<Value> {
+    pub fn call(&self, name: ast::Name, args: &[Value]) -> Result<Value> {
         // TODO: nice error if no function found
-        let function = self
-            .functions
-            .get(fn_name)
-            .ok_or_else(|| eyre!("No function with name `{}`", fn_name))?;
+        let fn_name = name.node;
+
+        let function = self.functions.get(&fn_name).ok_or_else(|| {
+            RTError(
+                Diagnostic::error()
+                    .with_message(format!("No function named `{}`", &fn_name))
+                    .with_labels(vec![name.primary_label()]),
+            )
+        })?;
 
         // TODO: Nice errors
         if args.len() != function.args.len() {
@@ -166,7 +176,7 @@ impl<'a> Env<'a> {
                     for i in args {
                         args_evald.push(get!(self.eval_in(scope, &i)?));
                     }
-                    self.call(&name, &args_evald)?
+                    self.call(name, &args_evald)?
                 } else {
                     // TODO: Nice error
                     bail!("Expeced {:?} to be a plain var", function)

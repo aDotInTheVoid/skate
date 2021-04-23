@@ -13,7 +13,7 @@ pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Name<'a> = Spanned<&'a str>;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+#[derive(Debug, Clone, Serialize, Deserialize, Copy, Default)]
 pub struct Span {
     pub start: usize,
     pub end: usize,
@@ -34,11 +34,11 @@ pub struct Spanned<T> {
 
 impl<T> Spanned<T> {
     pub fn primary_label(&self) -> Label<usize> {
-        Label::primary(self.span.file_id.0, self.span.start..self.span.end)
+        Label::primary(self.span.file_id.0, self.span.to_range())
     }
 
     pub fn secondary_label(&self) -> Label<usize> {
-        Label::secondary(self.span.file_id.0, self.span.start..self.span.end)
+        Label::secondary(self.span.file_id.0, self.span.to_range())
     }
 }
 

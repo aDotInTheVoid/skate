@@ -3,7 +3,7 @@ use std::usize;
 
 use codespan_reporting::diagnostic::Diagnostic;
 
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize, Hash)]
+#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize, Hash, Default)]
 pub struct FileId(pub usize);
 
 #[derive(Debug)]

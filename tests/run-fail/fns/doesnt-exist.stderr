@@ -1,4 +1,6 @@
-Error: No function with name `boo`
+error: No function named `boo`
+  ┌─ $DD/tests/run-fail/fns/doesnt-exist.sk:2:5
+  │
+2 │     boo();
+  │     ^^^
 
-Location:
-    src/exec.rs:91:28
