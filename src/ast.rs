@@ -20,25 +20,33 @@ pub struct Span {
     pub file_id: diagnostics::FileId,
 }
 
-impl Span {
-    pub fn to_range(&self) -> Range<usize> {
-        self.start..self.end
-    }
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub struct Spanned<T> {
     pub node: T,
     pub span: Span,
 }
 
-impl<T> Spanned<T> {
+impl Span {
+    pub fn to_range(&self) -> Range<usize> {
+        self.start..self.end
+    }
+
     pub fn primary_label(&self) -> Label<usize> {
-        Label::primary(self.span.file_id.0, self.span.to_range())
+        Label::primary(self.file_id.0, self.to_range())
     }
 
     pub fn secondary_label(&self) -> Label<usize> {
-        Label::secondary(self.span.file_id.0, self.span.to_range())
+        Label::secondary(self.file_id.0, self.to_range())
+    }
+}
+
+impl<T> Spanned<T> {
+    pub fn primary_label(&self) -> Label<usize> {
+        self.span.primary_label()
+    }
+
+    pub fn secondary_label(&self) -> Label<usize> {
+        self.span.secondary_label()
     }
 }
 

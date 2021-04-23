@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, eyre, Result};
 
-use crate::ast::{self, BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
+use crate::ast::{self, BinOp, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt};
 use crate::diagnostics::RTError;
 
 use serde_json::Value;
@@ -19,10 +19,12 @@ pub fn run(p: Program) -> Result<bool> {
     let result = env.call(
         Spanned {
             node: "main",
-            // TODO: give a real span to ensure the no
+            // TODO: give a real span to ensure the no main fn error is good
             span: Default::default(),
         },
         &[],
+        // ditto
+        Default::default(),
     )?;
 
     // TODO: Figure out exit codes 0/1/101
@@ -88,8 +90,7 @@ impl<'a> Env<'a> {
         Ok(Self { functions })
     }
 
-    pub fn call(&self, name: ast::Name, args: &[Value]) -> Result<Value> {
-        // TODO: nice error if no function found
+    pub fn call(&self, name: ast::Name, args: &[Value], call_span: Span) -> Result<Value> {
         let fn_name = name.node;
 
         let function = self.functions.get(&fn_name).ok_or_else(|| {
@@ -100,15 +101,27 @@ impl<'a> Env<'a> {
             )
         })?;
 
-        // TODO: Nice errors
         if args.len() != function.args.len() {
-            bail!(
-                "Calling `{}`: Expected {} args, found {}",
-                fn_name,
-                function.args.len(),
-                args.len()
-            )
+            // TODO: Be more perise with spans
+            return Err(RTError(
+                Diagnostic::error()
+                    .with_message(format!(
+                        "Expected {} args, found {}",
+                        function.args.len(),
+                        args.len()
+                    ))
+                    .with_labels(vec![
+                        call_span
+                            .primary_label()
+                            .with_message(format!("Calling here with {} arguments", args.len())),
+                        function.span.secondary_label().with_message(format!(
+                            "Defined here with {} arguments",
+                            function.args.len()
+                        )),
+                    ]),
+            ))?;
         }
+
         let mut scope = Scope::default();
 
         for (name, val) in function.args.iter().zip(args.iter()) {
@@ -176,7 +189,7 @@ impl<'a> Env<'a> {
                     for i in args {
                         args_evald.push(get!(self.eval_in(scope, &i)?));
                     }
-                    self.call(name, &args_evald)?
+                    self.call(name, &args_evald, e.span)?
                 } else {
                     // TODO: Nice error
                     bail!("Expeced {:?} to be a plain var", function)
