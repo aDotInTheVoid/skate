@@ -5,9 +5,15 @@ use crate::diagnostics;
 // TODO: Clean up "outer" vs inner spans
 // Eg an Expr has its own assocd span, but a BinOp doesnt
 
-pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
+pub type Block<'a> = Spanned<(Vec<Stmt<'a>>, BlockType)>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Name<'a> = Spanned<&'a str>;
+
+#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+pub enum BlockType {
+    ReturnExpr,
+    Discard,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub struct Span {

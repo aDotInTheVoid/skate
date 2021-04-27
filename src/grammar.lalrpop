@@ -14,14 +14,15 @@ Comma<T>: Vec<T> = {
     }
 };
 
-// TODO: Unify this with Comma, and keep track of weather we have a trailing semi (if we want that)
-Semi<T>: Vec<T> = { 
+// TODO: Unify this with Comma, 
+// true -> keep expr. False -> discard
+Semi<T>: (Vec<T>, BlockType) = { 
     <v:(<T> ";")*> <e:T?> => match e {
-        None=> v,
+        None=> (v, BlockType::Discard),
         Some(e) => {
             let mut v = v;
             v.push(e);
-            v
+            (v, BlockType::ReturnExpr)
         }
     }
 };

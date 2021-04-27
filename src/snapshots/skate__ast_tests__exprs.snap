@@ -20,19 +20,20 @@ expression: f
       ret: ~
       body:
         node:
-          - Expr:
-              node:
-                Literal:
-                  node:
-                    Integer: 1
-                  span:
-                    start: 11
-                    end: 12
-                    file_id: 100
-              span:
-                start: 11
-                end: 12
-                file_id: 100
+          - - Expr:
+                node:
+                  Literal:
+                    node:
+                      Integer: 1
+                    span:
+                      start: 11
+                      end: 12
+                      file_id: 100
+                span:
+                  start: 11
+                  end: 12
+                  file_id: 100
+          - Discard
         span:
           start: 9
           end: 15

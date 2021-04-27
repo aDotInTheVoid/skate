@@ -19,7 +19,9 @@ expression: f
           file_id: 100
       ret: ~
       body:
-        node: []
+        node:
+          - []
+          - Discard
         span:
           start: 9
           end: 11

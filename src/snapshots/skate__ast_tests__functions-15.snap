@@ -20,42 +20,44 @@ expression: f
       ret: ~
       body:
         node:
-          - Expr:
-              node:
-                If:
-                  - node:
-                      Var:
-                        node: x
-                        span:
-                          start: 27
-                          end: 28
-                          file_id: 100
-                    span:
-                      start: 27
-                      end: 28
-                      file_id: 100
-                  - node:
-                      - Expr:
-                          node:
-                            Var:
-                              node: y
+          - - Expr:
+                node:
+                  If:
+                    - node:
+                        Var:
+                          node: x
+                          span:
+                            start: 27
+                            end: 28
+                            file_id: 100
+                      span:
+                        start: 27
+                        end: 28
+                        file_id: 100
+                    - node:
+                        - - Expr:
+                              node:
+                                Var:
+                                  node: y
+                                  span:
+                                    start: 47
+                                    end: 48
+                                    file_id: 100
                               span:
                                 start: 47
                                 end: 48
                                 file_id: 100
-                          span:
-                            start: 47
-                            end: 48
-                            file_id: 100
-                    span:
-                      start: 29
-                      end: 62
-                      file_id: 100
-                  - ~
-              span:
-                start: 24
-                end: 62
-                file_id: 100
+                        - ReturnExpr
+                      span:
+                        start: 29
+                        end: 62
+                        file_id: 100
+                    - ~
+                span:
+                  start: 24
+                  end: 62
+                  file_id: 100
+          - ReturnExpr
         span:
           start: 10
           end: 72

@@ -20,96 +20,100 @@ expression: f
       ret: ~
       body:
         node:
-          - Expr:
-              node:
-                BinOp:
-                  - node:
-                      Literal:
-                        node:
-                          Integer: 1
-                        span:
-                          start: 11
-                          end: 12
-                          file_id: 100
-                    span:
-                      start: 11
-                      end: 12
-                      file_id: 100
-                  - node: Plus
-                    span:
-                      start: 13
-                      end: 14
-                      file_id: 100
-                  - node:
-                      Block:
-                        node:
-                          - Expr:
-                              node:
-                                If:
-                                  - node:
-                                      Literal:
-                                        node:
-                                          Integer: 1
+          - - Expr:
+                node:
+                  BinOp:
+                    - node:
+                        Literal:
+                          node:
+                            Integer: 1
+                          span:
+                            start: 11
+                            end: 12
+                            file_id: 100
+                      span:
+                        start: 11
+                        end: 12
+                        file_id: 100
+                    - node: Plus
+                      span:
+                        start: 13
+                        end: 14
+                        file_id: 100
+                    - node:
+                        Block:
+                          node:
+                            - - Expr:
+                                  node:
+                                    If:
+                                      - node:
+                                          Literal:
+                                            node:
+                                              Integer: 1
+                                            span:
+                                              start: 19
+                                              end: 20
+                                              file_id: 100
                                         span:
                                           start: 19
                                           end: 20
                                           file_id: 100
-                                    span:
-                                      start: 19
-                                      end: 20
-                                      file_id: 100
-                                  - node:
-                                      - Expr:
-                                          node:
-                                            Literal:
-                                              node:
-                                                Integer: 2
-                                              span:
-                                                start: 22
-                                                end: 23
-                                                file_id: 100
-                                          span:
-                                            start: 22
-                                            end: 23
-                                            file_id: 100
-                                    span:
-                                      start: 21
-                                      end: 24
-                                      file_id: 100
-                                  - node:
-                                      - Expr:
-                                          node:
-                                            Literal:
-                                              node:
-                                                Integer: 3
-                                              span:
-                                                start: 31
-                                                end: 32
-                                                file_id: 100
-                                          span:
-                                            start: 31
-                                            end: 32
-                                            file_id: 100
-                                    span:
-                                      start: 30
-                                      end: 33
-                                      file_id: 100
-                              span:
-                                start: 16
-                                end: 33
-                                file_id: 100
-                        span:
-                          start: 15
-                          end: 34
-                          file_id: 100
-                    span:
-                      start: 15
-                      end: 34
-                      file_id: 100
-              span:
-                start: 11
-                end: 34
-                file_id: 100
+                                      - node:
+                                          - - Expr:
+                                                node:
+                                                  Literal:
+                                                    node:
+                                                      Integer: 2
+                                                    span:
+                                                      start: 22
+                                                      end: 23
+                                                      file_id: 100
+                                                span:
+                                                  start: 22
+                                                  end: 23
+                                                  file_id: 100
+                                          - ReturnExpr
+                                        span:
+                                          start: 21
+                                          end: 24
+                                          file_id: 100
+                                      - node:
+                                          - - Expr:
+                                                node:
+                                                  Literal:
+                                                    node:
+                                                      Integer: 3
+                                                    span:
+                                                      start: 31
+                                                      end: 32
+                                                      file_id: 100
+                                                span:
+                                                  start: 31
+                                                  end: 32
+                                                  file_id: 100
+                                          - ReturnExpr
+                                        span:
+                                          start: 30
+                                          end: 33
+                                          file_id: 100
+                                  span:
+                                    start: 16
+                                    end: 33
+                                    file_id: 100
+                            - ReturnExpr
+                          span:
+                            start: 15
+                            end: 34
+                            file_id: 100
+                      span:
+                        start: 15
+                        end: 34
+                        file_id: 100
+                span:
+                  start: 11
+                  end: 34
+                  file_id: 100
+          - Discard
         span:
           start: 9
           end: 37

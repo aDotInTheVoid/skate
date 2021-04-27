@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: ba3f2d1f5d037e8ae30728cc7ac25219d2767cdfbace070e6b27b3244e98d8
+// sha3: ad8d84044ee8d6dbd759b330f22d57221a23d411d8c5f5935855efe6d
 use crate::ast::*;
 use crate::diagnostics::FileId;
 #[allow(unused_extern_crates)]
@@ -33,8 +33,8 @@ mod __parse__Program {
         Variant0(&'input str),
         Variant1(Spanned<Type>),
         Variant2(core::option::Option<Spanned<Type>>),
-        Variant3(Spanned<Vec<Stmt<'input>>>),
-        Variant4(core::option::Option<Spanned<Vec<Stmt<'input>>>>),
+        Variant3(Spanned<(Vec<Stmt<'input>>, BlockType)>),
+        Variant4(core::option::Option<Spanned<(Vec<Stmt<'input>>, BlockType)>>),
         Variant5(Arg<'input>),
         Variant6(alloc::vec::Vec<Arg<'input>>),
         Variant7(Expr<'input>),
@@ -47,7 +47,7 @@ mod __parse__Program {
         Variant14(Vec<Arg<'input>>),
         Variant15(Box<Expr<'input>>),
         Variant16(RawExpr<'input>),
-        Variant17(Vec<Stmt<'input>>),
+        Variant17((Vec<Stmt<'input>>, BlockType)),
         Variant18(bool),
         Variant19(Vec<Expr<'input>>),
         Variant20(core::option::Option<Expr<'input>>),
@@ -2240,6 +2240,14 @@ mod __parse__Program {
     fn __symbol_type_mismatch() -> ! {
         panic!("symbol type mismatch")
     }
+    fn __pop_Variant17<'input>(
+        __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
+    ) -> (usize, (Vec<Stmt<'input>>, BlockType), usize) {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant17(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch(),
+        }
+    }
     fn __pop_Variant5<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
     ) -> (usize, Arg<'input>, usize) {
@@ -2312,6 +2320,14 @@ mod __parse__Program {
             _ => __symbol_type_mismatch(),
         }
     }
+    fn __pop_Variant3<'input>(
+        __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
+    ) -> (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize) {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant3(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch(),
+        }
+    }
     fn __pop_Variant28<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
     ) -> (usize, Spanned<BinOp>, usize) {
@@ -2368,14 +2384,6 @@ mod __parse__Program {
             _ => __symbol_type_mismatch(),
         }
     }
-    fn __pop_Variant3<'input>(
-        __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
-    ) -> (usize, Spanned<Vec<Stmt<'input>>>, usize) {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant3(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch(),
-        }
-    }
     fn __pop_Variant25<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
     ) -> (usize, Spanned<&'input str>, usize) {
@@ -2421,14 +2429,6 @@ mod __parse__Program {
     ) -> (usize, Vec<Expr<'input>>, usize) {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant19(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch(),
-        }
-    }
-    fn __pop_Variant17<'input>(
-        __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
-    ) -> (usize, Vec<Stmt<'input>>, usize) {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant17(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch(),
         }
     }
@@ -2488,23 +2488,23 @@ mod __parse__Program {
             _ => __symbol_type_mismatch(),
         }
     }
+    fn __pop_Variant4<'input>(
+        __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
+    ) -> (
+        usize,
+        core::option::Option<Spanned<(Vec<Stmt<'input>>, BlockType)>>,
+        usize,
+    ) {
+        match __symbols.pop() {
+            Some((__l, __Symbol::Variant4(__v), __r)) => (__l, __v, __r),
+            _ => __symbol_type_mismatch(),
+        }
+    }
     fn __pop_Variant2<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
     ) -> (usize, core::option::Option<Spanned<Type>>, usize) {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant2(__v), __r)) => (__l, __v, __r),
-            _ => __symbol_type_mismatch(),
-        }
-    }
-    fn __pop_Variant4<'input>(
-        __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
-    ) -> (
-        usize,
-        core::option::Option<Spanned<Vec<Stmt<'input>>>>,
-        usize,
-    ) {
-        match __symbols.pop() {
-            Some((__l, __Symbol::Variant4(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch(),
         }
     }
@@ -5166,7 +5166,7 @@ fn __action3<'input>(
     (_, name, _): (usize, Spanned<&'input str>, usize),
     (_, args, _): (usize, Spanned<Vec<Arg<'input>>>, usize),
     (_, ret, _): (usize, core::option::Option<Spanned<Type>>, usize),
-    (_, body, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    (_, body, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> Function<'input> {
     Function {
         name: name,
@@ -5247,8 +5247,8 @@ fn __action10<'input>(
 fn __action11<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, __0, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
-) -> Spanned<Vec<Stmt<'input>>> {
+    (_, __0, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
+) -> Spanned<(Vec<Stmt<'input>>, BlockType)> {
     __0
 }
 
@@ -5257,9 +5257,9 @@ fn __action12<'input>(
     file_id: FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, __0, _): (usize, Vec<Stmt<'input>>, usize),
+    (_, __0, _): (usize, (Vec<Stmt<'input>>, BlockType), usize),
     (_, _, _): (usize, &'input str, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     __0
 }
 
@@ -5463,10 +5463,10 @@ fn __action33<'input>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Box<Expr<'input>>, usize),
-    (_, __1, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    (_, __1, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
     (_, __2, _): (
         usize,
-        core::option::Option<Spanned<Vec<Stmt<'input>>>>,
+        core::option::Option<Spanned<(Vec<Stmt<'input>>, BlockType)>>,
         usize,
     ),
 ) -> RawExpr<'input> {
@@ -5481,7 +5481,7 @@ fn __action34<'input>(
     (_, __0, _): (usize, Spanned<&'input str>, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, __1, _): (usize, Box<Expr<'input>>, usize),
-    (_, __2, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    (_, __2, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> RawExpr<'input> {
     RawExpr::For(__0, __1, __2)
 }
@@ -5492,7 +5492,7 @@ fn __action35<'input>(
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Box<Expr<'input>>, usize),
-    (_, __1, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    (_, __1, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> RawExpr<'input> {
     RawExpr::While(__0, __1)
 }
@@ -5510,7 +5510,7 @@ fn __action36<'input>(
 fn __action37<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, __0, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    (_, __0, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> RawExpr<'input> {
     RawExpr::Block(__0)
 }
@@ -5854,8 +5854,8 @@ fn __action73<'input>(
 fn __action74<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, __0, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
-) -> core::option::Option<Spanned<Vec<Stmt<'input>>>> {
+    (_, __0, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
+) -> core::option::Option<Spanned<(Vec<Stmt<'input>>, BlockType)>> {
     Some(__0)
 }
 
@@ -5865,7 +5865,7 @@ fn __action75<'input>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> core::option::Option<Spanned<Vec<Stmt<'input>>>> {
+) -> core::option::Option<Spanned<(Vec<Stmt<'input>>, BlockType)>> {
     None
 }
 
@@ -5874,8 +5874,8 @@ fn __action76<'input>(
     file_id: FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, __0, _): (usize, Spanned<Vec<Stmt<'input>>>, usize),
-) -> Spanned<Vec<Stmt<'input>>> {
+    (_, __0, _): (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
+) -> Spanned<(Vec<Stmt<'input>>, BlockType)> {
     __0
 }
 
@@ -6064,13 +6064,13 @@ fn __action93<'input>(
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     (_, e, _): (usize, core::option::Option<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     match e {
-        None => v,
+        None => (v, BlockType::Discard),
         Some(e) => {
             let mut v = v;
             v.push(e);
-            v
+            (v, BlockType::ReturnExpr)
         }
     }
 }
@@ -6080,9 +6080,9 @@ fn __action94<'input>(
     file_id: FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
-    (_, node, _): (usize, Vec<Stmt<'input>>, usize),
+    (_, node, _): (usize, (Vec<Stmt<'input>>, BlockType), usize),
     (_, end, _): (usize, usize, usize),
-) -> Spanned<Vec<Stmt<'input>>> {
+) -> Spanned<(Vec<Stmt<'input>>, BlockType)> {
     Spanned {
         node,
         span: Span {
@@ -6791,7 +6791,7 @@ fn __action149<'input>(
     __2: (usize, Spanned<Vec<Arg<'input>>>, usize),
     __3: (usize, &'input str, usize),
     __4: (usize, Spanned<Type>, usize),
-    __5: (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    __5: (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> Function<'input> {
     let __start0 = __3.0.clone();
     let __end0 = __4.2.clone();
@@ -6807,7 +6807,7 @@ fn __action150<'input>(
     __0: (usize, &'input str, usize),
     __1: (usize, Spanned<&'input str>, usize),
     __2: (usize, Spanned<Vec<Arg<'input>>>, usize),
-    __3: (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    __3: (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> Function<'input> {
     let __start0 = __2.2.clone();
     let __end0 = __3.0.clone();
@@ -6821,8 +6821,8 @@ fn __action151<'input>(
     file_id: FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
-    __1: (usize, Spanned<Vec<Stmt<'input>>>, usize),
-) -> core::option::Option<Spanned<Vec<Stmt<'input>>>> {
+    __1: (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
+) -> core::option::Option<Spanned<(Vec<Stmt<'input>>, BlockType)>> {
     let __start0 = __0.0.clone();
     let __end0 = __1.2.clone();
     let __temp0 = __action76(file_id, input, __0, __1);
@@ -6836,9 +6836,9 @@ fn __action152<'input>(
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Box<Expr<'input>>, usize),
-    __2: (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    __2: (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
     __3: (usize, &'input str, usize),
-    __4: (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    __4: (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> RawExpr<'input> {
     let __start0 = __3.0.clone();
     let __end0 = __4.2.clone();
@@ -6853,7 +6853,7 @@ fn __action153<'input>(
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Box<Expr<'input>>, usize),
-    __2: (usize, Spanned<Vec<Stmt<'input>>>, usize),
+    __2: (usize, Spanned<(Vec<Stmt<'input>>, BlockType)>, usize),
 ) -> RawExpr<'input> {
     let __start0 = __2.2.clone();
     let __end0 = __2.2.clone();
@@ -7008,7 +7008,7 @@ fn __action164<'input>(
     file_id: FileId,
     input: &'input str,
     __0: (usize, core::option::Option<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action114(file_id, input, &__start0, &__end0);
@@ -7022,7 +7022,7 @@ fn __action165<'input>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     __1: (usize, core::option::Option<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action115(file_id, input, __0);
@@ -7062,9 +7062,9 @@ fn __action167<'input>(
 fn __action168<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, Vec<Stmt<'input>>, usize),
+    __0: (usize, (Vec<Stmt<'input>>, BlockType), usize),
     __1: (usize, usize, usize),
-) -> Spanned<Vec<Stmt<'input>>> {
+) -> Spanned<(Vec<Stmt<'input>>, BlockType)> {
     let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action135(file_id, input, &__start0, &__end0);
@@ -7354,8 +7354,8 @@ fn __action188<'input>(
 fn __action189<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, Vec<Stmt<'input>>, usize),
-) -> Spanned<Vec<Stmt<'input>>> {
+    __0: (usize, (Vec<Stmt<'input>>, BlockType), usize),
+) -> Spanned<(Vec<Stmt<'input>>, BlockType)> {
     let __start0 = __0.2.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action134(file_id, input, &__start0, &__end0);
@@ -7737,7 +7737,7 @@ fn __action218<'input>(
     file_id: FileId,
     input: &'input str,
     __0: (usize, Stmt<'input>, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action112(file_id, input, __0);
@@ -7751,7 +7751,7 @@ fn __action219<'input>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     let __start0 = __lookbehind.clone();
     let __end0 = __lookahead.clone();
     let __temp0 = __action113(file_id, input, &__start0, &__end0);
@@ -7765,7 +7765,7 @@ fn __action220<'input>(
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
     __1: (usize, Stmt<'input>, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     let __start0 = __1.0.clone();
     let __end0 = __1.2.clone();
     let __temp0 = __action112(file_id, input, __1);
@@ -7778,7 +7778,7 @@ fn __action221<'input>(
     file_id: FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Stmt<'input>>, usize),
-) -> Vec<Stmt<'input>> {
+) -> (Vec<Stmt<'input>>, BlockType) {
     let __start0 = __0.2.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action113(file_id, input, &__start0, &__end0);

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use eyre::{bail, eyre, Result};
 
-use crate::ast::{BinOp, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
+use crate::ast::{BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Spanned, Stmt};
 
 use serde_json::Value;
 
@@ -91,11 +91,11 @@ impl<'a> Env<'a> {
         })
     }
 
-    fn eval_block_in(&self, block: &[Stmt<'a>], scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
+    fn eval_block_in(&self, block: &Block<'a>, scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
         use Stmt::*;
 
         let mut last_val = Value::Null;
-        for i in block {
+        for i in &block.0 {
             match i {
                 Let(name, expr) => {
                     let val = get!(self.eval_in(scope, expr)?);
@@ -117,7 +117,13 @@ impl<'a> Env<'a> {
                 }
             }
         }
-        Ok(BlockEvalResult::LocalRet(last_val))
+
+        let ret = match block.1 {
+            BlockType::Discard => Value::Null,
+            BlockType::ReturnExpr => last_val,
+        };
+
+        Ok(BlockEvalResult::LocalRet(ret))
     }
 
     fn eval_in(&self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {

@@ -20,87 +20,90 @@ expression: f
       ret: ~
       body:
         node:
-          - Expr:
-              node:
-                If:
-                  - node:
-                      Var:
-                        node: x
-                        span:
-                          start: 27
-                          end: 28
-                          file_id: 100
-                    span:
-                      start: 27
-                      end: 28
-                      file_id: 100
-                  - node:
-                      - Expr:
-                          node:
-                            Var:
-                              node: xf
+          - - Expr:
+                node:
+                  If:
+                    - node:
+                        Var:
+                          node: x
+                          span:
+                            start: 27
+                            end: 28
+                            file_id: 100
+                      span:
+                        start: 27
+                        end: 28
+                        file_id: 100
+                    - node:
+                        - - Expr:
+                              node:
+                                Var:
+                                  node: xf
+                                  span:
+                                    start: 47
+                                    end: 49
+                                    file_id: 100
                               span:
                                 start: 47
                                 end: 49
                                 file_id: 100
-                          span:
-                            start: 47
-                            end: 49
-                            file_id: 100
-                      - Let:
-                          - node: z
-                            span:
-                              start: 71
-                              end: 72
-                              file_id: 100
-                          - node:
-                              Var:
-                                node: d
+                          - Let:
+                              - node: z
+                                span:
+                                  start: 71
+                                  end: 72
+                                  file_id: 100
+                              - node:
+                                  Var:
+                                    node: d
+                                    span:
+                                      start: 75
+                                      end: 76
+                                      file_id: 100
                                 span:
                                   start: 75
                                   end: 76
                                   file_id: 100
-                            span:
-                              start: 75
-                              end: 76
-                              file_id: 100
-                    span:
-                      start: 29
-                      end: 91
-                      file_id: 100
-                  - node:
-                      - Expr:
-                          node:
-                            Var:
-                              node: noo
+                        - Discard
+                      span:
+                        start: 29
+                        end: 91
+                        file_id: 100
+                    - node:
+                        - - Expr:
+                              node:
+                                Var:
+                                  node: noo
+                                  span:
+                                    start: 115
+                                    end: 118
+                                    file_id: 100
                               span:
                                 start: 115
                                 end: 118
                                 file_id: 100
-                          span:
-                            start: 115
-                            end: 118
-                            file_id: 100
+                        - Discard
+                      span:
+                        start: 97
+                        end: 133
+                        file_id: 100
+                span:
+                  start: 24
+                  end: 133
+                  file_id: 100
+            - Print:
+                node:
+                  Var:
+                    node: hell
                     span:
-                      start: 97
-                      end: 133
+                      start: 153
+                      end: 157
                       file_id: 100
-              span:
-                start: 24
-                end: 133
-                file_id: 100
-          - Print:
-              node:
-                Var:
-                  node: hell
-                  span:
-                    start: 153
-                    end: 157
-                    file_id: 100
-              span:
-                start: 153
-                end: 157
-                file_id: 100
+                span:
+                  start: 153
+                  end: 157
+                  file_id: 100
+          - ReturnExpr
         span:
           start: 10
           end: 167

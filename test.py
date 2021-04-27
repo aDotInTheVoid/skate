@@ -60,6 +60,14 @@ def process(stream, file):
     output = stream.replace(BASE_DIR, "$DD")
     prity_file = ppath(file)
     if args.bless:
+        try:
+            with open(file, "r") as f:
+                if f.read() == output:
+                    return
+        except:
+            # Ignore errors where the file doesnt exits
+            pass
+
         with open(file, "w") as f:
             f.write(output)
         print(f"BLESSED {prity_file}")

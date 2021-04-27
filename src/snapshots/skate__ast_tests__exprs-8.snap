@@ -20,110 +20,111 @@ expression: f
       ret: ~
       body:
         node:
-          - Expr:
-              node:
-                BinOp:
-                  - node:
-                      BinOp:
-                        - node:
-                            BinOp:
-                              - node:
-                                  UnaryOp:
-                                    - node: Minus
+          - - Expr:
+                node:
+                  BinOp:
+                    - node:
+                        BinOp:
+                          - node:
+                              BinOp:
+                                - node:
+                                    UnaryOp:
+                                      - node: Minus
+                                        span:
+                                          start: 12
+                                          end: 13
+                                          file_id: 100
+                                      - node:
+                                          Literal:
+                                            node:
+                                              Integer: 1
+                                            span:
+                                              start: 13
+                                              end: 14
+                                              file_id: 100
+                                        span:
+                                          start: 13
+                                          end: 14
+                                          file_id: 100
+                                  span:
+                                    start: 12
+                                    end: 14
+                                    file_id: 100
+                                - node: Plus
+                                  span:
+                                    start: 15
+                                    end: 16
+                                    file_id: 100
+                                - node:
+                                    Literal:
+                                      node:
+                                        Integer: 2
                                       span:
-                                        start: 12
-                                        end: 13
+                                        start: 17
+                                        end: 18
                                         file_id: 100
-                                    - node:
-                                        Literal:
-                                          node:
-                                            Integer: 1
-                                          span:
-                                            start: 13
-                                            end: 14
-                                            file_id: 100
-                                      span:
-                                        start: 13
-                                        end: 14
-                                        file_id: 100
+                                  span:
+                                    start: 17
+                                    end: 18
+                                    file_id: 100
+                            span:
+                              start: 11
+                              end: 19
+                              file_id: 100
+                          - node: Times
+                            span:
+                              start: 20
+                              end: 21
+                              file_id: 100
+                          - node:
+                              Literal:
+                                node:
+                                  Integer: 3
                                 span:
-                                  start: 12
-                                  end: 14
+                                  start: 22
+                                  end: 23
                                   file_id: 100
-                              - node: Plus
+                            span:
+                              start: 22
+                              end: 23
+                              file_id: 100
+                      span:
+                        start: 11
+                        end: 23
+                        file_id: 100
+                    - node: Minus
+                      span:
+                        start: 24
+                        end: 25
+                        file_id: 100
+                    - node:
+                        UnaryOp:
+                          - node: Minus
+                            span:
+                              start: 26
+                              end: 27
+                              file_id: 100
+                          - node:
+                              Literal:
+                                node:
+                                  Integer: 4
                                 span:
-                                  start: 15
-                                  end: 16
+                                  start: 27
+                                  end: 28
                                   file_id: 100
-                              - node:
-                                  Literal:
-                                    node:
-                                      Integer: 2
-                                    span:
-                                      start: 17
-                                      end: 18
-                                      file_id: 100
-                                span:
-                                  start: 17
-                                  end: 18
-                                  file_id: 100
-                          span:
-                            start: 11
-                            end: 19
-                            file_id: 100
-                        - node: Times
-                          span:
-                            start: 20
-                            end: 21
-                            file_id: 100
-                        - node:
-                            Literal:
-                              node:
-                                Integer: 3
-                              span:
-                                start: 22
-                                end: 23
-                                file_id: 100
-                          span:
-                            start: 22
-                            end: 23
-                            file_id: 100
-                    span:
-                      start: 11
-                      end: 23
-                      file_id: 100
-                  - node: Minus
-                    span:
-                      start: 24
-                      end: 25
-                      file_id: 100
-                  - node:
-                      UnaryOp:
-                        - node: Minus
-                          span:
-                            start: 26
-                            end: 27
-                            file_id: 100
-                        - node:
-                            Literal:
-                              node:
-                                Integer: 4
-                              span:
-                                start: 27
-                                end: 28
-                                file_id: 100
-                          span:
-                            start: 27
-                            end: 28
-                            file_id: 100
-                    span:
-                      start: 26
-                      end: 28
-                      file_id: 100
-              span:
-                start: 11
-                end: 28
-                file_id: 100
+                            span:
+                              start: 27
+                              end: 28
+                              file_id: 100
+                      span:
+                        start: 26
+                        end: 28
+                        file_id: 100
+                span:
+                  start: 11
+                  end: 28
+                  file_id: 100
+          - Discard
         span:
           start: 9
           end: 31

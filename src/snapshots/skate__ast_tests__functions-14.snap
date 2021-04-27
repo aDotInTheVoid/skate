@@ -20,88 +20,91 @@ expression: f
       ret: ~
       body:
         node:
-          - Expr:
-              node:
-                Block:
-                  node:
-                    - Let:
-                        - node: a
-                          span:
-                            start: 13
-                            end: 14
-                            file_id: 100
-                        - node:
-                            Var:
-                              node: b
+          - - Expr:
+                node:
+                  Block:
+                    node:
+                      - - Let:
+                            - node: a
+                              span:
+                                start: 13
+                                end: 14
+                                file_id: 100
+                            - node:
+                                Var:
+                                  node: b
+                                  span:
+                                    start: 17
+                                    end: 18
+                                    file_id: 100
                               span:
                                 start: 17
                                 end: 18
                                 file_id: 100
-                          span:
-                            start: 17
-                            end: 18
-                            file_id: 100
-                    - Let:
-                        - node: c
-                          span:
-                            start: 24
-                            end: 25
-                            file_id: 100
-                        - node:
-                            Block:
-                              node:
-                                - Expr:
-                                    node:
-                                      Var:
-                                        node: d
-                                        span:
-                                          start: 29
-                                          end: 30
-                                          file_id: 100
-                                    span:
-                                      start: 29
-                                      end: 30
-                                      file_id: 100
-                                - Expr:
-                                    node:
-                                      Var:
-                                        node: e
-                                        span:
-                                          start: 31
-                                          end: 32
-                                          file_id: 100
-                                    span:
-                                      start: 31
-                                      end: 32
-                                      file_id: 100
+                        - Let:
+                            - node: c
+                              span:
+                                start: 24
+                                end: 25
+                                file_id: 100
+                            - node:
+                                Block:
+                                  node:
+                                    - - Expr:
+                                          node:
+                                            Var:
+                                              node: d
+                                              span:
+                                                start: 29
+                                                end: 30
+                                                file_id: 100
+                                          span:
+                                            start: 29
+                                            end: 30
+                                            file_id: 100
+                                      - Expr:
+                                          node:
+                                            Var:
+                                              node: e
+                                              span:
+                                                start: 31
+                                                end: 32
+                                                file_id: 100
+                                          span:
+                                            start: 31
+                                            end: 32
+                                            file_id: 100
+                                    - ReturnExpr
+                                  span:
+                                    start: 28
+                                    end: 33
+                                    file_id: 100
                               span:
                                 start: 28
                                 end: 33
                                 file_id: 100
-                          span:
-                            start: 28
-                            end: 33
-                            file_id: 100
-                  span:
-                    start: 8
-                    end: 34
-                    file_id: 100
-              span:
-                start: 8
-                end: 34
-                file_id: 100
-          - Expr:
-              node:
-                Var:
-                  node: f
-                  span:
-                    start: 36
-                    end: 37
-                    file_id: 100
-              span:
-                start: 36
-                end: 37
-                file_id: 100
+                      - ReturnExpr
+                    span:
+                      start: 8
+                      end: 34
+                      file_id: 100
+                span:
+                  start: 8
+                  end: 34
+                  file_id: 100
+            - Expr:
+                node:
+                  Var:
+                    node: f
+                    span:
+                      start: 36
+                      end: 37
+                      file_id: 100
+                span:
+                  start: 36
+                  end: 37
+                  file_id: 100
+          - ReturnExpr
         span:
           start: 6
           end: 38

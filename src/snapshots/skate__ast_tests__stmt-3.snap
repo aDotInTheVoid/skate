@@ -20,42 +20,43 @@ expression: f
       ret: ~
       body:
         node:
-          - Print:
-              node:
-                BinOp:
-                  - node:
-                      Literal:
-                        node:
-                          String: "2"
-                        span:
-                          start: 17
-                          end: 20
-                          file_id: 100
-                    span:
-                      start: 17
-                      end: 20
-                      file_id: 100
-                  - node: Plus
-                    span:
-                      start: 21
-                      end: 22
-                      file_id: 100
-                  - node:
-                      Literal:
-                        node:
-                          String: "3"
-                        span:
-                          start: 23
-                          end: 26
-                          file_id: 100
-                    span:
-                      start: 23
-                      end: 26
-                      file_id: 100
-              span:
-                start: 17
-                end: 26
-                file_id: 100
+          - - Print:
+                node:
+                  BinOp:
+                    - node:
+                        Literal:
+                          node:
+                            String: "2"
+                          span:
+                            start: 17
+                            end: 20
+                            file_id: 100
+                      span:
+                        start: 17
+                        end: 20
+                        file_id: 100
+                    - node: Plus
+                      span:
+                        start: 21
+                        end: 22
+                        file_id: 100
+                    - node:
+                        Literal:
+                          node:
+                            String: "3"
+                          span:
+                            start: 23
+                            end: 26
+                            file_id: 100
+                      span:
+                        start: 23
+                        end: 26
+                        file_id: 100
+                span:
+                  start: 17
+                  end: 26
+                  file_id: 100
+          - ReturnExpr
         span:
           start: 9
           end: 28
