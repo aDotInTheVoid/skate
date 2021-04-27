@@ -2,5 +2,5 @@ fn boo() {
     if x {} else {}
 
     let x = 7;
-    let comment = "TODO: Allow this, see https://doc.rust-lang.org/reference/statements.html#expression-statements";
+    // "TODO: Allow this, see https://doc.rust-lang.org/reference/statements.html#expression-statements";
 }

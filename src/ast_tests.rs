@@ -109,6 +109,10 @@ fn progs() {
                 world();
             }
             "#);
+    p(r#"
+    // Comment
+    fn main() {}
+    "#);
 }
 
 #[test]

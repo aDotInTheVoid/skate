@@ -3,6 +3,16 @@ use crate::diagnostics::FileId;
 
 grammar(file_id: FileId);
 
+
+// Skip over comments
+match {
+    r"\s*" => { },
+    r"//[^\n\r]*[\n\r]*" => { },
+    // We dont suport /* */ comments because I cant get them to work
+    // r"/\*(.|\n)*?\*/" => { },
+    _
+}
+
 Comma<T>: Vec<T> = { 
     <v:(<T> ",")*> <e:T?> => match e {
         None=> v,

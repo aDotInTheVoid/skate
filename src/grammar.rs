@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: ad8d84044ee8d6dbd759b330f22d57221a23d411d8c5f5935855efe6d
+// sha3: e3d6a14208755732bca89afd2cc85d6571b8c248788743195dd63f49ecbc10
 use crate::ast::*;
 use crate::diagnostics::FileId;
 #[allow(unused_extern_crates)]
@@ -5078,10 +5078,7 @@ mod __intern_token {
     extern crate core;
     pub fn new_builder() -> __lalrpop_util::lexer::MatcherBuilder {
         let __strs: &[(&str, bool)] = &[
-            (
-                "^(\"(\\\\[\u{0}-\t\u{b}-\u{10ffff}]|[\u{0}-!\\#-\\[\\]-\u{10ffff}])*\")",
-                false,
-            ),
+            ("^(\"(\\\\[\u{0}-\t\u{b}-\u{10ffff}]|[\u{0}-!\\#-\\[\\]-\u{10ffff}])*\")", false),
             ("^([\\+\\-]?[0-9]+[\\.][0-9]*)", false),
             ("^([0-9]+)", false),
             ("^([A-Za-z][0-9A-Z_a-z]*)", false),
@@ -5124,7 +5121,8 @@ mod __intern_token {
             ("^(\\{)", false),
             ("^(\\|\\|)", false),
             ("^(\\})", false),
-            (r"^(\s*)", true),
+            ("^(//[\u{0}-\t\u{b}-\u{c}\u{e}-\u{10ffff}]*[\n\r]*)", true),
+            ("^([\t-\r \u{85}\u{a0}\u{1680}\u{2000}-\u{200a}\u{2028}-\u{2029}\u{202f}\u{205f}\u{3000}]*)", true),
         ];
         __lalrpop_util::lexer::MatcherBuilder::new(__strs.iter().copied()).unwrap()
     }
