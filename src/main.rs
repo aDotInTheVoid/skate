@@ -4,6 +4,7 @@ mod grammar; // synthesized by LALRPOP
 mod ast;
 mod diagnostics;
 mod exec;
+mod value;
 
 use codespan_reporting::diagnostic::{Diagnostic, Label};
 use codespan_reporting::files::SimpleFiles;
