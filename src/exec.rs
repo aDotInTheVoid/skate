@@ -206,8 +206,13 @@ impl<'a> Env<'a> {
                     }
                     self.call(name, &args_evald, e.span)?
                 } else {
-                    // TODO: Nice error
-                    bail!("Expeced {:?} to be a plain var", function)
+                    // TODO: Proper first class functions
+                    // See #32
+                    Err(RtError(
+                        Diagnostic::error()
+                            .with_message("Expected a name")
+                            .with_labels(vec![function.span.primary_label()]),
+                    ))?
                 }
             }
             Var(Spanned { node, span }) => scope.lookup(node).ok_or_else(|| {

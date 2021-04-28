@@ -1,4 +1,6 @@
-Error: Expeced Spanned { node: Call(Spanned { node: Var(Spanned { node: "f", span: Span { start: 16, end: 17, file_id: FileId(0) } }), span: Span { start: 16, end: 17, file_id: FileId(0) } }, []), span: Span { start: 16, end: 19, file_id: FileId(0) } } to be a plain var
+error: Expected a name
+  ┌─ $DD/tests/run-fail/fns/not-a-fn.sk:2:5
+  │
+2 │     f()()
+  │     ^^^
 
-Location:
-    src/exec.rs:210:21
