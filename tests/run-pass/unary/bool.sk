@@ -1,0 +1,10 @@
+fn main() {
+    print !true;
+    print !false;
+
+    print !false && !false;
+
+    print !true||false;
+
+    print !(true||false);
+}

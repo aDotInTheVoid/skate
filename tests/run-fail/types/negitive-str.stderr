@@ -1,4 +1,8 @@
-Error: Unimplemented UnaryOp(Spanned { node: Not, span: Span { start: 22, end: 23, file_id: FileId(0) } }, Spanned { node: BinOp(Spanned { node: Literal(Spanned { node: String("Love"), span: Span { start: 24, end: 30, file_id: FileId(0) } }), span: Span { start: 24, end: 30, file_id: FileId(0) } }, Spanned { node: Plus, span: Span { start: 31, end: 32, file_id: FileId(0) } }, Spanned { node: Literal(Spanned { node: String("Muffin"), span: Span { start: 33, end: 41, file_id: FileId(0) } }), span: Span { start: 33, end: 41, file_id: FileId(0) } }), span: Span { start: 23, end: 42, file_id: FileId(0) } })
+error: Unknown UnaryOp `!` for `string`
+  ┌─ $DD/tests/run-fail/types/negitive-str.sk:2:11
+  │
+2 │     print !("Love" + "Muffin");
+  │           ^------------------- Evaluated to String("LoveMuffin")
+  │           │ 
+  │           In this operator
 
-Location:
-    src/exec.rs:232:22

@@ -1,3 +1,4 @@
+use std::fmt::Write;
 use std::ops::Range;
 use std::usize;
 
@@ -160,10 +161,19 @@ impl std::fmt::Display for BinOp {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
 pub enum UnaryOp {
     Not,
     Minus,
+}
+
+impl std::fmt::Display for UnaryOp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_char(match self {
+            UnaryOp::Not => '!',
+            UnaryOp::Minus => '-',
+        })
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

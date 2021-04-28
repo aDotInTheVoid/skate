@@ -7,6 +7,7 @@ use eyre::{bail, Result};
 
 use crate::ast::{
     self, BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt,
+    UnaryOp,
 };
 use crate::diagnostics::RtError;
 use crate::env::Scope;
@@ -193,6 +194,10 @@ impl<'a> Env<'a> {
                 let rv = get!(self.eval_in(scope, &r)?);
                 binop(lv, o.node, rv, l.span, o.span, r.span)?
             }
+            UnaryOp(o, e) => {
+                let val = get!(self.eval_in(scope, &e)?);
+                unary_op(*o, val, e.span)?
+            }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {
                     let mut args_evald = Vec::with_capacity(args.len());
@@ -321,6 +326,27 @@ fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span)
             (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
         },
     ))
+}
+
+fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
+    Ok(match (o.node, v) {
+        (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
+        (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
+        (UnaryOp::Minus, Value::Float(f)) => Value::Float(-f),
+        (_, v) => Err(RtError(
+            Diagnostic::error()
+                .with_message(format!(
+                    "Unknown UnaryOp `{}` for `{}`",
+                    o.node,
+                    v.type_name()
+                ))
+                .with_labels(vec![
+                    o.span.primary_label().with_message("In this operator"),
+                    vs.secondary_label()
+                        .with_message(format!("Evaluated to {:?}", v)),
+                ]),
+        ))?,
+    })
 }
 
 fn is_truthy(val: Value) -> Result<bool> {

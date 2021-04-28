@@ -1,0 +1,16 @@
+fn test(x) {
+    if x == 0 {
+        let x = 1;
+        print x;
+    } else {
+        let x = 2;
+        print x;
+    };
+    print x;
+}
+
+fn main() {
+    test(-1);
+    test(0);
+    test(1);
+}
