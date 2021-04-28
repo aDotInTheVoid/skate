@@ -1,3 +1,7 @@
 fn main() {
+    let x1 = null;
+    let x2 = null;
+    let x3 = null;
+
     let y = z;
 }

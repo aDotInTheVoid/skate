@@ -2,7 +2,7 @@
 use std::collections::HashMap;
 
 use codespan_reporting::diagnostic::Diagnostic;
-use eyre::{bail, eyre, Result};
+use eyre::{bail, Result};
 
 use crate::ast::{
     self, BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt,
@@ -201,10 +201,21 @@ impl<'a> Env<'a> {
                     bail!("Expeced {:?} to be a plain var", function)
                 }
             }
-            Var(Spanned { node, .. }) => scope
+            Var(Spanned { node, span }) => scope
                 .vars
                 .get(node)
-                .ok_or_else(|| eyre!("No var in scope with name `{}`", node))?
+                .ok_or_else(|| {
+                    RtError(
+                        Diagnostic::error()
+                            .with_message(format!("Couldn't find variable `{}` in scope", node))
+                            .with_labels(vec![span.primary_label()])
+                            .with_notes(vec![format!("Variables in scope: {:?}", {
+                                let mut items = scope.vars.keys().collect::<Vec<_>>();
+                                items.sort();
+                                items
+                            })]),
+                    )
+                })?
                 .clone(),
             If(test, ifcase, elsecase) => {
                 let test = get!(self.eval_in(scope, &*test)?);

@@ -1,4 +1,8 @@
-Error: No var in scope with name `z`
+error: Couldn't find variable `z` in scope
+  ┌─ $DD/tests/run-fail/vars/out-of-scope.sk:6:13
+  │
+6 │     let y = z;
+  │             ^
+  │
+  = Variables in scope: ["x1", "x2", "x3"]
 
-Location:
-    src/exec.rs:207:32
