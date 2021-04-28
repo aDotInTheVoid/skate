@@ -208,11 +208,12 @@ impl<'a> Env<'a> {
                 } else {
                     // TODO: Proper first class functions
                     // See #32
-                    Err(RtError(
+                    return Err(RtError(
                         Diagnostic::error()
                             .with_message("Expected a name")
                             .with_labels(vec![function.span.primary_label()]),
-                    ))?
+                    )
+                    .into());
                 }
             }
             Var(Spanned { node, span }) => scope.lookup(node).ok_or_else(|| {
@@ -338,19 +339,22 @@ fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
         (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
         (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
         (UnaryOp::Minus, Value::Float(f)) => Value::Float(-f),
-        (_, v) => Err(RtError(
-            Diagnostic::error()
-                .with_message(format!(
-                    "Unknown UnaryOp `{}` for `{}`",
-                    o.node,
-                    v.type_name()
-                ))
-                .with_labels(vec![
-                    o.span.primary_label().with_message("In this operator"),
-                    vs.secondary_label()
-                        .with_message(format!("Evaluated to {:?}", v)),
-                ]),
-        ))?,
+        (_, v) => {
+            return Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!(
+                        "Unknown UnaryOp `{}` for `{}`",
+                        o.node,
+                        v.type_name()
+                    ))
+                    .with_labels(vec![
+                        o.span.primary_label().with_message("In this operator"),
+                        vs.secondary_label()
+                            .with_message(format!("Evaluated to {:?}", v)),
+                    ]),
+            )
+            .into())
+        }
     })
 }
 
@@ -365,7 +369,8 @@ fn is_truthy(val: Value, s: Span) -> Result<bool> {
                 .with_labels(vec![s
                     .primary_label()
                     .with_message(format!("Evaluated to `{:?}`", val))]),
-        ))?
+        )
+        .into())
     }
 }
 
