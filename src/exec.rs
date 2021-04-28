@@ -8,6 +8,7 @@ use crate::ast::{
     self, BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt,
 };
 use crate::diagnostics::RtError;
+use crate::env::Scope;
 use crate::value::Value;
 
 // Err -> Exit err due to type error/rt error
@@ -43,11 +44,6 @@ pub fn run(p: Program) -> Result<bool> {
 #[derive(Debug, Default)]
 struct Env<'a> {
     functions: HashMap<&'a str, &'a Spanned<Function<'a>>>,
-}
-
-#[derive(Debug, Default)]
-struct Scope<'a> {
-    vars: HashMap<&'a str, Value>,
 }
 
 enum BlockEvalResult {
@@ -126,7 +122,7 @@ impl<'a> Env<'a> {
 
         for (name, val) in function.args.iter().zip(args.iter()) {
             // TODO: less cloning
-            scope.vars.insert(&name.name, val.clone());
+            scope.declare(&name.name, val.clone());
         }
 
         // In functions, a trailing expression returns
@@ -144,7 +140,7 @@ impl<'a> Env<'a> {
             match i {
                 Let(name, expr) => {
                     let val = get!(self.eval_in(scope, expr)?);
-                    scope.vars.insert(name, val);
+                    scope.declare(name, val);
                     last_val = Value::Null;
                 }
                 Print(e) => {
@@ -201,22 +197,14 @@ impl<'a> Env<'a> {
                     bail!("Expeced {:?} to be a plain var", function)
                 }
             }
-            Var(Spanned { node, span }) => scope
-                .vars
-                .get(node)
-                .ok_or_else(|| {
-                    RtError(
-                        Diagnostic::error()
-                            .with_message(format!("Couldn't find variable `{}` in scope", node))
-                            .with_labels(vec![span.primary_label()])
-                            .with_notes(vec![format!("Variables in scope: {:?}", {
-                                let mut items = scope.vars.keys().collect::<Vec<_>>();
-                                items.sort();
-                                items
-                            })]),
-                    )
-                })?
-                .clone(),
+            Var(Spanned { node, span }) => scope.lookup(node).ok_or_else(|| {
+                RtError(
+                    Diagnostic::error()
+                        .with_message(format!("Couldn't find variable `{}` in scope", node))
+                        .with_labels(vec![span.primary_label()])
+                        .with_notes(vec![format!("Variables in scope: {:?}", scope.in_scope())]),
+                )
+            })?,
             If(test, ifcase, elsecase) => {
                 let test = get!(self.eval_in(scope, &*test)?);
                 let eval_result = if is_truthy(test)? {

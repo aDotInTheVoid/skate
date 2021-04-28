@@ -1,0 +1,9 @@
+fn main() {
+    let x = 2;
+    {
+        let x = 3;
+        print x;
+    };
+    // TODO: Should be 2
+    print x;
+}

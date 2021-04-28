@@ -3,6 +3,7 @@ mod grammar; // synthesized by LALRPOP
 
 mod ast;
 mod diagnostics;
+mod env;
 mod exec;
 mod value;
 

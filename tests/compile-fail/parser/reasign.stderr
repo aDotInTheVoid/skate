@@ -1,0 +1,28 @@
+error: Unexpected token
+  ┌─ $DD/tests/compile-fail/parser/reasign.sk:5:7
+  │
+5 │     x = 3;
+  │       ^
+  │
+  = Expected: "!="
+  = Expected: "&&"
+  = Expected: "("
+  = Expected: ")"
+  = Expected: "*"
+  = Expected: "+"
+  = Expected: ","
+  = Expected: "-"
+  = Expected: "."
+  = Expected: "/"
+  = Expected: ";"
+  = Expected: "<"
+  = Expected: "<="
+  = Expected: "=="
+  = Expected: ">"
+  = Expected: ">="
+  = Expected: "["
+  = Expected: "]"
+  = Expected: "{"
+  = Expected: "||"
+  = Expected: "}"
+

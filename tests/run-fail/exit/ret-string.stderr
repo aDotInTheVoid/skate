@@ -1,4 +1,4 @@
 Error: `main` returned `String("hello")`, expected number or Null
 
 Location:
-    src/exec.rs:36:14
+    src/exec.rs:37:14
