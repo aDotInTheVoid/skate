@@ -55,6 +55,7 @@ enum BlockEvalResult {
     LocalRet(Value),
 }
 
+// Note: always get! an `BlockEvalResult` before creating another to avoid #29
 macro_rules! get {
     ($e: expr) => {
         match $e {
@@ -182,9 +183,10 @@ impl<'a> Env<'a> {
                 Literal::Null => Value::Null,
             },
             BinOp(l, o, r) => {
-                let l = self.eval_in(scope, &l)?;
-                let r = self.eval_in(scope, &r)?;
-                binop(get!(l), o.node, get!(r))?
+                // TODO: is this eval right
+                let l = get!(self.eval_in(scope, &l)?);
+                let r = get!(self.eval_in(scope, &r)?);
+                binop(l, o.node, r)?
             }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {

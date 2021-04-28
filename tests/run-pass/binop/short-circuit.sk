@@ -1,0 +1,16 @@
+fn demo(x: bool) {
+    return {
+        print 1;
+        if x { return "eret"; };
+        2
+    } + {
+        print 2;
+        2
+    }
+}
+
+fn main() {
+    demo(true);
+    print("===");
+    demo(false);
+}
