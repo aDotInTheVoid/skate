@@ -1,4 +1,2 @@
-Error: `main` returned `Float(0.0)`, expected number or Null
+error: `main` returned `Float(0.0)` with type `float`, expected `null` or `int`
 
-Location:
-    src/exec.rs:39:14

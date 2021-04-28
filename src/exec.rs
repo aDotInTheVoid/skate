@@ -36,7 +36,15 @@ pub fn run(p: Program) -> Result<bool> {
     let is_fail = match result {
         Value::Null => false,
         Value::Int(x) => x != 0,
-        x => bail!("`main` returned `{:?}`, expected number or Null", x),
+        x => {
+            // TODO: Give a span
+            return Err(RtError(Diagnostic::error().with_message(format!(
+                "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
+                x,
+                x.type_name()
+            )))
+            .into());
+        }
     };
 
     Ok(is_fail)

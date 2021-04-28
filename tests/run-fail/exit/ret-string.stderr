@@ -1,4 +1,2 @@
-Error: `main` returned `String("hello")`, expected number or Null
+error: `main` returned `String("hello")` with type `string`, expected `null` or `int`
 
-Location:
-    src/exec.rs:39:14
