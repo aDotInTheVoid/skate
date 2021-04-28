@@ -1,8 +1,0 @@
-error: Unexpected token
-  ┌─ $DD/tests/compile-fail/lexer/no-arg-ty.sk:1:7
-  │
-1 │ fn a(x){}
-  │       ^
-  │
-  = Expected: ":"
-

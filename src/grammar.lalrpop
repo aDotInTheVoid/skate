@@ -56,7 +56,7 @@ Function: Function<'input> = {
 Args = { "(" <Comma<Arg>> ")" }
 
 // TODO: Maybe dont have names things, use a tuple, not a struct.
-Arg: Arg<'input> = { <name:Name> ":" <ty:Spaned<Type>> => Arg{<>} }
+Arg: Arg<'input> = { <name:Name> <ty:(":" <Spaned<Type>>)?> => Arg{<>} }
 
 Type: Type = {
     "int"    => Type::Int,

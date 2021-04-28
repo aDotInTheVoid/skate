@@ -1,0 +1,4 @@
+
+fn boo(x, y, z: int, w) {}
+
+fn main() {}

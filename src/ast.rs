@@ -90,7 +90,7 @@ pub struct Function<'a> {
 pub struct Arg<'a> {
     #[serde(borrow)]
     pub name: Name<'a>,
-    pub ty: Spanned<Type>,
+    pub ty: Option<Spanned<Type>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
