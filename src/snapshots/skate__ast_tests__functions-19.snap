@@ -20,34 +20,35 @@ expression: f
       ret: ~
       body:
         node:
-          - Let:
-              - node: z
-                span:
-                  start: 16
-                  end: 17
-                  file_id: 100
-              - node:
-                  FieldAccess:
-                    - node:
-                        Var:
-                          node: a
-                          span:
-                            start: 20
-                            end: 21
-                            file_id: 100
-                      span:
-                        start: 20
-                        end: 21
-                        file_id: 100
-                    - node: b
-                      span:
-                        start: 22
-                        end: 23
-                        file_id: 100
-                span:
-                  start: 20
-                  end: 23
-                  file_id: 100
+          - - Let:
+                - node: z
+                  span:
+                    start: 16
+                    end: 17
+                    file_id: 100
+                - node:
+                    FieldAccess:
+                      - node:
+                          Var:
+                            node: a
+                            span:
+                              start: 20
+                              end: 21
+                              file_id: 100
+                        span:
+                          start: 20
+                          end: 21
+                          file_id: 100
+                      - node: b
+                        span:
+                          start: 22
+                          end: 23
+                          file_id: 100
+                  span:
+                    start: 20
+                    end: 23
+                    file_id: 100
+          - ReturnExpr
         span:
           start: 10
           end: 25

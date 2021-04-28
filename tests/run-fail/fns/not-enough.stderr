@@ -1,4 +1,11 @@
-Error: Calling `not_enough`: Expected 3 args, found 1
+error: Expected 3 args, found 1
+  ┌─ $DD/tests/run-fail/fns/not-enough.sk:6:5
+  │  
+1 │ ╭ fn not_enough(a: int, b: int, c: int) {
+2 │ │ 
+3 │ │ }
+  │ ╰─' Defined here with 3 arguments
+  · │
+6 │       not_enough(false);
+  │       ^^^^^^^^^^^^^^^^^ Calling here with 1 arguments
 
-Location:
-    src/exec.rs:105:13

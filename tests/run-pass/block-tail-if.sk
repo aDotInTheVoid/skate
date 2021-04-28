@@ -1,0 +1,22 @@
+fn one(x: bool) {
+    if x {1} else {2}
+}
+
+fn two(x: bool) {
+    if {x} {1;} else {2}
+}
+
+fn three(x: bool) {
+    if x {1} else {2};
+}
+
+fn main() {
+    print one(true);
+    print one(false);
+
+    print two(true);
+    print two(false);
+
+    print three(true);
+    print three(false);
+}

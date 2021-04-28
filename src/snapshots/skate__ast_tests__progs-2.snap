@@ -1,0 +1,33 @@
+---
+source: src/ast_tests.rs
+expression: f
+
+---
+- Function:
+    node:
+      name:
+        node: main
+        span:
+          start: 23
+          end: 27
+          file_id: 100
+      args:
+        node: []
+        span:
+          start: 27
+          end: 29
+          file_id: 100
+      ret: ~
+      body:
+        node:
+          - []
+          - Discard
+        span:
+          start: 30
+          end: 32
+          file_id: 100
+    span:
+      start: 20
+      end: 32
+      file_id: 100
+

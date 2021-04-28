@@ -1,0 +1,6 @@
+// Normal comments
+fn main() {
+    print "// hello";
+    // print "hello" ;
+    print "shown"; // not shown ";
+}

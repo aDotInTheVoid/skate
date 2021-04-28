@@ -20,57 +20,62 @@ expression: f
       ret: ~
       body:
         node:
-          - Print:
-              node:
-                BinOp:
-                  - node:
-                      Literal:
-                        node:
-                          Integer: 1
-                        span:
-                          start: 17
-                          end: 18
-                          file_id: 100
-                    span:
-                      start: 17
-                      end: 18
-                      file_id: 100
-                  - node: Plus
-                    span:
-                      start: 19
-                      end: 20
-                      file_id: 100
-                  - node:
-                      If:
-                        - node:
-                            Var:
-                              node: z
-                              span:
-                                start: 24
-                                end: 25
-                                file_id: 100
+          - - Print:
+                node:
+                  BinOp:
+                    - node:
+                        Literal:
+                          node:
+                            Integer: 1
                           span:
-                            start: 24
-                            end: 25
+                            start: 17
+                            end: 18
                             file_id: 100
-                        - node: []
-                          span:
-                            start: 26
-                            end: 28
-                            file_id: 100
-                        - node: []
-                          span:
-                            start: 32
-                            end: 34
-                            file_id: 100
-                    span:
-                      start: 21
-                      end: 34
-                      file_id: 100
-              span:
-                start: 17
-                end: 34
-                file_id: 100
+                      span:
+                        start: 17
+                        end: 18
+                        file_id: 100
+                    - node: Plus
+                      span:
+                        start: 19
+                        end: 20
+                        file_id: 100
+                    - node:
+                        If:
+                          - node:
+                              Var:
+                                node: z
+                                span:
+                                  start: 24
+                                  end: 25
+                                  file_id: 100
+                            span:
+                              start: 24
+                              end: 25
+                              file_id: 100
+                          - node:
+                              - []
+                              - Discard
+                            span:
+                              start: 26
+                              end: 28
+                              file_id: 100
+                          - node:
+                              - []
+                              - Discard
+                            span:
+                              start: 32
+                              end: 34
+                              file_id: 100
+                      span:
+                        start: 21
+                        end: 34
+                        file_id: 100
+                span:
+                  start: 17
+                  end: 34
+                  file_id: 100
+          - ReturnExpr
         span:
           start: 9
           end: 36

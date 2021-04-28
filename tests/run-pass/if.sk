@@ -25,6 +25,7 @@ fn main() {
     print("b");
     c(true);
     c(false);
-    let comment = "Main has to return 0, as we return the last value, even with semis";
+    // "Main has to return 0, as we return the last value, even with semis";
+    // TODO: Not any more
     0;
 }

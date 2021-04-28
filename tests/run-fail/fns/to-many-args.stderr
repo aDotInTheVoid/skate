@@ -1,4 +1,11 @@
-Error: Calling `to_many`: Expected 1 args, found 3
+error: Expected 1 args, found 3
+  ┌─ $DD/tests/run-fail/fns/to-many-args.sk:6:5
+  │  
+1 │ ╭ fn to_many(a: int) {
+2 │ │ 
+3 │ │ }
+  │ ╰─' Defined here with 1 arguments
+  · │
+6 │       to_many(1,2,3);
+  │       ^^^^^^^^^^^^^^ Calling here with 3 arguments
 
-Location:
-    src/exec.rs:105:13

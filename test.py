@@ -60,13 +60,30 @@ def process(stream, file):
     output = stream.replace(BASE_DIR, "$DD")
     prity_file = ppath(file)
     if args.bless:
+        try:
+            with open(file, "r") as f:
+                if f.read() == output:
+                    return
+        except:
+            # Ignore errors where the file doesnt exits
+            pass
+
         with open(file, "w") as f:
             f.write(output)
         print(f"BLESSED {prity_file}")
     else:
         with open(file, "r") as f:
-            assert output == f.read()
-            print(f"PASSED {prity_file}")
+            got = f.read()
+            if output == got:
+                print(f"PASSED {prity_file}")
+            else:
+                # TODO: diff
+                print(f"FAILED {prity_file}")
+                print("--- expected ---")
+                print(got)
+                print("--- got ---")
+                print(output)
+                print("--- ---\n")
 
 
 def run_pass(path):

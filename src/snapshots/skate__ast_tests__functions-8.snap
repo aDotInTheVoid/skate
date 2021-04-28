@@ -24,7 +24,9 @@ expression: f
           end: 16
           file_id: 100
       body:
-        node: []
+        node:
+          - []
+          - Discard
         span:
           start: 16
           end: 18

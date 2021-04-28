@@ -1,15 +1,35 @@
 # Skate
 
+an experimental programming language.
+
+## Status.
+
+You can run hello world
+
+```
+fn main() { print "Hello World"; }
+```
+
+```
+cargo run -- hello.sk
+```
+
+Function calls, variables (only numbers, strings and booleans) and controll flow
+is implemented.
+
+For more see [tests/run-pass](tests/run-pass)
+
 
 ## Testing
 ```bash
 # Runs unit tests
-
 cargo test
-# Runs e2e tests. Note that if these fail, it will not show
-# but instead just change the file, which will show up in git.
-# One day this should change
+
+# Runs e2e tests.
 python test.py
+
+# Bless e2e tests
+python test.py -b
 
 # Update snapshots
 cargo insta test --accept --delete-unreferenced-snapshots

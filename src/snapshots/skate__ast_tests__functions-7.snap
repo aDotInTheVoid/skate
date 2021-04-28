@@ -36,7 +36,9 @@ expression: f
           end: 20
           file_id: 100
       body:
-        node: []
+        node:
+          - []
+          - Discard
         span:
           start: 22
           end: 24

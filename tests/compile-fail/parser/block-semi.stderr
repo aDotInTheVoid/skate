@@ -1,0 +1,30 @@
+error: Unexpected token
+  ┌─ $DD/tests/compile-fail/parser/block-semi.sk:4:5
+  │
+4 │     let x = 7;
+  │     ^^^
+  │
+  = Expected: "!="
+  = Expected: "&&"
+  = Expected: "("
+  = Expected: ")"
+  = Expected: "*"
+  = Expected: "+"
+  = Expected: ","
+  = Expected: "-"
+  = Expected: "."
+  = Expected: "/"
+  = Expected: ";"
+  = Expected: "<"
+  = Expected: "<="
+  = Expected: "=="
+  = Expected: ">"
+  = Expected: ">="
+  = Expected: "["
+  = Expected: "]"
+  = Expected: "else"
+  = Expected: "fn"
+  = Expected: "{"
+  = Expected: "||"
+  = Expected: "}"
+

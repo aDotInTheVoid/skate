@@ -20,19 +20,20 @@ expression: f
       ret: ~
       body:
         node:
-          - Print:
-              node:
-                Literal:
-                  node:
-                    Integer: 1
-                  span:
-                    start: 17
-                    end: 18
-                    file_id: 100
-              span:
-                start: 17
-                end: 18
-                file_id: 100
+          - - Print:
+                node:
+                  Literal:
+                    node:
+                      Integer: 1
+                    span:
+                      start: 17
+                      end: 18
+                      file_id: 100
+                span:
+                  start: 17
+                  end: 18
+                  file_id: 100
+          - ReturnExpr
         span:
           start: 9
           end: 20

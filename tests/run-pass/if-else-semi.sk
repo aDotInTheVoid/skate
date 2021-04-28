@@ -1,0 +1,14 @@
+fn demo(x: bool) {
+    print "Starting demo";
+    if (x) {
+        print "x is true";
+    } else {
+        print "x is false";
+    };
+    print "Ending demo";
+}
+
+fn main() {
+    demo(true);
+    demo(false);
+}

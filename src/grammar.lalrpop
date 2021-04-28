@@ -3,6 +3,16 @@ use crate::diagnostics::FileId;
 
 grammar(file_id: FileId);
 
+
+// Skip over comments
+match {
+    r"\s*" => { },
+    r"//[^\n\r]*[\n\r]*" => { },
+    // We dont suport /* */ comments because I cant get them to work
+    // r"/\*(.|\n)*?\*/" => { },
+    _
+}
+
 Comma<T>: Vec<T> = { 
     <v:(<T> ",")*> <e:T?> => match e {
         None=> v,
@@ -14,14 +24,15 @@ Comma<T>: Vec<T> = {
     }
 };
 
-// TODO: Unify this with Comma, and keep track of weather we have a trailing semi (if we want that)
-Semi<T>: Vec<T> = { 
+// TODO: Unify this with Comma, 
+// true -> keep expr. False -> discard
+Semi<T>: (Vec<T>, BlockType) = { 
     <v:(<T> ";")*> <e:T?> => match e {
-        None=> v,
+        None=> (v, BlockType::Discard),
         Some(e) => {
             let mut v = v;
             v.push(e);
-            v
+            (v, BlockType::ReturnExpr)
         }
     }
 };

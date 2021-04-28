@@ -1,0 +1,27 @@
+fn one() {
+    1
+}
+
+fn one_no () {
+    1;
+}
+
+fn one_yes() {
+    return 1
+}
+
+fn one_yeah() {
+    return {1};
+}
+
+fn one_nah() {
+    {return {{{1};}};}
+}
+
+fn main() {
+    print one();
+    print one_no();
+    print one_yes();
+    print one_yeah();
+    print one_nah();
+}

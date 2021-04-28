@@ -4,10 +4,11 @@ use std::collections::HashMap;
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, eyre, Result};
 
-use crate::ast::{self, BinOp, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt};
+use crate::ast::{
+    self, BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt,
+};
 use crate::diagnostics::RTError;
-
-use serde_json::Value;
+use crate::value::Value;
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -31,10 +32,7 @@ pub fn run(p: Program) -> Result<bool> {
     // One for script exited with error, one for IIE
     let is_fail = match result {
         Value::Null => false,
-        Value::Number(x) => {
-            // TODO: Sort out numbers (probably move away from json)
-            x.as_f64() != Some(0.0)
-        }
+        Value::Int(x) => x != 0,
         x => bail!("`main` returned `{:?}`, expected number or Null", x),
     };
 
@@ -136,11 +134,11 @@ impl<'a> Env<'a> {
         })
     }
 
-    fn eval_block_in(&self, block: &[Stmt<'a>], scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
+    fn eval_block_in(&self, block: &Block<'a>, scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
         use Stmt::*;
 
         let mut last_val = Value::Null;
-        for i in block {
+        for i in &block.0 {
             match i {
                 Let(name, expr) => {
                     let val = get!(self.eval_in(scope, expr)?);
@@ -162,7 +160,13 @@ impl<'a> Env<'a> {
                 }
             }
         }
-        Ok(BlockEvalResult::LocalRet(last_val))
+
+        let ret = match block.1 {
+            BlockType::Discard => Value::Null,
+            BlockType::ReturnExpr => last_val,
+        };
+
+        Ok(BlockEvalResult::LocalRet(ret))
     }
 
     fn eval_in(&self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
@@ -172,10 +176,8 @@ impl<'a> Env<'a> {
         Ok(BlockEvalResult::LocalRet(match &e.node {
             Literal(l) => match l.node {
                 Literal::String(s) => Value::String((*s).to_owned()),
-                Literal::Float(f) => Value::Number(serde_json::Number::from_f64(f).unwrap()),
-                Literal::Integer(i) => {
-                    Value::Number(serde_json::Number::from_f64(i as f64).unwrap())
-                }
+                Literal::Float(f) => Value::Float(f),
+                Literal::Integer(i) => Value::Int(i),
                 Literal::Bool(b) => Value::Bool(b),
             },
             BinOp(l, o, r) => {
@@ -223,29 +225,27 @@ impl<'a> Env<'a> {
 
 fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
     use Value::*;
+
     Ok(match (o, l, r) {
+        // TODO: Flesh this out, and preferably without repitition
         (BinOp::Plus, String(l), String(r)) => String(l + &r),
-        (BinOp::Plus, Number(l), Number(r)) => {
-            Number(serde_json::Number::from_f64(l.as_f64().unwrap() + r.as_f64().unwrap()).unwrap())
-        }
-        (BinOp::Times, Number(l), Number(r)) => {
-            Number(serde_json::Number::from_f64(l.as_f64().unwrap() * r.as_f64().unwrap()).unwrap())
-        }
-        (BinOp::Equals, l, r) => Bool(l == r),
+
+        (BinOp::Plus, Int(l), Int(r)) => Int(l + r),
+        (BinOp::Plus, Float(l), Float(r)) => Float(l + r),
+        (BinOp::Minus, Int(l), Int(r)) => Int(l - r),
+        (BinOp::Minus, Float(l), Float(r)) => Float(l - r),
+        (BinOp::Times, Int(l), Int(r)) => Int(l * r),
+        (BinOp::Times, Float(l), Float(r)) => Float(l * r),
+        (BinOp::Devide, Int(l), Int(r)) => Int(l / r),
+        (BinOp::Devide, Float(l), Float(r)) => Float(l / r),
+        (BinOp::GreaterThanEquals, Int(l), Int(r)) => Bool(l >= r),
+
+        (BinOp::Equals, Bool(l), Bool(r)) => Bool(l == r),
+        (BinOp::Equals, Int(l), Int(r)) => Bool(l == r),
+
         (BinOp::LogicalOr, Bool(l), Bool(r)) => Bool(l || r),
-        (BinOp::Minus, Number(l), Number(r)) => {
-            let l = l.as_f64().unwrap();
-            let r = r.as_f64().unwrap();
-            Number(serde_json::Number::from_f64(l - r).unwrap())
-        }
-        (BinOp::GreaterThanEquals, Number(l), Number(r)) => {
-            let l = l.as_f64().unwrap();
-            let r = r.as_f64().unwrap();
-            let e = l >= r;
-            Bool(e)
-        }
-        // Base case
-        // TODO: Nice error
+
+        // TODO: Nicer error
         (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
     })
 }
@@ -264,21 +264,8 @@ fn print_value(v: &Value) {
     use Value::*;
     match v {
         String(s) => println!("{}", s),
-        Number(n) => {
-            if let Some(u) = n.as_u64() {
-                println!("{}", u);
-            } else if let Some(i) = n.as_i64() {
-                println!("{}", i)
-            } else if let Some(f) = n.as_f64() {
-                println!("{}", f)
-            } else {
-                println!("Nan")
-            }
-        }
-        // TODO: Do better for these cases
-        Array(x) => println!("{:?}", x),
-        Object(o) => println!("{:?}", o),
-
+        Int(x) => println!("{}", x),
+        Float(f) => println!("{}", f),
         Null => println!("null"),
         Bool(b) => println!("{}", b),
     }
