@@ -224,31 +224,69 @@ impl<'a> Env<'a> {
     }
 }
 
+macro_rules! binop_match {
+    (
+        $bindings:expr,
+        // Integer math ops
+        { $($math_op_name:path => $math_op:tt),*$(,)? },
+        // Equality
+        { $($eq_type:path),*$(,)? },
+        // Comparison
+        { $($comarison_name:path => $comparison_op:tt),*$(,)? },
+        // Misc user stuff
+        { $($user_lhs:pat => $user_rhs:expr),*$(,)? },
+    ) => {
+        match $bindings {
+            $(
+                // TODO: Should we coerce int to float in 1 + 2.0
+                ($math_op_name, Int(l), Int(r)) => Int(l $math_op r),
+                ($math_op_name, Float(l), Float(r)) => Float(l $math_op r),
+            )*
+            $(
+                (BinOp::Equals, $eq_type(l), $eq_type(r)) => Bool(l == r),
+                // TODO: Should we say 1 != 1.0, what about "true" != 3
+                (BinOp::NotEquals, $eq_type(l), $eq_type(r)) => Bool(l != r),
+            )*
+            $(
+                ($comarison_name, Int(l), Int(r)) => Bool(l $comparison_op r),
+                ($comarison_name, Float(l), Float(r)) => Bool(l $comparison_op r),
+            )*
+
+            $( $user_lhs => $user_rhs, )*
+
+            // TODO: Nicer error
+            (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
+        }
+    };
+}
+
 fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
     use Value::*;
 
-    Ok(match (o, l, r) {
-        // TODO: Flesh this out, and preferably without repitition
-        (BinOp::Plus, String(l), String(r)) => String(l + &r),
-
-        (BinOp::Plus, Int(l), Int(r)) => Int(l + r),
-        (BinOp::Plus, Float(l), Float(r)) => Float(l + r),
-        (BinOp::Minus, Int(l), Int(r)) => Int(l - r),
-        (BinOp::Minus, Float(l), Float(r)) => Float(l - r),
-        (BinOp::Times, Int(l), Int(r)) => Int(l * r),
-        (BinOp::Times, Float(l), Float(r)) => Float(l * r),
-        (BinOp::Devide, Int(l), Int(r)) => Int(l / r),
-        (BinOp::Devide, Float(l), Float(r)) => Float(l / r),
-        (BinOp::GreaterThanEquals, Int(l), Int(r)) => Bool(l >= r),
-
-        (BinOp::Equals, Bool(l), Bool(r)) => Bool(l == r),
-        (BinOp::Equals, Int(l), Int(r)) => Bool(l == r),
-
-        (BinOp::LogicalOr, Bool(l), Bool(r)) => Bool(l || r),
-
-        // TODO: Nicer error
-        (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
-    })
+    Ok(binop_match!(
+        (o, l, r),
+        {
+            BinOp::Plus   => +,
+            BinOp::Minus  => -,
+            BinOp::Times  => *,
+            BinOp::Devide => /,
+        },
+        {
+            // TODO: What should null == null return
+            String, Int, Float, Bool
+        },
+        {
+            BinOp::GreaterThan       => >,
+            BinOp::GreaterThanEquals => >=,
+            BinOp::LessThan          => <,
+            BinOp::LessThanEquals    => <=,
+        },
+        {
+            (BinOp::Plus,       String(l), String(r)) => String(l + &r),
+            (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
+            (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
+        },
+    ))
 }
 
 fn is_truthy(val: Value) -> Result<bool> {
