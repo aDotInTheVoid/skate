@@ -141,6 +141,25 @@ pub enum BinOp {
     LogicalAnd,
 }
 
+impl std::fmt::Display for BinOp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            BinOp::Equals => "==",
+            BinOp::NotEquals => "!=",
+            BinOp::LessThan => "<",
+            BinOp::GreaterThan => ">",
+            BinOp::LessThanEquals => "<=",
+            BinOp::GreaterThanEquals => ">=",
+            BinOp::Plus => "+",
+            BinOp::Minus => "-",
+            BinOp::Times => "*",
+            BinOp::Devide => "/",
+            BinOp::LogicalOr => "||",
+            BinOp::LogicalAnd => "&&",
+        })
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum UnaryOp {
     Not,

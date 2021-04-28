@@ -185,9 +185,9 @@ impl<'a> Env<'a> {
             },
             BinOp(l, o, r) => {
                 // TODO: is this eval right
-                let l = get!(self.eval_in(scope, &l)?);
-                let r = get!(self.eval_in(scope, &r)?);
-                binop(l, o.node, r)?
+                let lv = get!(self.eval_in(scope, &l)?);
+                let rv = get!(self.eval_in(scope, &r)?);
+                binop(lv, o.node, rv, l.span, o.span, r.span)?
             }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {
@@ -230,6 +230,7 @@ impl<'a> Env<'a> {
 macro_rules! binop_match {
     (
         $bindings:expr,
+        ($l_span:expr, $o_span:expr, $r_span:expr),
         // Integer math ops
         { $($math_op_name:path => $math_op:tt),*$(,)? },
         // Equality
@@ -259,17 +260,38 @@ macro_rules! binop_match {
 
             $( $user_lhs => $user_rhs, )*
 
-            // TODO: Nicer error
-            (o, l, r) => bail!("Unknown binop {:?}, {:?}, {:?}", l, o, r),
+            (o, l, r) => Err(binop_err(l,o,r,$l_span,$o_span,$r_span))?,
         }
     };
 }
 
-fn binop(l: Value, o: BinOp, r: Value) -> Result<Value> {
+fn binop_err(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span) -> RtError {
+    RtError(
+        Diagnostic::error()
+            .with_message(format!(
+                "Unknown binop `{}`, for `{}` and `{}`",
+                o,
+                l.type_name(),
+                r.type_name()
+            ))
+            .with_labels(vec![
+                o_span.primary_label().with_message("In this operator"),
+                l_span
+                    .secondary_label()
+                    .with_message(format!("LHS evaluated to {:?}", l)),
+                r_span
+                    .secondary_label()
+                    .with_message(format!("LHS evaluated to {:?}", r)),
+            ]),
+    )
+}
+
+fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span) -> Result<Value> {
     use Value::*;
 
     Ok(binop_match!(
         (o, l, r),
+        (l_span, o_span, r_span),
         {
             BinOp::Plus   => +,
             BinOp::Minus  => -,

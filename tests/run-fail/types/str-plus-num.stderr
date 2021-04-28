@@ -1,4 +1,9 @@
-Error: Unknown binop String("2"), Plus, Int(2)
+error: Unknown binop `+`, for `string` and `int`
+  ┌─ $DD/tests/run-fail/types/str-plus-num.sk:2:17
+  │
+2 │     let x = "2" + 2;
+  │             --- ^ - LHS evaluated to Int(2)
+  │             │   │  
+  │             │   In this operator
+  │             LHS evaluated to String("2")
 
-Location:
-    src/exec.rs:271:8

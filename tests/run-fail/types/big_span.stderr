@@ -1,0 +1,22 @@
+error: Unknown binop `+`, for `int` and `null`
+   ┌─ $DD/tests/run-fail/types/big_span.sk:8:7
+   │    
+ 2 │         let x = {
+   │ ╭───────────────'
+ 3 │ │           {
+ 4 │ │               {
+ 5 │ │                   2
+ 6 │ │               }
+ 7 │ │           }
+ 8 │ │       } + {
+   │ │         ^ In this operator
+   │ ╰───────' LHS evaluated to Int(2)
+   │   ╭─────────'
+ 9 │   │         {
+10 │   │             {
+11 │   │                 null
+12 │   │             }
+13 │   │         }
+14 │   │     }
+   │   ╰─────' LHS evaluated to Null
+
