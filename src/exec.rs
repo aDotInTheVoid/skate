@@ -271,7 +271,7 @@ macro_rules! binop_match {
 
             $( $user_lhs => $user_rhs, )*
 
-            (o, l, r) => Err(binop_err(l,o,r,$l_span,$o_span,$r_span))?,
+            (o, l, r) => return Err(binop_err(l, o, r, $l_span, $o_span, $r_span).into()),
         }
     };
 }
