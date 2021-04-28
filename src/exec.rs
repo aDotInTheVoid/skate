@@ -1,5 +1,6 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
+use std::mem;
 
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, Result};
@@ -133,6 +134,8 @@ impl<'a> Env<'a> {
     }
 
     fn eval_block_in(&self, block: &Block<'a>, scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
+        scope.push();
+
         use Stmt::*;
 
         let mut last_val = Value::Null;
@@ -150,6 +153,8 @@ impl<'a> Env<'a> {
                 }
                 Return(e) => {
                     let val = get!(self.eval_in(scope, e)?);
+                    // Clear scope, so we bug if we try to access anything afterwards
+                    mem::take(scope);
                     return Ok(BlockEvalResult::FnRet(val));
                 }
                 Expr(e) => {
@@ -163,6 +168,9 @@ impl<'a> Env<'a> {
             BlockType::Discard => Value::Null,
             BlockType::ReturnExpr => last_val,
         };
+
+        // We dont need to do this is the FnRet case, as the scope is cleared
+        scope.pop();
 
         Ok(BlockEvalResult::LocalRet(ret))
     }

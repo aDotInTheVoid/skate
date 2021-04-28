@@ -44,4 +44,12 @@ impl<'a> Scope<'a> {
             })
             .collect()
     }
+
+    pub fn push(&mut self) {
+        self.vars.push(HashMap::new());
+    }
+
+    pub fn pop(&mut self) {
+        self.vars.pop().unwrap();
+    }
 }
