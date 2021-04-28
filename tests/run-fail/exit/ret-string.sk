@@ -1,0 +1,4 @@
+fn main() {
+    // TODO: Test case when we return 1;
+    return "hello";
+}

@@ -136,7 +136,8 @@ Literal: Literal<'input> = {
     <s:StringLit> => Literal::String(&s[1..s.len()-1]),
     <FloatLit> => Literal::Float(<>.parse().unwrap()),
     <IntLit> => Literal::Integer(<>.parse().unwrap()),
-    <BoolLit> => Literal::Bool(<>)
+    <BoolLit> => Literal::Bool(<>),
+    "null" => Literal::Null,
 }
 
 // https://stackoverflow.com/a/2039820

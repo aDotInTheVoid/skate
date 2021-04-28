@@ -153,4 +153,5 @@ pub enum Literal<'a> {
     Integer(i64),
     Float(f64),
     Bool(bool),
+    Null,
 }

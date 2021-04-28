@@ -1,0 +1,4 @@
+Error: `main` returned `Float(0.0)`, expected number or Null
+
+Location:
+    src/exec.rs:36:14

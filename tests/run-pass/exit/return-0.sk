@@ -1,0 +1,5 @@
+fn should_fail() -> bool { false }
+
+fn main() {
+    return if should_fail() { 1 } else { 0 }
+}

@@ -179,6 +179,7 @@ impl<'a> Env<'a> {
                 Literal::Float(f) => Value::Float(f),
                 Literal::Integer(i) => Value::Int(i),
                 Literal::Bool(b) => Value::Bool(b),
+                Literal::Null => Value::Null,
             },
             BinOp(l, o, r) => {
                 let l = self.eval_in(scope, &l)?;
