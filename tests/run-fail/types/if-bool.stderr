@@ -1,0 +1,4 @@
+Error: Not a boolean: String("foobar")
+
+Location:
+    src/exec.rs:335:9
