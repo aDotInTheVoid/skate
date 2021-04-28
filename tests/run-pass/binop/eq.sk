@@ -1,0 +1,12 @@
+fn main() {
+    print "2" == "2";
+    print 2 == 2;
+    print 2.0 == 2.0;
+
+    // TODO: maybe do what raku does and do decimals
+    print 0.1 + 0.2 == 0.3;
+
+    print "2" != "3";
+    print 2 != 3;
+    print 2.0 != 0.;
+}

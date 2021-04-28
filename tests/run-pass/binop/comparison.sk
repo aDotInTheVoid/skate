@@ -1,0 +1,19 @@
+fn main () {
+    print 2 > 2;
+    print 2 >= 2;
+    print 2 < 2;
+    print 2 <= 2;
+    print "===";
+
+    print 3 < 6;
+    print 5. > 3.;
+    print "===";
+
+    // TODO: decide on how to deal with NaN
+    let nan = 0.0 / 0.0;
+    print nan;
+    print nan==nan;
+    print nan!=nan;
+    print nan > 0.;
+    print nan < 0.;
+}

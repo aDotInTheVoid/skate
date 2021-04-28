@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: 71449d3e88a5d2fbe4407f5af618222acf65ba3fd7f5dc6c9f2ed8e30f7e6e7
+// sha3: 7e1052a65cc5291bcc0ccce94bfb932bbad57238efc96b4fba2aa394439d
 use crate::ast::*;
 use crate::diagnostics::FileId;
 #[allow(unused_extern_crates)]

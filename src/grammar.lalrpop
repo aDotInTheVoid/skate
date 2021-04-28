@@ -118,7 +118,7 @@ PostfixExprRaw: RawExpr<'input> = {
 
 // BaseExpr = Spaned<BaseExprRaw>;
 
-// TODO: create null, and introduce keyworkd
+// TODO: keywords
 BaseExprRaw: RawExpr<'input> = {
     // TODO: Else if
     "if" <BExpr> <Body> <("else" <Body>)?> => RawExpr::If(<>),
