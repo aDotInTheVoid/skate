@@ -2,7 +2,4 @@ fn a() {}
 
 fn a() {}
 
-fn comment() {
-    "TODO: Should this be compile-fail?";
-    "TODO: Add a mecanism for comments LMAO";
-}
+// TODO: Should this be compile-fail?

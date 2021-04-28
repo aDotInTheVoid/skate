@@ -82,7 +82,6 @@ impl<'a> Env<'a> {
                         let err = Diagnostic::error()
                             .with_message(format!("Function `{}` defined twice", &f.name.node))
                             .with_labels(vec![
-                                // TODO: Make this a method on Spaned type
                                 old_fn.secondary_label().with_message("Defined once here"),
                                 f.secondary_label().with_message("Defined again here"),
                             ]);
@@ -197,7 +196,7 @@ impl<'a> Env<'a> {
                 Literal::Null => Value::Null,
             },
             BinOp(l, o, r) => {
-                // TODO: is this eval right
+                // TODO: is this eval order right
                 let lv = get!(self.eval_in(scope, &l)?);
                 let rv = get!(self.eval_in(scope, &r)?);
                 binop(lv, o.node, rv, l.span, o.span, r.span)?
@@ -247,7 +246,7 @@ impl<'a> Env<'a> {
                 let bval = self.eval_block_in(&b, scope)?;
                 get!(bval)
             }
-            // TODO: Nice error
+            // TODO: Nice error / fill out
             other => bail!("Unimplemented {:?}", other),
         }))
     }
@@ -326,6 +325,7 @@ fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span)
         },
         {
             // TODO: What should null == null return
+            // TODO: What about Comparisons of non equal types
             String, Int, Float, Bool
         },
         {
@@ -370,7 +370,6 @@ fn is_truthy(val: Value, s: Span) -> Result<bool> {
     if let Value::Bool(b) = val {
         Ok(b)
     } else {
-        // TODO: Nice error
         Err(RtError(
             Diagnostic::error()
                 .with_message(format!("Expected `bool`, got `{}`", val.type_name()))
