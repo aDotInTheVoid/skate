@@ -1,0 +1,8 @@
+error: Couldn't find variable `func` in scope
+  ┌─ $DD/tests/run-fail/fns/return-fn.sk:2:5
+  │
+2 │     func
+  │     ^^^^
+  │
+  = Variables in scope: []
+
