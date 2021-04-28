@@ -20,7 +20,7 @@ mod ast_tests;
 enum ExitCode {
     Ok,
     CompErr,
-    RTErr,
+    RtErr,
     ProgErr,
 }
 
@@ -37,7 +37,7 @@ fn main() -> eyre::Result<()> {
         ExitCode::Ok => 0,
         ExitCode::CompErr => 66,
         // TODO: chaing me, when this catches all errs
-        ExitCode::RTErr => 1,
+        ExitCode::RtErr => 1,
         ExitCode::ProgErr => 22,
     };
     std::process::exit(code);
@@ -104,17 +104,17 @@ fn realmain() -> eyre::Result<ExitCode> {
         // TODO: Ok case has an exit status from skate code, handle that
         Ok(is_fail) => {
             if !is_fail {
-                return Ok(ExitCode::Ok);
+                Ok(ExitCode::Ok)
             } else {
-                return Ok(ExitCode::ProgErr);
+                Ok(ExitCode::ProgErr)
             }
         }
-        Err(e) => match e.downcast::<diagnostics::RTError>() {
+        Err(e) => match e.downcast::<diagnostics::RtError>() {
             Ok(rterrot) => {
                 emit_err(&rterrot.0)?;
-                return Ok(ExitCode::RTErr);
+                Ok(ExitCode::RtErr)
             }
-            Err(e) => return Err(e),
+            Err(e) => Err(e),
         },
     }
 }

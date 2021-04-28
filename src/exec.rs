@@ -7,7 +7,7 @@ use eyre::{bail, eyre, Result};
 use crate::ast::{
     self, BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt,
 };
-use crate::diagnostics::RTError;
+use crate::diagnostics::RtError;
 use crate::value::Value;
 
 // Err -> Exit err due to type error/rt error
@@ -66,7 +66,7 @@ macro_rules! get {
 }
 
 impl<'a> Env<'a> {
-    pub fn new(p: &'a Program) -> eyre::Result<Self> {
+    pub fn new(p: &'a [Item<'a>]) -> eyre::Result<Self> {
         let mut functions: HashMap<&str, &Spanned<Function>> = HashMap::new();
         for i in p {
             match i {
@@ -80,7 +80,7 @@ impl<'a> Env<'a> {
                                 old_fn.secondary_label().with_message("Defined once here"),
                                 f.secondary_label().with_message("Defined again here"),
                             ]);
-                        return Err(RTError(err))?;
+                        return Err(RtError(err).into());
                     }
                 }
             };
@@ -93,7 +93,7 @@ impl<'a> Env<'a> {
         let fn_name = name.node;
 
         let function = self.functions.get(&fn_name).ok_or_else(|| {
-            RTError(
+            RtError(
                 Diagnostic::error()
                     .with_message(format!("No function named `{}`", &fn_name))
                     .with_labels(vec![name.primary_label()]),
@@ -102,7 +102,7 @@ impl<'a> Env<'a> {
 
         if args.len() != function.args.len() {
             // TODO: Be more perise with spans
-            return Err(RTError(
+            return Err(RtError(
                 Diagnostic::error()
                     .with_message(format!(
                         "Expected {} args, found {}",
@@ -118,7 +118,8 @@ impl<'a> Env<'a> {
                             function.args.len()
                         )),
                     ]),
-            ))?;
+            )
+            .into());
         }
 
         let mut scope = Scope::default();
@@ -238,6 +239,8 @@ macro_rules! binop_match {
         // Misc user stuff
         { $($user_lhs:pat => $user_rhs:expr),*$(,)? },
     ) => {
+        // TODO: decide if this is a good idea
+        #[allow(clippy::float_cmp)]
         match $bindings {
             $(
                 // TODO: Should we coerce int to float in 1 + 2.0

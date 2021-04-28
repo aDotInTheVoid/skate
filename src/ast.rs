@@ -33,16 +33,16 @@ pub struct Spanned<T> {
 }
 
 impl Span {
-    pub fn to_range(&self) -> Range<usize> {
+    pub fn range(&self) -> Range<usize> {
         self.start..self.end
     }
 
     pub fn primary_label(&self) -> Label<usize> {
-        Label::primary(self.file_id.0, self.to_range())
+        Label::primary(self.file_id.0, self.range())
     }
 
     pub fn secondary_label(&self) -> Label<usize> {
-        Label::secondary(self.file_id.0, self.to_range())
+        Label::secondary(self.file_id.0, self.range())
     }
 }
 
