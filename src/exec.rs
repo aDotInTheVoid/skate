@@ -219,8 +219,8 @@ impl<'a> Env<'a> {
                 )
             })?,
             If(test, ifcase, elsecase) => {
-                let test = get!(self.eval_in(scope, &*test)?);
-                let eval_result = if is_truthy(test)? {
+                let test_val = get!(self.eval_in(scope, &*test)?);
+                let eval_result = if is_truthy(test_val, test.span)? {
                     self.eval_block_in(&ifcase, scope)?
                 } else if let Some(block) = elsecase {
                     self.eval_block_in(&block, scope)?
@@ -349,12 +349,18 @@ fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
     })
 }
 
-fn is_truthy(val: Value) -> Result<bool> {
+fn is_truthy(val: Value, s: Span) -> Result<bool> {
     if let Value::Bool(b) = val {
         Ok(b)
     } else {
         // TODO: Nice error
-        bail!("Not a boolean: {:?}", val)
+        Err(RtError(
+            Diagnostic::error()
+                .with_message(format!("Expected `bool`, got `{}`", val.type_name()))
+                .with_labels(vec![s
+                    .primary_label()
+                    .with_message(format!("Evaluated to `{:?}`", val))]),
+        ))?
     }
 }
 
