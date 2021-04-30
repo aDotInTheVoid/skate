@@ -3,25 +3,24 @@ name = "skate"
 version = "0.0.0"
 authors = ["Nixon Enraght-Moony <nixon.emoony@gmail.com>"]
 edition = "2018"
+resolver = "2"
 description = "A Programing language for rapid iteration"
 license = "MIT/Apache-2.0"
 repository = "https://github.com/aDotInTheVoid/skate/"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 codespan-reporting = "0.11.1"
 eyre = "0.6.5"
 fs-err = "2.5.0"
-lalrpop-util = "0.19.5"
-regex = "1.4.5"
-serde = "1.0.124"
+lalrpop-util = { version = "0.19.5", features = ["lexer"] }
+regex = "1.4.6"
+serde = { version = "1.0.125", features = ["derive"] }
 
 [build-dependencies]
 lalrpop = "0.19.5"
 
 [dev-dependencies]
-insta = "1.7.0"
+insta = "1.7.1"
 
 # We especialy need lalrpop to be fast
 [profile.dev.package."*"]
