@@ -41,7 +41,7 @@ pub fn run(p: Program) -> Result<bool> {
             return Err(RtError(Diagnostic::error().with_message(format!(
                 "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
                 x,
-                x.type_name()
+                x.type_name(&env)
             )))
             .into());
         }
@@ -157,7 +157,7 @@ impl<'a> Env<'a> {
                 }
                 Print(e) => {
                     let val = get!(self.eval_in(scope, e)?);
-                    print_value(&val);
+                    print_value(&val, self);
                     last_val = Value::Null;
                 }
                 Return(e) => {
@@ -203,11 +203,11 @@ impl<'a> Env<'a> {
                 // TODO: is this eval order right
                 let lv = get!(self.eval_in(scope, &l)?);
                 let rv = get!(self.eval_in(scope, &r)?);
-                binop(lv, o.node, rv, l.span, o.span, r.span)?
+                binop(lv, o.node, rv, l.span, o.span, r.span, self)?
             }
             UnaryOp(o, e) => {
                 let val = get!(self.eval_in(scope, &e)?);
-                unary_op(*o, val, e.span)?
+                unary_op(*o, val, e.span, self)?
             }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {
@@ -237,7 +237,7 @@ impl<'a> Env<'a> {
             })?,
             If(test, ifcase, elsecase) => {
                 let test_val = get!(self.eval_in(scope, &*test)?);
-                let eval_result = if is_truthy(test_val, test.span)? {
+                let eval_result = if is_truthy(test_val, test.span, self)? {
                     self.eval_block_in(&ifcase, scope)?
                 } else if let Some(block) = elsecase {
                     self.eval_block_in(&block, scope)?
@@ -259,7 +259,7 @@ impl<'a> Env<'a> {
 macro_rules! binop_match {
     (
         $bindings:expr,
-        ($l_span:expr, $o_span:expr, $r_span:expr),
+        ($l_span:expr, $o_span:expr, $r_span:expr, $env:expr),
         // Integer math ops
         { $($math_op_name:path => $math_op:tt),*$(,)? },
         // Equality
@@ -289,19 +289,27 @@ macro_rules! binop_match {
 
             $( $user_lhs => $user_rhs, )*
 
-            (o, l, r) => return Err(binop_err(l, o, r, $l_span, $o_span, $r_span).into()),
+            (o, l, r) => return Err(binop_err(l, o, r, $l_span, $o_span, $r_span, $env).into()),
         }
     };
 }
 
-fn binop_err(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span) -> RtError {
+fn binop_err(
+    l: Value,
+    o: BinOp,
+    r: Value,
+    l_span: Span,
+    o_span: Span,
+    r_span: Span,
+    env: &Env,
+) -> RtError {
     RtError(
         Diagnostic::error()
             .with_message(format!(
                 "Unknown binop `{}`, for `{}` and `{}`",
                 o,
-                l.type_name(),
-                r.type_name()
+                l.type_name(env),
+                r.type_name(env)
             ))
             .with_labels(vec![
                 o_span.primary_label().with_message("In this operator"),
@@ -315,12 +323,20 @@ fn binop_err(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: S
     )
 }
 
-fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span) -> Result<Value> {
+fn binop(
+    l: Value,
+    o: BinOp,
+    r: Value,
+    l_span: Span,
+    o_span: Span,
+    r_span: Span,
+    env: &Env,
+) -> Result<Value> {
     use Value::*;
 
     Ok(binop_match!(
         (o, l, r),
-        (l_span, o_span, r_span),
+        (l_span, o_span, r_span, env),
         {
             BinOp::Plus   => +,
             BinOp::Minus  => -,
@@ -346,7 +362,7 @@ fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span)
     ))
 }
 
-fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
+fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span, env: &Env) -> Result<Value> {
     Ok(match (o.node, v) {
         (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
         (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
@@ -357,7 +373,7 @@ fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
                     .with_message(format!(
                         "Unknown UnaryOp `{}` for `{}`",
                         o.node,
-                        v.type_name()
+                        v.type_name(env)
                     ))
                     .with_labels(vec![
                         o.span.primary_label().with_message("In this operator"),
@@ -370,13 +386,13 @@ fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
     })
 }
 
-fn is_truthy(val: Value, s: Span) -> Result<bool> {
+fn is_truthy(val: Value, s: Span, env: &Env) -> Result<bool> {
     if let Value::Bool(b) = val {
         Ok(b)
     } else {
         Err(RtError(
             Diagnostic::error()
-                .with_message(format!("Expected `bool`, got `{}`", val.type_name()))
+                .with_message(format!("Expected `bool`, got `{}`", val.type_name(env)))
                 .with_labels(vec![s
                     .primary_label()
                     .with_message(format!("Evaluated to `{:?}`", val))]),
@@ -386,7 +402,7 @@ fn is_truthy(val: Value, s: Span) -> Result<bool> {
 }
 
 // TODO: This should return a string
-fn print_value(v: &Value) {
+fn print_value(v: &Value, env: &Env) {
     use Value::*;
     match v {
         // String(s) => println!("{}", s),
@@ -394,7 +410,10 @@ fn print_value(v: &Value) {
         Float(f) => println!("{}", f),
         Null => println!("null"),
         Bool(b) => println!("{}", b),
-        // TODO: fix
-        Complex(_) => println!("<complex ???>"),
+        Complex(id) => match &env.heap[*id] {
+            BigValue::String(x) => {
+                println!("{}", x)
+            }
+        },
     }
 }
