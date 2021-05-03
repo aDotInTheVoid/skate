@@ -1,0 +1,8 @@
+error: Couldn't find variable `x` in scope
+  ┌─ $DD/tests/run-fail/binop/err-on-rhs.sk:2:9
+  │
+2 │     2 + x;
+  │         ^
+  │
+  = Variables in scope: []
+

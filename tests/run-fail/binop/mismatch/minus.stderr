@@ -1,0 +1,9 @@
+error: Unknown binop `-`, for `bool` and `bool`
+  ┌─ $DD/tests/run-fail/binop/mismatch/minus.sk:2:10
+  │
+2 │     true - false;
+  │     ---- ^ ----- LHS evaluated to Bool(false)
+  │     │    │  
+  │     │    In this operator
+  │     LHS evaluated to Bool(true)
+

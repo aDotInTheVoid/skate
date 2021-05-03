@@ -1,0 +1,8 @@
+error: Couldn't find variable `x` in scope
+  ┌─ $DD/tests/run-fail/vars/oos-unop.sk:2:6
+  │
+2 │     !x
+  │      ^
+  │
+  = Variables in scope: []
+

@@ -1,0 +1,9 @@
+error: Unknown binop `<`, for `string` and `string`
+  ┌─ $DD/tests/run-fail/binop/mismatch/lt.sk:2:9
+  │
+2 │     "l" < "h";
+  │     --- ^ --- LHS evaluated to String("h")
+  │     │   │  
+  │     │   In this operator
+  │     LHS evaluated to String("l")
+

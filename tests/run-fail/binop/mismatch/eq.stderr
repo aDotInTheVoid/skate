@@ -1,0 +1,9 @@
+error: Unknown binop `==`, for `null` and `int`
+  ┌─ $DD/tests/run-fail/binop/mismatch/eq.sk:2:10
+  │
+2 │     null == 2;
+  │     ---- ^^ - LHS evaluated to Int(2)
+  │     │    │   
+  │     │    In this operator
+  │     LHS evaluated to Null
+

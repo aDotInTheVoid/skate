@@ -1,0 +1,8 @@
+fn demo(x: bool) {
+    - if x {1} else {return 2}
+}
+
+fn main() {
+    print demo(true);
+    print demo(false);
+}

@@ -1,0 +1,8 @@
+error: Couldn't find variable `x` in scope
+  ┌─ $DD/tests/run-fail/vars/call.sk:6:9
+  │
+6 │     bar(x, y);
+  │         ^
+  │
+  = Variables in scope: []
+

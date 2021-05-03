@@ -1,0 +1,9 @@
+error: Unknown binop `/`, for `string` and `string`
+  ┌─ $DD/tests/run-fail/binop/mismatch/div.sk:2:12
+  │
+2 │     "path" / "to" / "where"
+  │     ------ ^ ---- LHS evaluated to String("to")
+  │     │      │  
+  │     │      In this operator
+  │     LHS evaluated to String("path")
+
