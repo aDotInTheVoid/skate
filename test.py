@@ -121,7 +121,7 @@ def run_pass(path):
 
 def compile_fail(path, errcode):
     output = subprocess.run(
-        [SKATE_BINARY, path], capture_output=True, env={"NO_COLOR": "1"} | global_env
+        [SKATE_BINARY, path], capture_output=True, env={"NO_COLOR": "1", **global_env}
     )
     if output.returncode != errcode:
         print(
