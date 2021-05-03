@@ -1,0 +1,23 @@
+fn a() {
+    b()
+}
+
+fn b() {
+    c()
+}
+
+fn c() {
+    d()
+}
+
+fn d() {
+    "hello"
+}
+
+fn main() {
+    print a();
+    print b();
+    print c();
+    print d();
+    print a() + b() + c() + d();
+}
