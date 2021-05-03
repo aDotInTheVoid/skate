@@ -389,14 +389,18 @@ impl<'a> Env<'a> {
                 let key = self.heap.insert(BigValue::String(res));
                 Value::Complex(key)
             }
-            _ => Err(self.binop_err(
-                Value::Complex(lid),
-                o,
-                Value::Complex(rid),
-                l_span,
-                o_span,
-                r_span,
-            ))?,
+            _ => {
+                return Err(self
+                    .binop_err(
+                        Value::Complex(lid),
+                        o,
+                        Value::Complex(rid),
+                        l_span,
+                        o_span,
+                        r_span,
+                    )
+                    .into())
+            }
         })
     }
 
