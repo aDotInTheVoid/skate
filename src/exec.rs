@@ -10,7 +10,7 @@ use crate::ast::{
     UnaryOp,
 };
 use crate::diagnostics::RtError;
-use crate::env::Scope;
+use crate::env::{Env, Scope};
 use crate::value::{BigValue, Value};
 
 // Err -> Exit err due to type error/rt error
@@ -18,7 +18,7 @@ use crate::value::{BigValue, Value};
 // Ok(true) -> Exit err due to user code request
 pub fn run(p: Program) -> Result<bool> {
     // If nothing failed, we suceed
-    let env = Env::new(&p)?;
+    let mut env = Env::new(&p)?;
 
     let result = env.call(
         Spanned {
@@ -48,12 +48,6 @@ pub fn run(p: Program) -> Result<bool> {
     };
 
     Ok(is_fail)
-}
-
-// TODO: unify env and scope, by understanding scheme
-#[derive(Debug, Default)]
-struct Env<'a> {
-    functions: HashMap<&'a str, &'a Spanned<Function<'a>>>,
 }
 
 enum BlockEvalResult {
@@ -91,10 +85,13 @@ impl<'a> Env<'a> {
             };
         }
 
-        Ok(Self { functions })
+        Ok(Self {
+            functions,
+            heap: Default::default(),
+        })
     }
 
-    pub fn call(&self, name: ast::Name, args: &[Value], call_span: Span) -> Result<Value> {
+    pub fn call(&mut self, name: ast::Name, args: &[Value], call_span: Span) -> Result<Value> {
         let fn_name = name.node;
 
         let function = self.functions.get(&fn_name).ok_or_else(|| {
@@ -141,7 +138,11 @@ impl<'a> Env<'a> {
         })
     }
 
-    fn eval_block_in(&self, block: &Block<'a>, scope: &mut Scope<'a>) -> Result<BlockEvalResult> {
+    fn eval_block_in(
+        &mut self,
+        block: &Block<'a>,
+        scope: &mut Scope<'a>,
+    ) -> Result<BlockEvalResult> {
         scope.push();
 
         use Stmt::*;
@@ -183,7 +184,7 @@ impl<'a> Env<'a> {
         Ok(BlockEvalResult::LocalRet(ret))
     }
 
-    fn eval_in(&self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
+    fn eval_in(&mut self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
         use crate::ast::Literal;
         use RawExpr::*;
 
@@ -191,7 +192,7 @@ impl<'a> Env<'a> {
             Literal(l) => match l.node {
                 // Literal::String(s) => Value::String((*s).to_owned()),
                 Literal::String(s) => {
-                    Value::Complex(scope.add_to_heap(BigValue::String(s.to_owned())))
+                    Value::Complex(self.add_to_heap(BigValue::String(s.to_owned())))
                 }
                 Literal::Float(f) => Value::Float(f),
                 Literal::Integer(i) => Value::Int(i),
