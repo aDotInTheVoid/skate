@@ -66,8 +66,6 @@ impl<'a> Scope<'a> {
     pub fn pop(&mut self) {
         self.vars.pop().unwrap();
     }
-
-    pub fn print_value(&self, v: &Value) {}
 }
 
 impl<'a> Env<'a> {

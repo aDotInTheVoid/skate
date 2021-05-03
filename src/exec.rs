@@ -41,7 +41,7 @@ pub fn run(p: Program) -> Result<bool> {
             return Err(RtError(Diagnostic::error().with_message(format!(
                 "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
                 x,
-                x.type_name(&env)
+                env.type_name(&x),
             )))
             .into());
         }
@@ -61,6 +61,44 @@ macro_rules! get {
         match $e {
             BlockEvalResult::LocalRet(x) => x,
             x @ BlockEvalResult::FnRet(_) => return Ok(x),
+        }
+    };
+}
+
+macro_rules! binop_match {
+    (
+        $bindings:expr,
+        ($l_span:expr, $o_span:expr, $r_span:expr, $env:expr),
+        // Integer math ops
+        { $($math_op_name:path => $math_op:tt),*$(,)? },
+        // Equality
+        { $($eq_type:path),*$(,)? },
+        // Comparison
+        { $($comarison_name:path => $comparison_op:tt),*$(,)? },
+        // Misc user stuff
+        { $($user_lhs:pat => $user_rhs:expr),*$(,)? },
+    ) => {
+        // TODO: decide if this is a good idea
+        #[allow(clippy::float_cmp)]
+        match $bindings {
+            $(
+                // TODO: Should we coerce int to float in 1 + 2.0
+                ($math_op_name, Int(l), Int(r)) => Int(l $math_op r),
+                ($math_op_name, Float(l), Float(r)) => Float(l $math_op r),
+            )*
+            $(
+                (BinOp::Equals, $eq_type(l), $eq_type(r)) => Bool(l == r),
+                // TODO: Should we say 1 != 1.0, what about "true" != 3
+                (BinOp::NotEquals, $eq_type(l), $eq_type(r)) => Bool(l != r),
+            )*
+            $(
+                ($comarison_name, Int(l), Int(r)) => Bool(l $comparison_op r),
+                ($comarison_name, Float(l), Float(r)) => Bool(l $comparison_op r),
+            )*
+
+            $( $user_lhs => $user_rhs, )*
+
+            (o, l, r) => return Err($env.binop_err(l, o, r, $l_span, $o_span, $r_span).into()),
         }
     };
 }
@@ -157,7 +195,7 @@ impl<'a> Env<'a> {
                 }
                 Print(e) => {
                     let val = get!(self.eval_in(scope, e)?);
-                    print_value(&val, self);
+                    self.print_value(&val);
                     last_val = Value::Null;
                 }
                 Return(e) => {
@@ -203,11 +241,11 @@ impl<'a> Env<'a> {
                 // TODO: is this eval order right
                 let lv = get!(self.eval_in(scope, &l)?);
                 let rv = get!(self.eval_in(scope, &r)?);
-                binop(lv, o.node, rv, l.span, o.span, r.span, self)?
+                self.binop(lv, o.node, rv, l.span, o.span, r.span)?
             }
             UnaryOp(o, e) => {
                 let val = get!(self.eval_in(scope, &e)?);
-                unary_op(*o, val, e.span, self)?
+                self.unary_op(*o, val, e.span)?
             }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {
@@ -237,7 +275,7 @@ impl<'a> Env<'a> {
             })?,
             If(test, ifcase, elsecase) => {
                 let test_val = get!(self.eval_in(scope, &*test)?);
-                let eval_result = if is_truthy(test_val, test.span, self)? {
+                let eval_result = if self.is_truthy(test_val, test.span)? {
                     self.eval_block_in(&ifcase, scope)?
                 } else if let Some(block) = elsecase {
                     self.eval_block_in(&block, scope)?
@@ -254,166 +292,140 @@ impl<'a> Env<'a> {
             other => bail!("Unimplemented {:?}", other),
         }))
     }
-}
 
-macro_rules! binop_match {
-    (
-        $bindings:expr,
-        ($l_span:expr, $o_span:expr, $r_span:expr, $env:expr),
-        // Integer math ops
-        { $($math_op_name:path => $math_op:tt),*$(,)? },
-        // Equality
-        { $($eq_type:path),*$(,)? },
-        // Comparison
-        { $($comarison_name:path => $comparison_op:tt),*$(,)? },
-        // Misc user stuff
-        { $($user_lhs:pat => $user_rhs:expr),*$(,)? },
-    ) => {
-        // TODO: decide if this is a good idea
-        #[allow(clippy::float_cmp)]
-        match $bindings {
-            $(
-                // TODO: Should we coerce int to float in 1 + 2.0
-                ($math_op_name, Int(l), Int(r)) => Int(l $math_op r),
-                ($math_op_name, Float(l), Float(r)) => Float(l $math_op r),
-            )*
-            $(
-                (BinOp::Equals, $eq_type(l), $eq_type(r)) => Bool(l == r),
-                // TODO: Should we say 1 != 1.0, what about "true" != 3
-                (BinOp::NotEquals, $eq_type(l), $eq_type(r)) => Bool(l != r),
-            )*
-            $(
-                ($comarison_name, Int(l), Int(r)) => Bool(l $comparison_op r),
-                ($comarison_name, Float(l), Float(r)) => Bool(l $comparison_op r),
-            )*
+    fn binop_err(
+        &self,
+        l: Value,
+        o: BinOp,
+        r: Value,
+        l_span: Span,
+        o_span: Span,
+        r_span: Span,
+    ) -> RtError {
+        RtError(
+            Diagnostic::error()
+                .with_message(format!(
+                    "Unknown binop `{}`, for `{}` and `{}`",
+                    o,
+                    self.type_name(&l),
+                    self.type_name(&r),
+                ))
+                .with_labels(vec![
+                    o_span.primary_label().with_message("In this operator"),
+                    l_span
+                        .secondary_label()
+                        .with_message(format!("LHS evaluated to {:?}", l)),
+                    r_span
+                        .secondary_label()
+                        .with_message(format!("LHS evaluated to {:?}", r)),
+                ]),
+        )
+    }
 
-            $( $user_lhs => $user_rhs, )*
+    fn binop(
+        &self,
+        l: Value,
+        o: BinOp,
+        r: Value,
+        l_span: Span,
+        o_span: Span,
+        r_span: Span,
+    ) -> Result<Value> {
+        use Value::*;
 
-            (o, l, r) => return Err(binop_err(l, o, r, $l_span, $o_span, $r_span, $env).into()),
-        }
-    };
-}
+        Ok(binop_match!(
+            (o, l, r),
+            (l_span, o_span, r_span, self),
+            {
+                BinOp::Plus   => +,
+                BinOp::Minus  => -,
+                BinOp::Times  => *,
+                BinOp::Devide => /,
+            },
+            {
+                // TODO: What should null == null return
+                // TODO: What about Comparisons of non equal types
+                /*String,*/ Int, Float, Bool
+            },
+            {
+                BinOp::GreaterThan       => >,
+                BinOp::GreaterThanEquals => >=,
+                BinOp::LessThan          => <,
+                BinOp::LessThanEquals    => <=,
+            },
+            {
+                // (BinOp::Plus,       String(l), String(r)) => String(l + &r),
+                (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
+                (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
+            },
+        ))
+    }
 
-fn binop_err(
-    l: Value,
-    o: BinOp,
-    r: Value,
-    l_span: Span,
-    o_span: Span,
-    r_span: Span,
-    env: &Env,
-) -> RtError {
-    RtError(
-        Diagnostic::error()
-            .with_message(format!(
-                "Unknown binop `{}`, for `{}` and `{}`",
-                o,
-                l.type_name(env),
-                r.type_name(env)
-            ))
-            .with_labels(vec![
-                o_span.primary_label().with_message("In this operator"),
-                l_span
-                    .secondary_label()
-                    .with_message(format!("LHS evaluated to {:?}", l)),
-                r_span
-                    .secondary_label()
-                    .with_message(format!("LHS evaluated to {:?}", r)),
-            ]),
-    )
-}
+    fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
+        Ok(match (o.node, v) {
+            (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
+            (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
+            (UnaryOp::Minus, Value::Float(f)) => Value::Float(-f),
+            (_, v) => {
+                return Err(RtError(
+                    Diagnostic::error()
+                        .with_message(format!(
+                            "Unknown UnaryOp `{}` for `{}`",
+                            o.node,
+                            self.type_name(&v)
+                        ))
+                        .with_labels(vec![
+                            o.span.primary_label().with_message("In this operator"),
+                            vs.secondary_label()
+                                .with_message(format!("Evaluated to {:?}", v)),
+                        ]),
+                )
+                .into())
+            }
+        })
+    }
 
-fn binop(
-    l: Value,
-    o: BinOp,
-    r: Value,
-    l_span: Span,
-    o_span: Span,
-    r_span: Span,
-    env: &Env,
-) -> Result<Value> {
-    use Value::*;
-
-    Ok(binop_match!(
-        (o, l, r),
-        (l_span, o_span, r_span, env),
-        {
-            BinOp::Plus   => +,
-            BinOp::Minus  => -,
-            BinOp::Times  => *,
-            BinOp::Devide => /,
-        },
-        {
-            // TODO: What should null == null return
-            // TODO: What about Comparisons of non equal types
-            /*String,*/ Int, Float, Bool
-        },
-        {
-            BinOp::GreaterThan       => >,
-            BinOp::GreaterThanEquals => >=,
-            BinOp::LessThan          => <,
-            BinOp::LessThanEquals    => <=,
-        },
-        {
-            // (BinOp::Plus,       String(l), String(r)) => String(l + &r),
-            (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
-            (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
-        },
-    ))
-}
-
-fn unary_op(o: Spanned<UnaryOp>, v: Value, vs: Span, env: &Env) -> Result<Value> {
-    Ok(match (o.node, v) {
-        (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
-        (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
-        (UnaryOp::Minus, Value::Float(f)) => Value::Float(-f),
-        (_, v) => {
-            return Err(RtError(
+    fn is_truthy(&self, val: Value, s: Span) -> Result<bool> {
+        if let Value::Bool(b) = val {
+            Ok(b)
+        } else {
+            Err(RtError(
                 Diagnostic::error()
-                    .with_message(format!(
-                        "Unknown UnaryOp `{}` for `{}`",
-                        o.node,
-                        v.type_name(env)
-                    ))
-                    .with_labels(vec![
-                        o.span.primary_label().with_message("In this operator"),
-                        vs.secondary_label()
-                            .with_message(format!("Evaluated to {:?}", v)),
-                    ]),
+                    .with_message(format!("Expected `bool`, got `{}`", self.type_name(&val)))
+                    .with_labels(vec![s
+                        .primary_label()
+                        .with_message(format!("Evaluated to `{:?}`", val))]),
             )
             .into())
         }
-    })
-}
-
-fn is_truthy(val: Value, s: Span, env: &Env) -> Result<bool> {
-    if let Value::Bool(b) = val {
-        Ok(b)
-    } else {
-        Err(RtError(
-            Diagnostic::error()
-                .with_message(format!("Expected `bool`, got `{}`", val.type_name(env)))
-                .with_labels(vec![s
-                    .primary_label()
-                    .with_message(format!("Evaluated to `{:?}`", val))]),
-        )
-        .into())
     }
-}
 
-// TODO: This should return a string
-fn print_value(v: &Value, env: &Env) {
-    use Value::*;
-    match v {
-        // String(s) => println!("{}", s),
-        Int(x) => println!("{}", x),
-        Float(f) => println!("{}", f),
-        Null => println!("null"),
-        Bool(b) => println!("{}", b),
-        Complex(id) => match &env.heap[*id] {
-            BigValue::String(x) => {
-                println!("{}", x)
-            }
-        },
+    // TODO: This should return a string
+    fn print_value(&self, v: &Value) {
+        use Value::*;
+        match v {
+            // String(s) => println!("{}", s),
+            Int(x) => println!("{}", x),
+            Float(f) => println!("{}", f),
+            Null => println!("null"),
+            Bool(b) => println!("{}", b),
+            Complex(id) => match &self.heap[*id] {
+                BigValue::String(x) => {
+                    println!("{}", x)
+                }
+            },
+        }
+    }
+
+    fn type_name(&self, v: &Value) -> &'static str {
+        match v {
+            Value::Int(_) => "int",
+            Value::Float(_) => "float",
+            Value::Bool(_) => "bool",
+            Value::Complex(id) => match self.heap[*id] {
+                BigValue::String(_) => "string",
+            },
+            Value::Null => "null",
+        }
     }
 }
