@@ -169,8 +169,11 @@ impl<'a> Env<'a> {
             scope.declare(&name.name, val.clone());
         }
 
+        // Weird workaroud for rust-lang/rust#59159, see #41
+        let body = &function.body;
+
         // In functions, a trailing expression returns
-        Ok(match self.eval_block_in(&function.body, &mut scope)? {
+        Ok(match self.eval_block_in(body, &mut scope)? {
             BlockEvalResult::FnRet(x) => x,
             BlockEvalResult::LocalRet(x) => x,
         })
