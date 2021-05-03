@@ -11,7 +11,7 @@ use crate::ast::{
 };
 use crate::diagnostics::RtError;
 use crate::env::{Env, Scope};
-use crate::value::{BigValue, HeapKey, Value};
+use crate::value::{BigValue, HeapKey, Value, ValueDbg};
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -40,7 +40,7 @@ pub fn run(p: Program) -> Result<bool> {
             // TODO: Give a span
             return Err(RtError(Diagnostic::error().with_message(format!(
                 "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
-                x,
+                env.dbg_val(&x),
                 env.type_name(&x),
             )))
             .into());
@@ -314,10 +314,10 @@ impl<'a> Env<'a> {
                     o_span.primary_label().with_message("In this operator"),
                     l_span
                         .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", l)),
+                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&l))),
                     r_span
                         .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", r)),
+                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&r))),
                 ]),
         )
     }
@@ -413,7 +413,7 @@ impl<'a> Env<'a> {
                         .with_labels(vec![
                             o.span.primary_label().with_message("In this operator"),
                             vs.secondary_label()
-                                .with_message(format!("Evaluated to {:?}", v)),
+                                .with_message(format!("Evaluated to {:?}", self.dbg_val(&v))),
                         ]),
                 )
                 .into())
@@ -430,10 +430,14 @@ impl<'a> Env<'a> {
                     .with_message(format!("Expected `bool`, got `{}`", self.type_name(&val)))
                     .with_labels(vec![s
                         .primary_label()
-                        .with_message(format!("Evaluated to `{:?}`", val))]),
+                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
             )
             .into())
         }
+    }
+
+    fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
+        ValueDbg { v, e: self }
     }
 
     // TODO: This should return a string

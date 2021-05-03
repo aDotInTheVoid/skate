@@ -19,4 +19,5 @@ fn main() {
     print b();
     print c();
     print d();
+    print a() + b() + c() + d();
 }
