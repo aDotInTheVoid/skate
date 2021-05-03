@@ -11,7 +11,7 @@ use crate::ast::{
 };
 use crate::diagnostics::RtError;
 use crate::env::{Env, Scope};
-use crate::value::{BigValue, Value};
+use crate::value::{BigValue, HeapKey, Value};
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -323,7 +323,7 @@ impl<'a> Env<'a> {
     }
 
     fn binop(
-        &self,
+        &mut self,
         l: Value,
         o: BinOp,
         r: Value,
@@ -357,8 +357,44 @@ impl<'a> Env<'a> {
                 // (BinOp::Plus,       String(l), String(r)) => String(l + &r),
                 (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
                 (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
+                (op, Complex(lid), Complex(rid)) => self.complex_binop(
+                    lid,
+                    op,
+                    rid,
+                    l_span,
+                    o_span,
+                    r_span,
+                )?,
             },
         ))
+    }
+
+    fn complex_binop(
+        &mut self,
+        lid: HeapKey,
+        o: BinOp,
+        rid: HeapKey,
+        l_span: Span,
+        o_span: Span,
+        r_span: Span,
+    ) -> Result<Value> {
+        Ok(match (o, &self.heap[lid], &self.heap[rid]) {
+            (BinOp::Equals, l, r) => Value::Bool(l == r),
+            (BinOp::NotEquals, l, r) => Value::Bool(l != r),
+            (BinOp::Plus, BigValue::String(l), BigValue::String(r)) => {
+                let res = l.to_owned() + r;
+                let key = self.heap.insert(BigValue::String(res));
+                Value::Complex(key)
+            }
+            _ => Err(self.binop_err(
+                Value::Complex(lid),
+                o,
+                Value::Complex(rid),
+                l_span,
+                o_span,
+                r_span,
+            ))?,
+        })
     }
 
     fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {

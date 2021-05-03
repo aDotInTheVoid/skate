@@ -9,8 +9,9 @@ pub enum Value {
     Null,
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-
+// TODO: Remove PartialEq impl when we add Array and Value, as these may have
+// different heap ids that should be treated equal.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq)]
 pub enum BigValue {
     String(String),
     // Array(Vec<Value>),
