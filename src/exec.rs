@@ -11,7 +11,7 @@ use crate::ast::{
 };
 use crate::diagnostics::RtError;
 use crate::env::Scope;
-use crate::value::Value;
+use crate::value::{BigValue, Value};
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -189,7 +189,10 @@ impl<'a> Env<'a> {
 
         Ok(BlockEvalResult::LocalRet(match &e.node {
             Literal(l) => match l.node {
-                Literal::String(s) => Value::String((*s).to_owned()),
+                // Literal::String(s) => Value::String((*s).to_owned()),
+                Literal::String(s) => {
+                    Value::Complex(scope.add_to_heap(BigValue::String(s.to_owned())))
+                }
                 Literal::Float(f) => Value::Float(f),
                 Literal::Integer(i) => Value::Int(i),
                 Literal::Bool(b) => Value::Bool(b),
@@ -326,7 +329,7 @@ fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span)
         {
             // TODO: What should null == null return
             // TODO: What about Comparisons of non equal types
-            String, Int, Float, Bool
+            /*String,*/ Int, Float, Bool
         },
         {
             BinOp::GreaterThan       => >,
@@ -335,7 +338,7 @@ fn binop(l: Value, o: BinOp, r: Value, l_span: Span, o_span: Span, r_span: Span)
             BinOp::LessThanEquals    => <=,
         },
         {
-            (BinOp::Plus,       String(l), String(r)) => String(l + &r),
+            // (BinOp::Plus,       String(l), String(r)) => String(l + &r),
             (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
             (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
         },
@@ -385,10 +388,12 @@ fn is_truthy(val: Value, s: Span) -> Result<bool> {
 fn print_value(v: &Value) {
     use Value::*;
     match v {
-        String(s) => println!("{}", s),
+        // String(s) => println!("{}", s),
         Int(x) => println!("{}", x),
         Float(f) => println!("{}", f),
         Null => println!("null"),
         Bool(b) => println!("{}", b),
+        // TODO: fix
+        Complex(_) => println!("<complex ???>"),
     }
 }

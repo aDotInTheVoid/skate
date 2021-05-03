@@ -1,10 +1,13 @@
 use std::collections::HashMap;
 
-use crate::value::Value;
+use slotmap::SlotMap;
+
+use crate::value::{BigValue, HeapKey, Value};
 
 #[derive(Debug, Default)]
 pub struct Scope<'a> {
-    vars: Vec<HashMap<&'a str, Value>>,
+    pub(crate) vars: Vec<HashMap<&'a str, Value>>,
+    pub(crate) heap: SlotMap<HeapKey, BigValue>,
 }
 
 impl<'a> Scope<'a> {
@@ -51,5 +54,11 @@ impl<'a> Scope<'a> {
 
     pub fn pop(&mut self) {
         self.vars.pop().unwrap();
+    }
+
+    pub fn print_value(&self, v: &Value) {}
+
+    pub fn add_to_heap(&mut self, v: BigValue) -> HeapKey {
+        self.heap.insert(v)
     }
 }
