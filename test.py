@@ -17,17 +17,30 @@ parser.add_argument(
 parser.add_argument(
     "-r", "--release", help="Build skate in release_mode", action="store_true"
 )
+parser.add_argument("--coverage", action="store_true")
 args = parser.parse_args()
 
 BASE_DIR = path.realpath(path.dirname(__file__))
 os.chdir(BASE_DIR)
-if not args.skip_build:
+if not (args.skip_build or args.coverage):
     rflags = "--release" if args.release else ""
     os.system(f"cargo build {rflags}")
     os.system(f"cargo test {rflags}")
 
+if args.coverage:
+    if path.exists("./profile"):
+        print("WARNING: profile dir exists")
+    global_env = {"LLVM_PROFILE_FILE": "./cov/data/profile.%p.profraw"}
+else:
+    global_env = {}
+
+
 # TODO: Allow release mode
-SKATE_BINARY = path.join(BASE_DIR, "target", "debug", "skate")
+SKATE_BINARY = (
+    path.join(BASE_DIR, "target", "debug", "skate")
+    if not args.coverage
+    else path.join(BASE_DIR, "cov", "target", "debug", "skate")
+)
 
 TEST_DIR = path.join(BASE_DIR, "tests")
 
@@ -87,7 +100,7 @@ def process(stream, file):
 
 
 def run_pass(path):
-    output = subprocess.run([SKATE_BINARY, path], capture_output=True)
+    output = subprocess.run([SKATE_BINARY, path], capture_output=True, env=global_env)
     if output.returncode != 0:
         # TODO: Dry
         print(
@@ -108,7 +121,7 @@ def run_pass(path):
 
 def compile_fail(path, errcode):
     output = subprocess.run(
-        [SKATE_BINARY, path], capture_output=True, env={"NO_COLOR": "1"}
+        [SKATE_BINARY, path], capture_output=True, env={"NO_COLOR": "1"} | global_env
     )
     if output.returncode != errcode:
         print(
