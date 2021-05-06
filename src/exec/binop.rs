@@ -10,7 +10,6 @@ use super::Env;
 macro_rules! binop_match {
     (
         $bindings:expr,
-        ($l_span:expr, $o_span:expr, $r_span:expr, $env:expr),
         // Integer math ops
         { $($math_op_name:path => $math_op:tt),*$(,)? },
         // Comparison
@@ -31,7 +30,6 @@ macro_rules! binop_match {
                 ($comarison_name, Float(l), Float(r)) => Bool(l $comparison_op r),
             )*
             $( $user_lhs => $user_rhs, )*
-            (o, l, r) => return Err($env.binop_err(l, o, r, $l_span, $o_span, $r_span).into()),
         }
     };
 }
@@ -50,7 +48,6 @@ impl<'a> Env<'a> {
 
         Ok(binop_match!(
             (o, l, r),
-            (l_span, o_span, r_span, self),
             {
                 BinOp::Plus   => +,
                 BinOp::Minus  => -,
@@ -78,6 +75,7 @@ impl<'a> Env<'a> {
                     o_span,
                     r_span,
                 )?,
+                (o, l, r) => return Err(self.binop_err(l, o, r, l_span, o_span, r_span).into())
             },
         ))
     }
