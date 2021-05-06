@@ -1,0 +1,6 @@
+error: Expected a positive number
+  ┌─ $DD/tests/run-fail/array/negative-index.sk:3:19
+  │
+3 │     print [1,2,3][-a];
+  │                   ^^ Evaluated to `-1`
+

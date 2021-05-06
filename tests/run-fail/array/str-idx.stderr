@@ -1,0 +1,6 @@
+error: Expected `array`, got `string`
+  ┌─ $DD/tests/run-fail/array/str-idx.sk:3:5
+  │
+3 │     "abc"[1];
+  │     ^^^^^ Evaluated_to `String("abc")`
+

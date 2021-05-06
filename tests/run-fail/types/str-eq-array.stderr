@@ -1,0 +1,9 @@
+error: Unknown binop `==`, for `array` and `string`
+  ┌─ $DD/tests/run-fail/types/str-eq-array.sk:5:9
+  │
+5 │     arr == str;
+  │     --- ^^ --- LHS evaluated to String("")
+  │     │   │   
+  │     │   In this operator
+  │     LHS evaluated to Array([])
+

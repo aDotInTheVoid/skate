@@ -1,0 +1,4 @@
+fn main() {
+    print null == null;
+    print null != null;
+}
