@@ -33,7 +33,16 @@ pub(crate) struct ValueDbg<'a> {
 impl Debug for ValueDbg<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Value::Complex(id) = self.v {
-            self.e.heap[*id].fmt(f)
+            match &self.e.heap[*id] {
+                v @ BigValue::String(_) => v.fmt(f),
+                BigValue::Array(arr) => {
+                    // TODO: Decide if I like Array([...]), or even types for other things.
+
+                    let mut t = f.debug_tuple("Array");
+                    t.field(&arr.iter().map(|x| self.e.dbg_val(x)).collect::<Vec<_>>());
+                    t.finish()
+                }
+            }
         } else {
             self.v.fmt(f)
         }
