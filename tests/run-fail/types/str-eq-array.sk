@@ -1,0 +1,7 @@
+fn main() {
+    let arr = [];
+    let str = "";
+
+    arr == str;
+}
+

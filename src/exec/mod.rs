@@ -1,17 +1,19 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
+use std::convert::TryInto;
 use std::mem;
 
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, Result};
 
 use crate::ast::{
-    self, BinOp, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt,
-    UnaryOp,
+    self, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt, UnaryOp,
 };
 use crate::diagnostics::RtError;
 use crate::env::{Env, Scope};
-use crate::value::{BigValue, HeapKey, Value, ValueDbg};
+use crate::value::{BigValue, Value, ValueDbg};
+
+mod binop;
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -61,44 +63,6 @@ macro_rules! get {
         match $e {
             BlockEvalResult::LocalRet(x) => x,
             x @ BlockEvalResult::FnRet(_) => return Ok(x),
-        }
-    };
-}
-
-macro_rules! binop_match {
-    (
-        $bindings:expr,
-        ($l_span:expr, $o_span:expr, $r_span:expr, $env:expr),
-        // Integer math ops
-        { $($math_op_name:path => $math_op:tt),*$(,)? },
-        // Equality
-        { $($eq_type:path),*$(,)? },
-        // Comparison
-        { $($comarison_name:path => $comparison_op:tt),*$(,)? },
-        // Misc user stuff
-        { $($user_lhs:pat => $user_rhs:expr),*$(,)? },
-    ) => {
-        // TODO: decide if this is a good idea
-        #[allow(clippy::float_cmp)]
-        match $bindings {
-            $(
-                // TODO: Should we coerce int to float in 1 + 2.0
-                ($math_op_name, Int(l), Int(r)) => Int(l $math_op r),
-                ($math_op_name, Float(l), Float(r)) => Float(l $math_op r),
-            )*
-            $(
-                (BinOp::Equals, $eq_type(l), $eq_type(r)) => Bool(l == r),
-                // TODO: Should we say 1 != 1.0, what about "true" != 3
-                (BinOp::NotEquals, $eq_type(l), $eq_type(r)) => Bool(l != r),
-            )*
-            $(
-                ($comarison_name, Int(l), Int(r)) => Bool(l $comparison_op r),
-                ($comarison_name, Float(l), Float(r)) => Bool(l $comparison_op r),
-            )*
-
-            $( $user_lhs => $user_rhs, )*
-
-            (o, l, r) => return Err($env.binop_err(l, o, r, $l_span, $o_span, $r_span).into()),
         }
     };
 }
@@ -165,8 +129,7 @@ impl<'a> Env<'a> {
         let mut scope = Scope::default();
 
         for (name, val) in function.args.iter().zip(args.iter()) {
-            // TODO: less cloning
-            scope.declare(&name.name, val.clone());
+            scope.declare(&name.name, *val);
         }
 
         // Weird workaroud for rust-lang/rust#59159, see #41
@@ -278,7 +241,7 @@ impl<'a> Env<'a> {
             })?,
             If(test, ifcase, elsecase) => {
                 let test_val = get!(self.eval_in(scope, &*test)?);
-                let eval_result = if self.is_truthy(test_val, test.span)? {
+                let eval_result = if self.as_bool(test_val, test.span)? {
                     self.eval_block_in(&ifcase, scope)?
                 } else if let Some(block) = elsecase {
                     self.eval_block_in(&block, scope)?
@@ -291,117 +254,31 @@ impl<'a> Env<'a> {
                 let bval = self.eval_block_in(&b, scope)?;
                 get!(bval)
             }
+            Array(x) => {
+                let mut ret = Vec::with_capacity(x.len());
+                for i in x {
+                    ret.push(get!(self.eval_in(scope, i)?));
+                }
+
+                let key = self.heap.insert(BigValue::Array(ret));
+                Value::Complex(key)
+            }
+            ArrayAccess(arr_s, idx_s) => {
+                let arr = get!(self.eval_in(scope, arr_s)?);
+
+                // Nessesary for BorrowCk, as we cant borrow from the heap while we evaluate
+                // the index, and potentialy mutate. Probably killing perf, LMAO
+                let arr = self.as_array(arr, arr_s.span)?.to_owned();
+
+                let idx = get!(self.eval_in(scope, idx_s)?);
+                let idx = self.as_uint(idx, idx_s.span)?;
+
+                // TODO: Handle OOB
+                arr[idx]
+            }
             // TODO: Nice error / fill out
             other => bail!("Unimplemented {:?}", other),
         }))
-    }
-
-    fn binop_err(
-        &self,
-        l: Value,
-        o: BinOp,
-        r: Value,
-        l_span: Span,
-        o_span: Span,
-        r_span: Span,
-    ) -> RtError {
-        RtError(
-            Diagnostic::error()
-                .with_message(format!(
-                    "Unknown binop `{}`, for `{}` and `{}`",
-                    o,
-                    self.type_name(&l),
-                    self.type_name(&r),
-                ))
-                .with_labels(vec![
-                    o_span.primary_label().with_message("In this operator"),
-                    l_span
-                        .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&l))),
-                    r_span
-                        .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&r))),
-                ]),
-        )
-    }
-
-    fn binop(
-        &mut self,
-        l: Value,
-        o: BinOp,
-        r: Value,
-        l_span: Span,
-        o_span: Span,
-        r_span: Span,
-    ) -> Result<Value> {
-        use Value::*;
-
-        Ok(binop_match!(
-            (o, l, r),
-            (l_span, o_span, r_span, self),
-            {
-                BinOp::Plus   => +,
-                BinOp::Minus  => -,
-                BinOp::Times  => *,
-                BinOp::Devide => /,
-            },
-            {
-                // TODO: What should null == null return
-                // TODO: What about Comparisons of non equal types
-                /*String,*/ Int, Float, Bool
-            },
-            {
-                BinOp::GreaterThan       => >,
-                BinOp::GreaterThanEquals => >=,
-                BinOp::LessThan          => <,
-                BinOp::LessThanEquals    => <=,
-            },
-            {
-                // (BinOp::Plus,       String(l), String(r)) => String(l + &r),
-                (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
-                (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
-                (op, Complex(lid), Complex(rid)) => self.complex_binop(
-                    lid,
-                    op,
-                    rid,
-                    l_span,
-                    o_span,
-                    r_span,
-                )?,
-            },
-        ))
-    }
-
-    fn complex_binop(
-        &mut self,
-        lid: HeapKey,
-        o: BinOp,
-        rid: HeapKey,
-        l_span: Span,
-        o_span: Span,
-        r_span: Span,
-    ) -> Result<Value> {
-        Ok(match (o, &self.heap[lid], &self.heap[rid]) {
-            (BinOp::Equals, l, r) => Value::Bool(l == r),
-            (BinOp::NotEquals, l, r) => Value::Bool(l != r),
-            (BinOp::Plus, BigValue::String(l), BigValue::String(r)) => {
-                let res = l.to_owned() + r;
-                let key = self.heap.insert(BigValue::String(res));
-                Value::Complex(key)
-            }
-            _ => {
-                return Err(self
-                    .binop_err(
-                        Value::Complex(lid),
-                        o,
-                        Value::Complex(rid),
-                        l_span,
-                        o_span,
-                        r_span,
-                    )
-                    .into())
-            }
-        })
     }
 
     fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
@@ -428,7 +305,8 @@ impl<'a> Env<'a> {
         })
     }
 
-    fn is_truthy(&self, val: Value, s: Span) -> Result<bool> {
+    // TODO: DRY these methods
+    fn as_bool(&self, val: Value, s: Span) -> Result<bool> {
         if let Value::Bool(b) = val {
             Ok(b)
         } else {
@@ -443,25 +321,54 @@ impl<'a> Env<'a> {
         }
     }
 
-    fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
+    fn as_uint(&self, val: Value, s: Span) -> Result<usize> {
+        if let Value::Int(i) = val {
+            if let Ok(u) = i.try_into() {
+                Ok(u)
+            } else {
+                Err(RtError(
+                    Diagnostic::error()
+                        .with_message("Expected a positive number")
+                        .with_labels(vec![s
+                            .primary_label()
+                            .with_message(format!("Evaluated to `{}`", i))]),
+                )
+                .into())
+            }
+        } else {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!("Expected `int`, got `{}`", self.type_name(&val)))
+                    .with_labels(vec![s
+                        .primary_label()
+                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
+            )
+            .into())
+        }
+    }
+    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Array(a) = &self.heap[id] {
+                return Ok(a);
+            }
+        }
+        Err(RtError(
+            Diagnostic::error()
+                .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
+                .with_labels(vec![s
+                    .primary_label()
+                    .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
+        )
+        .into())
+    }
+
+    pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
         ValueDbg { v, e: self }
     }
 
-    // TODO: This should return a string
     fn print_value(&self, v: &Value) {
-        use Value::*;
-        match v {
-            // String(s) => println!("{}", s),
-            Int(x) => println!("{}", x),
-            Float(f) => println!("{}", f),
-            Null => println!("null"),
-            Bool(b) => println!("{}", b),
-            Complex(id) => match &self.heap[*id] {
-                BigValue::String(x) => {
-                    println!("{}", x)
-                }
-            },
-        }
+        let dbg = self.dbg_val(v);
+        println!("{}", dbg);
     }
 
     fn type_name(&self, v: &Value) -> &'static str {
@@ -471,6 +378,7 @@ impl<'a> Env<'a> {
             Value::Bool(_) => "bool",
             Value::Complex(id) => match self.heap[*id] {
                 BigValue::String(_) => "string",
+                BigValue::Array(_) => "array",
             },
             Value::Null => "null",
         }

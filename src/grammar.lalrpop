@@ -129,7 +129,8 @@ BaseExprRaw: RawExpr<'input> = {
     // This is a hack where we remove the span of the inner expr
     // I'm not sure if this is good
     "(" <e:Expr> ")" => e.node,
-    <Spaned<Literal>> => RawExpr::Literal(<>) 
+    <Spaned<Literal>> => RawExpr::Literal(<>),
+    "[" <Comma<Expr>> "]" => RawExpr::Array(<>), 
 }
 
 Literal: Literal<'input> = {

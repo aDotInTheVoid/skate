@@ -1,0 +1,4 @@
+fn main() {
+    // TODO: What should this be?
+    "abc"[1];
+}

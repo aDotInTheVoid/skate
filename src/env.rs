@@ -36,11 +36,10 @@ impl<'a> Scope<'a> {
     }
 
     pub fn lookup(&mut self, name: &str) -> Option<Value> {
-        // self.vars.get(name).map(Clone::clone)
         let mut ret = None;
         for i in self.vars.iter().rev() {
-            if let Some(var) = i.get(name) {
-                ret = Some(var.clone());
+            if let Some(&var) = i.get(name) {
+                ret = Some(var);
                 break;
             }
         }
