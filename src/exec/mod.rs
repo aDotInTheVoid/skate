@@ -14,6 +14,7 @@ use crate::env::{Env, Scope};
 use crate::value::{BigValue, Value, ValueDbg};
 
 mod binop;
+mod lvalue;
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -52,12 +53,14 @@ pub fn run(p: Program) -> Result<bool> {
     Ok(is_fail)
 }
 
-enum BlockEvalResult {
+#[must_use = "use the get! macro to potentialy early return"]
+pub(crate) enum BlockEvalResult {
     FnRet(Value),
     LocalRet(Value),
 }
 
 // Note: always get! an `BlockEvalResult` before creating another to avoid #29
+#[macro_export]
 macro_rules! get {
     ($e: expr) => {
         match $e {
@@ -159,6 +162,10 @@ impl<'a> Env<'a> {
                     scope.declare(name, val);
                     last_val = Value::Null;
                 }
+                Assign(lvalue, rvalue) => {
+                    get!(self.lvalue(lvalue, rvalue, scope)?);
+                    last_val = Value::Null;
+                }
                 Print(e) => {
                     let val = get!(self.eval_in(scope, e)?);
                     self.print_value(&val);
@@ -177,6 +184,7 @@ impl<'a> Env<'a> {
             }
         }
 
+        // TODO: Clean up
         let ret = match block.1 {
             BlockType::Discard => Value::Null,
             BlockType::ReturnExpr => last_val,
@@ -188,7 +196,11 @@ impl<'a> Env<'a> {
         Ok(BlockEvalResult::LocalRet(ret))
     }
 
-    fn eval_in(&mut self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
+    pub(crate) fn eval_in(
+        &mut self,
+        scope: &mut Scope<'a>,
+        e: &Expr<'a>,
+    ) -> Result<BlockEvalResult> {
         use crate::ast::Literal;
         use RawExpr::*;
 

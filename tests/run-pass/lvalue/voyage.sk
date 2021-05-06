@@ -1,0 +1,24 @@
+fn main() {
+    let x = 0;
+    print x;
+    x = x + 1;
+    print x;
+    x = {
+        print "start";
+        x = x + 1;
+        print x;
+        print "stop";
+        x
+    } + 1;
+    print x;
+    print "start2";
+    {
+        x = x + 1;
+        print x;
+        let x = x + 1;
+        print x;
+        x = x + 1;
+        print "Jumping back";
+    };
+    print x;
+}
