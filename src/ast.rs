@@ -124,6 +124,7 @@ pub enum RawExpr<'a> {
     If(Box<Expr<'a>>, Block<'a>, Option<Block<'a>>),
     For(Name<'a>, Box<Expr<'a>>, Block<'a>),
     While(Box<Expr<'a>>, Block<'a>),
+    Array(Vec<Expr<'a>>),
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

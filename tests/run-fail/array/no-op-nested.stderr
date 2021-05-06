@@ -1,0 +1,9 @@
+error: Unknown binop `+`, for `array` and `array`
+  ┌─ $DD/tests/run-fail/array/no-op-nested.sk:4:14
+  │
+4 │     [[[1]]]  + [[[2]]]
+  │     -------  ^ ------- LHS evaluated to Array([Complex(HeapKey(5v1))])
+  │     │        │  
+  │     │        In this operator
+  │     LHS evaluated to Array([Complex(HeapKey(2v1))])
+

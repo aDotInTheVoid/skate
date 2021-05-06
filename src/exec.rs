@@ -72,7 +72,7 @@ macro_rules! binop_match {
         // Integer math ops
         { $($math_op_name:path => $math_op:tt),*$(,)? },
         // Equality
-        { $($eq_type:path),*$(,)? },
+        // { $($eq_type:path),*$(,)? },
         // Comparison
         { $($comarison_name:path => $comparison_op:tt),*$(,)? },
         // Misc user stuff
@@ -86,11 +86,11 @@ macro_rules! binop_match {
                 ($math_op_name, Int(l), Int(r)) => Int(l $math_op r),
                 ($math_op_name, Float(l), Float(r)) => Float(l $math_op r),
             )*
-            $(
-                (BinOp::Equals, $eq_type(l), $eq_type(r)) => Bool(l == r),
-                // TODO: Should we say 1 != 1.0, what about "true" != 3
-                (BinOp::NotEquals, $eq_type(l), $eq_type(r)) => Bool(l != r),
-            )*
+            // $(
+            //     (BinOp::Equals, $eq_type(l), $eq_type(r)) => Bool(l == r),
+            //     // TODO: Should we say 1 != 1.0, what about "true" != 3
+            //     (BinOp::NotEquals, $eq_type(l), $eq_type(r)) => Bool(l != r),
+            // )*
             $(
                 ($comarison_name, Int(l), Int(r)) => Bool(l $comparison_op r),
                 ($comarison_name, Float(l), Float(r)) => Bool(l $comparison_op r),
@@ -291,6 +291,15 @@ impl<'a> Env<'a> {
                 let bval = self.eval_block_in(&b, scope)?;
                 get!(bval)
             }
+            Array(x) => {
+                let mut ret = Vec::with_capacity(x.len());
+                for i in x {
+                    ret.push(get!(self.eval_in(scope, i)?));
+                }
+
+                let key = self.heap.insert(BigValue::Array(ret));
+                Value::Complex(key)
+            }
             // TODO: Nice error / fill out
             other => bail!("Unimplemented {:?}", other),
         }))
@@ -345,11 +354,11 @@ impl<'a> Env<'a> {
                 BinOp::Times  => *,
                 BinOp::Devide => /,
             },
-            {
-                // TODO: What should null == null return
-                // TODO: What about Comparisons of non equal types
-                /*String,*/ Int, Float, Bool
-            },
+            // {
+            //     // TODO: What should null == null return
+            //     // TODO: What about Comparisons of non equal types
+            //     /*String,*/ Int, Float, Bool
+            // },
             {
                 BinOp::GreaterThan       => >,
                 BinOp::GreaterThanEquals => >=,
@@ -360,6 +369,9 @@ impl<'a> Env<'a> {
                 // (BinOp::Plus,       String(l), String(r)) => String(l + &r),
                 (BinOp::LogicalOr,  Bool(l),   Bool(r))   => Bool  (l || r),
                 (BinOp::LogicalAnd, Bool(l),   Bool(r))   => Bool  (l && r),
+                (BinOp::Equals, l, r) => {Value::Bool(self.binop_eq(l, o, r, l_span, o_span, r_span)?)},
+                (BinOp::NotEquals, l, r) => {Value::Bool(!self.binop_eq(l, o, r, l_span, o_span, r_span)?)},
+
                 (op, Complex(lid), Complex(rid)) => self.complex_binop(
                     lid,
                     op,
@@ -372,6 +384,48 @@ impl<'a> Env<'a> {
         ))
     }
 
+    fn binop_eq(
+        &self,
+        l: Value,
+        o: BinOp,
+        r: Value,
+        l_span: Span,
+        o_span: Span,
+        r_span: Span,
+    ) -> Result<bool> {
+        Ok(match (l, r) {
+            (Value::Int(l), Value::Int(r)) => l == r,
+            (Value::Float(l), Value::Float(r)) => l == r,
+            (Value::Bool(l), Value::Bool(r)) => l == r,
+            (Value::Complex(lid), Value::Complex(rid)) => {
+                match (&self.heap[lid], &self.heap[rid]) {
+                    (BigValue::String(l), BigValue::String(r)) => l == r,
+                    (BigValue::Array(ls), BigValue::Array(rs)) => {
+                        if ls.len() != rs.len() {
+                            false
+                        } else {
+                            ls.iter().zip(rs).try_fold(true, |acc, (l, r)| {
+                                Result::<_, eyre::Error>::Ok(
+                                    acc && self.binop_eq(*l, o, *r, l_span, o_span, r_span)?,
+                                )
+                            })?
+                        }
+                    }
+                    _ => Err(self.binop_err(
+                        Value::Complex(lid),
+                        o,
+                        Value::Complex(rid),
+                        l_span,
+                        o_span,
+                        r_span,
+                    ))?,
+                }
+            }
+            (Value::Null, Value::Null) => true,
+            (l, r) => Err(self.binop_err(l, o, r, l_span, o_span, r_span))?,
+        })
+    }
+
     fn complex_binop(
         &mut self,
         lid: HeapKey,
@@ -382,8 +436,10 @@ impl<'a> Env<'a> {
         r_span: Span,
     ) -> Result<Value> {
         Ok(match (o, &self.heap[lid], &self.heap[rid]) {
-            (BinOp::Equals, l, r) => Value::Bool(l == r),
-            (BinOp::NotEquals, l, r) => Value::Bool(l != r),
+            // (BinOp::Equals, _, _) => Value::Bool(self.binop_eq(lid, rid, l_span, o_span, r_span)?),
+            // (BinOp::NotEquals, _, _) => {
+            //     Value::Bool(!self.binop_eq(lid, rid, l_span, o_span, r_span)?)
+            // }
             (BinOp::Plus, BigValue::String(l), BigValue::String(r)) => {
                 let res = l.to_owned() + r;
                 let key = self.heap.insert(BigValue::String(res));
@@ -443,25 +499,27 @@ impl<'a> Env<'a> {
         }
     }
 
-    fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
+    pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
         ValueDbg { v, e: self }
     }
 
     // TODO: This should return a string
     fn print_value(&self, v: &Value) {
-        use Value::*;
-        match v {
-            // String(s) => println!("{}", s),
-            Int(x) => println!("{}", x),
-            Float(f) => println!("{}", f),
-            Null => println!("null"),
-            Bool(b) => println!("{}", b),
-            Complex(id) => match &self.heap[*id] {
-                BigValue::String(x) => {
-                    println!("{}", x)
-                }
-            },
-        }
+        let dbg = self.dbg_val(v);
+        println!("{}", dbg);
+        // match v {
+        //     // String(s) => println!("{}", s),
+        //     Int(x) => println!("{}", x),
+        //     Float(f) => println!("{}", f),
+        //     Null => println!("null"),
+        //     Bool(b) => println!("{}", b),
+        //     Complex(id) => match &self.heap[*id] {
+        //         BigValue::String(x) => {
+        //             println!("{}", x)
+        //         }
+        //         BigValue::Array(_) => println!("TODO: FIXME"),
+        //     },
+        // }
     }
 
     fn type_name(&self, v: &Value) -> &'static str {
@@ -471,6 +529,7 @@ impl<'a> Env<'a> {
             Value::Bool(_) => "bool",
             Value::Complex(id) => match self.heap[*id] {
                 BigValue::String(_) => "string",
+                BigValue::Array(_) => "array",
             },
             Value::Null => "null",
         }

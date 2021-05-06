@@ -1,10 +1,10 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 
 use crate::env::Env;
 
 slotmap::new_key_type! { pub struct HeapKey; }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, Copy)]
 pub enum Value {
     Int(i64),
     Float(f64),
@@ -15,10 +15,10 @@ pub enum Value {
 
 // TODO: Remove PartialEq impl when we add Array and Value, as these may have
 // different heap ids that should be treated equal.
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub enum BigValue {
     String(String),
-    // Array(Vec<Value>),
+    Array(Vec<Value>),
     // Map(HashMap<String, Value>),
 }
 
@@ -37,5 +37,34 @@ impl Debug for ValueDbg<'_> {
         } else {
             self.v.fmt(f)
         }
+    }
+}
+
+impl Display for ValueDbg<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self.v {
+            Value::Int(v) => Display::fmt(v, f),
+            Value::Float(v) => Display::fmt(v, f),
+            Value::Bool(v) => Display::fmt(v, f),
+            Value::Complex(id) => match &self.e.heap[*id] {
+                BigValue::String(v) => Display::fmt(v, f),
+                BigValue::Array(v) => {
+                    let vals: Vec<_> = v
+                        .iter()
+                        .map(|x| DebugAsDisplay(self.e.dbg_val(x)))
+                        .collect();
+                    vals.fmt(f)
+                }
+            },
+            Value::Null => f.write_str("null"),
+        }
+    }
+}
+
+struct DebugAsDisplay<T>(T);
+
+impl<T: Display> Debug for DebugAsDisplay<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.0.fmt(f)
     }
 }
