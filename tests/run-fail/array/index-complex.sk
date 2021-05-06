@@ -1,0 +1,6 @@
+fn main() {
+    print [];
+    let x = [[], [], []];
+    let x = [[x], x, [[x]]];
+    x[x];
+}

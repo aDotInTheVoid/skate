@@ -1,5 +1,6 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
+use std::convert::TryInto;
 use std::mem;
 
 use codespan_reporting::diagnostic::Diagnostic;
@@ -128,8 +129,7 @@ impl<'a> Env<'a> {
         let mut scope = Scope::default();
 
         for (name, val) in function.args.iter().zip(args.iter()) {
-            // TODO: less cloning
-            scope.declare(&name.name, val.clone());
+            scope.declare(&name.name, *val);
         }
 
         // Weird workaroud for rust-lang/rust#59159, see #41
@@ -241,7 +241,7 @@ impl<'a> Env<'a> {
             })?,
             If(test, ifcase, elsecase) => {
                 let test_val = get!(self.eval_in(scope, &*test)?);
-                let eval_result = if self.is_truthy(test_val, test.span)? {
+                let eval_result = if self.as_bool(test_val, test.span)? {
                     self.eval_block_in(&ifcase, scope)?
                 } else if let Some(block) = elsecase {
                     self.eval_block_in(&block, scope)?
@@ -262,6 +262,19 @@ impl<'a> Env<'a> {
 
                 let key = self.heap.insert(BigValue::Array(ret));
                 Value::Complex(key)
+            }
+            ArrayAccess(arr_s, idx_s) => {
+                let arr = get!(self.eval_in(scope, arr_s)?);
+
+                // Nessesary for BorrowCk, as we cant borrow from the heap while we evaluate
+                // the index, and potentialy mutate. Probably killing perf, LMAO
+                let arr = self.as_array(arr, arr_s.span)?.to_owned();
+
+                let idx = get!(self.eval_in(scope, idx_s)?);
+                let idx = self.as_uint(idx, idx_s.span)?;
+
+                // TODO: Handle OOB
+                arr[idx]
             }
             // TODO: Nice error / fill out
             other => bail!("Unimplemented {:?}", other),
@@ -292,7 +305,8 @@ impl<'a> Env<'a> {
         })
     }
 
-    fn is_truthy(&self, val: Value, s: Span) -> Result<bool> {
+    // TODO: DRY these methods
+    fn as_bool(&self, val: Value, s: Span) -> Result<bool> {
         if let Value::Bool(b) = val {
             Ok(b)
         } else {
@@ -305,6 +319,47 @@ impl<'a> Env<'a> {
             )
             .into())
         }
+    }
+
+    fn as_uint(&self, val: Value, s: Span) -> Result<usize> {
+        if let Value::Int(i) = val {
+            if let Ok(u) = i.try_into() {
+                Ok(u)
+            } else {
+                Err(RtError(
+                    Diagnostic::error()
+                        .with_message("Expected a positive number")
+                        .with_labels(vec![s
+                            .primary_label()
+                            .with_message(format!("Evaluated to `{}`", i))]),
+                )
+                .into())
+            }
+        } else {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!("Expected `int`, got `{}`", self.type_name(&val)))
+                    .with_labels(vec![s
+                        .primary_label()
+                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
+            )
+            .into())
+        }
+    }
+    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Array(a) = &self.heap[id] {
+                return Ok(a);
+            }
+        }
+        Err(RtError(
+            Diagnostic::error()
+                .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
+                .with_labels(vec![s
+                    .primary_label()
+                    .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
+        )
+        .into())
     }
 
     pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
