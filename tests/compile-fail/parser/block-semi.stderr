@@ -17,6 +17,7 @@ error: Unexpected token
   = Expected: ";"
   = Expected: "<"
   = Expected: "<="
+  = Expected: "="
   = Expected: "=="
   = Expected: ">"
   = Expected: ">="

@@ -14,6 +14,7 @@ use crate::env::{Env, Scope};
 use crate::value::{BigValue, Value, ValueDbg};
 
 mod binop;
+mod lvalue;
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -52,12 +53,14 @@ pub fn run(p: Program) -> Result<bool> {
     Ok(is_fail)
 }
 
-enum BlockEvalResult {
+#[must_use = "use the get! macro to potentialy early return"]
+pub(crate) enum BlockEvalResult {
     FnRet(Value),
     LocalRet(Value),
 }
 
 // Note: always get! an `BlockEvalResult` before creating another to avoid #29
+#[macro_export]
 macro_rules! get {
     ($e: expr) => {
         match $e {
@@ -159,6 +162,10 @@ impl<'a> Env<'a> {
                     scope.declare(name, val);
                     last_val = Value::Null;
                 }
+                Assign(lvalue, rvalue) => {
+                    get!(self.lvalue(lvalue, rvalue, scope)?);
+                    last_val = Value::Null;
+                }
                 Print(e) => {
                     let val = get!(self.eval_in(scope, e)?);
                     self.print_value(&val);
@@ -177,6 +184,7 @@ impl<'a> Env<'a> {
             }
         }
 
+        // TODO: Clean up
         let ret = match block.1 {
             BlockType::Discard => Value::Null,
             BlockType::ReturnExpr => last_val,
@@ -188,7 +196,11 @@ impl<'a> Env<'a> {
         Ok(BlockEvalResult::LocalRet(ret))
     }
 
-    fn eval_in(&mut self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<BlockEvalResult> {
+    pub(crate) fn eval_in(
+        &mut self,
+        scope: &mut Scope<'a>,
+        e: &Expr<'a>,
+    ) -> Result<BlockEvalResult> {
         use crate::ast::Literal;
         use RawExpr::*;
 
@@ -264,16 +276,17 @@ impl<'a> Env<'a> {
                 Value::Complex(key)
             }
             ArrayAccess(arr_s, idx_s) => {
-                let arr = get!(self.eval_in(scope, arr_s)?);
+                let array_val = get!(self.eval_in(scope, arr_s)?);
 
                 // Nessesary for BorrowCk, as we cant borrow from the heap while we evaluate
                 // the index, and potentialy mutate. Probably killing perf, LMAO
-                let arr = self.as_array(arr, arr_s.span)?.to_owned();
+                let arr = self.as_array_mut(array_val, arr_s.span)?.to_owned();
 
-                let idx = get!(self.eval_in(scope, idx_s)?);
-                let idx = self.as_uint(idx, idx_s.span)?;
+                let idx_val = get!(self.eval_in(scope, idx_s)?);
+                let idx = self.as_uint(idx_val, idx_s.span)?;
 
-                // TODO: Handle OOB
+                // TODO: This is wrong if we mutate the array when evaluating the index, I think
+                self.check_array_bounds(&arr, idx, array_val, idx_val, arr_s.span, idx_s.span)?;
                 arr[idx]
             }
             // TODO: Nice error / fill out
@@ -303,6 +316,38 @@ impl<'a> Env<'a> {
                 .into())
             }
         })
+    }
+
+    pub(crate) fn check_array_bounds(
+        &self,
+        array: &[Value],
+        idx: usize,
+        array_val: Value,
+        idx_val: Value,
+        array_span: Span,
+        idx_span: Span,
+    ) -> Result<()> {
+        if array.len() <= idx {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!(
+                        "Array index out of bound, len is `{}`, but got `{}`",
+                        array.len(),
+                        idx
+                    ))
+                    .with_labels(vec![
+                        idx_span
+                            .primary_label()
+                            .with_message(format!("Evaluated to {:?}", self.dbg_val(&idx_val))),
+                        array_span
+                            .primary_label()
+                            .with_message(format!("Evaluated to {:?}", self.dbg_val(&array_val))),
+                    ]),
+            )
+            .into())
+        } else {
+            Ok(())
+        }
     }
 
     // TODO: DRY these methods
@@ -346,20 +391,41 @@ impl<'a> Env<'a> {
             .into())
         }
     }
-    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value]> {
         if let Value::Complex(id) = val {
-            if let BigValue::Array(a) = &self.heap[id] {
-                return Ok(a);
+            if let BigValue::Array(_) = &self.heap[id] {
+                // Fun polonious workaround
+                match &mut self.heap[id] {
+                    BigValue::Array(a) => return Ok(a),
+                    _ => unreachable!(),
+                }
             }
         }
-        Err(RtError(
+        Err(self.not_array_error(val, s).into())
+    }
+
+    // TODO: Unify
+    fn not_array_error(&self, val: Value, s: Span) -> RtError {
+        RtError(
             Diagnostic::error()
                 .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
                 .with_labels(vec![s
                     .primary_label()
                     .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
         )
-        .into())
+    }
+
+    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Array(_) = &self.heap[id] {
+                // Fun polonious workaround
+                match &self.heap[id] {
+                    BigValue::Array(a) => return Ok(a),
+                    _ => unreachable!(),
+                }
+            }
+        }
+        Err(self.not_array_error(val, s).into())
     }
 
     pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {

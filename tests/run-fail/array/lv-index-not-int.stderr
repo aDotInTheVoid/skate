@@ -1,0 +1,6 @@
+error: Expected `int`, got `string`
+  ┌─ $DD/tests/run-fail/array/lv-index-not-int.sk:2:8
+  │
+2 │     []["helo" + " "] = "no";
+  │        ^^^^^^^^^^^^ Evaluated to `String("helo ")`
+

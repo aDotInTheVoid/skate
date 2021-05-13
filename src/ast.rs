@@ -104,6 +104,8 @@ pub enum Type {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Stmt<'a> {
     Let(#[serde(borrow)] Name<'a>, Expr<'a>),
+    // TODO: Dont use Expr for Lvalues
+    Assign(Expr<'a>, Expr<'a>),
     Expr(Expr<'a>),
     Print(Expr<'a>),
     Return(Expr<'a>),

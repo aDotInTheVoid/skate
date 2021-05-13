@@ -1,5 +1,4 @@
 fn main() {
-    // TODO: Change
     let x = 2;
     print x;
     x = 3;

@@ -74,6 +74,7 @@ BodyRaw = { "{" <Semi<Stmt>> "}" }
 Stmt: Stmt<'input> = {
     <Expr> => Stmt::Expr(<>),
     "let" <Name> "=" <Expr> => Stmt::Let(<>),
+    <Expr> "=" <Expr> => Stmt::Assign(<>),
     "print" <Expr> => Stmt::Print(<>),
     "return" <Expr> => Stmt::Return(<>),
 }

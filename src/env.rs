@@ -36,9 +36,13 @@ impl<'a> Scope<'a> {
     }
 
     pub fn lookup(&mut self, name: &str) -> Option<Value> {
+        self.find(name).map(|x| *x)
+    }
+
+    pub fn find(&mut self, name: &str) -> Option<&mut Value> {
         let mut ret = None;
-        for i in self.vars.iter().rev() {
-            if let Some(&var) = i.get(name) {
+        for i in self.vars.iter_mut().rev() {
+            if let Some(var) = i.get_mut(name) {
                 ret = Some(var);
                 break;
             }
