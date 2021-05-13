@@ -26,3 +26,8 @@ insta = "1.7.1"
 # We especialy need lalrpop to be fast
 [profile.dev.package."*"]
 opt-level = 3
+
+[workspace]
+members = [
+    "./playground"
+]
