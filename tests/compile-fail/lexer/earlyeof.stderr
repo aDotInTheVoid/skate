@@ -1,2 +1,28 @@
-Unrecognized EOF found at 12
-Expected one of "!", "(", "-", "[", "false", "for", "if", "let", "null", "print", "return", "true", "while", "{", "}", r#"\"(\\\\.|[^\"\\\\])*\""#, r#"[+-]?[0-9]+[.][0-9]*"#, r#"[0-9]+"# or r#"[a-zA-Z][a-zA-Z0-9_]*"#
+error: Unexpected EOF
+  ┌─ $DD/tests/compile-fail/lexer/earlyeof.sk:1:13
+  │  
+1 │   fn main () {
+  │ ╭────────────^
+2 │ │ 
+  │ ╰^
+  │  
+  = Expected: "!"
+  = Expected: "("
+  = Expected: "-"
+  = Expected: "["
+  = Expected: "false"
+  = Expected: "for"
+  = Expected: "if"
+  = Expected: "let"
+  = Expected: "null"
+  = Expected: "print"
+  = Expected: "return"
+  = Expected: "true"
+  = Expected: "while"
+  = Expected: "{"
+  = Expected: "}"
+  = Expected: r#"\"(\\\\.|[^\"\\\\])*\""#
+  = Expected: r#"[+-]?[0-9]+[.][0-9]*"#
+  = Expected: r#"[0-9]+"#
+  = Expected: r#"[a-zA-Z][a-zA-Z0-9_]*"#
+

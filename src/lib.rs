@@ -14,6 +14,8 @@ use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 use fs_err as fs;
 use lalrpop_util::ParseError;
 
+use crate::diagnostics::{CompError, RtError};
+
 // TODO: Make this good.
 #[cfg(test)]
 mod ast_tests;
@@ -23,6 +25,65 @@ pub enum ExitCode {
     CompErr,
     RtErr,
     ProgErr,
+}
+
+fn run(prog: &str, main_file_id: usize) -> eyre::Result<ExitCode> {
+    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), &prog);
+
+    let prog = match prog {
+        Ok(p) => p,
+        Err(e) => {
+            let err = match e {
+                ParseError::UnrecognizedToken { token, expected } => Diagnostic::error()
+                    .with_message("Unexpected token")
+                    .with_labels(vec![Label::primary(main_file_id, token.0..token.2)])
+                    .with_notes(
+                        expected
+                            .iter()
+                            .map(|e| format!("Expected: {}", e))
+                            .collect(),
+                    ),
+
+                ParseError::InvalidToken { location } => Diagnostic::error()
+                    .with_message("Invalid token")
+                    .with_labels(vec![Label::primary(main_file_id, location..location + 1)]),
+
+                ParseError::UnrecognizedEOF { location, expected } => Diagnostic::error()
+                    .with_message("Unexpected EOF")
+                    .with_labels(vec![Label::primary(main_file_id, location..location + 1)])
+                    .with_notes(
+                        expected
+                            .iter()
+                            .map(|e| format!("Expected: {}", e))
+                            .collect(),
+                    ),
+                // TODO: Use nice reporting for the rest
+                e => todo!(),
+            };
+
+            return Err(CompError(err).into());
+        }
+    };
+
+    match exec::run(prog) {
+        // TODO: Ok case has an exit status from skate code, handle that
+        Ok(is_fail) => {
+            if !is_fail {
+                Ok(ExitCode::Ok)
+            } else {
+                Ok(ExitCode::ProgErr)
+            }
+        }
+        Err(e) => Err(e)
+
+        // match e.downcast::<diagnostics::RtError>() {
+        //     Ok(rterrot) => {
+        //         emit_err(&rterrot.0)?;
+        //         Ok(ExitCode::RtErr)
+        //     }
+        //     Err(e) => Err(e),
+        // },
+    }
 }
 
 // Err(_) -> Fail with interpriter code error. This should be less common, as we dont realy want a
@@ -46,57 +107,33 @@ pub fn realmain() -> eyre::Result<ExitCode> {
 
     let emit_err = |d| emit(&mut err_writer.lock(), &err_config, &err_files, d);
 
-    // Due to lifetime reasons, we cant convert a parse err to an eyre err
-    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), &prog);
+    let main_res = run(&prog, main_file_id);
 
-    let prog = match prog {
-        Ok(p) => p,
+    match main_res {
+        ok @ Ok(_) => ok,
         Err(e) => {
-            match e {
-                ParseError::UnrecognizedToken { token, expected } => {
-                    let parse_error = Diagnostic::error()
-                        .with_message("Unexpected token")
-                        .with_labels(vec![Label::primary(main_file_id, token.0..token.2)])
-                        .with_notes(
-                            expected
-                                .iter()
-                                .map(|e| format!("Expected: {}", e))
-                                .collect(),
-                        );
-
-                    emit_err(&parse_error)?;
+            // if let Ok(comperr) = e.downcast::<CompError>() {
+            //     emit_err(&comperr.0)?;
+            //     Ok(ExitCode::CompErr)
+            // } else if let Ok(rterr) = e.downcast::<RtError>() {
+            //     emit_err(&rterr.0)?;
+            //     Ok(ExitCode::CompErr)
+            // } else {
+            //     Err(e)
+            // }
+            match e.downcast::<CompError>() {
+                Ok(comperr) => {
+                    emit_err(&comperr.0)?;
+                    Ok(ExitCode::CompErr)
                 }
-
-                ParseError::InvalidToken { location } => {
-                    let parse_error = Diagnostic::error()
-                        .with_message("Invalid token")
-                        .with_labels(vec![Label::primary(main_file_id, location..location + 1)]);
-
-                    emit_err(&parse_error)?;
-                }
-                // TODO: Use nice reporting for the rest
-                _ => eprintln!("{}", e),
-            }
-
-            return Ok(ExitCode::CompErr);
-        }
-    };
-
-    match exec::run(prog) {
-        // TODO: Ok case has an exit status from skate code, handle that
-        Ok(is_fail) => {
-            if !is_fail {
-                Ok(ExitCode::Ok)
-            } else {
-                Ok(ExitCode::ProgErr)
+                Err(e) => match e.downcast::<RtError>() {
+                    Ok(rterr) => {
+                        emit_err(&rterr.0)?;
+                        Ok(ExitCode::RtErr)
+                    }
+                    Err(e) => Err(e),
+                },
             }
         }
-        Err(e) => match e.downcast::<diagnostics::RtError>() {
-            Ok(rterrot) => {
-                emit_err(&rterrot.0)?;
-                Ok(ExitCode::RtErr)
-            }
-            Err(e) => Err(e),
-        },
     }
 }
