@@ -36,19 +36,25 @@ impl<'a> Env<'a> {
                 // TODO: This is too subtle due to borrowck
 
                 // First evaluate the array.
-                let arr = get!(self.eval_in(scope, arr_s)?);
+                let array_val = get!(self.eval_in(scope, arr_s)?);
                 // Check it is an array, to early error out.
-                self.as_array(arr, arr_s.span)?;
+                self.as_array_mut(array_val, arr_s.span)?;
 
                 // Evaluate the index
-                let idx = get!(self.eval_in(scope, idx_s)?);
-                let idx = self.as_uint(idx, idx_s.span)?;
+                let idx_val = get!(self.eval_in(scope, idx_s)?);
+                let idx = self.as_uint(idx_val, idx_s.span)?;
 
                 // Evaluate the rvalue
                 let val = get!(self.eval_in(scope, rvalue)?);
 
-                // Store the value
-                self.as_array(arr, arr_s.span)?[idx] = val;
+                // First we get as an array and check bounds
+                let array = self.as_array(array_val, arr_s.span)?;
+                self.check_array_bounds(array, idx, array_val, idx_val, arr_s.span, idx_s.span)?;
+
+                // Then we get again, mutably, unwraping as it is garenteed to
+                // be an array, to store the value
+                let array = self.as_array_mut(array_val, arr_s.span).unwrap();
+                array[idx] = val;
             }
 
             _ => {
