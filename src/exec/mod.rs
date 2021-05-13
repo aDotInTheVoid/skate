@@ -401,14 +401,18 @@ impl<'a> Env<'a> {
                 }
             }
         }
-        Err(RtError(
+        Err(self.not_array_error(val, s).into())
+    }
+
+    // TODO: Unify
+    fn not_array_error(&self, val: Value, s: Span) -> RtError {
+        RtError(
             Diagnostic::error()
                 .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
                 .with_labels(vec![s
                     .primary_label()
                     .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
         )
-        .into())
     }
 
     fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
@@ -421,14 +425,7 @@ impl<'a> Env<'a> {
                 }
             }
         }
-        Err(RtError(
-            Diagnostic::error()
-                .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
-                .with_labels(vec![s
-                    .primary_label()
-                    .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
-        )
-        .into())
+        Err(self.not_array_error(val, s).into())
     }
 
     pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
