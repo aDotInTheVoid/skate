@@ -10,5 +10,8 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+codespan-reporting = "0.11.1"
+console_error_panic_hook = "0.1.6"
 skate = { path = ".." }
+termcolor = "1.1.2"
 wasm-bindgen = "0.2.74"

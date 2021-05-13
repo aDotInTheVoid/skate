@@ -16,6 +16,7 @@ use crate::diagnostics::CompError;
 #[cfg(test)]
 mod ast_tests;
 
+#[wasm_bindgen::prelude::wasm_bindgen]
 pub enum ExitCode {
     Ok,
     CompErr,
