@@ -1,0 +1,6 @@
+error: Expected a positive number
+  ┌─ $DD/tests/run-fail/array/lv-index-neg.sk:2:13
+  │
+2 │     [1,2,3][-7 + 6] = 0;
+  │             ^^^^^^ Evaluated to `-1`
+

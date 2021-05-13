@@ -358,10 +358,14 @@ impl<'a> Env<'a> {
             .into())
         }
     }
-    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+    fn as_array(&mut self, val: Value, s: Span) -> Result<&mut [Value]> {
         if let Value::Complex(id) = val {
-            if let BigValue::Array(a) = &self.heap[id] {
-                return Ok(a);
+            if let BigValue::Array(_) = &self.heap[id] {
+                // Fun polonious workaround
+                match &mut self.heap[id] {
+                    BigValue::Array(a) => return Ok(a),
+                    _ => unreachable!(),
+                }
             }
         }
         Err(RtError(

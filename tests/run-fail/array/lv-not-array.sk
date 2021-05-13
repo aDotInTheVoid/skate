@@ -1,0 +1,4 @@
+fn main () {
+    let x = true || true;
+    x[9] = 8;
+}
