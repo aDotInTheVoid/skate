@@ -3,7 +3,6 @@ use std::io::{self};
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;
 use skate::diagnostics::{CompError, RtError};
-use skate::ExitCode;
 use wasm_bindgen::prelude::*;
 
 struct ColorWriter(Vec<u8>);
@@ -44,12 +43,14 @@ impl termcolor::WriteColor for ColorWriter {
 }
 
 #[wasm_bindgen(catch)]
-pub fn run_code(code: &str) -> Result<ExitCode, JsValue> {
+pub fn run_code(code: &str) -> Result<String, JsValue> {
     let mut err_files = SimpleFiles::new();
     let id = err_files.add("source.sk", code);
     let err_config = codespan_reporting::term::Config::default();
 
-    let result = skate::run(code, id);
+    let mut output = Vec::new();
+
+    let result = skate::run(code, id, &mut output);
 
     match match result {
         Ok(v) => Ok(v),
@@ -61,7 +62,7 @@ pub fn run_code(code: &str) -> Result<ExitCode, JsValue> {
             },
         },
     } {
-        Ok(code) => Ok(code),
+        Ok(_) => Ok(String::from_utf8(output).unwrap()),
         Err(diag) => {
             let mut writer = ColorWriter(Vec::new());
             emit(&mut writer, &err_config, &err_files, &diag).unwrap();
