@@ -7,4 +7,4 @@ tar xf just-v0.9.2-x86_64-unknown-linux-musl.tar.gz
 mkdir bin
 mv wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack bin
 mv just bin
-PATH="$(pwd)/bin:$PATH"
+echo "$(pwd)/bin" >> $GITHUB_PATH
