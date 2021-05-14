@@ -10,10 +10,22 @@ pub struct FileId(pub usize);
 pub struct RtError(pub Diagnostic<usize>);
 
 impl Display for RtError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // This error should be reported via codespan, not Display
-        f.write_str("THIS SHOULD NEVER COME UP. PLEASE FILE A BUG")
+        unreachable!("THIS SHOULD NEVER COME UP. PLEASE FILE A BUG")
     }
 }
 
 impl std::error::Error for RtError {}
+
+#[derive(Debug)]
+pub struct CompError(pub Diagnostic<usize>);
+
+impl Display for CompError {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // This error should be reported via codespan, not Display
+        unreachable!("THIS SHOULD NEVER COME UP. PLEASE FILE A BUG")
+    }
+}
+
+impl std::error::Error for CompError {}

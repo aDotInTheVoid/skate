@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::io;
 
 use slotmap::SlotMap;
 
@@ -15,10 +16,13 @@ pub struct Scope<'a> {
     pub(crate) vars: Vec<HashMap<&'a str, Value>>,
 }
 
-#[derive(Debug, Default)]
-pub(crate) struct Env<'a> {
+pub(crate) type Heap = SlotMap<HeapKey, BigValue>;
+
+// #[derive(Debug, Default)]
+pub(crate) struct Env<'a, 'b> {
     pub(crate) functions: HashMap<&'a str, &'a Spanned<Function<'a>>>,
-    pub(crate) heap: SlotMap<HeapKey, BigValue>,
+    pub(crate) heap: Heap,
+    pub(crate) output: &'b mut dyn io::Write,
 }
 
 impl<'a> Scope<'a> {
@@ -71,7 +75,7 @@ impl<'a> Scope<'a> {
     }
 }
 
-impl<'a> Env<'a> {
+impl Env<'_, '_> {
     pub fn add_to_heap(&mut self, v: BigValue) -> HeapKey {
         self.heap.insert(v)
     }
