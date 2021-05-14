@@ -34,7 +34,7 @@ macro_rules! binop_match {
     };
 }
 
-impl<'a> Env<'a> {
+impl Env<'_, '_> {
     pub fn binop(
         &mut self,
         l: Value,

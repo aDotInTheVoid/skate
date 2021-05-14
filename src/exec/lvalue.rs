@@ -9,7 +9,7 @@ use crate::value::Value;
 
 use super::{BlockEvalResult, Env};
 
-impl<'a> Env<'a> {
+impl<'a> Env<'a, '_> {
     pub(crate) fn lvalue(
         &mut self,
         lvalue: &Expr<'a>,

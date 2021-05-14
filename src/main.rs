@@ -1,3 +1,5 @@
+use std::io::{self, BufWriter, Write};
+
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;
 use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
@@ -27,7 +29,10 @@ fn realmain() -> eyre::Result<ExitCode> {
 
     let emit_err = |d| emit(&mut err_writer.lock(), &err_config, &err_files, d);
 
-    let main_res = skate::run(&prog, main_file_id);
+    let mut stdout_writer = BufWriter::new(io::stdout());
+
+    let main_res = skate::run(&prog, main_file_id, &mut stdout_writer);
+    stdout_writer.flush()?;
 
     match main_res {
         ok @ Ok(_) => ok,

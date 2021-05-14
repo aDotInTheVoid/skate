@@ -1,7 +1,7 @@
 /// Tree walk interpriter
 use std::collections::HashMap;
 use std::convert::TryInto;
-use std::mem;
+use std::{io, mem};
 
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, Result};
@@ -19,9 +19,9 @@ mod lvalue;
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
 // Ok(true) -> Exit err due to user code request
-pub fn run(p: Program) -> Result<bool> {
+pub fn run(p: Program, output: &mut dyn io::Write) -> Result<bool> {
     // If nothing failed, we suceed
-    let mut env = Env::new(&p)?;
+    let mut env = Env::new(&p, output)?;
 
     let result = env.call(
         Spanned {
@@ -70,8 +70,8 @@ macro_rules! get {
     };
 }
 
-impl<'a> Env<'a> {
-    pub fn new(p: &'a [Item<'a>]) -> eyre::Result<Self> {
+impl<'a, 'b> Env<'a, 'b> {
+    pub fn new(p: &'a [Item<'a>], output: &'b mut dyn io::Write) -> eyre::Result<Self> {
         let mut functions: HashMap<&str, &Spanned<Function>> = HashMap::new();
         for i in p {
             match i {
@@ -93,6 +93,7 @@ impl<'a> Env<'a> {
         Ok(Self {
             functions,
             heap: Default::default(),
+            output,
         })
     }
 
@@ -168,7 +169,7 @@ impl<'a> Env<'a> {
                 }
                 Print(e) => {
                     let val = get!(self.eval_in(scope, e)?);
-                    self.print_value(&val);
+                    self.print_value(&val)?;
                     last_val = Value::Null;
                 }
                 Return(e) => {
@@ -429,12 +430,19 @@ impl<'a> Env<'a> {
     }
 
     pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
-        ValueDbg { v, e: self }
+        ValueDbg {
+            v,
+            heap: &self.heap,
+        }
     }
 
-    fn print_value(&self, v: &Value) {
-        let dbg = self.dbg_val(v);
-        println!("{}", dbg);
+    fn print_value(&mut self, v: &Value) -> Result<()> {
+        let dbg = ValueDbg {
+            v,
+            heap: &self.heap,
+        };
+        writeln!(self.output, "{}", dbg)?;
+        Ok(())
     }
 
     fn type_name(&self, v: &Value) -> &'static str {

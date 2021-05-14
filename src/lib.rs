@@ -7,6 +7,8 @@ mod env;
 mod exec;
 mod value;
 
+use std::io;
+
 use codespan_reporting::diagnostic::{Diagnostic, Label};
 use lalrpop_util::ParseError;
 
@@ -24,7 +26,7 @@ pub enum ExitCode {
     ProgErr,
 }
 
-pub fn run(prog: &str, main_file_id: usize) -> eyre::Result<ExitCode> {
+pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre::Result<ExitCode> {
     let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), &prog);
 
     let prog = match prog {
@@ -62,7 +64,7 @@ pub fn run(prog: &str, main_file_id: usize) -> eyre::Result<ExitCode> {
         }
     };
 
-    match exec::run(prog) {
+    match exec::run(prog, output) {
         // TODO: Ok case has an exit status from skate code, handle that
         Ok(is_fail) => {
             if !is_fail {

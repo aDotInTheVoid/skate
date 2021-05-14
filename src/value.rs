@@ -1,6 +1,6 @@
 use std::fmt::{Debug, Display};
 
-use crate::env::Env;
+use crate::env::Heap;
 
 slotmap::new_key_type! { pub struct HeapKey; }
 
@@ -27,19 +27,23 @@ pub enum BigValue {
 // (Array and Map), but is fine for string.
 pub(crate) struct ValueDbg<'a> {
     pub v: &'a Value,
-    pub e: &'a Env<'a>,
+    pub heap: &'a Heap,
 }
 
 impl Debug for ValueDbg<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Value::Complex(id) = self.v {
-            match &self.e.heap[*id] {
+            match &self.heap[*id] {
                 v @ BigValue::String(_) => v.fmt(f),
                 BigValue::Array(arr) => {
                     // TODO: Decide if I like Array([...]), or even types for other things.
 
                     let mut t = f.debug_tuple("Array");
-                    t.field(&arr.iter().map(|x| self.e.dbg_val(x)).collect::<Vec<_>>());
+                    t.field(
+                        &arr.iter()
+                            .map(|v| ValueDbg { v, heap: self.heap })
+                            .collect::<Vec<_>>(),
+                    );
                     t.finish()
                 }
             }
@@ -55,12 +59,12 @@ impl Display for ValueDbg<'_> {
             Value::Int(v) => Display::fmt(v, f),
             Value::Float(v) => Display::fmt(v, f),
             Value::Bool(v) => Display::fmt(v, f),
-            Value::Complex(id) => match &self.e.heap[*id] {
-                BigValue::String(v) => Display::fmt(v, f),
+            Value::Complex(id) => match &self.heap[*id] {
+                BigValue::String(v) => Display::fmt(&v, f),
                 BigValue::Array(v) => {
                     let vals: Vec<_> = v
                         .iter()
-                        .map(|x| DebugAsDisplay(self.e.dbg_val(x)))
+                        .map(|v| DebugAsDisplay(ValueDbg { v, heap: self.heap }))
                         .collect();
                     vals.fmt(f)
                 }
