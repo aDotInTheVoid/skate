@@ -20,6 +20,7 @@ jobs:
       # TODO: Maybe use https://github.com/actions-rs/install when its ready 
       # - run: cargo install wasm-pack just
       - run: source ./scripts/ci.sh
+      - run: pwd; ls
       - run: just wasm
       - run: mv playground/static public
       - run: rm public/.gitignore
