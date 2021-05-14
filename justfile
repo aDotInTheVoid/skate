@@ -4,8 +4,19 @@ wasm:
 serve: wasm
     miniserve --index index.html ./playground/static
 
-test:
-    python3 test.py
+build:
+    cargo build
+
+test-unit: build
+    cargo test
+
+test-e2e: build
+    python3 ./scripts/test.py
+
+test: test-unit test-e2e
 
 fmt:
-    ./fmt.sh
+    ./scripts/fmt.sh
+
+cov:
+    ./scripts/cov.sh

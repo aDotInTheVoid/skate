@@ -27,16 +27,10 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: rustfmt, clippy
-
-      - uses: actions-rs/cargo@v1
-        name: Build
-        with:
-          command: build
-
-      - uses: actions-rs/cargo@v1
-        name: Run Cargo Tests
-        with:
-          command: test
+          
+      - run: source ./scripts/ci.sh
+      - run: just test
+        name: Run tests
 
       - uses: actions-rs/cargo@v1
         name: Format
@@ -50,6 +44,3 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
-
-      - run: ./test.py
-        name: Run e2e tests
