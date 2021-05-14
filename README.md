@@ -2,20 +2,15 @@
 
 an experimental programming language.
 
+Check out the [playground](https://adotinthevoid.github.io/skate/)
+
 ## Status.
 
-You can run hello world
+Function calls, variables and controll flow are implemented.
 
-```
-fn main() { print "Hello World"; }
-```
+Its currently a tree walk interpriter, but it needs to be changed to bytecode.
 
-```
-cargo run -- hello.sk
-```
-
-Function calls, variables (only numbers, strings and booleans) and controll flow
-is implemented.
+All the words in [docs](docs) are lofty ambitions we're nowhere near.
 
 For more see [tests/run-pass](tests/run-pass)
 
