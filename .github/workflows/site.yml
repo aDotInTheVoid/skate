@@ -21,6 +21,7 @@ jobs:
       # - run: cargo install wasm-pack just
       - run: source ./scripts/ci.sh
       - run: pwd; ls
+      - uses: mxschmitt/action-tmate@v3
       - run: just wasm
       - run: mv playground/static public
       - run: rm public/.gitignore
