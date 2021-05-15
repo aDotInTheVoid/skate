@@ -13,7 +13,7 @@ tar xf wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz
 tar xf mdbook-v0.4.8-x86_64-unknown-linux-gnu.tar.gz
 
 mv wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack bin
-mv mdbook/mdbook bin
+mv mdbook bin
 mv just/just bin
 
 echo "$(pwd)/bin" >> "$GITHUB_PATH"
