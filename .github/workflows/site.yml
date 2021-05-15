@@ -29,9 +29,7 @@ jobs:
       # - run: pwd; ls
       # - uses: mxschmitt/action-tmate@v3
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
-      - run: just wasm
-      - run: mv playground/static public
-      - run: rm public/.gitignore
+      - run: ./scripts/site.sh
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
