@@ -28,7 +28,7 @@ jobs:
           override: true
           components: rustfmt, clippy
           
-      - run: source ./scripts/ci.sh
+      - run: ./scripts/ci.sh
       - run: just test
         name: Run tests
 

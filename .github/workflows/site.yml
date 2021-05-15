@@ -25,7 +25,7 @@ jobs:
           components: rustfmt, clippy
       # TODO: Maybe use https://github.com/actions-rs/install when its ready 
       # - run: cargo install wasm-pack just
-      - run: source ./scripts/ci.sh
+      - run: ./scripts/ci.sh
       # - run: pwd; ls
       # - uses: mxschmitt/action-tmate@v3
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}

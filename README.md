@@ -1,8 +1,8 @@
 # Skate
 
-an experimental programming language.
+An Experimental Programming Language.
 
-Check out the [playground](https://adotinthevoid.github.io/skate/)
+Check out the [playground](https://adotinthevoid.github.io/skate/playground/)
 
 ## Status.
 
