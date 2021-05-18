@@ -1,5 +1,5 @@
 fn one(x: bool) {
-    if x {return 1;} else {return 2;};
+    if x {return 1;} else {return 2;}
 }
 
 fn two(x: bool) {
@@ -7,7 +7,7 @@ fn two(x: bool) {
 }
 
 fn three(x: bool) {
-    if x {1} else {2};
+    if x {1;} else {2;}
 }
 
 fn main() {

@@ -10,7 +10,7 @@ fn bar(x: int) {
 		return 0;
 	}
 	print "here";
-	 if z==10 { return 8 } else { print z; }
+	 if z==10 { return 8; } else { print z; }
 }
 
 fn main() {

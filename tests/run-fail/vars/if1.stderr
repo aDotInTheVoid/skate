@@ -1,7 +1,7 @@
 error: Couldn't find variable `x` in scope
   ┌─ $DD/tests/run-fail/vars/if1.sk:2:8
   │
-2 │     if x {};
+2 │     if x {}
   │        ^
   │
   = Variables in scope: []
