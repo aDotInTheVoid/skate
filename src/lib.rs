@@ -14,10 +14,6 @@ use lalrpop_util::ParseError;
 
 use crate::diagnostics::CompError;
 
-// TODO: Make this good.
-#[cfg(test)]
-mod ast_tests;
-
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub enum ExitCode {
     Ok,
