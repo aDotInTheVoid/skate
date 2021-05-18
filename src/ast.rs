@@ -121,6 +121,7 @@ pub enum RawStmt<'a> {
     If(Box<Expr<'a>>, Block<'a>, Option<Block<'a>>),
     For(Name<'a>, Box<Expr<'a>>, Block<'a>),
     While(Box<Expr<'a>>, Block<'a>),
+    Block(Block<'a>),
 }
 
 pub type Expr<'a> = Spanned<RawExpr<'a>>;

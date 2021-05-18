@@ -193,6 +193,10 @@ impl<'a, 'b> Env<'a, 'b> {
                     };
                     get!(eval_result)
                 }
+                Block(block) => {
+                    let res = self.eval_block_in(block, scope)?;
+                    get!(res);
+                }
                 _ => todo!(),
             }
         }

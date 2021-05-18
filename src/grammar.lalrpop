@@ -83,6 +83,7 @@ RawStmt: RawStmt<'input> = {
     "if" <BExpr> <Block> <("else" <Block>)?> => RawStmt::If(<>),
     "for" <Name> "in" <BExpr> <Block> => RawStmt::For(<>),
     "while" <BExpr> <Block> => RawStmt::While(<>),
+    <Block> => RawStmt::Block(<>),
 }
 
 // Polyfill
