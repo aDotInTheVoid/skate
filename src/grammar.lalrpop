@@ -24,17 +24,8 @@ Comma<T>: Vec<T> = {
     }
 };
 
-// TODO: Unify this with Comma, 
-// true -> keep expr. False -> discard
-Semi<T>: (Vec<T>, BlockType) = { 
-    <v:(<T> ";")*> <e:T?> => match e {
-        None=> (v, BlockType::Discard),
-        Some(e) => {
-            let mut v = v;
-            v.push(e);
-            (v, BlockType::ReturnExpr)
-        }
-    }
+Semi<T>: Vec<T> = { 
+    <v:(<T> ";")*> => v
 };
 
 // TODO: decide how many ns in spannnned
@@ -50,7 +41,7 @@ Item: Item<'input> = {
 }
 
 Function: Function<'input> = {
-    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Body> => Function{<>}
+    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> "{" <body:Body> "}" => Function{<>}
 }
 
 Args = { "(" <Comma<Arg>> ")" }
@@ -67,8 +58,13 @@ Type: Type = {
 Name = Spaned<RawName>;
 RawName = { r"[a-zA-Z][a-zA-Z0-9_]*" }
 
-Body = Spaned<BodyRaw>;
-BodyRaw = { "{" <Semi<Stmt>> "}" }
+// Body = Spaned<BodyRaw>;
+// BodyRaw = { "{" <Semi<Stmt>> "}" }
+
+Body: Body<'input> = {
+    <Expr> => Body::Expr(<>),
+    <Spaned<Semi<Spaned<Stmt>>>> => Body::Block(<>),
+}
 
 // TODO: Should these be exprs? Should we have stmts?
 Stmt: Stmt<'input> = {
@@ -79,102 +75,108 @@ Stmt: Stmt<'input> = {
     "return" <Expr> => Stmt::Return(<>),
 }
 
-// Rename for convenience
-Expr = { <OrExpr> }
-BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
-
-// See http://www.craftinginterpreters.com/appendix-i.html
-// https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
-
-
-RawTier<Op, NextTier>: RawExpr<'input> = {
-    <l:Tier<Op,NextTier>> <o:Spaned<Op>> <r:NextTier> => RawExpr::BinOp(Box::new(l), o, Box::new(r)),
-}
-
-Tier<Op,NextTier>: Expr<'input> = {
-    Spaned<RawTier<Op,NextTier>>,
-    NextTier
-};
-
-OrExpr            = Tier<LogicalOr,        AndExpr>;
-AndExpr           = Tier<LogicalAnd,       EqualityExpr>;
-EqualityExpr      = Tier<EqualityOp,       ComparisonExpr>;
-ComparisonExpr    = Tier<ComparisonOp,     AdditiveExpr>;
-AdditiveExpr      = Tier<AdditionOp,       MultiplicitveExpr>;
-MultiplicitveExpr = Tier<MultiplicationOp, UnaryExpr>;
-
-UnaryExpr = Spaned<UnaryExprRaw>; 
-UnaryExprRaw: RawExpr<'input> = {
-    <PostfixExprRaw>,
-    <o:Spaned<UnaryOp>> <e:UnaryExpr> => RawExpr::UnaryOp(o, Box::new(e)),
-}
-
-PostfixExpr = Spaned<PostfixExprRaw>;
-PostfixExprRaw: RawExpr<'input> = {
-    <BaseExprRaw>,
-    <l:PostfixExpr> "[" <r:Expr> "]" => RawExpr::ArrayAccess(Box::new(l), Box::new(r)),
-    <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => RawExpr::Call(Box::new(l), r),
-    <l:PostfixExpr> "." <r: Name> => RawExpr::FieldAccess(Box::new(l), r),
-}
-
-// BaseExpr = Spaned<BaseExprRaw>;
-
-// TODO: keywords
-BaseExprRaw: RawExpr<'input> = {
-    // TODO: Else if
-    "if" <BExpr> <Body> <("else" <Body>)?> => RawExpr::If(<>),
-    "for" <Name> "in" <BExpr> <Body> => RawExpr::For(<>),
-    "while" <BExpr> <Body> => RawExpr::While(<>),
+// Polyfill
+Expr = { Spaned<RExpr> }
+RExpr: RawExpr<'input> = {
     <Name> => RawExpr::Var(<>),
-    <Body> => RawExpr::Block(<>),
-    // This is a hack where we remove the span of the inner expr
-    // I'm not sure if this is good
-    "(" <e:Expr> ")" => e.node,
-    <Spaned<Literal>> => RawExpr::Literal(<>),
-    "[" <Comma<Expr>> "]" => RawExpr::Array(<>), 
 }
 
-Literal: Literal<'input> = {
-    <s:StringLit> => Literal::String(&s[1..s.len()-1]),
-    <FloatLit> => Literal::Float(<>.parse().unwrap()),
-    <IntLit> => Literal::Integer(<>.parse().unwrap()),
-    <BoolLit> => Literal::Bool(<>),
-    "null" => Literal::Null,
-}
+// // Rename for convenience
+// Expr = { <OrExpr> }
+// BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 
-// https://stackoverflow.com/a/2039820
-StringLit = { r#""(\\.|[^"\\])*""# }
-FloatLit = { r#"[+-]?[0-9]+[.][0-9]*"# }
-IntLit = { r"[0-9]+" }
-BoolLit: bool = {
-    "true"  => true,
-    "false" => false
-}
+// // See http://www.craftinginterpreters.com/appendix-i.html
+// // https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 
 
-LogicalOr:         BinOp = { "||" => BinOp::LogicalOr }
-LogicalAnd:        BinOp = { "&&" => BinOp::LogicalAnd }
-Equals:            BinOp = { "==" => BinOp::Equals }
-NotEquals:         BinOp = { "!=" => BinOp::NotEquals }
-LessThan:          BinOp = { "<"  => BinOp::LessThan }
-GreaterThan:       BinOp = { ">"  => BinOp::GreaterThan }
-LessThanEquals:    BinOp = { "<=" => BinOp::LessThanEquals }
-GreaterThanEquals: BinOp = { ">=" => BinOp::GreaterThanEquals }
-Plus:              BinOp = { "+"  => BinOp::Plus }
-Minus:             BinOp = { "-"  => BinOp::Minus }
-Times:             BinOp = { "*"  => BinOp::Times }
-Devide:            BinOp = { "/"  => BinOp::Devide }
+// RawTier<Op, NextTier>: RawExpr<'input> = {
+//     <l:Tier<Op,NextTier>> <o:Spaned<Op>> <r:NextTier> => RawExpr::BinOp(Box::new(l), o, Box::new(r)),
+// }
 
-// UnaryMinus: UnaryOp = { "-" => UnaryOp::Minus }
-// UnaryNot:   UnaryOp = { "-" => UnaryOp::Not }
+// Tier<Op,NextTier>: Expr<'input> = {
+//     Spaned<RawTier<Op,NextTier>>,
+//     NextTier
+// };
 
-EqualityOp: BinOp = { <Equals>, <NotEquals> }
-ComparisonOp: BinOp = { <LessThan>, <GreaterThan>, <LessThanEquals>, <GreaterThanEquals> }
-AdditionOp: BinOp = { <Plus>, <Minus> }
-MultiplicationOp: BinOp = { <Times>, <Devide> }
+// OrExpr            = Tier<LogicalOr,        AndExpr>;
+// AndExpr           = Tier<LogicalAnd,       EqualityExpr>;
+// EqualityExpr      = Tier<EqualityOp,       ComparisonExpr>;
+// ComparisonExpr    = Tier<ComparisonOp,     AdditiveExpr>;
+// AdditiveExpr      = Tier<AdditionOp,       MultiplicitveExpr>;
+// MultiplicitveExpr = Tier<MultiplicationOp, UnaryExpr>;
 
-// Somehow, doing the thing we did with BinOps gives a lalrpop error about ambiguitys
-UnaryOp: UnaryOp = {
-    "!" => UnaryOp::Not,
-    "-" => UnaryOp::Minus,
-}
+// UnaryExpr = Spaned<UnaryExprRaw>; 
+// UnaryExprRaw: RawExpr<'input> = {
+//     <PostfixExprRaw>,
+//     <o:Spaned<UnaryOp>> <e:UnaryExpr> => RawExpr::UnaryOp(o, Box::new(e)),
+// }
+
+// PostfixExpr = Spaned<PostfixExprRaw>;
+// PostfixExprRaw: RawExpr<'input> = {
+//     <BaseExprRaw>,
+//     <l:PostfixExpr> "[" <r:Expr> "]" => RawExpr::ArrayAccess(Box::new(l), Box::new(r)),
+//     <l:PostfixExpr> "(" <r:Comma<Expr>> ")" => RawExpr::Call(Box::new(l), r),
+//     <l:PostfixExpr> "." <r: Name> => RawExpr::FieldAccess(Box::new(l), r),
+// }
+
+// // BaseExpr = Spaned<BaseExprRaw>;
+
+// // TODO: keywords
+// BaseExprRaw: RawExpr<'input> = {
+//     // TODO: Else if
+//     "if" <BExpr> <Body> <("else" <Body>)?> => RawExpr::If(<>),
+//     "for" <Name> "in" <BExpr> <Body> => RawExpr::For(<>),
+//     "while" <BExpr> <Body> => RawExpr::While(<>),
+//     <Name> => RawExpr::Var(<>),
+//     <Body> => RawExpr::Block(<>),
+//     // This is a hack where we remove the span of the inner expr
+//     // I'm not sure if this is good
+//     "(" <e:Expr> ")" => e.node,
+//     <Spaned<Literal>> => RawExpr::Literal(<>),
+//     "[" <Comma<Expr>> "]" => RawExpr::Array(<>), 
+// }
+
+// Literal: Literal<'input> = {
+//     <s:StringLit> => Literal::String(&s[1..s.len()-1]),
+//     <FloatLit> => Literal::Float(<>.parse().unwrap()),
+//     <IntLit> => Literal::Integer(<>.parse().unwrap()),
+//     <BoolLit> => Literal::Bool(<>),
+//     "null" => Literal::Null,
+// }
+
+// // https://stackoverflow.com/a/2039820
+// StringLit = { r#""(\\.|[^"\\])*""# }
+// FloatLit = { r#"[+-]?[0-9]+[.][0-9]*"# }
+// IntLit = { r"[0-9]+" }
+// BoolLit: bool = {
+//     "true"  => true,
+//     "false" => false
+// }
+
+
+// LogicalOr:         BinOp = { "||" => BinOp::LogicalOr }
+// LogicalAnd:        BinOp = { "&&" => BinOp::LogicalAnd }
+// Equals:            BinOp = { "==" => BinOp::Equals }
+// NotEquals:         BinOp = { "!=" => BinOp::NotEquals }
+// LessThan:          BinOp = { "<"  => BinOp::LessThan }
+// GreaterThan:       BinOp = { ">"  => BinOp::GreaterThan }
+// LessThanEquals:    BinOp = { "<=" => BinOp::LessThanEquals }
+// GreaterThanEquals: BinOp = { ">=" => BinOp::GreaterThanEquals }
+// Plus:              BinOp = { "+"  => BinOp::Plus }
+// Minus:             BinOp = { "-"  => BinOp::Minus }
+// Times:             BinOp = { "*"  => BinOp::Times }
+// Devide:            BinOp = { "/"  => BinOp::Devide }
+
+// // UnaryMinus: UnaryOp = { "-" => UnaryOp::Minus }
+// // UnaryNot:   UnaryOp = { "-" => UnaryOp::Not }
+
+// EqualityOp: BinOp = { <Equals>, <NotEquals> }
+// ComparisonOp: BinOp = { <LessThan>, <GreaterThan>, <LessThanEquals>, <GreaterThanEquals> }
+// AdditionOp: BinOp = { <Plus>, <Minus> }
+// MultiplicationOp: BinOp = { <Times>, <Devide> }
+
+// // Somehow, doing the thing we did with BinOps gives a lalrpop error about ambiguitys
+// UnaryOp: UnaryOp = {
+//     "!" => UnaryOp::Not,
+//     "-" => UnaryOp::Minus,
+// }
