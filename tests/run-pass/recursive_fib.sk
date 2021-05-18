@@ -9,7 +9,7 @@ fn recurse_fib(n: int) {
     print fib(n);
     if n >= 1 {
         recurse_fib(n - 1)
-    };
+    }
 }
 
 fn main() {

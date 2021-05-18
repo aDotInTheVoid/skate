@@ -4,7 +4,7 @@ fn bar(x: int) {
 		return "a";
 	} else {
 		z = x;
-	};
+	}
 	if z + x == z {
 		print "zero";
 		return 0;

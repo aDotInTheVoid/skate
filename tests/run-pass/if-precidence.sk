@@ -1,6 +1,6 @@
 fn bar(x: bool) {
 	if x { print "x"; 2; } else { print "y"; 3; }
-	return z;
+	return x;
 }
 
 fn main() {

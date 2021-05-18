@@ -4,7 +4,7 @@ fn demo(x: bool) {
         print "x is true";
     } else {
         print "x is false";
-    };
+    }
     print "Ending demo";
 }
 

@@ -1,5 +1,5 @@
 fn one(x: bool) {
-    if x {return 1} else {return 2}
+    if x {return 1;} else {return 2;};
 }
 
 fn two(x: bool) {
