@@ -7,7 +7,7 @@ use codespan_reporting::diagnostic::Diagnostic;
 use eyre::{bail, Result};
 
 use crate::ast::{
-    self, Block, BlockType, Expr, Function, Item, Program, RawExpr, Span, Spanned, Stmt, UnaryOp,
+    self, Block, Expr, Function, Item, Program, RawExpr, RawStmt, Span, Spanned, UnaryOp,
 };
 use crate::diagnostics::RtError;
 use crate::env::{Env, Scope};
@@ -56,7 +56,7 @@ pub fn run(p: Program, output: &mut dyn io::Write) -> Result<bool> {
 #[must_use = "use the get! macro to potentialy early return"]
 pub(crate) enum BlockEvalResult {
     FnRet(Value),
-    LocalRet(Value),
+    None,
 }
 
 // Note: always get! an `BlockEvalResult` before creating another to avoid #29
@@ -64,7 +64,7 @@ pub(crate) enum BlockEvalResult {
 macro_rules! get {
     ($e: expr) => {
         match $e {
-            BlockEvalResult::LocalRet(x) => x,
+            BlockEvalResult::None => {}
             x @ BlockEvalResult::FnRet(_) => return Ok(x),
         }
     };
@@ -140,10 +140,15 @@ impl<'a, 'b> Env<'a, 'b> {
         let body = &function.body;
 
         // In functions, a trailing expression returns
-        Ok(match self.eval_block_in(body, &mut scope)? {
-            BlockEvalResult::FnRet(x) => x,
-            BlockEvalResult::LocalRet(x) => x,
-        })
+        let res = match body {
+            ast::Body::Expr(e) => self.eval_in(&mut scope, e)?,
+            ast::Body::Block(b) => match self.eval_block_in(b, &mut scope)? {
+                BlockEvalResult::FnRet(v) => v,
+                BlockEvalResult::None => Value::Null,
+            },
+        };
+
+        Ok(res)
     }
 
     fn eval_block_in(
@@ -153,59 +158,45 @@ impl<'a, 'b> Env<'a, 'b> {
     ) -> Result<BlockEvalResult> {
         scope.push();
 
-        use Stmt::*;
+        use RawStmt::*;
 
-        let mut last_val = Value::Null;
-        for i in &block.0 {
-            match i {
+        for i in &block.node {
+            match &i.node {
                 Let(name, expr) => {
-                    let val = get!(self.eval_in(scope, expr)?);
+                    let val = self.eval_in(scope, expr)?;
                     scope.declare(name, val);
-                    last_val = Value::Null;
                 }
                 Assign(lvalue, rvalue) => {
-                    get!(self.lvalue(lvalue, rvalue, scope)?);
-                    last_val = Value::Null;
+                    (self.lvalue(lvalue, rvalue, scope)?);
                 }
                 Print(e) => {
-                    let val = get!(self.eval_in(scope, e)?);
+                    let val = self.eval_in(scope, e)?;
                     self.print_value(&val)?;
-                    last_val = Value::Null;
                 }
                 Return(e) => {
-                    let val = get!(self.eval_in(scope, e)?);
+                    let val = self.eval_in(scope, e)?;
                     // Clear scope, so we bug if we try to access anything afterwards
                     mem::take(scope);
                     return Ok(BlockEvalResult::FnRet(val));
                 }
                 Expr(e) => {
-                    let e = get!(self.eval_in(scope, e)?);
-                    last_val = e;
+                    self.eval_in(scope, e)?;
                 }
+                _ => todo!(),
             }
         }
-
-        // TODO: Clean up
-        let ret = match block.1 {
-            BlockType::Discard => Value::Null,
-            BlockType::ReturnExpr => last_val,
-        };
 
         // We dont need to do this is the FnRet case, as the scope is cleared
         scope.pop();
 
-        Ok(BlockEvalResult::LocalRet(ret))
+        Ok(BlockEvalResult::None)
     }
 
-    pub(crate) fn eval_in(
-        &mut self,
-        scope: &mut Scope<'a>,
-        e: &Expr<'a>,
-    ) -> Result<BlockEvalResult> {
+    pub(crate) fn eval_in(&mut self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<Value> {
         use crate::ast::Literal;
         use RawExpr::*;
 
-        Ok(BlockEvalResult::LocalRet(match &e.node {
+        Ok(match &e.node {
             Literal(l) => match l.node {
                 // Literal::String(s) => Value::String((*s).to_owned()),
                 Literal::String(s) => {
@@ -218,19 +209,19 @@ impl<'a, 'b> Env<'a, 'b> {
             },
             BinOp(l, o, r) => {
                 // TODO: is this eval order right
-                let lv = get!(self.eval_in(scope, &l)?);
-                let rv = get!(self.eval_in(scope, &r)?);
+                let lv = self.eval_in(scope, &l)?;
+                let rv = self.eval_in(scope, &r)?;
                 self.binop(lv, o.node, rv, l.span, o.span, r.span)?
             }
             UnaryOp(o, e) => {
-                let val = get!(self.eval_in(scope, &e)?);
+                let val = self.eval_in(scope, &e)?;
                 self.unary_op(*o, val, e.span)?
             }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {
                     let mut args_evald = Vec::with_capacity(args.len());
                     for i in args {
-                        args_evald.push(get!(self.eval_in(scope, &i)?));
+                        args_evald.push(self.eval_in(scope, &i)?);
                     }
                     self.call(name, &args_evald, e.span)?
                 } else {
@@ -252,38 +243,38 @@ impl<'a, 'b> Env<'a, 'b> {
                         .with_notes(vec![format!("Variables in scope: {:?}", scope.in_scope())]),
                 )
             })?,
-            If(test, ifcase, elsecase) => {
-                let test_val = get!(self.eval_in(scope, &*test)?);
-                let eval_result = if self.as_bool(test_val, test.span)? {
-                    self.eval_block_in(&ifcase, scope)?
-                } else if let Some(block) = elsecase {
-                    self.eval_block_in(&block, scope)?
-                } else {
-                    BlockEvalResult::LocalRet(Value::Null)
-                };
-                get!(eval_result)
-            }
-            Block(b) => {
-                let bval = self.eval_block_in(&b, scope)?;
-                get!(bval)
-            }
+            // If(test, ifcase, elsecase) => {
+            //     let test_val = get!(self.eval_in(scope, &*test)?);
+            //     let eval_result = if self.as_bool(test_val, test.span)? {
+            //         self.eval_block_in(&ifcase, scope)?
+            //     } else if let Some(block) = elsecase {
+            //         self.eval_block_in(&block, scope)?
+            //     } else {
+            //         BlockEvalResult::LocalRet(Value::Null)
+            //     };
+            //     get!(eval_result)
+            // }
+            // Block(b) => {
+            //     let bval = self.eval_block_in(&b, scope)?;
+            //     get!(bval)
+            // }
             Array(x) => {
                 let mut ret = Vec::with_capacity(x.len());
                 for i in x {
-                    ret.push(get!(self.eval_in(scope, i)?));
+                    ret.push(self.eval_in(scope, i)?);
                 }
 
                 let key = self.heap.insert(BigValue::Array(ret));
                 Value::Complex(key)
             }
             ArrayAccess(arr_s, idx_s) => {
-                let array_val = get!(self.eval_in(scope, arr_s)?);
+                let array_val = self.eval_in(scope, arr_s)?;
 
                 // Nessesary for BorrowCk, as we cant borrow from the heap while we evaluate
                 // the index, and potentialy mutate. Probably killing perf, LMAO
                 let arr = self.as_array_mut(array_val, arr_s.span)?.to_owned();
 
-                let idx_val = get!(self.eval_in(scope, idx_s)?);
+                let idx_val = self.eval_in(scope, idx_s)?;
                 let idx = self.as_uint(idx_val, idx_s.span)?;
 
                 // TODO: This is wrong if we mutate the array when evaluating the index, I think
@@ -292,7 +283,7 @@ impl<'a, 'b> Env<'a, 'b> {
             }
             // TODO: Nice error / fill out
             other => bail!("Unimplemented {:?}", other),
-        }))
+        })
     }
 
     fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {

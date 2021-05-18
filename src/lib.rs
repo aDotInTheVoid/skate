@@ -65,22 +65,22 @@ pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre:
     };
 
     match exec::run(prog, output) {
-        // TODO: Ok case has an exit status from skate code, handle that
-        Ok(is_fail) => {
-            if !is_fail {
-                Ok(ExitCode::Ok)
-            } else {
-                Ok(ExitCode::ProgErr)
-            }
-        }
-        Err(e) => Err(e)
+       // TODO: Ok case has an exit status from skate code, handle that
+       Ok(is_fail) => {
+           if !is_fail {
+               Ok(ExitCode::Ok)
+           } else {
+               Ok(ExitCode::ProgErr)
+           }
+       }
+       Err(e) => Err(e)
 
-        // match e.downcast::<diagnostics::RtError>() {
-        //     Ok(rterrot) => {
-        //         emit_err(&rterrot.0)?;
-        //         Ok(ExitCode::RtErr)
-        //     }
-        //     Err(e) => Err(e),
-        // },
-    }
+       // match e.downcast::<diagnostics::RtError>() {
+       //     Ok(rterrot) => {
+       //         emit_err(&rterrot.0)?;
+       //         Ok(ExitCode::RtErr)
+       //     }
+       //     Err(e) => Err(e),
+       // },
+   }
 }

@@ -4,10 +4,8 @@ use eyre::Result;
 use crate::ast::{Expr, RawExpr};
 use crate::diagnostics::RtError;
 use crate::env::Scope;
-use crate::get;
-use crate::value::Value;
 
-use super::{BlockEvalResult, Env};
+use super::Env;
 
 impl<'a> Env<'a, '_> {
     pub(crate) fn lvalue(
@@ -15,10 +13,10 @@ impl<'a> Env<'a, '_> {
         lvalue: &Expr<'a>,
         rvalue: &Expr<'a>,
         scope: &mut Scope<'a>,
-    ) -> Result<BlockEvalResult> {
+    ) -> Result<()> {
         match &lvalue.node {
             RawExpr::Var(var) => {
-                let val = get!(self.eval_in(scope, rvalue)?);
+                let val = self.eval_in(scope, rvalue)?;
                 match scope.find(&var) {
                     Some(ptr) => *ptr = val,
                     None => {
@@ -36,16 +34,16 @@ impl<'a> Env<'a, '_> {
                 // TODO: This is too subtle due to borrowck
 
                 // First evaluate the array.
-                let array_val = get!(self.eval_in(scope, arr_s)?);
+                let array_val = self.eval_in(scope, arr_s)?;
                 // Check it is an array, to early error out.
                 self.as_array_mut(array_val, arr_s.span)?;
 
                 // Evaluate the index
-                let idx_val = get!(self.eval_in(scope, idx_s)?);
+                let idx_val = self.eval_in(scope, idx_s)?;
                 let idx = self.as_uint(idx_val, idx_s.span)?;
 
                 // Evaluate the rvalue
-                let val = get!(self.eval_in(scope, rvalue)?);
+                let val = self.eval_in(scope, rvalue)?;
 
                 // First we get as an array and check bounds
                 let array = self.as_array(array_val, arr_s.span)?;
@@ -66,7 +64,6 @@ impl<'a> Env<'a, '_> {
                 .into())
             }
         }
-
-        Ok(BlockEvalResult::LocalRet(Value::Null))
+        Ok(())
     }
 }
