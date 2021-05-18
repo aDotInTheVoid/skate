@@ -6,5 +6,5 @@ fn main() {
     // TODO: Allow this
 
     let x = func();
-    print x == x()()
+    print x == x()();
 }

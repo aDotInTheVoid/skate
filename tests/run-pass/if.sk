@@ -1,17 +1,17 @@
 fn a(x: bool){
     if x {
-        print "1"
+        print "1";
     }
 }
 
 fn b(x: bool) {
     if x {} else {
-        print 2
+        print 2;
     }
 }
 
 fn c (x: bool) {
-    if { return x } { print "no" } else { print "no" }
+    if ( x ) { print "no"; } else { print "no"; }
 }
 
 fn main() {

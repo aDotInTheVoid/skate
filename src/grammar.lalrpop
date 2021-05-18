@@ -28,6 +28,10 @@ Semi<T>: Vec<T> = {
     <v:(<T> ";")*> => v
 };
 
+List<T>: Vec<T> = { 
+    <v:(<T>)*> => v
+};
+
 // TODO: decide how many ns in spannnned
 Spaned<T>: Spanned<T> = {
     <start:@L> <node:T> <end:@R> => Spanned { node, span: Span { start, end, file_id } }
@@ -67,14 +71,14 @@ Body: Body<'input> = {
 }
 
 // TODO: Should these be exprs? Should we have stmts?
-Stmts = { Semi<Stmt> }
+Stmts = { List<Stmt> }
 Stmt = { Spaned<RawStmt> }
 RawStmt: RawStmt<'input> = {
-    <Expr> => RawStmt::Expr(<>),
-    "let" <Name> "=" <Expr> => RawStmt::Let(<>),
-    <Expr> "=" <Expr> => RawStmt::Assign(<>),
-    "print" <Expr> => RawStmt::Print(<>),
-    "return" <Expr> => RawStmt::Return(<>),
+    <Expr> ";" => RawStmt::Expr(<>),
+    "let" <Name> "=" <Expr> ";" => RawStmt::Let(<>),
+    <Expr> "=" <Expr> ";" => RawStmt::Assign(<>),
+    "print" <Expr> ";" => RawStmt::Print(<>),
+    "return" <Expr> ";" => RawStmt::Return(<>),
     // TODO: Else if
     "if" <BExpr> <Block> <("else" <Block>)?> => RawStmt::If(<>),
     "for" <Name> "in" <BExpr> <Block> => RawStmt::For(<>),

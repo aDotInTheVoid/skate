@@ -1,22 +1,4 @@
 
 fn main() {
-    let m = [0, 0, 0];
-    let a = 0;
 
-    {
-        print "Evaling Array";
-        m[0] = 1;
-        m
-    }[{
-        print "Evaling idx";
-        let a = a + 1;
-        a
-    }] = {
-        print "Evaling rhs";
-        a = a + 1;
-        a
-    };
-
-    print a;
-    print m;
 }

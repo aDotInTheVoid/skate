@@ -1,5 +1,5 @@
 fn bar(x: bool) {
-	let z = 1 + if x { print "x"; 2 } else { print "y"; 3 };
+	if x { print "x"; 2; } else { print "y"; 3; }
 	return z;
 }
 

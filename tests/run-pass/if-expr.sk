@@ -1,15 +1,16 @@
 fn bar(x: int) {
-	let z = if x == 2 {
+	let z = null;
+	if x == 2 {
 		return "a";
 	} else {
-		x
+		z = x;
 	};
 	if z + x == z {
 		print "zero";
 		return 0;
-	};
+	}
 	print "here";
-	return if z==10 { return 8 } else { z };
+	 if z==10 { return 8 } else { print z; }
 }
 
 fn main() {

@@ -1,8 +1,0 @@
-fn demo(flag: bool) {
-    2 + if flag { 2 } else { return 3 }
-}
-
-fn main() {
-    print demo(true);
-    print demo(false);
-}

@@ -1,8 +1,10 @@
-fn demo(x: bool) {
-    - if x {1} else {return 2}
+fn demo(x: int) {
+    - x
 }
 
 fn main() {
-    print demo(true);
-    print demo(false);
+    print demo(44);
+    print demo(4);
+    print demo(4.0);
+    print demo(-9.9);
 }

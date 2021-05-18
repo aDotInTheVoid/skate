@@ -182,6 +182,17 @@ impl<'a, 'b> Env<'a, 'b> {
                 Expr(e) => {
                     self.eval_in(scope, e)?;
                 }
+                If(test, ifcase, elsecase) => {
+                    let test_val = self.eval_in(scope, &*test)?;
+                    let eval_result = if self.as_bool(test_val, test.span)? {
+                        self.eval_block_in(&ifcase, scope)?
+                    } else if let Some(block) = elsecase {
+                        self.eval_block_in(&block, scope)?
+                    } else {
+                        BlockEvalResult::None
+                    };
+                    get!(eval_result)
+                }
                 _ => todo!(),
             }
         }
@@ -243,17 +254,7 @@ impl<'a, 'b> Env<'a, 'b> {
                         .with_notes(vec![format!("Variables in scope: {:?}", scope.in_scope())]),
                 )
             })?,
-            // If(test, ifcase, elsecase) => {
-            //     let test_val = get!(self.eval_in(scope, &*test)?);
-            //     let eval_result = if self.as_bool(test_val, test.span)? {
-            //         self.eval_block_in(&ifcase, scope)?
-            //     } else if let Some(block) = elsecase {
-            //         self.eval_block_in(&block, scope)?
-            //     } else {
-            //         BlockEvalResult::LocalRet(Value::Null)
-            //     };
-            //     get!(eval_result)
-            // }
+
             // Block(b) => {
             //     let bval = self.eval_block_in(&b, scope)?;
             //     get!(bval)

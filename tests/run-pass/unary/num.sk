@@ -3,5 +3,5 @@ fn main() {
     print 8----1;
 
     print -1.;
-    print --7.--5.
+    print --7.--5.;
 }

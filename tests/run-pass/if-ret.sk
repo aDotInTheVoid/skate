@@ -4,7 +4,7 @@ fn a(x: bool) {
         print 1;
     } else {
         return 5;
-    };
+    }
     print 2;
     return 3;
 }
