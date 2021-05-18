@@ -59,24 +59,26 @@ Name = Spaned<RawName>;
 RawName = { r"[a-zA-Z][a-zA-Z0-9_]*" }
 
 Block = Spaned<BlockRaw>;
-BlockRaw = { "{" <Semi<Spaned<Stmt>>> "}" }
+BlockRaw = { "{" <Stmts> "}" }
 
 Body: Body<'input> = {
     <Expr> => Body::Expr(<>),
-    <Spaned<Semi<Spaned<Stmt>>>> => Body::Block(<>),
+    <Spaned<Stmts>> => Body::Block(<>),
 }
 
 // TODO: Should these be exprs? Should we have stmts?
-Stmt: Stmt<'input> = {
-    <Expr> => Stmt::Expr(<>),
-    "let" <Name> "=" <Expr> => Stmt::Let(<>),
-    <Expr> "=" <Expr> => Stmt::Assign(<>),
-    "print" <Expr> => Stmt::Print(<>),
-    "return" <Expr> => Stmt::Return(<>),
+Stmts = { Semi<Stmt> }
+Stmt = { Spaned<RawStmt> }
+RawStmt: RawStmt<'input> = {
+    <Expr> => RawStmt::Expr(<>),
+    "let" <Name> "=" <Expr> => RawStmt::Let(<>),
+    <Expr> "=" <Expr> => RawStmt::Assign(<>),
+    "print" <Expr> => RawStmt::Print(<>),
+    "return" <Expr> => RawStmt::Return(<>),
     // TODO: Else if
-    "if" <BExpr> <Block> <("else" <Block>)?> => Stmt::If(<>),
-    "for" <Name> "in" <BExpr> <Block> => Stmt::For(<>),
-    "while" <BExpr> <Block> => Stmt::While(<>),
+    "if" <BExpr> <Block> <("else" <Block>)?> => RawStmt::If(<>),
+    "for" <Name> "in" <BExpr> <Block> => RawStmt::For(<>),
+    "while" <BExpr> <Block> => RawStmt::While(<>),
 }
 
 // Polyfill

@@ -16,15 +16,10 @@ use crate::diagnostics;
 
 // TODO: Check out https://crates.io/crates/rowan and https://crates.io/crates/ungrammar
 
-pub type Block<'a> = Spanned<Vec<Spanned<Stmt<'a>>>>;
+// 'a is the lifetime of the source string
+pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Name<'a> = Spanned<&'a str>;
-
-#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
-pub enum BlockType {
-    ReturnExpr,
-    Discard,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, Copy, Default)]
 pub struct Span {
@@ -113,8 +108,9 @@ pub enum Type {
     String,
 }
 
+pub type Stmt<'a> = Spanned<RawStmt<'a>>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Stmt<'a> {
+pub enum RawStmt<'a> {
     Let(#[serde(borrow)] Name<'a>, Expr<'a>),
     // TODO: Dont use Expr for Lvalues
     Assign(Expr<'a>, Expr<'a>),
