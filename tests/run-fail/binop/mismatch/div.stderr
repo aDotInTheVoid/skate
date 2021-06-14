@@ -2,8 +2,8 @@ error: Unknown binop `/`, for `string` and `string`
   ┌─ $DD/tests/run-fail/binop/mismatch/div.sk:2:12
   │
 2 │     "path" / "to" / "where"
-  │     ------ ^ ---- LHS evaluated to "to"
+  │     ------ ^ ---- LHS evaluated to `"to"`
   │     │      │  
   │     │      In this operator
-  │     LHS evaluated to "path"
+  │     LHS evaluated to `"path"`
 

@@ -186,10 +186,10 @@ impl Env<'_, '_> {
                     o_span.primary_label().with_message("In this operator"),
                     l_span
                         .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&l))),
+                        .with_message(format!("LHS evaluated to `{:?}`", self.dbg_val(&l))),
                     r_span
                         .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&r))),
+                        .with_message(format!("LHS evaluated to `{:?}`", self.dbg_val(&r))),
                 ]),
         )
     }

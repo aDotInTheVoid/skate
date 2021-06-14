@@ -2,8 +2,8 @@ error: Unknown binop `-`, for `bool` and `bool`
   ┌─ $DD/tests/run-fail/binop/mismatch/minus.sk:2:10
   │
 2 │     true - false;
-  │     ---- ^ ----- LHS evaluated to false
+  │     ---- ^ ----- LHS evaluated to `false`
   │     │    │  
   │     │    In this operator
-  │     LHS evaluated to true
+  │     LHS evaluated to `true`
 

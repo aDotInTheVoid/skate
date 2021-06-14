@@ -419,7 +419,7 @@ impl<'a, 'b> Env<'a, 'b> {
                 .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
                 .with_labels(vec![s
                     .primary_label()
-                    .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
+                    .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
         )
     }
 

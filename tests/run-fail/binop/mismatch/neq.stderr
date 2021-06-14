@@ -2,8 +2,8 @@ error: Unknown binop `!=`, for `bool` and `string`
   ┌─ $DD/tests/run-fail/binop/mismatch/neq.sk:3:10
   │
 3 │     true != "x";
-  │     ---- ^^ --- LHS evaluated to "x"
+  │     ---- ^^ --- LHS evaluated to `"x"`
   │     │    │   
   │     │    In this operator
-  │     LHS evaluated to true
+  │     LHS evaluated to `true`
 
