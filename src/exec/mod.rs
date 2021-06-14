@@ -141,8 +141,8 @@ impl<'a, 'b> Env<'a, 'b> {
 
         // In functions, a trailing expression returns
         let res = match body {
-            ast::Body::Expr(e) => self.eval_in(&mut scope, e)?,
-            ast::Body::Block(b) => match self.eval_block_in(b, &mut scope)? {
+            ast::FnBody::Expr(e) => self.eval_in(&mut scope, e)?,
+            ast::FnBody::Block(b) => match self.eval_block_in(b, &mut scope)? {
                 BlockEvalResult::FnRet(v) => v,
                 BlockEvalResult::None => Value::Null,
             },

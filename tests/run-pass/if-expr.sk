@@ -1,4 +1,5 @@
 fn bar(x: int) {
+	print "starting";
 	let z = null;
 	if x == 2 {
 		return "a";

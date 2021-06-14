@@ -85,11 +85,11 @@ pub struct Function<'a> {
     pub args: Spanned<Vec<Arg<'a>>>,
     pub ret: Option<Spanned<Type>>,
     #[serde(borrow)]
-    pub body: Body<'a>,
+    pub body: FnBody<'a>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Body<'a> {
+pub enum FnBody<'a> {
     Expr(#[serde(borrow)] Expr<'a>),
     Block(#[serde(borrow)] Block<'a>),
 }

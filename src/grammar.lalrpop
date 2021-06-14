@@ -45,7 +45,7 @@ Item: Item<'input> = {
 }
 
 Function: Function<'input> = {
-    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> "{" <body:Body> "}" => Function{<>}
+    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> "{" <body:FnBody> "}" => Function{<>}
 }
 
 Args = { "(" <Comma<Arg>> ")" }
@@ -65,9 +65,9 @@ RawName = { r"[a-zA-Z][a-zA-Z0-9_]*" }
 Block = Spaned<BlockRaw>;
 BlockRaw = { "{" <Stmts> "}" }
 
-Body: Body<'input> = {
-    <Expr> => Body::Expr(<>),
-    <Spaned<Stmts>> => Body::Block(<>),
+FnBody: FnBody<'input> = {
+    <Expr> => FnBody::Expr(<>),
+    <Spaned<Stmts>> => FnBody::Block(<>),
 }
 
 // TODO: Should these be exprs? Should we have stmts?
