@@ -76,7 +76,7 @@ impl<'a, 'b> Env<'a, 'b> {
         for i in p {
             match i {
                 Item::Function(f) => {
-                    if let Some(old_fn) = functions.insert(&f.name, &f) {
+                    if let Some(old_fn) = functions.insert(&f.name, f) {
                         // TODO: Should these be the function span of the name span
                         let err = Diagnostic::error()
                             .with_message(format!("Function `{}` defined twice", &f.name.node))
@@ -185,9 +185,9 @@ impl<'a, 'b> Env<'a, 'b> {
                 If(test, ifcase, elsecase) => {
                     let test_val = self.eval_in(scope, &*test)?;
                     let eval_result = if self.as_bool(test_val, test.span)? {
-                        self.eval_block_in(&ifcase, scope)?
+                        self.eval_block_in(ifcase, scope)?
                     } else if let Some(block) = elsecase {
-                        self.eval_block_in(&block, scope)?
+                        self.eval_block_in(block, scope)?
                     } else {
                         BlockEvalResult::None
                     };
@@ -224,19 +224,19 @@ impl<'a, 'b> Env<'a, 'b> {
             },
             BinOp(l, o, r) => {
                 // TODO: is this eval order right
-                let lv = self.eval_in(scope, &l)?;
-                let rv = self.eval_in(scope, &r)?;
+                let lv = self.eval_in(scope, l)?;
+                let rv = self.eval_in(scope, r)?;
                 self.binop(lv, o.node, rv, l.span, o.span, r.span)?
             }
             UnaryOp(o, e) => {
-                let val = self.eval_in(scope, &e)?;
+                let val = self.eval_in(scope, e)?;
                 self.unary_op(*o, val, e.span)?
             }
             Call(function, args) => {
                 if let RawExpr::Var(name) = function.node {
                     let mut args_evald = Vec::with_capacity(args.len());
                     for i in args {
-                        args_evald.push(self.eval_in(scope, &i)?);
+                        args_evald.push(self.eval_in(scope, i)?);
                     }
                     self.call(name, &args_evald, e.span)?
                 } else {

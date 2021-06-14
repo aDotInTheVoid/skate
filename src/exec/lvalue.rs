@@ -17,7 +17,7 @@ impl<'a> Env<'a, '_> {
         match &lvalue.node {
             RawExpr::Var(var) => {
                 let val = self.eval_in(scope, rvalue)?;
-                match scope.find(&var) {
+                match scope.find(var) {
                     Some(ptr) => *ptr = val,
                     None => {
                         return Err(RtError(

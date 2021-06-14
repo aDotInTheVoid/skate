@@ -23,7 +23,7 @@ pub enum ExitCode {
 }
 
 pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre::Result<ExitCode> {
-    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), &prog);
+    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), prog);
 
     let prog = match prog {
         Ok(p) => p,
