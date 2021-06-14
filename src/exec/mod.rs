@@ -1,5 +1,5 @@
 /// Tree walk interpriter
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::convert::TryInto;
 use std::{io, mem};
 
@@ -273,7 +273,7 @@ impl<'a, 'b> Env<'a, 'b> {
                 Value::Complex(key)
             }
             Map(m) => {
-                let mut ret = HashMap::with_capacity(m.len());
+                let mut ret = BTreeMap::new();
                 for (&name, val) in m {
                     ret.insert(name.to_owned(), self.eval_in(scope, val)?);
                 }
