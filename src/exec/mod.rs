@@ -4,7 +4,7 @@ use std::convert::TryInto;
 use std::{io, mem};
 
 use codespan_reporting::diagnostic::Diagnostic;
-use eyre::{bail, Result};
+use eyre::Result;
 
 use crate::ast::{
     self, Block, Expr, Function, Item, Program, RawExpr, RawStmt, Span, Spanned, UnaryOp,
@@ -272,6 +272,14 @@ impl<'a, 'b> Env<'a, 'b> {
                 let key = self.heap.insert(BigValue::Array(ret));
                 Value::Complex(key)
             }
+            Map(m) => {
+                let mut ret = HashMap::with_capacity(m.len());
+                for (&name, val) in m {
+                    ret.insert(name.to_owned(), self.eval_in(scope, val)?);
+                }
+                let key = self.heap.insert(BigValue::Map(ret));
+                Value::Complex(key)
+            }
             ArrayAccess(arr_s, idx_s) => {
                 let array_val = self.eval_in(scope, arr_s)?;
 
@@ -287,7 +295,10 @@ impl<'a, 'b> Env<'a, 'b> {
                 arr[idx]
             }
             // TODO: Nice error / fill out
-            other => bail!("Unimplemented {:?}", other),
+            // other => bail!("Unimplemented {:?}", other),
+            FieldAccess(map_s, val_s) => {
+                todo!()
+            }
         })
     }
 
@@ -448,7 +459,9 @@ impl<'a, 'b> Env<'a, 'b> {
             Value::Bool(_) => "bool",
             Value::Complex(id) => match self.heap[*id] {
                 BigValue::String(_) => "string",
+                // TODO: Show inner type?
                 BigValue::Array(_) => "array",
+                BigValue::Map(_) => "map",
             },
             Value::Null => "null",
         }

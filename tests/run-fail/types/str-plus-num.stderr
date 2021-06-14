@@ -2,8 +2,8 @@ error: Unknown binop `+`, for `string` and `int`
   ┌─ $DD/tests/run-fail/types/str-plus-num.sk:2:17
   │
 2 │     let x = "2" + 2;
-  │             --- ^ - LHS evaluated to Int(2)
+  │             --- ^ - LHS evaluated to 2
   │             │   │  
   │             │   In this operator
-  │             LHS evaluated to String("2")
+  │             LHS evaluated to "2"
 

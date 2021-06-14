@@ -2,7 +2,7 @@ error: Unknown UnaryOp `-` for `string`
   ┌─ $DD/tests/run-fail/unop/minus-str.sk:2:11
   │
 2 │     print -"matter";
-  │           ^-------- Evaluated to String("matter")
+  │           ^-------- Evaluated to "matter"
   │           │ 
   │           In this operator
 

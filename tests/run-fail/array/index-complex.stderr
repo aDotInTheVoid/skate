@@ -2,5 +2,5 @@ error: Expected `int`, got `array`
   ┌─ $DD/tests/run-fail/array/index-complex.sk:5:7
   │
 5 │     x[x];
-  │       ^ Evaluated to `Array([Array([Array([Array([]), Array([]), Array([])])]), Array([Array([]), Array([]), Array([])]), Array([Array([Array([Array([]), Array([]), Array([])])])])])`
+  │       ^ Evaluated to `[[[[], [], []]], [[], [], []], [[[[], [], []]]]]`
 

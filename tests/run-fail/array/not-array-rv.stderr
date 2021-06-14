@@ -2,5 +2,5 @@ error: Expected `array`, got `int`
   ┌─ $DD/tests/run-fail/array/not-array-rv.sk:3:5
   │
 3 │     x[2] = 3;
-  │     ^ Evaluated_to `Int(2)`
+  │     ^ Evaluated_to `2`
 
