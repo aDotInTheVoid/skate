@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt::Write;
 use std::ops::Range;
 use std::usize;
@@ -136,7 +137,12 @@ pub enum RawExpr<'a> {
     FieldAccess(Box<Expr<'a>>, #[serde(borrow)] Name<'a>),
     ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
     Array(Vec<Expr<'a>>),
+    Map(Map<'a>),
 }
+
+// Dont span the string, as we dont want to use span in lookup
+// TODO: Change this maybe.
+type Map<'a> = HashMap<&'a str, Expr<'a>>;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum BinOp {
