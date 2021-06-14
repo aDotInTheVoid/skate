@@ -1,0 +1,21 @@
+error: Unknown binop `*`, for `int` and `array`
+   ┌─ $DD/tests/run-fail/types/large-span.sk:10:7
+   │    
+ 2 │ ╭       (
+ 3 │ │           (
+ 4 │ │               (
+ 5 │ │                   (
+   · │  
+ 9 │ │           )
+10 │ │       ) * (
+   │ │         ^ In this operator
+   │ ╰───────' LHS evaluated to Int(2)
+   │   ╭─────────'
+11 │   │         [
+12 │   │             (
+13 │   │                 (
+   ·   │
+19 │   │         ]
+20 │   │     )
+   │   ╰─────' LHS evaluated to Array([Array([Int(2)])])
+

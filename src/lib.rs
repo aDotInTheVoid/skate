@@ -14,10 +14,6 @@ use lalrpop_util::ParseError;
 
 use crate::diagnostics::CompError;
 
-// TODO: Make this good.
-#[cfg(test)]
-mod ast_tests;
-
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub enum ExitCode {
     Ok,
@@ -27,7 +23,7 @@ pub enum ExitCode {
 }
 
 pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre::Result<ExitCode> {
-    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), &prog);
+    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), prog);
 
     let prog = match prog {
         Ok(p) => p,
@@ -65,22 +61,22 @@ pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre:
     };
 
     match exec::run(prog, output) {
-        // TODO: Ok case has an exit status from skate code, handle that
-        Ok(is_fail) => {
-            if !is_fail {
-                Ok(ExitCode::Ok)
-            } else {
-                Ok(ExitCode::ProgErr)
-            }
-        }
-        Err(e) => Err(e)
+       // TODO: Ok case has an exit status from skate code, handle that
+       Ok(is_fail) => {
+           if !is_fail {
+               Ok(ExitCode::Ok)
+           } else {
+               Ok(ExitCode::ProgErr)
+           }
+       }
+       Err(e) => Err(e)
 
-        // match e.downcast::<diagnostics::RtError>() {
-        //     Ok(rterrot) => {
-        //         emit_err(&rterrot.0)?;
-        //         Ok(ExitCode::RtErr)
-        //     }
-        //     Err(e) => Err(e),
-        // },
-    }
+       // match e.downcast::<diagnostics::RtError>() {
+       //     Ok(rterrot) => {
+       //         emit_err(&rterrot.0)?;
+       //         Ok(ExitCode::RtErr)
+       //     }
+       //     Err(e) => Err(e),
+       // },
+   }
 }

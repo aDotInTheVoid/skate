@@ -13,6 +13,9 @@ test-unit: build
 test-e2e: build
     python3 ./scripts/test.py
 
+bless: build
+    python3 ./scripts/test.py --bless
+
 test: test-unit test-e2e
 
 fmt:

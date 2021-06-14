@@ -56,11 +56,15 @@ EXIT_COMPILE_FAIL = 66
 EXIT_RUN_FAIL = 1
 
 passing = True
+n_fail = 0
+n_pass = 0
 
 
 def fail():
     global passing
     passing = False
+    global n_fail
+    n_fail += 1
 
 
 def ppath(path):
@@ -88,6 +92,8 @@ def process(stream, file):
             got = f.read()
             if output == got:
                 print(f"PASSED {prity_file}")
+                global n_pass
+                n_pass += 1
             else:
                 # TODO: diff
                 print(f"FAILED {prity_file}")
@@ -96,6 +102,8 @@ def process(stream, file):
                 print("--- got ---")
                 print(output)
                 print("--- ---\n")
+                global n_fail
+                n_fail += 1
 
 
 def run_pass(path):
@@ -147,6 +155,11 @@ for i in glob.glob(COMPILE_FAIL_GLOB, recursive=True):
 
 for i in glob.glob(RUN_FAIL_GLOB, recursive=True):
     compile_fail(i, EXIT_RUN_FAIL)
+
+print()
+print(f"{n_fail+n_pass} Ran")
+print(f"{n_pass} Passed")
+print(f"{n_fail} Failed")
 
 if not passing:
     exit(1)

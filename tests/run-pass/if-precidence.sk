@@ -1,6 +1,6 @@
 fn bar(x: bool) {
-	let z = 1 + if x { print "x"; 2 } else { print "y"; 3 };
-	return z;
+	if x { print "x"; 2; } else { print "y"; 3; }
+	return x;
 }
 
 fn main() {

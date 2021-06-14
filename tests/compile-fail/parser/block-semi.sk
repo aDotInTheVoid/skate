@@ -1,6 +1,0 @@
-fn boo() {
-    if x {} else {}
-
-    let x = 7;
-    // "TODO: Allow this, see https://doc.rust-lang.org/reference/statements.html#expression-statements";
-}

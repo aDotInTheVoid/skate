@@ -1,0 +1,8 @@
+error: Couldn't find variable `x` in scope
+  ┌─ $DD/tests/run-fail/array/index-oos.sk:3:7
+  │
+3 │     m[x] = 3;
+  │       ^
+  │
+  = Variables in scope: ["m"]
+

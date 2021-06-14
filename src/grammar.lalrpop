@@ -24,17 +24,12 @@ Comma<T>: Vec<T> = {
     }
 };
 
-// TODO: Unify this with Comma, 
-// true -> keep expr. False -> discard
-Semi<T>: (Vec<T>, BlockType) = { 
-    <v:(<T> ";")*> <e:T?> => match e {
-        None=> (v, BlockType::Discard),
-        Some(e) => {
-            let mut v = v;
-            v.push(e);
-            (v, BlockType::ReturnExpr)
-        }
-    }
+Semi<T>: Vec<T> = { 
+    <v:(<T> ";")*> => v
+};
+
+List<T>: Vec<T> = { 
+    <v:(<T>)*> => v
 };
 
 // TODO: decide how many ns in spannnned
@@ -50,7 +45,7 @@ Item: Item<'input> = {
 }
 
 Function: Function<'input> = {
-    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> <body:Body> => Function{<>}
+    "fn" <name:Name> <args:Spaned<Args>> <ret:("->" <Spaned<Type>> )?> "{" <body:FnBody> "}" => Function{<>}
 }
 
 Args = { "(" <Comma<Arg>> ")" }
@@ -67,17 +62,35 @@ Type: Type = {
 Name = Spaned<RawName>;
 RawName = { r"[a-zA-Z][a-zA-Z0-9_]*" }
 
-Body = Spaned<BodyRaw>;
-BodyRaw = { "{" <Semi<Stmt>> "}" }
+Block = Spaned<BlockRaw>;
+BlockRaw = { "{" <Stmts> "}" }
+
+FnBody: FnBody<'input> = {
+    <Expr> => FnBody::Expr(<>),
+    <Spaned<Stmts>> => FnBody::Block(<>),
+}
 
 // TODO: Should these be exprs? Should we have stmts?
-Stmt: Stmt<'input> = {
-    <Expr> => Stmt::Expr(<>),
-    "let" <Name> "=" <Expr> => Stmt::Let(<>),
-    <Expr> "=" <Expr> => Stmt::Assign(<>),
-    "print" <Expr> => Stmt::Print(<>),
-    "return" <Expr> => Stmt::Return(<>),
+Stmts = { List<Stmt> }
+Stmt = { Spaned<RawStmt> }
+RawStmt: RawStmt<'input> = {
+    <Expr> ";" => RawStmt::Expr(<>),
+    "let" <Name> "=" <Expr> ";" => RawStmt::Let(<>),
+    <Expr> "=" <Expr> ";" => RawStmt::Assign(<>),
+    "print" <Expr> ";" => RawStmt::Print(<>),
+    "return" <Expr> ";" => RawStmt::Return(<>),
+    // TODO: Else if
+    "if" <BExpr> <Block> <("else" <Block>)?> => RawStmt::If(<>),
+    "for" <Name> "in" <BExpr> <Block> => RawStmt::For(<>),
+    "while" <BExpr> <Block> => RawStmt::While(<>),
+    <Block> => RawStmt::Block(<>),
 }
+
+// Polyfill
+// Expr = { Spaned<RExpr> }
+// RExpr: RawExpr<'input> = {
+//     <Name> => RawExpr::Var(<>),
+// }
 
 // Rename for convenience
 Expr = { <OrExpr> }
@@ -121,12 +134,9 @@ PostfixExprRaw: RawExpr<'input> = {
 
 // TODO: keywords
 BaseExprRaw: RawExpr<'input> = {
-    // TODO: Else if
-    "if" <BExpr> <Body> <("else" <Body>)?> => RawExpr::If(<>),
-    "for" <Name> "in" <BExpr> <Body> => RawExpr::For(<>),
-    "while" <BExpr> <Body> => RawExpr::While(<>),
+
     <Name> => RawExpr::Var(<>),
-    <Body> => RawExpr::Block(<>),
+    // <Block> => RawExpr::Block(<>),
     // This is a hack where we remove the span of the inner expr
     // I'm not sure if this is good
     "(" <e:Expr> ")" => e.node,

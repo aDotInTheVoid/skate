@@ -1,0 +1,8 @@
+error: Couldn't find variable `y` in scope
+  ┌─ $DD/tests/run-fail/vars/l-and-r-oos.sk:2:9
+  │
+2 │     x = y;
+  │         ^
+  │
+  = Variables in scope: []
+

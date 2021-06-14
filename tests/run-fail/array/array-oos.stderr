@@ -1,8 +1,8 @@
 error: Couldn't find variable `x` in scope
-  ┌─ $DD/tests/run-fail/vars/if1.sk:2:8
+  ┌─ $DD/tests/run-fail/array/array-oos.sk:2:5
   │
-2 │     if x {}
-  │        ^
+2 │     x[0] = 2;
+  │     ^
   │
   = Variables in scope: []
 
