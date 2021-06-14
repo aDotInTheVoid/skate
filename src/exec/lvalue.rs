@@ -10,7 +10,9 @@ use super::Env;
 impl<'a> Env<'a, '_> {
     pub(crate) fn lvalue(
         &mut self,
+        // The location were assigning to
         lvalue: &Expr<'a>,
+        // The rhs, the value to assign
         rvalue: &Expr<'a>,
         scope: &mut Scope<'a>,
     ) -> Result<()> {
@@ -46,7 +48,8 @@ impl<'a> Env<'a, '_> {
                 let val = self.eval_in(scope, rvalue)?;
 
                 // First we get as an array and check bounds
-                let array = self.as_array(array_val, arr_s.span)?;
+                // Unwrap as weve already check its an array
+                let array = self.as_array(array_val, arr_s.span).unwrap();
                 self.check_array_bounds(array, idx, array_val, idx_val, arr_s.span, idx_s.span)?;
 
                 // Then we get again, mutably, unwraping as it is garenteed to

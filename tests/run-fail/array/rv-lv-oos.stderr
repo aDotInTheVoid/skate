@@ -1,0 +1,8 @@
+error: Couldn't find variable `zz` in scope
+  ┌─ $DD/tests/run-fail/array/rv-lv-oos.sk:3:12
+  │
+3 │     x[0] = zz;
+  │            ^^
+  │
+  = Variables in scope: ["x"]
+

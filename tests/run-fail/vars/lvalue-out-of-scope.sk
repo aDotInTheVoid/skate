@@ -1,0 +1,5 @@
+fn main() {
+    // TODO: Merge with rvalue scope error, to suggest vars in scope
+    // TODO: Sugest using a `let` to declar vars
+    x = 2;
+}

@@ -1,0 +1,6 @@
+error: Excpected an lvalue
+  ┌─ $DD/tests/run-fail/lvalue/not.sk:3:5
+  │
+3 │     2 + 2 = "ds";
+  │     ^^^^^
+
