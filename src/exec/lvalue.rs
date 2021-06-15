@@ -38,7 +38,7 @@ impl<'a> Env<'a, '_> {
                 let map_val = self.eval_in(scope, map_s)?;
                 let rv = self.eval_in(scope, rvalue)?;
                 let map = self.as_map_mut(map_val, map_s.span)?;
-                map.insert((&key_s).to_string(), rv);
+                map.insert(key_s.to_string(), rv);
             }
             RawExpr::ArrayAccess(arr_s, idx_s) => {
                 // TODO: This is too subtle due to borrowck
