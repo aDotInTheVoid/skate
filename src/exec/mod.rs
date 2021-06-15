@@ -75,7 +75,7 @@ impl<'a, 'b> Env<'a, 'b> {
         let mut functions: HashMap<&str, &Spanned<Function>> = HashMap::new();
         for i in p {
             match i {
-                Item::Function(f) => {
+                Item::Function(_, f) => {
                     if let Some(old_fn) = functions.insert(&f.name, f) {
                         // TODO: Should these be the function span of the name span
                         let err = Diagnostic::error()
@@ -87,6 +87,8 @@ impl<'a, 'b> Env<'a, 'b> {
                         return Err(RtError(err).into());
                     }
                 }
+                Item::Import(_) => todo!(),
+                Item::Const(..) => todo!(),
             };
         }
 

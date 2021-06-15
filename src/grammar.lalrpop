@@ -40,8 +40,16 @@ Spaned<T>: Spanned<T> = {
 // Main Entry point
 pub Program: Program<'input> = { <Item*> }
 
+Viz = Spaned<RawViz>;
+RawViz: RawViz = {
+    // "" => RawViz::Private,
+    "pub"? => if <>.is_some() { RawViz::Pub } else { RawViz::Private }
+}
+
 Item: Item<'input> = {
-    <Spaned<Function>> => Item::Function(<>)
+    <Viz> <Spaned<Function>> => Item::Function(<>),
+    "import" <Name> ";" => Item::Import(<>),
+    <Viz> "const" <Name> "=" <Expr> ";" => Item::Const(<>),
 }
 
 Function: Function<'input> = {
@@ -150,15 +158,19 @@ MapEntry: (Name<'input>, Expr<'input>) = {
 }
 
 Literal: Literal<'input> = {
-    <s:StringLit> => Literal::String(&s[1..s.len()-1]),
+    <StringLit> => Literal::String(<>),
     <FloatLit> => Literal::Float(<>.parse().unwrap()),
     <IntLit> => Literal::Integer(<>.parse().unwrap()),
     <BoolLit> => Literal::Bool(<>),
     "null" => Literal::Null,
 }
 
+StringLit: &'input str = {
+    <StringLitQuoted> => &<>[1..<>.len()-1]
+}
+
 // https://stackoverflow.com/a/2039820
-StringLit = { r#""(\\.|[^"\\])*""# }
+StringLitQuoted = { r#""(\\.|[^"\\])*""# }
 FloatLit = { r#"[+-]?[0-9]+[.][0-9]*"# }
 IntLit = { r"[0-9]+" }
 BoolLit: bool = {

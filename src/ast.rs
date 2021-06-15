@@ -84,7 +84,17 @@ impl<T> std::ops::DerefMut for Spanned<T> {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Item<'a> {
-    Function(#[serde(borrow)] Spanned<Function<'a>>),
+    Function(Viz, #[serde(borrow)] Spanned<Function<'a>>),
+    Import(Name<'a>),
+    Const(Viz, Name<'a>, Expr<'a>),
+}
+
+pub type Viz = Spanned<RawViz>;
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum RawViz {
+    Pub,
+    // Default
+    Private,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
