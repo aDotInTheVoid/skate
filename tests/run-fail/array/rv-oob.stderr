@@ -2,7 +2,7 @@ error: Array index out of bound, len is `0`, but got `4`
   ┌─ $DD/tests/run-fail/array/rv-oob.sk:3:5
   │
 3 │     x[4] = 5;
-  │     ^ ^ Evaluated to Int(4)
+  │     - - Evaluated to `4`
   │     │  
-  │     Evaluated to Array([])
+  │     Evaluated to `[]`
 

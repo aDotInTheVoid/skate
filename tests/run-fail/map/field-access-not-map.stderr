@@ -1,0 +1,6 @@
+error: Expected `map`, got `array`
+  ┌─ $DD/tests/run-fail/map/field-access-not-map.sk:3:13
+  │
+3 │     let z = x.y;
+  │             ^ Evaluated to `[1, 2, 3]`
+

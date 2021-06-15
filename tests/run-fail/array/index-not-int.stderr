@@ -2,5 +2,5 @@ error: Expected `int`, got `float`
   ┌─ $DD/tests/run-fail/array/index-not-int.sk:2:8
   │
 2 │     [][2.9];
-  │        ^^^ Evaluated to `Float(2.9)`
+  │        ^^^ Evaluated to `2.9`
 

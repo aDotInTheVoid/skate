@@ -1,0 +1,8 @@
+error: Couldn't find variable `z` in scope
+  ┌─ $DD/tests/run-fail/map/lvalue-not-map.sk:4:11
+  │
+4 │     x.y = z;
+  │           ^
+  │
+  = Variables in scope: ["x"]
+

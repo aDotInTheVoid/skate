@@ -1,0 +1,16 @@
+fn main() {
+    let x = %{
+        a: 2,
+        b: %{
+            b: 5,
+            c: "ff",
+        }
+    };
+    print x;
+
+    let y = "Hello World";
+    print y;
+
+
+    let z = x+y;
+}

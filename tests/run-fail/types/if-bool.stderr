@@ -2,5 +2,5 @@ error: Expected `bool`, got `string`
   ┌─ $DD/tests/run-fail/types/if-bool.sk:2:8
   │
 2 │     if "foobar" {}
-  │        ^^^^^^^^ Evaluated to `String("foobar")`
+  │        ^^^^^^^^ Evaluated to `"foobar"`
 

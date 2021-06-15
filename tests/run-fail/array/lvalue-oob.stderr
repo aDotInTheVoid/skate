@@ -2,7 +2,7 @@ error: Array index out of bound, len is `3`, but got `3`
   ┌─ $DD/tests/run-fail/array/lvalue-oob.sk:3:5
   │
 3 │     a[3] = a;
-  │     ^ ^ Evaluated to Int(3)
+  │     - - Evaluated to `3`
   │     │  
-  │     Evaluated to Array([Int(1), Int(2), Int(3)])
+  │     Evaluated to `[1, 2, 3]`
 

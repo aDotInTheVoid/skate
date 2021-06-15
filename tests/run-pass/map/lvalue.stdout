@@ -1,0 +1,6 @@
+%{x: 0}
+0
+%{x: [1, 2]}
+%{x: [1, "ff"]}
+[%{x: %{x: [1, "ff"]}}, %{}]
+[%{x: %{everywhere: "spooky action", x: [1, "ff"]}}, %{y: %{everywhere: "spooky action", x: [1, "ff"]}}]

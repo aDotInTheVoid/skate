@@ -2,5 +2,5 @@ error: Expected `array`, got `int`
   ┌─ $DD/tests/run-fail/array/index-not-array.sk:2:5
   │
 2 │     (1 + 2)[3];
-  │     ^^^^^^^ Evaluated_to `Int(3)`
+  │     ^^^^^^^ Evaluated to `3`
 

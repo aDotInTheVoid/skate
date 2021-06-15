@@ -2,8 +2,8 @@ error: Unknown binop `+`, for `array` and `array`
   ┌─ $DD/tests/run-fail/array/no-op-nested.sk:4:14
   │
 4 │     [[[1]]]  + [[[2]]]
-  │     -------  ^ ------- LHS evaluated to Array([Array([Array([Int(2)])])])
+  │     -------  ^ ------- Evaluated to `[[[2]]]`
   │     │        │  
   │     │        In this operator
-  │     LHS evaluated to Array([Array([Array([Int(1)])])])
+  │     Evaluated to `[[[1]]]`
 

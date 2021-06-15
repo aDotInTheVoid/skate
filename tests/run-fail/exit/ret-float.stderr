@@ -1,2 +1,2 @@
-error: `main` returned `Float(0.0)` with type `float`, expected `null` or `int`
+error: `main` returned `0` with type `float`, expected `null` or `int`
 

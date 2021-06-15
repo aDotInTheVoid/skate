@@ -9,7 +9,7 @@ error: Unknown binop `*`, for `int` and `array`
  9 │ │           )
 10 │ │       ) * (
    │ │         ^ In this operator
-   │ ╰───────' LHS evaluated to Int(2)
+   │ ╰───────' Evaluated to `2`
    │   ╭─────────'
 11 │   │         [
 12 │   │             (
@@ -17,5 +17,5 @@ error: Unknown binop `*`, for `int` and `array`
    ·   │
 19 │   │         ]
 20 │   │     )
-   │   ╰─────' LHS evaluated to Array([Array([Int(2)])])
+   │   ╰─────' Evaluated to `[[2]]`
 

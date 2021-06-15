@@ -1,2 +1,2 @@
-error: `main` returned `String("hello")` with type `string`, expected `null` or `int`
+error: `main` returned `"hello"` with type `string`, expected `null` or `int`
 

@@ -184,12 +184,8 @@ impl Env<'_, '_> {
                 ))
                 .with_labels(vec![
                     o_span.primary_label().with_message("In this operator"),
-                    l_span
-                        .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&l))),
-                    r_span
-                        .secondary_label()
-                        .with_message(format!("LHS evaluated to {:?}", self.dbg_val(&r))),
+                    l_span.evaled_to(l, self),
+                    r_span.evaled_to(r, self),
                 ]),
         )
     }

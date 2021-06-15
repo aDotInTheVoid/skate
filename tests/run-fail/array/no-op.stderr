@@ -2,8 +2,8 @@ error: Unknown binop `*`, for `array` and `int`
   ┌─ $DD/tests/run-fail/array/no-op.sk:6:9
   │
 6 │     x() * 8;
-  │     --- ^ - LHS evaluated to Int(8)
+  │     --- ^ - Evaluated to `8`
   │     │   │  
   │     │   In this operator
-  │     LHS evaluated to Array([Int(1), Int(2), Int(3)])
+  │     Evaluated to `[1, 2, 3]`
 

@@ -1,17 +1,17 @@
 /// Tree walk interpriter
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::convert::TryInto;
 use std::{io, mem};
 
 use codespan_reporting::diagnostic::Diagnostic;
-use eyre::{bail, Result};
+use eyre::Result;
 
 use crate::ast::{
     self, Block, Expr, Function, Item, Program, RawExpr, RawStmt, Span, Spanned, UnaryOp,
 };
 use crate::diagnostics::RtError;
 use crate::env::{Env, Scope};
-use crate::value::{BigValue, Value, ValueDbg};
+use crate::value::{BigValue, Map, Value, ValueDbg};
 
 mod binop;
 mod lvalue;
@@ -272,6 +272,33 @@ impl<'a, 'b> Env<'a, 'b> {
                 let key = self.heap.insert(BigValue::Array(ret));
                 Value::Complex(key)
             }
+            Map(m) => {
+                let mut ret = BTreeMap::new();
+                for (name, val) in m {
+                    if ret
+                        .insert(name.node.to_owned(), self.eval_in(scope, val)?)
+                        .is_some()
+                    {
+                        let (prev, _) =
+                            m.iter().find(|(pname, _)| pname.node == name.node).unwrap();
+
+                        return Err(RtError(
+                            Diagnostic::error()
+                                .with_message(format!(
+                                    "Duplicate key `{}` in map literal",
+                                    name.node
+                                ))
+                                .with_labels(vec![
+                                    prev.primary_label().with_message("First defined here"),
+                                    name.primary_label().with_message("Defined here again"),
+                                ]),
+                        )
+                        .into());
+                    }
+                }
+                let key = self.heap.insert(BigValue::Map(ret));
+                Value::Complex(key)
+            }
             ArrayAccess(arr_s, idx_s) => {
                 let array_val = self.eval_in(scope, arr_s)?;
 
@@ -286,8 +313,15 @@ impl<'a, 'b> Env<'a, 'b> {
                 self.check_array_bounds(&arr, idx, array_val, idx_val, arr_s.span, idx_s.span)?;
                 arr[idx]
             }
-            // TODO: Nice error / fill out
-            other => bail!("Unimplemented {:?}", other),
+            FieldAccess(map_s, key_s) => {
+                let map_val = self.eval_in(scope, map_s)?;
+                let map = self.as_map(map_val, map_s.span)?;
+
+                let key_string: &str = key_s;
+
+                self.check_map_has_key(map, key_string, map_s.span, key_s.span, map_val)?;
+                map[key_string]
+            }
         })
     }
 
@@ -306,13 +340,34 @@ impl<'a, 'b> Env<'a, 'b> {
                         ))
                         .with_labels(vec![
                             o.span.primary_label().with_message("In this operator"),
-                            vs.secondary_label()
-                                .with_message(format!("Evaluated to {:?}", self.dbg_val(&v))),
+                            vs.evaled_to(v, self),
                         ]),
                 )
                 .into())
             }
         })
+    }
+
+    fn check_map_has_key(
+        &self,
+        map: &Map,
+        key: &str,
+        map_span: Span,
+        key_span: Span,
+        map_value: Value,
+    ) -> Result<(), RtError> {
+        if !map.contains_key(key) {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!("Map doesnt have key `{}`", key))
+                    .with_labels(vec![
+                        map_span.evaled_to(map_value, self),
+                        key_span.primary_label().with_message("This key"),
+                    ]),
+            ))
+        } else {
+            Ok(())
+        }
     }
 
     pub(crate) fn check_array_bounds(
@@ -323,7 +378,7 @@ impl<'a, 'b> Env<'a, 'b> {
         idx_val: Value,
         array_span: Span,
         idx_span: Span,
-    ) -> Result<()> {
+    ) -> Result<(), RtError> {
         if array.len() <= idx {
             Err(RtError(
                 Diagnostic::error()
@@ -333,37 +388,36 @@ impl<'a, 'b> Env<'a, 'b> {
                         idx
                     ))
                     .with_labels(vec![
-                        idx_span
-                            .primary_label()
-                            .with_message(format!("Evaluated to {:?}", self.dbg_val(&idx_val))),
-                        array_span
-                            .primary_label()
-                            .with_message(format!("Evaluated to {:?}", self.dbg_val(&array_val))),
+                        idx_span.evaled_to(idx_val, self),
+                        array_span.evaled_to(array_val, self),
                     ]),
-            )
-            .into())
+            ))
         } else {
             Ok(())
         }
     }
 
-    // TODO: DRY these methods
-    fn as_bool(&self, val: Value, s: Span) -> Result<bool> {
+    fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
         if let Value::Bool(b) = val {
             Ok(b)
         } else {
-            Err(RtError(
-                Diagnostic::error()
-                    .with_message(format!("Expected `bool`, got `{}`", self.type_name(&val)))
-                    .with_labels(vec![s
-                        .primary_label()
-                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
-            )
-            .into())
+            Err(self.unexpected_type_error(val, s, "bool"))
         }
     }
 
-    fn as_uint(&self, val: Value, s: Span) -> Result<usize> {
+    fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
+        RtError(
+            Diagnostic::error()
+                .with_message(format!(
+                    "Expected `{}`, got `{}`",
+                    expected,
+                    self.type_name(&val)
+                ))
+                .with_labels(vec![s.evaled_to_primary(val, self)]),
+        )
+    }
+
+    fn as_uint(&self, val: Value, s: Span) -> Result<usize, RtError> {
         if let Value::Int(i) = val {
             if let Ok(u) = i.try_into() {
                 Ok(u)
@@ -371,24 +425,14 @@ impl<'a, 'b> Env<'a, 'b> {
                 Err(RtError(
                     Diagnostic::error()
                         .with_message("Expected a positive number")
-                        .with_labels(vec![s
-                            .primary_label()
-                            .with_message(format!("Evaluated to `{}`", i))]),
-                )
-                .into())
+                        .with_labels(vec![s.evaled_to_primary(Value::Int(i), self)]),
+                ))
             }
         } else {
-            Err(RtError(
-                Diagnostic::error()
-                    .with_message(format!("Expected `int`, got `{}`", self.type_name(&val)))
-                    .with_labels(vec![s
-                        .primary_label()
-                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
-            )
-            .into())
+            Err(self.unexpected_type_error(val, s, "int"))
         }
     }
-    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value]> {
+    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value], RtError> {
         if let Value::Complex(id) = val {
             if let BigValue::Array(_) = &self.heap[id] {
                 // Fun polonious workaround
@@ -398,31 +442,38 @@ impl<'a, 'b> Env<'a, 'b> {
                 }
             }
         }
-        Err(self.not_array_error(val, s).into())
+        Err(self.unexpected_type_error(val, s, "array"))
     }
 
-    // TODO: Unify
-    fn not_array_error(&self, val: Value, s: Span) -> RtError {
-        RtError(
-            Diagnostic::error()
-                .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
-                .with_labels(vec![s
-                    .primary_label()
-                    .with_message(format!("Evaluated_to `{:?}`", self.dbg_val(&val)))]),
-        )
-    }
-
-    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+    fn as_array(&self, val: Value, s: Span) -> Result<&[Value], RtError> {
         if let Value::Complex(id) = val {
-            if let BigValue::Array(_) = &self.heap[id] {
-                // Fun polonious workaround
-                match &self.heap[id] {
-                    BigValue::Array(a) => return Ok(a),
+            if let BigValue::Array(a) = &self.heap[id] {
+                return Ok(a);
+            }
+        }
+
+        Err(self.unexpected_type_error(val, s, "array"))
+    }
+
+    fn as_map(&self, val: Value, s: Span) -> Result<&Map, RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Map(m) = &self.heap[id] {
+                return Ok(m);
+            }
+        }
+        Err(self.unexpected_type_error(val, s, "map"))
+    }
+
+    fn as_map_mut(&mut self, val: Value, s: Span) -> Result<&mut Map, RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Map(_) = &self.heap[id] {
+                match &mut self.heap[id] {
+                    BigValue::Map(m) => return Ok(m),
                     _ => unreachable!(),
                 }
             }
         }
-        Err(self.not_array_error(val, s).into())
+        Err(self.unexpected_type_error(val, s, "map"))
     }
 
     pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
@@ -448,7 +499,9 @@ impl<'a, 'b> Env<'a, 'b> {
             Value::Bool(_) => "bool",
             Value::Complex(id) => match self.heap[*id] {
                 BigValue::String(_) => "string",
+                // TODO: Show inner type?
                 BigValue::Array(_) => "array",
+                BigValue::Map(_) => "map",
             },
             Value::Null => "null",
         }

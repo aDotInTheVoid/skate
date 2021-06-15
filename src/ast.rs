@@ -5,7 +5,7 @@ use std::usize;
 use codespan_reporting::diagnostic::Label;
 use serde::{Deserialize, Serialize};
 
-use crate::diagnostics;
+use crate::{diagnostics, env, value};
 
 // TODO: Clean up "outer" vs inner spans
 // Eg an Expr has its own assocd span, but a Function doesnt
@@ -41,6 +41,16 @@ impl Span {
 
     pub fn primary_label(&self) -> Label<usize> {
         Label::primary(self.file_id.0, self.range())
+    }
+
+    pub(crate) fn evaled_to_primary(&self, v: value::Value, e: &env::Env) -> Label<usize> {
+        self.primary_label()
+            .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
+    }
+
+    pub(crate) fn evaled_to(&self, v: value::Value, e: &env::Env) -> Label<usize> {
+        self.secondary_label()
+            .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
     }
 
     pub fn secondary_label(&self) -> Label<usize> {
@@ -136,7 +146,11 @@ pub enum RawExpr<'a> {
     FieldAccess(Box<Expr<'a>>, #[serde(borrow)] Name<'a>),
     ArrayAccess(Box<Expr<'a>>, Box<Expr<'a>>),
     Array(Vec<Expr<'a>>),
+    Map(Map<'a>),
 }
+
+// This preserves duplicated names, which are handled later
+type Map<'a> = Vec<(Name<'a>, Expr<'a>)>;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum BinOp {
