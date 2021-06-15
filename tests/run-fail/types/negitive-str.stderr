@@ -2,7 +2,7 @@ error: Unknown UnaryOp `!` for `string`
   ┌─ $DD/tests/run-fail/types/negitive-str.sk:2:11
   │
 2 │     print !("Love" + "Muffin");
-  │           ^------------------- Evaluated to "LoveMuffin"
+  │           ^------------------- Evaluated to `"LoveMuffin"`
   │           │ 
   │           In this operator
 

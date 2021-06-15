@@ -2,8 +2,8 @@ error: Unknown binop `+`, for `map` and `string`
    ┌─ $DD/tests/run-fail/map/print.sk:15:14
    │
 15 │     let z = x+y;
-   │             -^- LHS evaluated to `"Hello World"`
+   │             -^- Evaluated to `"Hello World"`
    │             ││ 
    │             │In this operator
-   │             LHS evaluated to `%{a: 2, b: %{b: 5, c: "ff"}}`
+   │             Evaluated to `%{a: 2, b: %{b: 5, c: "ff"}}`
 

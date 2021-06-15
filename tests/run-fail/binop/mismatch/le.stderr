@@ -2,8 +2,8 @@ error: Unknown binop `<=`, for `string` and `string`
   ┌─ $DD/tests/run-fail/binop/mismatch/le.sk:2:9
   │
 2 │     "x" <= "y"
-  │     --- ^^ --- LHS evaluated to `"y"`
+  │     --- ^^ --- Evaluated to `"y"`
   │     │   │   
   │     │   In this operator
-  │     LHS evaluated to `"x"`
+  │     Evaluated to `"x"`
 

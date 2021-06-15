@@ -2,8 +2,8 @@ error: Unknown binop `*`, for `null` and `int`
   ┌─ $DD/tests/run-fail/binop/mismatch/times.sk:2:10
   │
 2 │     null * 88;
-  │     ---- ^ -- LHS evaluated to `88`
+  │     ---- ^ -- Evaluated to `88`
   │     │    │  
   │     │    In this operator
-  │     LHS evaluated to `null`
+  │     Evaluated to `null`
 

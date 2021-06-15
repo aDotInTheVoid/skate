@@ -321,8 +321,7 @@ impl<'a, 'b> Env<'a, 'b> {
                         ))
                         .with_labels(vec![
                             o.span.primary_label().with_message("In this operator"),
-                            vs.secondary_label()
-                                .with_message(format!("Evaluated to {:?}", self.dbg_val(&v))),
+                            vs.evaled_to(v, self),
                         ]),
                 )
                 .into())
@@ -343,13 +342,7 @@ impl<'a, 'b> Env<'a, 'b> {
                 Diagnostic::error()
                     .with_message(format!("Map doesnt have key `{}`", key))
                     .with_labels(vec![
-                        map_span.secondary_label().with_message(format!(
-                            "Evaluated to `{:?}`",
-                            ValueDbg {
-                                v: &map_value,
-                                heap: &self.heap
-                            }
-                        )),
+                        map_span.evaled_to(map_value, self),
                         key_span.primary_label().with_message("This key"),
                     ]),
             ))
@@ -376,13 +369,8 @@ impl<'a, 'b> Env<'a, 'b> {
                         idx
                     ))
                     .with_labels(vec![
-                        // TODO: add a span.label.message(Formatted to) method
-                        idx_span
-                            .primary_label()
-                            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&idx_val))),
-                        array_span
-                            .primary_label()
-                            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&array_val))),
+                        idx_span.evaled_to(idx_val, self),
+                        array_span.evaled_to(array_val, self),
                     ]),
             ))
         } else {
@@ -406,9 +394,7 @@ impl<'a, 'b> Env<'a, 'b> {
                     expected,
                     self.type_name(&val)
                 ))
-                .with_labels(vec![s
-                    .primary_label()
-                    .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
+                .with_labels(vec![s.evaled_to_primary(val, self)]),
         )
     }
 
@@ -420,9 +406,7 @@ impl<'a, 'b> Env<'a, 'b> {
                 Err(RtError(
                     Diagnostic::error()
                         .with_message("Expected a positive number")
-                        .with_labels(vec![s
-                            .primary_label()
-                            .with_message(format!("Evaluated to `{}`", i))]),
+                        .with_labels(vec![s.evaled_to_primary(Value::Int(i), self)]),
                 ))
             }
         } else {
