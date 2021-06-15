@@ -299,7 +299,8 @@ impl<'a, 'b> Env<'a, 'b> {
                 let map = self.as_map(map_val, map_s.span)?;
 
                 let key_string: &str = key_s;
-                // TODO: Check this doesnt panic
+
+                self.check_map_has_key(map, key_string, map_s.span, key_s.span, map_val)?;
                 map[key_string]
             }
         })
@@ -329,6 +330,34 @@ impl<'a, 'b> Env<'a, 'b> {
         })
     }
 
+    fn check_map_has_key(
+        &self,
+        map: &Map,
+        key: &str,
+        map_span: Span,
+        key_span: Span,
+        map_value: Value,
+    ) -> Result<(), RtError> {
+        if !map.contains_key(key) {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!("Map doesnt have key `{}`", key))
+                    .with_labels(vec![
+                        map_span.secondary_label().with_message(format!(
+                            "Evaluated to `{:?}`",
+                            ValueDbg {
+                                v: &map_value,
+                                heap: &self.heap
+                            }
+                        )),
+                        key_span.primary_label().with_message("This key"),
+                    ]),
+            ))
+        } else {
+            Ok(())
+        }
+    }
+
     pub(crate) fn check_array_bounds(
         &self,
         array: &[Value],
@@ -337,7 +366,7 @@ impl<'a, 'b> Env<'a, 'b> {
         idx_val: Value,
         array_span: Span,
         idx_span: Span,
-    ) -> Result<()> {
+    ) -> Result<(), RtError> {
         if array.len() <= idx {
             Err(RtError(
                 Diagnostic::error()
@@ -347,15 +376,15 @@ impl<'a, 'b> Env<'a, 'b> {
                         idx
                     ))
                     .with_labels(vec![
+                        // TODO: add a span.label.message(Formatted to) method
                         idx_span
                             .primary_label()
-                            .with_message(format!("Evaluated to {:?}", self.dbg_val(&idx_val))),
+                            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&idx_val))),
                         array_span
                             .primary_label()
-                            .with_message(format!("Evaluated to {:?}", self.dbg_val(&array_val))),
+                            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&array_val))),
                     ]),
-            )
-            .into())
+            ))
         } else {
             Ok(())
         }

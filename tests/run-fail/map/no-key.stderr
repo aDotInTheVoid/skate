@@ -1,0 +1,8 @@
+error: Map doesnt have key `not_in_map`
+  ┌─ $DD/tests/run-fail/map/no-key.sk:3:13
+  │
+3 │     print x.not_in_map;
+  │           - ^^^^^^^^^^ This key
+  │           │  
+  │           Evaluated to `%{y: "ff"}`
+

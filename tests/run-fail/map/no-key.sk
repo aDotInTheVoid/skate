@@ -1,0 +1,4 @@
+fn main() {
+    let x = %{y: "ff"};
+    print x.not_in_map;
+}
