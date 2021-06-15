@@ -21,67 +21,6 @@ pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Name<'a> = Spanned<&'a str>;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy, Default)]
-pub struct Span {
-    pub start: usize,
-    pub end: usize,
-    pub file_id: diagnostics::FileId,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
-pub struct Spanned<T> {
-    pub node: T,
-    pub span: Span,
-}
-
-impl Span {
-    pub fn range(&self) -> Range<usize> {
-        self.start..self.end
-    }
-
-    pub fn primary_label(&self) -> Label<usize> {
-        Label::primary(self.file_id.0, self.range())
-    }
-
-    pub(crate) fn evaled_to_primary(&self, v: value::Value, e: &env::Env) -> Label<usize> {
-        self.primary_label()
-            .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
-    }
-
-    pub(crate) fn evaled_to(&self, v: value::Value, e: &env::Env) -> Label<usize> {
-        self.secondary_label()
-            .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
-    }
-
-    pub fn secondary_label(&self) -> Label<usize> {
-        Label::secondary(self.file_id.0, self.range())
-    }
-}
-
-impl<T> Spanned<T> {
-    pub fn primary_label(&self) -> Label<usize> {
-        self.span.primary_label()
-    }
-
-    pub fn secondary_label(&self) -> Label<usize> {
-        self.span.secondary_label()
-    }
-}
-
-// TODO: Decide if this is a good idea
-impl<T> std::ops::Deref for Spanned<T> {
-    type Target = T;
-
-    fn deref(&self) -> &Self::Target {
-        &self.node
-    }
-}
-impl<T> std::ops::DerefMut for Spanned<T> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.node
-    }
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Item<'a> {
     Function(Viz, #[serde(borrow)] Spanned<Function<'a>>),
@@ -144,11 +83,13 @@ pub enum RawStmt<'a> {
     Block(Block<'a>),
 }
 
+pub type Path<'a> = Vec<Name<'a>>;
+
 pub type Expr<'a> = Spanned<RawExpr<'a>>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum RawExpr<'a> {
     Literal(Spanned<Literal<'a>>),
-    Var(Name<'a>),
+    Var(Path<'a>),
     // Block(Block<'a>),
     Call(Box<Expr<'a>>, Vec<Expr<'a>>),
     BinOp(Box<Expr<'a>>, Spanned<BinOp>, Box<Expr<'a>>),
@@ -178,6 +119,21 @@ pub enum BinOp {
     LogicalAnd,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+pub enum UnaryOp {
+    Not,
+    Minus,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Literal<'a> {
+    String(&'a str),
+    Integer(i64),
+    Float(f64),
+    Bool(bool),
+    Null,
+}
+
 impl std::fmt::Display for BinOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
@@ -197,12 +153,6 @@ impl std::fmt::Display for BinOp {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
-pub enum UnaryOp {
-    Not,
-    Minus,
-}
-
 impl std::fmt::Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_char(match self {
@@ -212,11 +162,69 @@ impl std::fmt::Display for UnaryOp {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Literal<'a> {
-    String(&'a str),
-    Integer(i64),
-    Float(f64),
-    Bool(bool),
-    Null,
+//===----------------------------------------------------------------------===//
+//
+// Span stuff
+//
+//===----------------------------------------------------------------------===//
+
+#[derive(Debug, Clone, Serialize, Deserialize, Copy, Default)]
+pub struct Span {
+    pub start: usize,
+    pub end: usize,
+    pub file_id: diagnostics::FileId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+pub struct Spanned<T> {
+    pub node: T,
+    pub span: Span,
+}
+
+impl Span {
+    pub fn range(&self) -> Range<usize> {
+        self.start..self.end
+    }
+
+    pub fn primary_label(&self) -> Label<usize> {
+        Label::primary(self.file_id.0, self.range())
+    }
+
+    pub(crate) fn evaled_to_primary(&self, v: value::Value, e: &env::Env) -> Label<usize> {
+        self.primary_label()
+            .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
+    }
+
+    pub(crate) fn evaled_to(&self, v: value::Value, e: &env::Env) -> Label<usize> {
+        self.secondary_label()
+            .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
+    }
+
+    pub fn secondary_label(&self) -> Label<usize> {
+        Label::secondary(self.file_id.0, self.range())
+    }
+}
+
+impl<T> Spanned<T> {
+    pub fn primary_label(&self) -> Label<usize> {
+        self.span.primary_label()
+    }
+
+    pub fn secondary_label(&self) -> Label<usize> {
+        self.span.secondary_label()
+    }
+}
+
+// TODO: Decide if this is a good idea
+impl<T> std::ops::Deref for Spanned<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.node
+    }
+}
+impl<T> std::ops::DerefMut for Spanned<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.node
+    }
 }

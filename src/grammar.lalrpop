@@ -24,6 +24,14 @@ Comma<T>: Vec<T> = {
     }
 };
 
+Colons<T>: Vec<T> = {
+    <v:(<T> "::")*> <e:T> => {
+        let mut v = v;
+        v.push(e);
+        v
+    }
+}
+
 Semi<T>: Vec<T> = { 
     <v:(<T> ";")*> => v
 };
@@ -48,7 +56,7 @@ RawViz: RawViz = {
 
 Item: Item<'input> = {
     <Viz> <Spaned<Function>> => Item::Function(<>),
-    "import" <Name> ";" => Item::Import(<>),
+    "import" <Spaned<StringLit>> ";" => Item::Import(<>),
     <Viz> "const" <Name> "=" <Expr> ";" => Item::Const(<>),
 }
 
@@ -143,7 +151,7 @@ PostfixExprRaw: RawExpr<'input> = {
 // TODO: keywords
 BaseExprRaw: RawExpr<'input> = {
 
-    <Name> => RawExpr::Var(<>),
+    <Colons<Name>> => RawExpr::Var(<>),
     // <Block> => RawExpr::Block(<>),
     // This is a hack where we remove the span of the inner expr
     // I'm not sure if this is good

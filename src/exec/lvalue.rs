@@ -18,6 +18,8 @@ impl<'a> Env<'a, '_> {
     ) -> Result<()> {
         match &lvalue.node {
             RawExpr::Var(var) => {
+                assert_eq!(var.len(), 1);
+                let var = &var[0];
                 let val = self.eval_in(scope, rvalue)?;
                 match scope.find(var) {
                     Some(ptr) => *ptr = val,

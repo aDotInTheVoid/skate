@@ -87,8 +87,12 @@ impl<'a, 'b> Env<'a, 'b> {
                         return Err(RtError(err).into());
                     }
                 }
-                Item::Import(_) => todo!(),
-                Item::Const(..) => todo!(),
+                Item::Import(_) => {
+                    // TODO
+                }
+                Item::Const(..) => {
+                    // TODO
+                }
             };
         }
 
@@ -235,7 +239,10 @@ impl<'a, 'b> Env<'a, 'b> {
                 self.unary_op(*o, val, e.span)?
             }
             Call(function, args) => {
-                if let RawExpr::Var(name) = function.node {
+                if let RawExpr::Var(name) = &function.node {
+                    assert_eq!(name.len(), 1);
+                    let name = name[0];
+
                     let mut args_evald = Vec::with_capacity(args.len());
                     for i in args {
                         args_evald.push(self.eval_in(scope, i)?);
@@ -252,14 +259,23 @@ impl<'a, 'b> Env<'a, 'b> {
                     .into());
                 }
             }
-            Var(Spanned { node, span }) => scope.lookup(node).ok_or_else(|| {
-                RtError(
-                    Diagnostic::error()
-                        .with_message(format!("Couldn't find variable `{}` in scope", node))
-                        .with_labels(vec![span.primary_label()])
-                        .with_notes(vec![format!("Variables in scope: {:?}", scope.in_scope())]),
-                )
-            })?,
+            Var(path) => {
+                // TODO: Handle Module's here
+                assert_eq!(path.len(), 1);
+                let Spanned { node, span } = path[0];
+
+                scope.lookup(node).ok_or_else(|| {
+                    RtError(
+                        Diagnostic::error()
+                            .with_message(format!("Couldn't find variable `{}` in scope", node))
+                            .with_labels(vec![span.primary_label()])
+                            .with_notes(vec![format!(
+                                "Variables in scope: {:?}",
+                                scope.in_scope()
+                            )]),
+                    )
+                })?
+            }
 
             // Block(b) => {
             //     let bval = self.eval_block_in(&b, scope)?;
