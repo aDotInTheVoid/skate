@@ -26,7 +26,7 @@ pub enum BigValue {
 
 // TODO: Benchmap changing to hashmap.
 // But we do this for deterministic field ordering
-type Map = BTreeMap<String, Value>;
+pub type Map = BTreeMap<String, Value>;
 
 // Wrapper to properly implemt Debug for a Value, taking into accound the Heap
 // This will need to be changed when heep values can access other heap vals

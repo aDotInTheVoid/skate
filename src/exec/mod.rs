@@ -11,7 +11,7 @@ use crate::ast::{
 };
 use crate::diagnostics::RtError;
 use crate::env::{Env, Scope};
-use crate::value::{BigValue, Value, ValueDbg};
+use crate::value::{BigValue, Map, Value, ValueDbg};
 
 mod binop;
 mod lvalue;
@@ -294,10 +294,13 @@ impl<'a, 'b> Env<'a, 'b> {
                 self.check_array_bounds(&arr, idx, array_val, idx_val, arr_s.span, idx_s.span)?;
                 arr[idx]
             }
-            // TODO: Nice error / fill out
-            // other => bail!("Unimplemented {:?}", other),
-            FieldAccess(map_s, val_s) => {
-                todo!()
+            FieldAccess(map_s, key_s) => {
+                let map_val = self.eval_in(scope, map_s)?;
+                let map = self.as_map(map_val, map_s.span)?;
+
+                let key_string: &str = key_s;
+                // TODO: Check this doesnt panic
+                map[key_string]
             }
         })
     }
@@ -358,23 +361,29 @@ impl<'a, 'b> Env<'a, 'b> {
         }
     }
 
-    // TODO: DRY these methods
-    fn as_bool(&self, val: Value, s: Span) -> Result<bool> {
+    fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
         if let Value::Bool(b) = val {
             Ok(b)
         } else {
-            Err(RtError(
-                Diagnostic::error()
-                    .with_message(format!("Expected `bool`, got `{}`", self.type_name(&val)))
-                    .with_labels(vec![s
-                        .primary_label()
-                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
-            )
-            .into())
+            Err(self.unexpected_type_error(val, s, "bool"))
         }
     }
 
-    fn as_uint(&self, val: Value, s: Span) -> Result<usize> {
+    fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
+        RtError(
+            Diagnostic::error()
+                .with_message(format!(
+                    "Expected `{}`, got `{}`",
+                    expected,
+                    self.type_name(&val)
+                ))
+                .with_labels(vec![s
+                    .primary_label()
+                    .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
+        )
+    }
+
+    fn as_uint(&self, val: Value, s: Span) -> Result<usize, RtError> {
         if let Value::Int(i) = val {
             if let Ok(u) = i.try_into() {
                 Ok(u)
@@ -385,21 +394,13 @@ impl<'a, 'b> Env<'a, 'b> {
                         .with_labels(vec![s
                             .primary_label()
                             .with_message(format!("Evaluated to `{}`", i))]),
-                )
-                .into())
+                ))
             }
         } else {
-            Err(RtError(
-                Diagnostic::error()
-                    .with_message(format!("Expected `int`, got `{}`", self.type_name(&val)))
-                    .with_labels(vec![s
-                        .primary_label()
-                        .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
-            )
-            .into())
+            Err(self.unexpected_type_error(val, s, "int"))
         }
     }
-    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value]> {
+    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value], RtError> {
         if let Value::Complex(id) = val {
             if let BigValue::Array(_) = &self.heap[id] {
                 // Fun polonious workaround
@@ -409,31 +410,38 @@ impl<'a, 'b> Env<'a, 'b> {
                 }
             }
         }
-        Err(self.not_array_error(val, s).into())
+        Err(self.unexpected_type_error(val, s, "array"))
     }
 
-    // TODO: Unify
-    fn not_array_error(&self, val: Value, s: Span) -> RtError {
-        RtError(
-            Diagnostic::error()
-                .with_message(format!("Expected `array`, got `{}`", self.type_name(&val)))
-                .with_labels(vec![s
-                    .primary_label()
-                    .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&val)))]),
-        )
-    }
-
-    fn as_array(&self, val: Value, s: Span) -> Result<&[Value]> {
+    fn as_array(&self, val: Value, s: Span) -> Result<&[Value], RtError> {
         if let Value::Complex(id) = val {
-            if let BigValue::Array(_) = &self.heap[id] {
-                // Fun polonious workaround
-                match &self.heap[id] {
-                    BigValue::Array(a) => return Ok(a),
+            if let BigValue::Array(a) = &self.heap[id] {
+                return Ok(a);
+            }
+        }
+
+        Err(self.unexpected_type_error(val, s, "array"))
+    }
+
+    fn as_map(&self, val: Value, s: Span) -> Result<&Map, RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Map(m) = &self.heap[id] {
+                return Ok(m);
+            }
+        }
+        Err(self.unexpected_type_error(val, s, "map"))
+    }
+
+    fn as_map_mut(&mut self, val: Value, s: Span) -> Result<&mut Map, RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Map(_) = &self.heap[id] {
+                match &mut self.heap[id] {
+                    BigValue::Map(m) => return Ok(m),
                     _ => unreachable!(),
                 }
             }
         }
-        Err(self.not_array_error(val, s).into())
+        Err(self.unexpected_type_error(val, s, "map"))
     }
 
     pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {

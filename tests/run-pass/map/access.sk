@@ -1,0 +1,13 @@
+fn main() {
+    let x = %{
+        a: 2,
+        b: %{
+            b: 5,
+            c: "ff",
+        }
+    };
+    print x;
+    print x.a;
+    print x.b;
+    print x.b.b;
+}
