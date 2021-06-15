@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.19.5"
-// sha3: 2e53bb68130adfe756a7a4e93b48e50f6c2bdfe76e2307cb4f1a355cd91089
+// sha3: a654405a8fbd80a6ebe1a1efb927eaacb6fa48fc706021edcb11722620cc55f3
 use crate::ast::*;
 use crate::diagnostics::FileId;
 #[allow(unused_extern_crates)]
@@ -39,8 +39,8 @@ mod __parse__Program {
         Variant6(alloc::vec::Vec<Arg<'input>>),
         Variant7(Expr<'input>),
         Variant8(alloc::vec::Vec<Expr<'input>>),
-        Variant9((&'input str, Expr<'input>)),
-        Variant10(alloc::vec::Vec<(&'input str, Expr<'input>)>),
+        Variant9((Name<'input>, Expr<'input>)),
+        Variant10(alloc::vec::Vec<(Name<'input>, Expr<'input>)>),
         Variant11(Spanned<RawStmt<'input>>),
         Variant12(alloc::vec::Vec<Spanned<RawStmt<'input>>>),
         Variant13(usize),
@@ -52,14 +52,14 @@ mod __parse__Program {
         Variant19(Vec<Spanned<RawStmt<'input>>>),
         Variant20(bool),
         Variant21(Vec<Expr<'input>>),
-        Variant22(Vec<(&'input str, Expr<'input>)>),
+        Variant22(Vec<(Name<'input>, Expr<'input>)>),
         Variant23(core::option::Option<Expr<'input>>),
         Variant24(FnBody<'input>),
         Variant25(Function<'input>),
         Variant26(Item<'input>),
         Variant27(alloc::vec::Vec<Item<'input>>),
         Variant28(Literal<'input>),
-        Variant29(core::option::Option<(&'input str, Expr<'input>)>),
+        Variant29(core::option::Option<(Name<'input>, Expr<'input>)>),
         Variant30(Spanned<&'input str>),
         Variant31(Spanned<RawExpr<'input>>),
         Variant32(Program<'input>),
@@ -2546,7 +2546,7 @@ mod __parse__Program {
     }
     fn __pop_Variant9<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
-    ) -> (usize, (&'input str, Expr<'input>), usize) {
+    ) -> (usize, (Name<'input>, Expr<'input>), usize) {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant9(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch(),
@@ -2738,7 +2738,7 @@ mod __parse__Program {
     }
     fn __pop_Variant22<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
-    ) -> (usize, Vec<(&'input str, Expr<'input>)>, usize) {
+    ) -> (usize, Vec<(Name<'input>, Expr<'input>)>, usize) {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant22(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch(),
@@ -2770,7 +2770,7 @@ mod __parse__Program {
     }
     fn __pop_Variant10<'input>(
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
-    ) -> (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize) {
+    ) -> (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize) {
         match __symbols.pop() {
             Some((__l, __Symbol::Variant10(__v), __r)) => (__l, __v, __r),
             _ => __symbol_type_mismatch(),
@@ -2820,7 +2820,7 @@ mod __parse__Program {
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
     ) -> (
         usize,
-        core::option::Option<(&'input str, Expr<'input>)>,
+        core::option::Option<(Name<'input>, Expr<'input>)>,
         usize,
     ) {
         match __symbols.pop() {
@@ -6318,7 +6318,7 @@ fn __action46<'input>(
     file_id: FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, __0, _): (usize, Vec<(&'input str, Expr<'input>)>, usize),
+    (_, __0, _): (usize, Vec<(Name<'input>, Expr<'input>)>, usize),
     (_, _, _): (usize, &'input str, usize),
 ) -> RawExpr<'input> {
     RawExpr::Map(__0.into_iter().collect())
@@ -6331,8 +6331,8 @@ fn __action47<'input>(
     (_, n, _): (usize, Spanned<&'input str>, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, e, _): (usize, Expr<'input>, usize),
-) -> (&'input str, Expr<'input>) {
-    (&n, e)
+) -> (Name<'input>, Expr<'input>) {
+    (n, e)
 }
 
 #[allow(unused_variables)]
@@ -6645,13 +6645,13 @@ fn __action81<'input>(
 fn __action82<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, v, _): (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
+    (_, v, _): (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     (_, e, _): (
         usize,
-        core::option::Option<(&'input str, Expr<'input>)>,
+        core::option::Option<(Name<'input>, Expr<'input>)>,
         usize,
     ),
-) -> Vec<(&'input str, Expr<'input>)> {
+) -> Vec<(Name<'input>, Expr<'input>)> {
     match e {
         None => v,
         Some(e) => {
@@ -7462,8 +7462,8 @@ fn __action148<'input>(
 fn __action149<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, __0, _): (usize, (&'input str, Expr<'input>), usize),
-) -> core::option::Option<(&'input str, Expr<'input>)> {
+    (_, __0, _): (usize, (Name<'input>, Expr<'input>), usize),
+) -> core::option::Option<(Name<'input>, Expr<'input>)> {
     Some(__0)
 }
 
@@ -7473,7 +7473,7 @@ fn __action150<'input>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> core::option::Option<(&'input str, Expr<'input>)> {
+) -> core::option::Option<(Name<'input>, Expr<'input>)> {
     None
 }
 
@@ -7483,7 +7483,7 @@ fn __action151<'input>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> alloc::vec::Vec<(&'input str, Expr<'input>)> {
+) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
     alloc::vec![]
 }
 
@@ -7491,8 +7491,8 @@ fn __action151<'input>(
 fn __action152<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, v, _): (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
-) -> alloc::vec::Vec<(&'input str, Expr<'input>)> {
+    (_, v, _): (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
+) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
     v
 }
 
@@ -7500,9 +7500,9 @@ fn __action152<'input>(
 fn __action153<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, __0, _): (usize, (&'input str, Expr<'input>), usize),
+    (_, __0, _): (usize, (Name<'input>, Expr<'input>), usize),
     (_, _, _): (usize, &'input str, usize),
-) -> (&'input str, Expr<'input>) {
+) -> (Name<'input>, Expr<'input>) {
     __0
 }
 
@@ -7510,8 +7510,8 @@ fn __action153<'input>(
 fn __action154<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, __0, _): (usize, (&'input str, Expr<'input>), usize),
-) -> alloc::vec::Vec<(&'input str, Expr<'input>)> {
+    (_, __0, _): (usize, (Name<'input>, Expr<'input>), usize),
+) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
     alloc::vec![__0]
 }
 
@@ -7519,9 +7519,9 @@ fn __action154<'input>(
 fn __action155<'input>(
     file_id: FileId,
     input: &'input str,
-    (_, v, _): (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
-    (_, e, _): (usize, (&'input str, Expr<'input>), usize),
-) -> alloc::vec::Vec<(&'input str, Expr<'input>)> {
+    (_, v, _): (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
+    (_, e, _): (usize, (Name<'input>, Expr<'input>), usize),
+) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
     {
         let mut v = v;
         v.push(e);
@@ -7962,9 +7962,9 @@ fn __action184<'input>(
 fn __action185<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, (&'input str, Expr<'input>), usize),
+    __0: (usize, (Name<'input>, Expr<'input>), usize),
     __1: (usize, &'input str, usize),
-) -> alloc::vec::Vec<(&'input str, Expr<'input>)> {
+) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __0.0.clone();
     let __end0 = __1.2.clone();
     let __temp0 = __action153(file_id, input, __0, __1);
@@ -7976,10 +7976,10 @@ fn __action185<'input>(
 fn __action186<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
-    __1: (usize, (&'input str, Expr<'input>), usize),
+    __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
+    __1: (usize, (Name<'input>, Expr<'input>), usize),
     __2: (usize, &'input str, usize),
-) -> alloc::vec::Vec<(&'input str, Expr<'input>)> {
+) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __1.0.clone();
     let __end0 = __2.2.clone();
     let __temp0 = __action153(file_id, input, __1, __2);
@@ -7993,10 +7993,10 @@ fn __action187<'input>(
     input: &'input str,
     __0: (
         usize,
-        core::option::Option<(&'input str, Expr<'input>)>,
+        core::option::Option<(Name<'input>, Expr<'input>)>,
         usize,
     ),
-) -> Vec<(&'input str, Expr<'input>)> {
+) -> Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action151(file_id, input, &__start0, &__end0);
@@ -8008,13 +8008,13 @@ fn __action187<'input>(
 fn __action188<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
+    __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     __1: (
         usize,
-        core::option::Option<(&'input str, Expr<'input>)>,
+        core::option::Option<(Name<'input>, Expr<'input>)>,
         usize,
     ),
-) -> Vec<(&'input str, Expr<'input>)> {
+) -> Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action152(file_id, input, __0);
@@ -8836,8 +8836,8 @@ fn __action248<'input>(
 fn __action249<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, (&'input str, Expr<'input>), usize),
-) -> Vec<(&'input str, Expr<'input>)> {
+    __0: (usize, (Name<'input>, Expr<'input>), usize),
+) -> Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action149(file_id, input, __0);
@@ -8851,7 +8851,7 @@ fn __action250<'input>(
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
-) -> Vec<(&'input str, Expr<'input>)> {
+) -> Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __lookbehind.clone();
     let __end0 = __lookahead.clone();
     let __temp0 = __action150(file_id, input, &__start0, &__end0);
@@ -8863,9 +8863,9 @@ fn __action250<'input>(
 fn __action251<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
-    __1: (usize, (&'input str, Expr<'input>), usize),
-) -> Vec<(&'input str, Expr<'input>)> {
+    __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
+    __1: (usize, (Name<'input>, Expr<'input>), usize),
+) -> Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __1.0.clone();
     let __end0 = __1.2.clone();
     let __temp0 = __action149(file_id, input, __1);
@@ -8877,8 +8877,8 @@ fn __action251<'input>(
 fn __action252<'input>(
     file_id: FileId,
     input: &'input str,
-    __0: (usize, alloc::vec::Vec<(&'input str, Expr<'input>)>, usize),
-) -> Vec<(&'input str, Expr<'input>)> {
+    __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
+) -> Vec<(Name<'input>, Expr<'input>)> {
     let __start0 = __0.2.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action150(file_id, input, &__start0, &__end0);

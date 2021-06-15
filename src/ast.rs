@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fmt::Write;
 use std::ops::Range;
 use std::usize;
@@ -150,9 +149,8 @@ pub enum RawExpr<'a> {
     Map(Map<'a>),
 }
 
-// Dont span the string, as we dont want to use span in lookup
-// TODO: Change this maybe.
-type Map<'a> = HashMap<&'a str, Expr<'a>>;
+// This preserves duplicated names, which are handled later
+type Map<'a> = Vec<(Name<'a>, Expr<'a>)>;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum BinOp {

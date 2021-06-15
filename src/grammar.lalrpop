@@ -145,8 +145,8 @@ BaseExprRaw: RawExpr<'input> = {
     "%{" <Comma<MapEntry>> "}" => RawExpr::Map(<>.into_iter().collect()),
 }
 
-MapEntry: (&'input str, Expr<'input>) = {
-    <n:Name> ":" <e:Expr> => (&n, e)
+MapEntry: (Name<'input>, Expr<'input>) = {
+    <n:Name> ":" <e:Expr> => (n, e)
 }
 
 Literal: Literal<'input> = {

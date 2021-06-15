@@ -1,0 +1,8 @@
+error: Duplicate key `a` in map literal
+  ┌─ $DD/tests/run-fail/map/dup-key.sk:2:13
+  │
+2 │     print %{a:2, a:3, a:4}.a;
+  │             ^    ^ Defined here again
+  │             │     
+  │             First defined here
+

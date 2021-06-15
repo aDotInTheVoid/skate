@@ -274,8 +274,27 @@ impl<'a, 'b> Env<'a, 'b> {
             }
             Map(m) => {
                 let mut ret = BTreeMap::new();
-                for (&name, val) in m {
-                    ret.insert(name.to_owned(), self.eval_in(scope, val)?);
+                for (name, val) in m {
+                    if ret
+                        .insert(name.node.to_owned(), self.eval_in(scope, val)?)
+                        .is_some()
+                    {
+                        let (prev, _) =
+                            m.iter().find(|(pname, _)| pname.node == name.node).unwrap();
+
+                        return Err(RtError(
+                            Diagnostic::error()
+                                .with_message(format!(
+                                    "Duplicate key `{}` in map literal",
+                                    name.node
+                                ))
+                                .with_labels(vec![
+                                    prev.primary_label().with_message("First defined here"),
+                                    name.primary_label().with_message("Defined here again"),
+                                ]),
+                        )
+                        .into());
+                    }
                 }
                 let key = self.heap.insert(BigValue::Map(ret));
                 Value::Complex(key)
