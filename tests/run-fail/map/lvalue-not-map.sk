@@ -1,0 +1,5 @@
+fn main() {
+    // Check error is about z, not x not being map
+    let x = 0;
+    x.y = z;
+}

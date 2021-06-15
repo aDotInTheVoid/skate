@@ -1,0 +1,28 @@
+fn main() {
+    let x = %{
+        x: 0
+    };
+
+    print x;
+    print x.x;
+
+    x.x = [1,2];
+
+    print x;
+
+    x.x[1] = "ff";
+
+    print x;
+
+    let y = [%{}, %{}];
+
+    y[0].x = x;
+
+    print y;
+
+    y[1].y = x;
+
+    x.everywhere="spooky action";
+
+    print y;
+}
