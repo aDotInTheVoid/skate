@@ -1,7 +1,7 @@
 // auto-generated: "lalrpop 0.19.6"
-// sha3: fa01ad877fe654f6f51b2a352d1678b1e0dc499517a6a6dd5fe4a8b3f29ea6
-use crate::ast::*;
-use crate::diagnostics::FileId;
+// sha3: 3b21dc5c8bf06a19d57c51122ca41c6f65d13d8a84c8e35c8db86c771f3f
+use crate::*;
+use diagnostics::span::Span;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as __lalrpop_util;
 #[allow(unused_imports)]
@@ -19,8 +19,8 @@ mod __parse__Program {
         unused_parens
     )]
 
-    use crate::ast::*;
-    use crate::diagnostics::FileId;
+    use crate::*;
+    use diagnostics::span::Span;
     #[allow(unused_extern_crates)]
     extern crate lalrpop_util as __lalrpop_util;
     #[allow(unused_imports)]
@@ -1132,7 +1132,7 @@ mod __parse__Program {
             .collect()
     }
     pub(crate) struct __StateMachine<'input> {
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __phantom: core::marker::PhantomData<(&'input ())>,
     }
@@ -1369,7 +1369,7 @@ mod __parse__Program {
         #[allow(dead_code)]
         pub fn parse<'input>(
             &self,
-            file_id: FileId,
+            file_id: diagnostics::FileId,
             input: &'input str,
         ) -> Result<Program<'input>, __lalrpop_util::ParseError<usize, Token<'input>, &'static str>>
         {
@@ -1385,7 +1385,7 @@ mod __parse__Program {
         }
     }
     pub(crate) fn __reduce<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __action: i16,
         __lookahead_start: Option<&usize>,
@@ -3180,7 +3180,7 @@ mod __parse__Program {
         }
     }
     pub(crate) fn __reduce0<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3195,7 +3195,7 @@ mod __parse__Program {
         (1, 0)
     }
     pub(crate) fn __reduce1<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3212,7 +3212,7 @@ mod __parse__Program {
         (0, 0)
     }
     pub(crate) fn __reduce2<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3229,7 +3229,7 @@ mod __parse__Program {
         (2, 1)
     }
     pub(crate) fn __reduce3<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3246,7 +3246,7 @@ mod __parse__Program {
         (2, 2)
     }
     pub(crate) fn __reduce4<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3263,7 +3263,7 @@ mod __parse__Program {
         (0, 2)
     }
     pub(crate) fn __reduce5<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3280,7 +3280,7 @@ mod __parse__Program {
         (2, 3)
     }
     pub(crate) fn __reduce6<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3297,7 +3297,7 @@ mod __parse__Program {
         (2, 4)
     }
     pub(crate) fn __reduce7<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3314,7 +3314,7 @@ mod __parse__Program {
         (0, 4)
     }
     pub(crate) fn __reduce8<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3331,7 +3331,7 @@ mod __parse__Program {
         (2, 5)
     }
     pub(crate) fn __reduce9<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3348,7 +3348,7 @@ mod __parse__Program {
         (2, 6)
     }
     pub(crate) fn __reduce10<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3365,7 +3365,7 @@ mod __parse__Program {
         (0, 6)
     }
     pub(crate) fn __reduce11<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3382,7 +3382,7 @@ mod __parse__Program {
         (2, 7)
     }
     pub(crate) fn __reduce12<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3399,7 +3399,7 @@ mod __parse__Program {
         (0, 8)
     }
     pub(crate) fn __reduce13<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3414,7 +3414,7 @@ mod __parse__Program {
         (1, 8)
     }
     pub(crate) fn __reduce14<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3431,7 +3431,7 @@ mod __parse__Program {
         (2, 9)
     }
     pub(crate) fn __reduce15<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3449,7 +3449,7 @@ mod __parse__Program {
         (3, 9)
     }
     pub(crate) fn __reduce16<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3466,7 +3466,7 @@ mod __parse__Program {
         (2, 10)
     }
     pub(crate) fn __reduce17<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3483,7 +3483,7 @@ mod __parse__Program {
         (0, 11)
     }
     pub(crate) fn __reduce18<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3498,7 +3498,7 @@ mod __parse__Program {
         (1, 11)
     }
     pub(crate) fn __reduce19<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3515,7 +3515,7 @@ mod __parse__Program {
         (2, 12)
     }
     pub(crate) fn __reduce20<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3533,7 +3533,7 @@ mod __parse__Program {
         (3, 12)
     }
     pub(crate) fn __reduce21<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3550,7 +3550,7 @@ mod __parse__Program {
         (2, 13)
     }
     pub(crate) fn __reduce22<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3567,7 +3567,7 @@ mod __parse__Program {
         (0, 14)
     }
     pub(crate) fn __reduce23<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3582,7 +3582,7 @@ mod __parse__Program {
         (1, 14)
     }
     pub(crate) fn __reduce24<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3599,7 +3599,7 @@ mod __parse__Program {
         (2, 15)
     }
     pub(crate) fn __reduce25<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3617,7 +3617,7 @@ mod __parse__Program {
         (3, 15)
     }
     pub(crate) fn __reduce26<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3634,7 +3634,7 @@ mod __parse__Program {
         (2, 16)
     }
     pub(crate) fn __reduce27<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3651,7 +3651,7 @@ mod __parse__Program {
         (0, 17)
     }
     pub(crate) fn __reduce28<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3666,7 +3666,7 @@ mod __parse__Program {
         (1, 17)
     }
     pub(crate) fn __reduce29<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3683,7 +3683,7 @@ mod __parse__Program {
         (2, 18)
     }
     pub(crate) fn __reduce30<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3701,7 +3701,7 @@ mod __parse__Program {
         (3, 18)
     }
     pub(crate) fn __reduce31<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3716,7 +3716,7 @@ mod __parse__Program {
         (1, 19)
     }
     pub(crate) fn __reduce32<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3733,7 +3733,7 @@ mod __parse__Program {
         (0, 20)
     }
     pub(crate) fn __reduce33<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3748,7 +3748,7 @@ mod __parse__Program {
         (1, 20)
     }
     pub(crate) fn __reduce34<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3763,7 +3763,7 @@ mod __parse__Program {
         (1, 21)
     }
     pub(crate) fn __reduce35<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3780,7 +3780,7 @@ mod __parse__Program {
         (2, 21)
     }
     pub(crate) fn __reduce36<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3797,7 +3797,7 @@ mod __parse__Program {
         (0, 22)
     }
     pub(crate) fn __reduce37<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3814,7 +3814,7 @@ mod __parse__Program {
         (0, 23)
     }
     pub(crate) fn __reduce38<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3829,7 +3829,7 @@ mod __parse__Program {
         (1, 24)
     }
     pub(crate) fn __reduce39<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3844,7 +3844,7 @@ mod __parse__Program {
         (1, 24)
     }
     pub(crate) fn __reduce40<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3859,7 +3859,7 @@ mod __parse__Program {
         (1, 25)
     }
     pub(crate) fn __reduce41<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3874,7 +3874,7 @@ mod __parse__Program {
         (1, 26)
     }
     pub(crate) fn __reduce42<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3892,7 +3892,7 @@ mod __parse__Program {
         (3, 27)
     }
     pub(crate) fn __reduce43<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3907,7 +3907,7 @@ mod __parse__Program {
         (1, 27)
     }
     pub(crate) fn __reduce44<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3922,7 +3922,7 @@ mod __parse__Program {
         (1, 28)
     }
     pub(crate) fn __reduce45<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3939,7 +3939,7 @@ mod __parse__Program {
         (0, 28)
     }
     pub(crate) fn __reduce46<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3957,7 +3957,7 @@ mod __parse__Program {
         (3, 29)
     }
     pub(crate) fn __reduce47<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3972,7 +3972,7 @@ mod __parse__Program {
         (1, 30)
     }
     pub(crate) fn __reduce48<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -3987,7 +3987,7 @@ mod __parse__Program {
         (1, 31)
     }
     pub(crate) fn __reduce49<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4005,7 +4005,7 @@ mod __parse__Program {
         (3, 31)
     }
     pub(crate) fn __reduce50<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4020,7 +4020,7 @@ mod __parse__Program {
         (1, 31)
     }
     pub(crate) fn __reduce51<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4038,7 +4038,7 @@ mod __parse__Program {
         (3, 31)
     }
     pub(crate) fn __reduce52<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4056,7 +4056,7 @@ mod __parse__Program {
         (3, 31)
     }
     pub(crate) fn __reduce53<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4071,7 +4071,7 @@ mod __parse__Program {
         (1, 32)
     }
     pub(crate) fn __reduce54<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4089,7 +4089,7 @@ mod __parse__Program {
         (3, 33)
     }
     pub(crate) fn __reduce55<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4104,7 +4104,7 @@ mod __parse__Program {
         (1, 34)
     }
     pub(crate) fn __reduce56<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4119,7 +4119,7 @@ mod __parse__Program {
         (1, 34)
     }
     pub(crate) fn __reduce57<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4134,7 +4134,7 @@ mod __parse__Program {
         (1, 35)
     }
     pub(crate) fn __reduce58<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4151,7 +4151,7 @@ mod __parse__Program {
         (2, 35)
     }
     pub(crate) fn __reduce59<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4166,7 +4166,7 @@ mod __parse__Program {
         (1, 36)
     }
     pub(crate) fn __reduce60<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4183,7 +4183,7 @@ mod __parse__Program {
         (0, 36)
     }
     pub(crate) fn __reduce61<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4200,7 +4200,7 @@ mod __parse__Program {
         (2, 36)
     }
     pub(crate) fn __reduce62<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4215,7 +4215,7 @@ mod __parse__Program {
         (1, 36)
     }
     pub(crate) fn __reduce63<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4230,7 +4230,7 @@ mod __parse__Program {
         (1, 37)
     }
     pub(crate) fn __reduce64<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4247,7 +4247,7 @@ mod __parse__Program {
         (0, 37)
     }
     pub(crate) fn __reduce65<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4264,7 +4264,7 @@ mod __parse__Program {
         (2, 37)
     }
     pub(crate) fn __reduce66<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4279,7 +4279,7 @@ mod __parse__Program {
         (1, 37)
     }
     pub(crate) fn __reduce67<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4294,7 +4294,7 @@ mod __parse__Program {
         (1, 38)
     }
     pub(crate) fn __reduce68<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4311,7 +4311,7 @@ mod __parse__Program {
         (0, 38)
     }
     pub(crate) fn __reduce69<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4328,7 +4328,7 @@ mod __parse__Program {
         (2, 38)
     }
     pub(crate) fn __reduce70<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4343,7 +4343,7 @@ mod __parse__Program {
         (1, 38)
     }
     pub(crate) fn __reduce71<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4358,7 +4358,7 @@ mod __parse__Program {
         (1, 39)
     }
     pub(crate) fn __reduce72<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4373,7 +4373,7 @@ mod __parse__Program {
         (1, 40)
     }
     pub(crate) fn __reduce73<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4388,7 +4388,7 @@ mod __parse__Program {
         (1, 40)
     }
     pub(crate) fn __reduce74<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4403,7 +4403,7 @@ mod __parse__Program {
         (1, 40)
     }
     pub(crate) fn __reduce75<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4418,7 +4418,7 @@ mod __parse__Program {
         (1, 40)
     }
     pub(crate) fn __reduce76<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4433,7 +4433,7 @@ mod __parse__Program {
         (1, 41)
     }
     pub(crate) fn __reduce77<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4448,7 +4448,7 @@ mod __parse__Program {
         (1, 42)
     }
     pub(crate) fn __reduce78<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4463,7 +4463,7 @@ mod __parse__Program {
         (1, 43)
     }
     pub(crate) fn __reduce79<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4478,7 +4478,7 @@ mod __parse__Program {
         (1, 43)
     }
     pub(crate) fn __reduce80<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4493,7 +4493,7 @@ mod __parse__Program {
         (1, 44)
     }
     pub(crate) fn __reduce81<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4508,7 +4508,7 @@ mod __parse__Program {
         (1, 45)
     }
     pub(crate) fn __reduce82<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4523,7 +4523,7 @@ mod __parse__Program {
         (1, 46)
     }
     pub(crate) fn __reduce83<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4540,7 +4540,7 @@ mod __parse__Program {
         (0, 46)
     }
     pub(crate) fn __reduce84<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4555,7 +4555,7 @@ mod __parse__Program {
         (1, 47)
     }
     pub(crate) fn __reduce85<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4570,7 +4570,7 @@ mod __parse__Program {
         (1, 48)
     }
     pub(crate) fn __reduce86<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4585,7 +4585,7 @@ mod __parse__Program {
         (1, 48)
     }
     pub(crate) fn __reduce87<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4610,7 +4610,7 @@ mod __parse__Program {
         (8, 49)
     }
     pub(crate) fn __reduce88<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4633,7 +4633,7 @@ mod __parse__Program {
         (6, 49)
     }
     pub(crate) fn __reduce89<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4648,7 +4648,7 @@ mod __parse__Program {
         (1, 50)
     }
     pub(crate) fn __reduce90<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4663,7 +4663,7 @@ mod __parse__Program {
         (1, 51)
     }
     pub(crate) fn __reduce91<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4678,7 +4678,7 @@ mod __parse__Program {
         (1, 52)
     }
     pub(crate) fn __reduce92<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4695,7 +4695,7 @@ mod __parse__Program {
         (2, 53)
     }
     pub(crate) fn __reduce93<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4713,7 +4713,7 @@ mod __parse__Program {
         (3, 53)
     }
     pub(crate) fn __reduce94<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4736,7 +4736,7 @@ mod __parse__Program {
         (6, 53)
     }
     pub(crate) fn __reduce95<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4753,7 +4753,7 @@ mod __parse__Program {
         (0, 54)
     }
     pub(crate) fn __reduce96<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4768,7 +4768,7 @@ mod __parse__Program {
         (1, 54)
     }
     pub(crate) fn __reduce97<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4783,7 +4783,7 @@ mod __parse__Program {
         (1, 55)
     }
     pub(crate) fn __reduce98<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4800,7 +4800,7 @@ mod __parse__Program {
         (2, 55)
     }
     pub(crate) fn __reduce99<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4815,7 +4815,7 @@ mod __parse__Program {
         (1, 56)
     }
     pub(crate) fn __reduce100<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4830,7 +4830,7 @@ mod __parse__Program {
         (1, 57)
     }
     pub(crate) fn __reduce101<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4847,7 +4847,7 @@ mod __parse__Program {
         (0, 58)
     }
     pub(crate) fn __reduce102<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4862,7 +4862,7 @@ mod __parse__Program {
         (1, 58)
     }
     pub(crate) fn __reduce103<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4877,7 +4877,7 @@ mod __parse__Program {
         (1, 59)
     }
     pub(crate) fn __reduce104<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4892,7 +4892,7 @@ mod __parse__Program {
         (1, 59)
     }
     pub(crate) fn __reduce105<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4907,7 +4907,7 @@ mod __parse__Program {
         (1, 59)
     }
     pub(crate) fn __reduce106<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4922,7 +4922,7 @@ mod __parse__Program {
         (1, 59)
     }
     pub(crate) fn __reduce107<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4937,7 +4937,7 @@ mod __parse__Program {
         (1, 59)
     }
     pub(crate) fn __reduce108<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4952,7 +4952,7 @@ mod __parse__Program {
         (1, 60)
     }
     pub(crate) fn __reduce109<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4967,7 +4967,7 @@ mod __parse__Program {
         (1, 61)
     }
     pub(crate) fn __reduce110<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -4985,7 +4985,7 @@ mod __parse__Program {
         (3, 62)
     }
     pub(crate) fn __reduce111<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5000,7 +5000,7 @@ mod __parse__Program {
         (1, 63)
     }
     pub(crate) fn __reduce112<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5017,7 +5017,7 @@ mod __parse__Program {
         (0, 63)
     }
     pub(crate) fn __reduce113<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5032,7 +5032,7 @@ mod __parse__Program {
         (1, 64)
     }
     pub(crate) fn __reduce114<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5047,7 +5047,7 @@ mod __parse__Program {
         (1, 65)
     }
     pub(crate) fn __reduce115<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5062,7 +5062,7 @@ mod __parse__Program {
         (1, 65)
     }
     pub(crate) fn __reduce116<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5077,7 +5077,7 @@ mod __parse__Program {
         (1, 66)
     }
     pub(crate) fn __reduce117<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5092,7 +5092,7 @@ mod __parse__Program {
         (1, 67)
     }
     pub(crate) fn __reduce118<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5107,7 +5107,7 @@ mod __parse__Program {
         (1, 68)
     }
     pub(crate) fn __reduce119<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5122,7 +5122,7 @@ mod __parse__Program {
         (1, 69)
     }
     pub(crate) fn __reduce120<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5137,7 +5137,7 @@ mod __parse__Program {
         (1, 70)
     }
     pub(crate) fn __reduce121<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5152,7 +5152,7 @@ mod __parse__Program {
         (1, 71)
     }
     pub(crate) fn __reduce122<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5167,7 +5167,7 @@ mod __parse__Program {
         (1, 72)
     }
     pub(crate) fn __reduce123<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5186,7 +5186,7 @@ mod __parse__Program {
         (4, 72)
     }
     pub(crate) fn __reduce124<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5205,7 +5205,7 @@ mod __parse__Program {
         (4, 72)
     }
     pub(crate) fn __reduce125<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5223,7 +5223,7 @@ mod __parse__Program {
         (3, 72)
     }
     pub(crate) fn __reduce126<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5240,7 +5240,7 @@ mod __parse__Program {
         (0, 73)
     }
     pub(crate) fn __reduce127<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5255,7 +5255,7 @@ mod __parse__Program {
         (1, 73)
     }
     pub(crate) fn __reduce128<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5270,7 +5270,7 @@ mod __parse__Program {
         (1, 74)
     }
     pub(crate) fn __reduce129<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5287,7 +5287,7 @@ mod __parse__Program {
         (2, 75)
     }
     pub(crate) fn __reduce130<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5307,7 +5307,7 @@ mod __parse__Program {
         (5, 75)
     }
     pub(crate) fn __reduce131<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5326,7 +5326,7 @@ mod __parse__Program {
         (4, 75)
     }
     pub(crate) fn __reduce132<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5344,7 +5344,7 @@ mod __parse__Program {
         (3, 75)
     }
     pub(crate) fn __reduce133<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5362,7 +5362,7 @@ mod __parse__Program {
         (3, 75)
     }
     pub(crate) fn __reduce134<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5382,7 +5382,7 @@ mod __parse__Program {
         (5, 75)
     }
     pub(crate) fn __reduce135<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5400,7 +5400,7 @@ mod __parse__Program {
         (3, 75)
     }
     pub(crate) fn __reduce136<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5420,7 +5420,7 @@ mod __parse__Program {
         (5, 75)
     }
     pub(crate) fn __reduce137<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5438,7 +5438,7 @@ mod __parse__Program {
         (3, 75)
     }
     pub(crate) fn __reduce138<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5453,7 +5453,7 @@ mod __parse__Program {
         (1, 75)
     }
     pub(crate) fn __reduce139<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5471,7 +5471,7 @@ mod __parse__Program {
         (3, 76)
     }
     pub(crate) fn __reduce140<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5489,7 +5489,7 @@ mod __parse__Program {
         (3, 77)
     }
     pub(crate) fn __reduce141<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5507,7 +5507,7 @@ mod __parse__Program {
         (3, 78)
     }
     pub(crate) fn __reduce142<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5525,7 +5525,7 @@ mod __parse__Program {
         (3, 79)
     }
     pub(crate) fn __reduce143<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5543,7 +5543,7 @@ mod __parse__Program {
         (3, 80)
     }
     pub(crate) fn __reduce144<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5561,7 +5561,7 @@ mod __parse__Program {
         (3, 81)
     }
     pub(crate) fn __reduce145<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5576,7 +5576,7 @@ mod __parse__Program {
         (1, 82)
     }
     pub(crate) fn __reduce146<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5593,7 +5593,7 @@ mod __parse__Program {
         (0, 82)
     }
     pub(crate) fn __reduce147<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5608,7 +5608,7 @@ mod __parse__Program {
         (1, 83)
     }
     pub(crate) fn __reduce148<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5623,7 +5623,7 @@ mod __parse__Program {
         (1, 84)
     }
     pub(crate) fn __reduce149<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5638,7 +5638,7 @@ mod __parse__Program {
         (1, 85)
     }
     pub(crate) fn __reduce150<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5653,7 +5653,7 @@ mod __parse__Program {
         (1, 86)
     }
     pub(crate) fn __reduce151<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5668,7 +5668,7 @@ mod __parse__Program {
         (1, 87)
     }
     pub(crate) fn __reduce152<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5683,7 +5683,7 @@ mod __parse__Program {
         (1, 88)
     }
     pub(crate) fn __reduce153<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5698,7 +5698,7 @@ mod __parse__Program {
         (1, 89)
     }
     pub(crate) fn __reduce154<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5713,7 +5713,7 @@ mod __parse__Program {
         (1, 90)
     }
     pub(crate) fn __reduce155<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5728,7 +5728,7 @@ mod __parse__Program {
         (1, 91)
     }
     pub(crate) fn __reduce156<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5743,7 +5743,7 @@ mod __parse__Program {
         (1, 92)
     }
     pub(crate) fn __reduce157<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5758,7 +5758,7 @@ mod __parse__Program {
         (1, 93)
     }
     pub(crate) fn __reduce158<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5773,7 +5773,7 @@ mod __parse__Program {
         (1, 94)
     }
     pub(crate) fn __reduce159<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5788,7 +5788,7 @@ mod __parse__Program {
         (1, 95)
     }
     pub(crate) fn __reduce160<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5803,7 +5803,7 @@ mod __parse__Program {
         (1, 96)
     }
     pub(crate) fn __reduce161<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5818,7 +5818,7 @@ mod __parse__Program {
         (1, 97)
     }
     pub(crate) fn __reduce162<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5833,7 +5833,7 @@ mod __parse__Program {
         (1, 98)
     }
     pub(crate) fn __reduce163<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5848,7 +5848,7 @@ mod __parse__Program {
         (1, 99)
     }
     pub(crate) fn __reduce164<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5863,7 +5863,7 @@ mod __parse__Program {
         (1, 100)
     }
     pub(crate) fn __reduce165<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5878,7 +5878,7 @@ mod __parse__Program {
         (1, 101)
     }
     pub(crate) fn __reduce166<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5893,7 +5893,7 @@ mod __parse__Program {
         (1, 102)
     }
     pub(crate) fn __reduce167<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5908,7 +5908,7 @@ mod __parse__Program {
         (1, 103)
     }
     pub(crate) fn __reduce168<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5923,7 +5923,7 @@ mod __parse__Program {
         (1, 104)
     }
     pub(crate) fn __reduce169<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5938,7 +5938,7 @@ mod __parse__Program {
         (1, 105)
     }
     pub(crate) fn __reduce170<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5953,7 +5953,7 @@ mod __parse__Program {
         (1, 106)
     }
     pub(crate) fn __reduce171<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5968,7 +5968,7 @@ mod __parse__Program {
         (1, 107)
     }
     pub(crate) fn __reduce172<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5983,7 +5983,7 @@ mod __parse__Program {
         (1, 108)
     }
     pub(crate) fn __reduce173<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -5998,7 +5998,7 @@ mod __parse__Program {
         (1, 109)
     }
     pub(crate) fn __reduce174<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6013,7 +6013,7 @@ mod __parse__Program {
         (1, 110)
     }
     pub(crate) fn __reduce175<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6028,7 +6028,7 @@ mod __parse__Program {
         (1, 111)
     }
     pub(crate) fn __reduce176<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6043,7 +6043,7 @@ mod __parse__Program {
         (1, 112)
     }
     pub(crate) fn __reduce177<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6058,7 +6058,7 @@ mod __parse__Program {
         (1, 112)
     }
     pub(crate) fn __reduce178<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6073,7 +6073,7 @@ mod __parse__Program {
         (1, 113)
     }
     pub(crate) fn __reduce179<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6088,7 +6088,7 @@ mod __parse__Program {
         (1, 113)
     }
     pub(crate) fn __reduce180<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6103,7 +6103,7 @@ mod __parse__Program {
         (1, 114)
     }
     pub(crate) fn __reduce181<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6118,7 +6118,7 @@ mod __parse__Program {
         (1, 114)
     }
     pub(crate) fn __reduce182<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6133,7 +6133,7 @@ mod __parse__Program {
         (1, 115)
     }
     pub(crate) fn __reduce183<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6148,7 +6148,7 @@ mod __parse__Program {
         (1, 115)
     }
     pub(crate) fn __reduce184<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6163,7 +6163,7 @@ mod __parse__Program {
         (1, 116)
     }
     pub(crate) fn __reduce185<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6178,7 +6178,7 @@ mod __parse__Program {
         (1, 116)
     }
     pub(crate) fn __reduce186<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6193,7 +6193,7 @@ mod __parse__Program {
         (1, 117)
     }
     pub(crate) fn __reduce187<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6208,7 +6208,7 @@ mod __parse__Program {
         (1, 117)
     }
     pub(crate) fn __reduce188<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6223,7 +6223,7 @@ mod __parse__Program {
         (1, 118)
     }
     pub(crate) fn __reduce189<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6238,7 +6238,7 @@ mod __parse__Program {
         (1, 119)
     }
     pub(crate) fn __reduce190<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6253,7 +6253,7 @@ mod __parse__Program {
         (1, 119)
     }
     pub(crate) fn __reduce191<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6268,7 +6268,7 @@ mod __parse__Program {
         (1, 119)
     }
     pub(crate) fn __reduce192<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6283,7 +6283,7 @@ mod __parse__Program {
         (1, 120)
     }
     pub(crate) fn __reduce193<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6298,7 +6298,7 @@ mod __parse__Program {
         (1, 121)
     }
     pub(crate) fn __reduce194<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6315,7 +6315,7 @@ mod __parse__Program {
         (2, 121)
     }
     pub(crate) fn __reduce195<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6330,7 +6330,7 @@ mod __parse__Program {
         (1, 122)
     }
     pub(crate) fn __reduce196<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6345,7 +6345,7 @@ mod __parse__Program {
         (1, 122)
     }
     pub(crate) fn __reduce197<'input>(
-        file_id: FileId,
+        file_id: diagnostics::FileId,
         input: &'input str,
         __lookahead_start: Option<&usize>,
         __symbols: &mut alloc::vec::Vec<(usize, __Symbol<'input>, usize)>,
@@ -6364,8 +6364,8 @@ pub use self::__parse__Program::ProgramParser;
 
 mod __intern_token {
     #![allow(unused_imports)]
-    use crate::ast::*;
-    use crate::diagnostics::FileId;
+    use crate::*;
+    use diagnostics::span::Span;
     #[allow(unused_extern_crates)]
     extern crate lalrpop_util as __lalrpop_util;
     #[allow(unused_imports)]
@@ -6433,7 +6433,7 @@ pub(crate) use self::__lalrpop_util::lexer::Token;
 
 #[allow(unused_variables)]
 fn __action0<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Program<'input>, usize),
 ) -> Program<'input> {
@@ -6442,7 +6442,7 @@ fn __action0<'input>(
 
 #[allow(unused_variables)]
 fn __action1<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, alloc::vec::Vec<Item<'input>>, usize),
 ) -> Program<'input> {
@@ -6451,7 +6451,7 @@ fn __action1<'input>(
 
 #[allow(unused_variables)]
 fn __action2<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawViz>, usize),
 ) -> Spanned<RawViz> {
@@ -6460,7 +6460,7 @@ fn __action2<'input>(
 
 #[allow(unused_variables)]
 fn __action3<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, core::option::Option<&'input str>, usize),
 ) -> RawViz {
@@ -6473,7 +6473,7 @@ fn __action3<'input>(
 
 #[allow(unused_variables)]
 fn __action4<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawViz>, usize),
     (_, __1, _): (usize, Spanned<Function<'input>>, usize),
@@ -6483,7 +6483,7 @@ fn __action4<'input>(
 
 #[allow(unused_variables)]
 fn __action5<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Spanned<&'input str>, usize),
@@ -6494,7 +6494,7 @@ fn __action5<'input>(
 
 #[allow(unused_variables)]
 fn __action6<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawViz>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6508,7 +6508,7 @@ fn __action6<'input>(
 
 #[allow(unused_variables)]
 fn __action7<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, name, _): (usize, Spanned<&'input str>, usize),
@@ -6528,7 +6528,7 @@ fn __action7<'input>(
 
 #[allow(unused_variables)]
 fn __action8<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Vec<Arg<'input>>, usize),
@@ -6539,7 +6539,7 @@ fn __action8<'input>(
 
 #[allow(unused_variables)]
 fn __action9<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, name, _): (usize, Spanned<&'input str>, usize),
     (_, ty, _): (usize, core::option::Option<Spanned<Type>>, usize),
@@ -6549,7 +6549,7 @@ fn __action9<'input>(
 
 #[allow(unused_variables)]
 fn __action10<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Type {
@@ -6558,7 +6558,7 @@ fn __action10<'input>(
 
 #[allow(unused_variables)]
 fn __action11<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Type {
@@ -6567,7 +6567,7 @@ fn __action11<'input>(
 
 #[allow(unused_variables)]
 fn __action12<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Type {
@@ -6576,7 +6576,7 @@ fn __action12<'input>(
 
 #[allow(unused_variables)]
 fn __action13<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<&'input str>, usize),
 ) -> Spanned<&'input str> {
@@ -6585,7 +6585,7 @@ fn __action13<'input>(
 
 #[allow(unused_variables)]
 fn __action14<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> &'input str {
@@ -6594,7 +6594,7 @@ fn __action14<'input>(
 
 #[allow(unused_variables)]
 fn __action15<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Vec<Spanned<RawStmt<'input>>>>, usize),
 ) -> Spanned<Vec<Spanned<RawStmt<'input>>>> {
@@ -6603,7 +6603,7 @@ fn __action15<'input>(
 
 #[allow(unused_variables)]
 fn __action16<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Vec<Spanned<RawStmt<'input>>>, usize),
@@ -6614,7 +6614,7 @@ fn __action16<'input>(
 
 #[allow(unused_variables)]
 fn __action17<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> FnBody<'input> {
@@ -6623,7 +6623,7 @@ fn __action17<'input>(
 
 #[allow(unused_variables)]
 fn __action18<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Vec<Spanned<RawStmt<'input>>>>, usize),
 ) -> FnBody<'input> {
@@ -6632,7 +6632,7 @@ fn __action18<'input>(
 
 #[allow(unused_variables)]
 fn __action19<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Vec<Spanned<RawStmt<'input>>>, usize),
 ) -> Vec<Spanned<RawStmt<'input>>> {
@@ -6641,7 +6641,7 @@ fn __action19<'input>(
 
 #[allow(unused_variables)]
 fn __action20<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawStmt<'input>>, usize),
 ) -> Spanned<RawStmt<'input>> {
@@ -6650,7 +6650,7 @@ fn __action20<'input>(
 
 #[allow(unused_variables)]
 fn __action21<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6660,7 +6660,7 @@ fn __action21<'input>(
 
 #[allow(unused_variables)]
 fn __action22<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Spanned<&'input str>, usize),
@@ -6673,7 +6673,7 @@ fn __action22<'input>(
 
 #[allow(unused_variables)]
 fn __action23<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6685,7 +6685,7 @@ fn __action23<'input>(
 
 #[allow(unused_variables)]
 fn __action24<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Expr<'input>, usize),
@@ -6696,7 +6696,7 @@ fn __action24<'input>(
 
 #[allow(unused_variables)]
 fn __action25<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Expr<'input>, usize),
@@ -6707,7 +6707,7 @@ fn __action25<'input>(
 
 #[allow(unused_variables)]
 fn __action26<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Box<Expr<'input>>, usize),
@@ -6723,7 +6723,7 @@ fn __action26<'input>(
 
 #[allow(unused_variables)]
 fn __action27<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Spanned<&'input str>, usize),
@@ -6736,7 +6736,7 @@ fn __action27<'input>(
 
 #[allow(unused_variables)]
 fn __action28<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Box<Expr<'input>>, usize),
@@ -6747,7 +6747,7 @@ fn __action28<'input>(
 
 #[allow(unused_variables)]
 fn __action29<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Vec<Spanned<RawStmt<'input>>>>, usize),
 ) -> RawStmt<'input> {
@@ -6756,7 +6756,7 @@ fn __action29<'input>(
 
 #[allow(unused_variables)]
 fn __action30<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6765,7 +6765,7 @@ fn __action30<'input>(
 
 #[allow(unused_variables)]
 fn __action31<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Box<Expr<'input>> {
@@ -6774,7 +6774,7 @@ fn __action31<'input>(
 
 #[allow(unused_variables)]
 fn __action32<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6783,7 +6783,7 @@ fn __action32<'input>(
 
 #[allow(unused_variables)]
 fn __action33<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6792,7 +6792,7 @@ fn __action33<'input>(
 
 #[allow(unused_variables)]
 fn __action34<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6801,7 +6801,7 @@ fn __action34<'input>(
 
 #[allow(unused_variables)]
 fn __action35<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6810,7 +6810,7 @@ fn __action35<'input>(
 
 #[allow(unused_variables)]
 fn __action36<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6819,7 +6819,7 @@ fn __action36<'input>(
 
 #[allow(unused_variables)]
 fn __action37<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -6828,7 +6828,7 @@ fn __action37<'input>(
 
 #[allow(unused_variables)]
 fn __action38<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -6837,7 +6837,7 @@ fn __action38<'input>(
 
 #[allow(unused_variables)]
 fn __action39<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, RawExpr<'input>, usize),
 ) -> RawExpr<'input> {
@@ -6846,7 +6846,7 @@ fn __action39<'input>(
 
 #[allow(unused_variables)]
 fn __action40<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, o, _): (usize, Spanned<UnaryOp>, usize),
     (_, e, _): (usize, Spanned<RawExpr<'input>>, usize),
@@ -6856,7 +6856,7 @@ fn __action40<'input>(
 
 #[allow(unused_variables)]
 fn __action41<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -6865,7 +6865,7 @@ fn __action41<'input>(
 
 #[allow(unused_variables)]
 fn __action42<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, RawExpr<'input>, usize),
 ) -> RawExpr<'input> {
@@ -6874,7 +6874,7 @@ fn __action42<'input>(
 
 #[allow(unused_variables)]
 fn __action43<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Spanned<RawExpr<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6886,7 +6886,7 @@ fn __action43<'input>(
 
 #[allow(unused_variables)]
 fn __action44<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Spanned<RawExpr<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6898,7 +6898,7 @@ fn __action44<'input>(
 
 #[allow(unused_variables)]
 fn __action45<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Spanned<RawExpr<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6909,7 +6909,7 @@ fn __action45<'input>(
 
 #[allow(unused_variables)]
 fn __action46<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Vec<Spanned<&'input str>>, usize),
 ) -> RawExpr<'input> {
@@ -6918,7 +6918,7 @@ fn __action46<'input>(
 
 #[allow(unused_variables)]
 fn __action47<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, e, _): (usize, Expr<'input>, usize),
@@ -6929,7 +6929,7 @@ fn __action47<'input>(
 
 #[allow(unused_variables)]
 fn __action48<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Literal<'input>>, usize),
 ) -> RawExpr<'input> {
@@ -6938,7 +6938,7 @@ fn __action48<'input>(
 
 #[allow(unused_variables)]
 fn __action49<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Vec<Expr<'input>>, usize),
@@ -6949,7 +6949,7 @@ fn __action49<'input>(
 
 #[allow(unused_variables)]
 fn __action50<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Vec<(Name<'input>, Expr<'input>)>, usize),
@@ -6960,7 +6960,7 @@ fn __action50<'input>(
 
 #[allow(unused_variables)]
 fn __action51<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, n, _): (usize, Spanned<&'input str>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -6971,7 +6971,7 @@ fn __action51<'input>(
 
 #[allow(unused_variables)]
 fn __action52<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Literal<'input> {
@@ -6980,7 +6980,7 @@ fn __action52<'input>(
 
 #[allow(unused_variables)]
 fn __action53<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Literal<'input> {
@@ -6989,7 +6989,7 @@ fn __action53<'input>(
 
 #[allow(unused_variables)]
 fn __action54<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Literal<'input> {
@@ -6998,7 +6998,7 @@ fn __action54<'input>(
 
 #[allow(unused_variables)]
 fn __action55<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, bool, usize),
 ) -> Literal<'input> {
@@ -7007,7 +7007,7 @@ fn __action55<'input>(
 
 #[allow(unused_variables)]
 fn __action56<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> Literal<'input> {
@@ -7016,7 +7016,7 @@ fn __action56<'input>(
 
 #[allow(unused_variables)]
 fn __action57<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> &'input str {
@@ -7025,7 +7025,7 @@ fn __action57<'input>(
 
 #[allow(unused_variables)]
 fn __action58<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> &'input str {
@@ -7034,7 +7034,7 @@ fn __action58<'input>(
 
 #[allow(unused_variables)]
 fn __action59<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> &'input str {
@@ -7043,7 +7043,7 @@ fn __action59<'input>(
 
 #[allow(unused_variables)]
 fn __action60<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> &'input str {
@@ -7052,7 +7052,7 @@ fn __action60<'input>(
 
 #[allow(unused_variables)]
 fn __action61<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> bool {
@@ -7061,7 +7061,7 @@ fn __action61<'input>(
 
 #[allow(unused_variables)]
 fn __action62<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> bool {
@@ -7070,7 +7070,7 @@ fn __action62<'input>(
 
 #[allow(unused_variables)]
 fn __action63<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7079,7 +7079,7 @@ fn __action63<'input>(
 
 #[allow(unused_variables)]
 fn __action64<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7088,7 +7088,7 @@ fn __action64<'input>(
 
 #[allow(unused_variables)]
 fn __action65<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7097,7 +7097,7 @@ fn __action65<'input>(
 
 #[allow(unused_variables)]
 fn __action66<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7106,7 +7106,7 @@ fn __action66<'input>(
 
 #[allow(unused_variables)]
 fn __action67<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7115,7 +7115,7 @@ fn __action67<'input>(
 
 #[allow(unused_variables)]
 fn __action68<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7124,7 +7124,7 @@ fn __action68<'input>(
 
 #[allow(unused_variables)]
 fn __action69<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7133,7 +7133,7 @@ fn __action69<'input>(
 
 #[allow(unused_variables)]
 fn __action70<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7142,7 +7142,7 @@ fn __action70<'input>(
 
 #[allow(unused_variables)]
 fn __action71<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7151,7 +7151,7 @@ fn __action71<'input>(
 
 #[allow(unused_variables)]
 fn __action72<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7160,7 +7160,7 @@ fn __action72<'input>(
 
 #[allow(unused_variables)]
 fn __action73<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7169,7 +7169,7 @@ fn __action73<'input>(
 
 #[allow(unused_variables)]
 fn __action74<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> BinOp {
@@ -7178,7 +7178,7 @@ fn __action74<'input>(
 
 #[allow(unused_variables)]
 fn __action75<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7187,7 +7187,7 @@ fn __action75<'input>(
 
 #[allow(unused_variables)]
 fn __action76<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7196,7 +7196,7 @@ fn __action76<'input>(
 
 #[allow(unused_variables)]
 fn __action77<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7205,7 +7205,7 @@ fn __action77<'input>(
 
 #[allow(unused_variables)]
 fn __action78<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7214,7 +7214,7 @@ fn __action78<'input>(
 
 #[allow(unused_variables)]
 fn __action79<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7223,7 +7223,7 @@ fn __action79<'input>(
 
 #[allow(unused_variables)]
 fn __action80<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7232,7 +7232,7 @@ fn __action80<'input>(
 
 #[allow(unused_variables)]
 fn __action81<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7241,7 +7241,7 @@ fn __action81<'input>(
 
 #[allow(unused_variables)]
 fn __action82<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7250,7 +7250,7 @@ fn __action82<'input>(
 
 #[allow(unused_variables)]
 fn __action83<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7259,7 +7259,7 @@ fn __action83<'input>(
 
 #[allow(unused_variables)]
 fn __action84<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, BinOp, usize),
 ) -> BinOp {
@@ -7268,7 +7268,7 @@ fn __action84<'input>(
 
 #[allow(unused_variables)]
 fn __action85<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> UnaryOp {
@@ -7277,7 +7277,7 @@ fn __action85<'input>(
 
 #[allow(unused_variables)]
 fn __action86<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> UnaryOp {
@@ -7286,7 +7286,7 @@ fn __action86<'input>(
 
 #[allow(unused_variables)]
 fn __action87<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     (_, e, _): (
@@ -7307,7 +7307,7 @@ fn __action87<'input>(
 
 #[allow(unused_variables)]
 fn __action88<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, Literal<'input>, usize),
@@ -7325,7 +7325,7 @@ fn __action88<'input>(
 
 #[allow(unused_variables)]
 fn __action89<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Spanned<&'input str>>, usize),
     (_, e, _): (usize, Spanned<&'input str>, usize),
@@ -7339,7 +7339,7 @@ fn __action89<'input>(
 
 #[allow(unused_variables)]
 fn __action90<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Expr<'input>>, usize),
     (_, e, _): (usize, core::option::Option<Expr<'input>>, usize),
@@ -7356,7 +7356,7 @@ fn __action90<'input>(
 
 #[allow(unused_variables)]
 fn __action91<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -7374,7 +7374,7 @@ fn __action91<'input>(
 
 #[allow(unused_variables)]
 fn __action92<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, UnaryOp, usize),
@@ -7392,7 +7392,7 @@ fn __action92<'input>(
 
 #[allow(unused_variables)]
 fn __action93<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -7410,7 +7410,7 @@ fn __action93<'input>(
 
 #[allow(unused_variables)]
 fn __action94<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7419,7 +7419,7 @@ fn __action94<'input>(
 
 #[allow(unused_variables)]
 fn __action95<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7428,7 +7428,7 @@ fn __action95<'input>(
 
 #[allow(unused_variables)]
 fn __action96<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7437,7 +7437,7 @@ fn __action96<'input>(
 
 #[allow(unused_variables)]
 fn __action97<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -7446,7 +7446,7 @@ fn __action97<'input>(
 
 #[allow(unused_variables)]
 fn __action98<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7455,7 +7455,7 @@ fn __action98<'input>(
 
 #[allow(unused_variables)]
 fn __action99<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -7464,7 +7464,7 @@ fn __action99<'input>(
 
 #[allow(unused_variables)]
 fn __action100<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7473,7 +7473,7 @@ fn __action100<'input>(
 
 #[allow(unused_variables)]
 fn __action101<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -7482,7 +7482,7 @@ fn __action101<'input>(
 
 #[allow(unused_variables)]
 fn __action102<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7491,7 +7491,7 @@ fn __action102<'input>(
 
 #[allow(unused_variables)]
 fn __action103<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -7500,7 +7500,7 @@ fn __action103<'input>(
 
 #[allow(unused_variables)]
 fn __action104<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawExpr<'input>>, usize),
 ) -> Expr<'input> {
@@ -7509,7 +7509,7 @@ fn __action104<'input>(
 
 #[allow(unused_variables)]
 fn __action105<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> Expr<'input> {
@@ -7518,7 +7518,7 @@ fn __action105<'input>(
 
 #[allow(unused_variables)]
 fn __action106<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Vec<Spanned<RawStmt<'input>>>>, usize),
 ) -> core::option::Option<Spanned<Vec<Spanned<RawStmt<'input>>>>> {
@@ -7527,7 +7527,7 @@ fn __action106<'input>(
 
 #[allow(unused_variables)]
 fn __action107<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7537,7 +7537,7 @@ fn __action107<'input>(
 
 #[allow(unused_variables)]
 fn __action108<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Spanned<Vec<Spanned<RawStmt<'input>>>>, usize),
@@ -7547,7 +7547,7 @@ fn __action108<'input>(
 
 #[allow(unused_variables)]
 fn __action109<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawStmt<'input>, usize),
@@ -7565,7 +7565,7 @@ fn __action109<'input>(
 
 #[allow(unused_variables)]
 fn __action110<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Spanned<RawStmt<'input>>>, usize),
 ) -> Vec<Spanned<RawStmt<'input>>> {
@@ -7574,7 +7574,7 @@ fn __action110<'input>(
 
 #[allow(unused_variables)]
 fn __action111<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, Vec<Spanned<RawStmt<'input>>>, usize),
@@ -7592,7 +7592,7 @@ fn __action111<'input>(
 
 #[allow(unused_variables)]
 fn __action112<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, Vec<Spanned<RawStmt<'input>>>, usize),
@@ -7610,7 +7610,7 @@ fn __action112<'input>(
 
 #[allow(unused_variables)]
 fn __action113<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, &'input str, usize),
@@ -7628,7 +7628,7 @@ fn __action113<'input>(
 
 #[allow(unused_variables)]
 fn __action114<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Type>, usize),
 ) -> core::option::Option<Spanned<Type>> {
@@ -7637,7 +7637,7 @@ fn __action114<'input>(
 
 #[allow(unused_variables)]
 fn __action115<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7647,7 +7647,7 @@ fn __action115<'input>(
 
 #[allow(unused_variables)]
 fn __action116<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Spanned<Type>, usize),
@@ -7657,7 +7657,7 @@ fn __action116<'input>(
 
 #[allow(unused_variables)]
 fn __action117<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
     (_, e, _): (usize, core::option::Option<Arg<'input>>, usize),
@@ -7674,7 +7674,7 @@ fn __action117<'input>(
 
 #[allow(unused_variables)]
 fn __action118<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<Type>, usize),
 ) -> core::option::Option<Spanned<Type>> {
@@ -7683,7 +7683,7 @@ fn __action118<'input>(
 
 #[allow(unused_variables)]
 fn __action119<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7693,7 +7693,7 @@ fn __action119<'input>(
 
 #[allow(unused_variables)]
 fn __action120<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, Spanned<Type>, usize),
@@ -7703,7 +7703,7 @@ fn __action120<'input>(
 
 #[allow(unused_variables)]
 fn __action121<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, Type, usize),
@@ -7721,7 +7721,7 @@ fn __action121<'input>(
 
 #[allow(unused_variables)]
 fn __action122<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, Vec<Arg<'input>>, usize),
@@ -7739,7 +7739,7 @@ fn __action122<'input>(
 
 #[allow(unused_variables)]
 fn __action123<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, &'input str, usize),
@@ -7757,7 +7757,7 @@ fn __action123<'input>(
 
 #[allow(unused_variables)]
 fn __action124<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, Function<'input>, usize),
@@ -7775,7 +7775,7 @@ fn __action124<'input>(
 
 #[allow(unused_variables)]
 fn __action125<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
 ) -> core::option::Option<&'input str> {
@@ -7784,7 +7784,7 @@ fn __action125<'input>(
 
 #[allow(unused_variables)]
 fn __action126<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7794,7 +7794,7 @@ fn __action126<'input>(
 
 #[allow(unused_variables)]
 fn __action127<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawViz, usize),
@@ -7812,7 +7812,7 @@ fn __action127<'input>(
 
 #[allow(unused_variables)]
 fn __action128<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7822,7 +7822,7 @@ fn __action128<'input>(
 
 #[allow(unused_variables)]
 fn __action129<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Item<'input>>, usize),
 ) -> alloc::vec::Vec<Item<'input>> {
@@ -7831,7 +7831,7 @@ fn __action129<'input>(
 
 #[allow(unused_variables)]
 fn __action130<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Item<'input>, usize),
 ) -> alloc::vec::Vec<Item<'input>> {
@@ -7840,7 +7840,7 @@ fn __action130<'input>(
 
 #[allow(unused_variables)]
 fn __action131<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Item<'input>>, usize),
     (_, e, _): (usize, Item<'input>, usize),
@@ -7854,7 +7854,7 @@ fn __action131<'input>(
 
 #[allow(unused_variables)]
 fn __action132<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Arg<'input>, usize),
 ) -> core::option::Option<Arg<'input>> {
@@ -7863,7 +7863,7 @@ fn __action132<'input>(
 
 #[allow(unused_variables)]
 fn __action133<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7873,7 +7873,7 @@ fn __action133<'input>(
 
 #[allow(unused_variables)]
 fn __action134<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7883,7 +7883,7 @@ fn __action134<'input>(
 
 #[allow(unused_variables)]
 fn __action135<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
 ) -> alloc::vec::Vec<Arg<'input>> {
@@ -7892,7 +7892,7 @@ fn __action135<'input>(
 
 #[allow(unused_variables)]
 fn __action136<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Arg<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -7902,7 +7902,7 @@ fn __action136<'input>(
 
 #[allow(unused_variables)]
 fn __action137<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -7912,7 +7912,7 @@ fn __action137<'input>(
 
 #[allow(unused_variables)]
 fn __action138<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Spanned<RawStmt<'input>>>, usize),
 ) -> alloc::vec::Vec<Spanned<RawStmt<'input>>> {
@@ -7921,7 +7921,7 @@ fn __action138<'input>(
 
 #[allow(unused_variables)]
 fn __action139<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawStmt<'input>>, usize),
 ) -> Spanned<RawStmt<'input>> {
@@ -7930,7 +7930,7 @@ fn __action139<'input>(
 
 #[allow(unused_variables)]
 fn __action140<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -7948,7 +7948,7 @@ fn __action140<'input>(
 
 #[allow(unused_variables)]
 fn __action141<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Expr<'input>, usize),
     (_, o, _): (usize, Spanned<BinOp>, usize),
@@ -7959,7 +7959,7 @@ fn __action141<'input>(
 
 #[allow(unused_variables)]
 fn __action142<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -7977,7 +7977,7 @@ fn __action142<'input>(
 
 #[allow(unused_variables)]
 fn __action143<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Expr<'input>, usize),
     (_, o, _): (usize, Spanned<BinOp>, usize),
@@ -7988,7 +7988,7 @@ fn __action143<'input>(
 
 #[allow(unused_variables)]
 fn __action144<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -8006,7 +8006,7 @@ fn __action144<'input>(
 
 #[allow(unused_variables)]
 fn __action145<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Expr<'input>, usize),
     (_, o, _): (usize, Spanned<BinOp>, usize),
@@ -8017,7 +8017,7 @@ fn __action145<'input>(
 
 #[allow(unused_variables)]
 fn __action146<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -8035,7 +8035,7 @@ fn __action146<'input>(
 
 #[allow(unused_variables)]
 fn __action147<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Expr<'input>, usize),
     (_, o, _): (usize, Spanned<BinOp>, usize),
@@ -8046,7 +8046,7 @@ fn __action147<'input>(
 
 #[allow(unused_variables)]
 fn __action148<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -8064,7 +8064,7 @@ fn __action148<'input>(
 
 #[allow(unused_variables)]
 fn __action149<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Expr<'input>, usize),
     (_, o, _): (usize, Spanned<BinOp>, usize),
@@ -8075,7 +8075,7 @@ fn __action149<'input>(
 
 #[allow(unused_variables)]
 fn __action150<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, RawExpr<'input>, usize),
@@ -8093,7 +8093,7 @@ fn __action150<'input>(
 
 #[allow(unused_variables)]
 fn __action151<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, l, _): (usize, Expr<'input>, usize),
     (_, o, _): (usize, Spanned<BinOp>, usize),
@@ -8104,7 +8104,7 @@ fn __action151<'input>(
 
 #[allow(unused_variables)]
 fn __action152<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> core::option::Option<Expr<'input>> {
@@ -8113,7 +8113,7 @@ fn __action152<'input>(
 
 #[allow(unused_variables)]
 fn __action153<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8123,7 +8123,7 @@ fn __action153<'input>(
 
 #[allow(unused_variables)]
 fn __action154<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8133,7 +8133,7 @@ fn __action154<'input>(
 
 #[allow(unused_variables)]
 fn __action155<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Expr<'input>>, usize),
 ) -> alloc::vec::Vec<Expr<'input>> {
@@ -8142,7 +8142,7 @@ fn __action155<'input>(
 
 #[allow(unused_variables)]
 fn __action156<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -8152,7 +8152,7 @@ fn __action156<'input>(
 
 #[allow(unused_variables)]
 fn __action157<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8162,7 +8162,7 @@ fn __action157<'input>(
 
 #[allow(unused_variables)]
 fn __action158<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Spanned<&'input str>>, usize),
 ) -> alloc::vec::Vec<Spanned<&'input str>> {
@@ -8171,7 +8171,7 @@ fn __action158<'input>(
 
 #[allow(unused_variables)]
 fn __action159<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<&'input str>, usize),
     (_, _, _): (usize, &'input str, usize),
@@ -8181,7 +8181,7 @@ fn __action159<'input>(
 
 #[allow(unused_variables)]
 fn __action160<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8191,7 +8191,7 @@ fn __action160<'input>(
 
 #[allow(unused_variables)]
 fn __action161<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8201,7 +8201,7 @@ fn __action161<'input>(
 
 #[allow(unused_variables)]
 fn __action162<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, (Name<'input>, Expr<'input>), usize),
 ) -> core::option::Option<(Name<'input>, Expr<'input>)> {
@@ -8210,7 +8210,7 @@ fn __action162<'input>(
 
 #[allow(unused_variables)]
 fn __action163<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8220,7 +8220,7 @@ fn __action163<'input>(
 
 #[allow(unused_variables)]
 fn __action164<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8230,7 +8230,7 @@ fn __action164<'input>(
 
 #[allow(unused_variables)]
 fn __action165<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
 ) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
@@ -8239,7 +8239,7 @@ fn __action165<'input>(
 
 #[allow(unused_variables)]
 fn __action166<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, (Name<'input>, Expr<'input>), usize),
     (_, _, _): (usize, &'input str, usize),
@@ -8249,7 +8249,7 @@ fn __action166<'input>(
 
 #[allow(unused_variables)]
 fn __action167<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, (Name<'input>, Expr<'input>), usize),
 ) -> alloc::vec::Vec<(Name<'input>, Expr<'input>)> {
@@ -8258,7 +8258,7 @@ fn __action167<'input>(
 
 #[allow(unused_variables)]
 fn __action168<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     (_, e, _): (usize, (Name<'input>, Expr<'input>), usize),
@@ -8272,7 +8272,7 @@ fn __action168<'input>(
 
 #[allow(unused_variables)]
 fn __action169<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<&'input str>, usize),
 ) -> alloc::vec::Vec<Spanned<&'input str>> {
@@ -8281,7 +8281,7 @@ fn __action169<'input>(
 
 #[allow(unused_variables)]
 fn __action170<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Spanned<&'input str>>, usize),
     (_, e, _): (usize, Spanned<&'input str>, usize),
@@ -8295,7 +8295,7 @@ fn __action170<'input>(
 
 #[allow(unused_variables)]
 fn __action171<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Expr<'input>, usize),
 ) -> alloc::vec::Vec<Expr<'input>> {
@@ -8304,7 +8304,7 @@ fn __action171<'input>(
 
 #[allow(unused_variables)]
 fn __action172<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Expr<'input>>, usize),
     (_, e, _): (usize, Expr<'input>, usize),
@@ -8318,7 +8318,7 @@ fn __action172<'input>(
 
 #[allow(unused_variables)]
 fn __action173<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, BinOp, usize),
@@ -8336,7 +8336,7 @@ fn __action173<'input>(
 
 #[allow(unused_variables)]
 fn __action174<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, BinOp, usize),
@@ -8354,7 +8354,7 @@ fn __action174<'input>(
 
 #[allow(unused_variables)]
 fn __action175<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, BinOp, usize),
@@ -8372,7 +8372,7 @@ fn __action175<'input>(
 
 #[allow(unused_variables)]
 fn __action176<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, BinOp, usize),
@@ -8390,7 +8390,7 @@ fn __action176<'input>(
 
 #[allow(unused_variables)]
 fn __action177<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, BinOp, usize),
@@ -8408,7 +8408,7 @@ fn __action177<'input>(
 
 #[allow(unused_variables)]
 fn __action178<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, start, _): (usize, usize, usize),
     (_, node, _): (usize, BinOp, usize),
@@ -8426,7 +8426,7 @@ fn __action178<'input>(
 
 #[allow(unused_variables)]
 fn __action179<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Spanned<RawStmt<'input>>, usize),
 ) -> alloc::vec::Vec<Spanned<RawStmt<'input>>> {
@@ -8435,7 +8435,7 @@ fn __action179<'input>(
 
 #[allow(unused_variables)]
 fn __action180<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Spanned<RawStmt<'input>>>, usize),
     (_, e, _): (usize, Spanned<RawStmt<'input>>, usize),
@@ -8449,7 +8449,7 @@ fn __action180<'input>(
 
 #[allow(unused_variables)]
 fn __action181<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, __0, _): (usize, Arg<'input>, usize),
 ) -> alloc::vec::Vec<Arg<'input>> {
@@ -8458,7 +8458,7 @@ fn __action181<'input>(
 
 #[allow(unused_variables)]
 fn __action182<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     (_, v, _): (usize, alloc::vec::Vec<Arg<'input>>, usize),
     (_, e, _): (usize, Arg<'input>, usize),
@@ -8472,7 +8472,7 @@ fn __action182<'input>(
 
 #[allow(unused_variables)]
 fn __action183<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
 ) -> RawViz {
@@ -8485,7 +8485,7 @@ fn __action183<'input>(
 
 #[allow(unused_variables)]
 fn __action184<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8499,7 +8499,7 @@ fn __action184<'input>(
 
 #[allow(unused_variables)]
 fn __action185<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Spanned<Type>, usize),
@@ -8513,7 +8513,7 @@ fn __action185<'input>(
 
 #[allow(unused_variables)]
 fn __action186<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Spanned<&'input str>, usize),
@@ -8533,7 +8533,7 @@ fn __action186<'input>(
 
 #[allow(unused_variables)]
 fn __action187<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Spanned<&'input str>, usize),
@@ -8551,7 +8551,7 @@ fn __action187<'input>(
 
 #[allow(unused_variables)]
 fn __action188<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Spanned<Type>, usize),
@@ -8565,7 +8565,7 @@ fn __action188<'input>(
 
 #[allow(unused_variables)]
 fn __action189<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Spanned<&'input str>, usize),
     __1: (usize, &'input str, usize),
@@ -8580,7 +8580,7 @@ fn __action189<'input>(
 
 #[allow(unused_variables)]
 fn __action190<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Spanned<&'input str>, usize),
 ) -> Arg<'input> {
@@ -8593,7 +8593,7 @@ fn __action190<'input>(
 
 #[allow(unused_variables)]
 fn __action191<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Spanned<Vec<Spanned<RawStmt<'input>>>>, usize),
@@ -8607,7 +8607,7 @@ fn __action191<'input>(
 
 #[allow(unused_variables)]
 fn __action192<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Box<Expr<'input>>, usize),
@@ -8624,7 +8624,7 @@ fn __action192<'input>(
 
 #[allow(unused_variables)]
 fn __action193<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, Box<Expr<'input>>, usize),
@@ -8639,7 +8639,7 @@ fn __action193<'input>(
 
 #[allow(unused_variables)]
 fn __action194<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Arg<'input>, usize),
     __1: (usize, &'input str, usize),
@@ -8653,7 +8653,7 @@ fn __action194<'input>(
 
 #[allow(unused_variables)]
 fn __action195<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
     __1: (usize, Arg<'input>, usize),
@@ -8668,7 +8668,7 @@ fn __action195<'input>(
 
 #[allow(unused_variables)]
 fn __action196<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, core::option::Option<Arg<'input>>, usize),
 ) -> Vec<Arg<'input>> {
@@ -8681,7 +8681,7 @@ fn __action196<'input>(
 
 #[allow(unused_variables)]
 fn __action197<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
     __1: (usize, core::option::Option<Arg<'input>>, usize),
@@ -8695,7 +8695,7 @@ fn __action197<'input>(
 
 #[allow(unused_variables)]
 fn __action198<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Expr<'input>, usize),
     __1: (usize, &'input str, usize),
@@ -8709,7 +8709,7 @@ fn __action198<'input>(
 
 #[allow(unused_variables)]
 fn __action199<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Expr<'input>>, usize),
     __1: (usize, Expr<'input>, usize),
@@ -8724,7 +8724,7 @@ fn __action199<'input>(
 
 #[allow(unused_variables)]
 fn __action200<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, core::option::Option<Expr<'input>>, usize),
 ) -> Vec<Expr<'input>> {
@@ -8737,7 +8737,7 @@ fn __action200<'input>(
 
 #[allow(unused_variables)]
 fn __action201<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Expr<'input>>, usize),
     __1: (usize, core::option::Option<Expr<'input>>, usize),
@@ -8751,7 +8751,7 @@ fn __action201<'input>(
 
 #[allow(unused_variables)]
 fn __action202<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, (Name<'input>, Expr<'input>), usize),
     __1: (usize, &'input str, usize),
@@ -8765,7 +8765,7 @@ fn __action202<'input>(
 
 #[allow(unused_variables)]
 fn __action203<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     __1: (usize, (Name<'input>, Expr<'input>), usize),
@@ -8780,7 +8780,7 @@ fn __action203<'input>(
 
 #[allow(unused_variables)]
 fn __action204<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (
         usize,
@@ -8797,7 +8797,7 @@ fn __action204<'input>(
 
 #[allow(unused_variables)]
 fn __action205<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     __1: (
@@ -8815,7 +8815,7 @@ fn __action205<'input>(
 
 #[allow(unused_variables)]
 fn __action206<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Spanned<&'input str>, usize),
     __1: (usize, &'input str, usize),
@@ -8829,7 +8829,7 @@ fn __action206<'input>(
 
 #[allow(unused_variables)]
 fn __action207<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Spanned<&'input str>>, usize),
     __1: (usize, Spanned<&'input str>, usize),
@@ -8844,7 +8844,7 @@ fn __action207<'input>(
 
 #[allow(unused_variables)]
 fn __action208<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Spanned<&'input str>, usize),
 ) -> Vec<Spanned<&'input str>> {
@@ -8857,7 +8857,7 @@ fn __action208<'input>(
 
 #[allow(unused_variables)]
 fn __action209<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Spanned<&'input str>>, usize),
     __1: (usize, Spanned<&'input str>, usize),
@@ -8871,7 +8871,7 @@ fn __action209<'input>(
 
 #[allow(unused_variables)]
 fn __action210<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Spanned<RawStmt<'input>>, usize),
 ) -> alloc::vec::Vec<Spanned<RawStmt<'input>>> {
@@ -8884,7 +8884,7 @@ fn __action210<'input>(
 
 #[allow(unused_variables)]
 fn __action211<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Spanned<RawStmt<'input>>>, usize),
     __1: (usize, Spanned<RawStmt<'input>>, usize),
@@ -8898,7 +8898,7 @@ fn __action211<'input>(
 
 #[allow(unused_variables)]
 fn __action212<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -8912,7 +8912,7 @@ fn __action212<'input>(
 
 #[allow(unused_variables)]
 fn __action213<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Spanned<RawStmt<'input>>>, usize),
 ) -> Vec<Spanned<RawStmt<'input>>> {
@@ -8925,7 +8925,7 @@ fn __action213<'input>(
 
 #[allow(unused_variables)]
 fn __action214<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
     __1: (usize, usize, usize),
@@ -8939,7 +8939,7 @@ fn __action214<'input>(
 
 #[allow(unused_variables)]
 fn __action215<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Vec<Arg<'input>>, usize),
     __1: (usize, usize, usize),
@@ -8953,7 +8953,7 @@ fn __action215<'input>(
 
 #[allow(unused_variables)]
 fn __action216<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Vec<Spanned<RawStmt<'input>>>, usize),
     __1: (usize, usize, usize),
@@ -8967,7 +8967,7 @@ fn __action216<'input>(
 
 #[allow(unused_variables)]
 fn __action217<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
     __1: (usize, usize, usize),
@@ -8981,7 +8981,7 @@ fn __action217<'input>(
 
 #[allow(unused_variables)]
 fn __action218<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
     __1: (usize, usize, usize),
@@ -8995,7 +8995,7 @@ fn __action218<'input>(
 
 #[allow(unused_variables)]
 fn __action219<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Function<'input>, usize),
     __1: (usize, usize, usize),
@@ -9009,7 +9009,7 @@ fn __action219<'input>(
 
 #[allow(unused_variables)]
 fn __action220<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Literal<'input>, usize),
     __1: (usize, usize, usize),
@@ -9023,7 +9023,7 @@ fn __action220<'input>(
 
 #[allow(unused_variables)]
 fn __action221<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
     __1: (usize, usize, usize),
@@ -9037,7 +9037,7 @@ fn __action221<'input>(
 
 #[allow(unused_variables)]
 fn __action222<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
     __1: (usize, usize, usize),
@@ -9051,7 +9051,7 @@ fn __action222<'input>(
 
 #[allow(unused_variables)]
 fn __action223<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
     __1: (usize, usize, usize),
@@ -9065,7 +9065,7 @@ fn __action223<'input>(
 
 #[allow(unused_variables)]
 fn __action224<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9079,7 +9079,7 @@ fn __action224<'input>(
 
 #[allow(unused_variables)]
 fn __action225<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, usize, usize),
@@ -9093,7 +9093,7 @@ fn __action225<'input>(
 
 #[allow(unused_variables)]
 fn __action226<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawStmt<'input>, usize),
     __1: (usize, usize, usize),
@@ -9107,7 +9107,7 @@ fn __action226<'input>(
 
 #[allow(unused_variables)]
 fn __action227<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9121,7 +9121,7 @@ fn __action227<'input>(
 
 #[allow(unused_variables)]
 fn __action228<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9135,7 +9135,7 @@ fn __action228<'input>(
 
 #[allow(unused_variables)]
 fn __action229<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9149,7 +9149,7 @@ fn __action229<'input>(
 
 #[allow(unused_variables)]
 fn __action230<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9163,7 +9163,7 @@ fn __action230<'input>(
 
 #[allow(unused_variables)]
 fn __action231<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9177,7 +9177,7 @@ fn __action231<'input>(
 
 #[allow(unused_variables)]
 fn __action232<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9191,7 +9191,7 @@ fn __action232<'input>(
 
 #[allow(unused_variables)]
 fn __action233<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawViz, usize),
     __1: (usize, usize, usize),
@@ -9205,7 +9205,7 @@ fn __action233<'input>(
 
 #[allow(unused_variables)]
 fn __action234<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Vec<Spanned<RawStmt<'input>>>, usize),
     __1: (usize, usize, usize),
@@ -9219,7 +9219,7 @@ fn __action234<'input>(
 
 #[allow(unused_variables)]
 fn __action235<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, usize, usize),
@@ -9233,7 +9233,7 @@ fn __action235<'input>(
 
 #[allow(unused_variables)]
 fn __action236<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Type, usize),
     __1: (usize, usize, usize),
@@ -9247,7 +9247,7 @@ fn __action236<'input>(
 
 #[allow(unused_variables)]
 fn __action237<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
     __1: (usize, usize, usize),
@@ -9261,7 +9261,7 @@ fn __action237<'input>(
 
 #[allow(unused_variables)]
 fn __action238<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, UnaryOp, usize),
     __1: (usize, usize, usize),
@@ -9275,7 +9275,7 @@ fn __action238<'input>(
 
 #[allow(unused_variables)]
 fn __action239<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
 ) -> Spanned<BinOp> {
@@ -9288,7 +9288,7 @@ fn __action239<'input>(
 
 #[allow(unused_variables)]
 fn __action240<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Vec<Arg<'input>>, usize),
 ) -> Spanned<Vec<Arg<'input>>> {
@@ -9301,7 +9301,7 @@ fn __action240<'input>(
 
 #[allow(unused_variables)]
 fn __action241<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Vec<Spanned<RawStmt<'input>>>, usize),
 ) -> Spanned<Vec<Spanned<RawStmt<'input>>>> {
@@ -9314,7 +9314,7 @@ fn __action241<'input>(
 
 #[allow(unused_variables)]
 fn __action242<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
 ) -> Spanned<BinOp> {
@@ -9327,7 +9327,7 @@ fn __action242<'input>(
 
 #[allow(unused_variables)]
 fn __action243<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
 ) -> Spanned<BinOp> {
@@ -9340,7 +9340,7 @@ fn __action243<'input>(
 
 #[allow(unused_variables)]
 fn __action244<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Function<'input>, usize),
 ) -> Spanned<Function<'input>> {
@@ -9353,7 +9353,7 @@ fn __action244<'input>(
 
 #[allow(unused_variables)]
 fn __action245<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Literal<'input>, usize),
 ) -> Spanned<Literal<'input>> {
@@ -9366,7 +9366,7 @@ fn __action245<'input>(
 
 #[allow(unused_variables)]
 fn __action246<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
 ) -> Spanned<BinOp> {
@@ -9379,7 +9379,7 @@ fn __action246<'input>(
 
 #[allow(unused_variables)]
 fn __action247<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
 ) -> Spanned<BinOp> {
@@ -9392,7 +9392,7 @@ fn __action247<'input>(
 
 #[allow(unused_variables)]
 fn __action248<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, BinOp, usize),
 ) -> Spanned<BinOp> {
@@ -9405,7 +9405,7 @@ fn __action248<'input>(
 
 #[allow(unused_variables)]
 fn __action249<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9418,7 +9418,7 @@ fn __action249<'input>(
 
 #[allow(unused_variables)]
 fn __action250<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
 ) -> Spanned<&'input str> {
@@ -9431,7 +9431,7 @@ fn __action250<'input>(
 
 #[allow(unused_variables)]
 fn __action251<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawStmt<'input>, usize),
 ) -> Spanned<RawStmt<'input>> {
@@ -9444,7 +9444,7 @@ fn __action251<'input>(
 
 #[allow(unused_variables)]
 fn __action252<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9457,7 +9457,7 @@ fn __action252<'input>(
 
 #[allow(unused_variables)]
 fn __action253<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9470,7 +9470,7 @@ fn __action253<'input>(
 
 #[allow(unused_variables)]
 fn __action254<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9483,7 +9483,7 @@ fn __action254<'input>(
 
 #[allow(unused_variables)]
 fn __action255<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9496,7 +9496,7 @@ fn __action255<'input>(
 
 #[allow(unused_variables)]
 fn __action256<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9509,7 +9509,7 @@ fn __action256<'input>(
 
 #[allow(unused_variables)]
 fn __action257<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9522,7 +9522,7 @@ fn __action257<'input>(
 
 #[allow(unused_variables)]
 fn __action258<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawViz, usize),
 ) -> Spanned<RawViz> {
@@ -9535,7 +9535,7 @@ fn __action258<'input>(
 
 #[allow(unused_variables)]
 fn __action259<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Vec<Spanned<RawStmt<'input>>>, usize),
 ) -> Spanned<Vec<Spanned<RawStmt<'input>>>> {
@@ -9548,7 +9548,7 @@ fn __action259<'input>(
 
 #[allow(unused_variables)]
 fn __action260<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, &'input str, usize),
 ) -> Spanned<&'input str> {
@@ -9561,7 +9561,7 @@ fn __action260<'input>(
 
 #[allow(unused_variables)]
 fn __action261<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Type, usize),
 ) -> Spanned<Type> {
@@ -9574,7 +9574,7 @@ fn __action261<'input>(
 
 #[allow(unused_variables)]
 fn __action262<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, RawExpr<'input>, usize),
 ) -> Spanned<RawExpr<'input>> {
@@ -9587,7 +9587,7 @@ fn __action262<'input>(
 
 #[allow(unused_variables)]
 fn __action263<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, UnaryOp, usize),
 ) -> Spanned<UnaryOp> {
@@ -9600,7 +9600,7 @@ fn __action263<'input>(
 
 #[allow(unused_variables)]
 fn __action264<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Arg<'input>, usize),
 ) -> Vec<Arg<'input>> {
@@ -9613,7 +9613,7 @@ fn __action264<'input>(
 
 #[allow(unused_variables)]
 fn __action265<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -9627,7 +9627,7 @@ fn __action265<'input>(
 
 #[allow(unused_variables)]
 fn __action266<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
     __1: (usize, Arg<'input>, usize),
@@ -9641,7 +9641,7 @@ fn __action266<'input>(
 
 #[allow(unused_variables)]
 fn __action267<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Arg<'input>>, usize),
 ) -> Vec<Arg<'input>> {
@@ -9654,7 +9654,7 @@ fn __action267<'input>(
 
 #[allow(unused_variables)]
 fn __action268<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, Expr<'input>, usize),
 ) -> Vec<Expr<'input>> {
@@ -9667,7 +9667,7 @@ fn __action268<'input>(
 
 #[allow(unused_variables)]
 fn __action269<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -9681,7 +9681,7 @@ fn __action269<'input>(
 
 #[allow(unused_variables)]
 fn __action270<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Expr<'input>>, usize),
     __1: (usize, Expr<'input>, usize),
@@ -9695,7 +9695,7 @@ fn __action270<'input>(
 
 #[allow(unused_variables)]
 fn __action271<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Expr<'input>>, usize),
 ) -> Vec<Expr<'input>> {
@@ -9708,7 +9708,7 @@ fn __action271<'input>(
 
 #[allow(unused_variables)]
 fn __action272<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -9722,7 +9722,7 @@ fn __action272<'input>(
 
 #[allow(unused_variables)]
 fn __action273<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<Item<'input>>, usize),
 ) -> Program<'input> {
@@ -9735,7 +9735,7 @@ fn __action273<'input>(
 
 #[allow(unused_variables)]
 fn __action274<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, (Name<'input>, Expr<'input>), usize),
 ) -> Vec<(Name<'input>, Expr<'input>)> {
@@ -9748,7 +9748,7 @@ fn __action274<'input>(
 
 #[allow(unused_variables)]
 fn __action275<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __lookbehind: &usize,
     __lookahead: &usize,
@@ -9762,7 +9762,7 @@ fn __action275<'input>(
 
 #[allow(unused_variables)]
 fn __action276<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
     __1: (usize, (Name<'input>, Expr<'input>), usize),
@@ -9776,7 +9776,7 @@ fn __action276<'input>(
 
 #[allow(unused_variables)]
 fn __action277<'input>(
-    file_id: FileId,
+    file_id: diagnostics::FileId,
     input: &'input str,
     __0: (usize, alloc::vec::Vec<(Name<'input>, Expr<'input>)>, usize),
 ) -> Vec<(Name<'input>, Expr<'input>)> {
