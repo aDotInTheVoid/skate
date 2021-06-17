@@ -89,3 +89,13 @@ impl<T: Display> Debug for DebugAsDisplay<T> {
         self.0.fmt(f)
     }
 }
+
+#[test]
+fn sizeof_value() {
+    use std::mem::size_of;
+
+    // The are common, so keep them small
+    assert_eq!(size_of::<Value>(), 8 * 2);
+    assert_eq!(size_of::<HeapKey>(), 8);
+    assert_eq!(size_of::<BigValue>(), 4 * 8);
+}

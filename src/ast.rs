@@ -190,12 +190,12 @@ impl Span {
         Label::primary(self.file_id.0, self.range())
     }
 
-    pub(crate) fn evaled_to_primary(&self, v: value::Value, e: &env::Env) -> Label<usize> {
+    pub(crate) fn evaled_to_primary(&self, v: value::Value, e: &env::VM) -> Label<usize> {
         self.primary_label()
             .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
     }
 
-    pub(crate) fn evaled_to(&self, v: value::Value, e: &env::Env) -> Label<usize> {
+    pub(crate) fn evaled_to(&self, v: value::Value, e: &env::VM) -> Label<usize> {
         self.secondary_label()
             .with_message(format!("Evaluated to `{:?}`", e.dbg_val(&v)))
     }

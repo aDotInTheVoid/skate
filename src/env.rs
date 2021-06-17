@@ -19,13 +19,20 @@ pub struct Scope<'a> {
 pub(crate) type Heap = SlotMap<HeapKey, BigValue>;
 
 // #[derive(Debug, Default)]
-pub(crate) struct Env<'a, 'b> {
+
+pub(crate) struct Module<'a> {
+    constansts: HashMap<&'a str, Value>,
+}
+
+// #[derive(Debug, Default)]
+pub(crate) struct VM<'a, 'b> {
     pub(crate) functions: HashMap<&'a str, &'a Spanned<Function<'a>>>,
     pub(crate) heap: Heap,
     pub(crate) output: &'b mut dyn io::Write,
 }
 
 impl<'a> Scope<'a> {
+    // Used on `let`, or to create scope for function call
     pub fn declare(&mut self, name: &'a str, v: Value) {
         // TODO: Handle collisions
         // self.vars.insert(name, v);
@@ -75,7 +82,7 @@ impl<'a> Scope<'a> {
     }
 }
 
-impl Env<'_, '_> {
+impl VM<'_, '_> {
     pub fn add_to_heap(&mut self, v: BigValue) -> HeapKey {
         self.heap.insert(v)
     }

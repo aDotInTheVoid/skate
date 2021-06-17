@@ -10,7 +10,7 @@ use crate::ast::{
     self, Block, Expr, Function, Item, Program, RawExpr, RawStmt, Span, Spanned, UnaryOp,
 };
 use crate::diagnostics::RtError;
-use crate::env::{Env, Scope};
+use crate::env::{Scope, VM};
 use crate::value::{BigValue, Map, Value, ValueDbg};
 
 mod binop;
@@ -21,7 +21,7 @@ mod lvalue;
 // Ok(true) -> Exit err due to user code request
 pub fn run(p: Program, output: &mut dyn io::Write) -> Result<bool> {
     // If nothing failed, we suceed
-    let mut env = Env::new(&p, output)?;
+    let mut env = VM::new(&p, output)?;
 
     let result = env.call(
         Spanned {
@@ -70,7 +70,7 @@ macro_rules! get {
     };
 }
 
-impl<'a, 'b> Env<'a, 'b> {
+impl<'a, 'b> VM<'a, 'b> {
     pub fn new(p: &'a [Item<'a>], output: &'b mut dyn io::Write) -> eyre::Result<Self> {
         let mut functions: HashMap<&str, &Spanned<Function>> = HashMap::new();
         for i in p {

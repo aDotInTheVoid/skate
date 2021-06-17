@@ -5,9 +5,9 @@ use crate::ast::{Expr, RawExpr};
 use crate::diagnostics::RtError;
 use crate::env::Scope;
 
-use super::Env;
+use super::VM;
 
-impl<'a> Env<'a, '_> {
+impl<'a> VM<'a, '_> {
     pub(crate) fn lvalue(
         &mut self,
         // The location were assigning to

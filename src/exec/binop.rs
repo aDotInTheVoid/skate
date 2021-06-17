@@ -5,7 +5,7 @@ use crate::ast::{BinOp, Span};
 use crate::diagnostics::RtError;
 use crate::value::{BigValue, HeapKey, Value};
 
-use super::Env;
+use super::VM;
 
 macro_rules! binop_match {
     (
@@ -34,7 +34,7 @@ macro_rules! binop_match {
     };
 }
 
-impl Env<'_, '_> {
+impl VM<'_, '_> {
     pub fn binop(
         &mut self,
         l: Value,
