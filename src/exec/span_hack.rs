@@ -1,7 +1,7 @@
 use crate::env::VM;
-use crate::value::Value;
 use codespan_reporting::diagnostic::Label;
 use diagnostics::span::Span;
+use value::Value;
 
 // TODO: Replace with methods on VM
 pub(crate) trait SpanHack {

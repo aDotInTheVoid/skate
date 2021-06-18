@@ -6,11 +6,12 @@ use std::{io, mem};
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::Result;
 
-use crate::env::{Scope, VM};
-use crate::value::{BigValue, Map, Value, ValueDbg};
 use diagnostics::span::{Span, Spanned};
 use diagnostics::RtError;
 use parser::{self, Block, Expr, FnBody, Function, Item, Program, RawExpr, RawStmt, UnaryOp};
+use value::{BigValue, Map, Value, ValueDbg};
+
+use crate::env::{Scope, VM};
 
 mod binop;
 mod lvalue;

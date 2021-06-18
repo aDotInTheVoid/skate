@@ -23,7 +23,7 @@ impl io::Write for ColorWriter {
     }
 
     fn flush(&mut self) -> io::Result<()> {
-        Ok(())
+        self.0.flush()
     }
 }
 

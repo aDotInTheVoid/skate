@@ -1,9 +1,9 @@
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::Result;
 
-use crate::value::{BigValue, HeapKey, Value};
 use diagnostics::{span::Span, RtError};
 use parser::BinOp;
+use value::{BigValue, HeapKey, Value};
 
 use super::VM;
 

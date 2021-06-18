@@ -1,7 +1,9 @@
 use std::collections::BTreeMap;
 use std::fmt::{self, Debug, Display, Formatter, Write};
 
-use crate::env::Heap;
+use slotmap::SlotMap;
+
+pub(crate) type Heap = SlotMap<HeapKey, BigValue>;
 
 slotmap::new_key_type! { pub struct HeapKey; }
 
@@ -31,7 +33,7 @@ pub type Map = BTreeMap<String, Value>;
 // Wrapper to properly implemt Debug for a Value, taking into accound the Heap
 // This will need to be changed when heep values can access other heap vals
 // (Array and Map), but is fine for string.
-pub(crate) struct ValueDbg<'a> {
+pub struct ValueDbg<'a> {
     pub v: &'a Value,
     pub heap: &'a Heap,
 }

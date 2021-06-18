@@ -1,6 +1,5 @@
 mod env;
 mod exec;
-mod value;
 
 use std::io;
 
@@ -9,6 +8,8 @@ use lalrpop_util::ParseError;
 
 use diagnostics::CompError;
 
+// Keep this without a drop impl (even implicit), as we may exit while
+// holding one
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub enum ExitCode {
     Ok,
