@@ -2,7 +2,7 @@ use std::io::{self};
 
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;
-use skate::diagnostics::{CompError, RtError};
+use diagnostics::{CompError, RtError};
 use wasm_bindgen::prelude::*;
 
 struct ColorWriter(Vec<u8>);
