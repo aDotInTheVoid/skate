@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 use std::io;
 
+use diagnostics::span::Spanned;
 use slotmap::SlotMap;
 
-use crate::ast::{Function, Spanned};
 use crate::value::{BigValue, HeapKey, Value};
+use parser::Function;
 
 // Scope only sticks around for the duration of a function call, wheras env
 // exists for the duration Of a program. Both of these will neeed to be

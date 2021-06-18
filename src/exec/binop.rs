@@ -1,11 +1,13 @@
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::Result;
 
-use crate::ast::{BinOp, Span};
-use crate::diagnostics::RtError;
 use crate::value::{BigValue, HeapKey, Value};
+use diagnostics::{span::Span, RtError};
+use parser::BinOp;
 
 use super::VM;
+
+use super::span_hack::SpanHack;
 
 macro_rules! binop_match {
     (

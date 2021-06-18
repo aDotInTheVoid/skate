@@ -5,7 +5,7 @@ use codespan_reporting::term::emit;
 use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 use fs_err as fs;
 
-use skate::diagnostics::{CompError, RtError};
+use diagnostics::{CompError, RtError};
 use skate::ExitCode;
 
 // Err(_) -> Fail with interpriter code error. This should be less common, as we dont realy want a

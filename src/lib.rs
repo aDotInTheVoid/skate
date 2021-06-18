@@ -1,8 +1,3 @@
-#[allow(clippy::all)]
-mod grammar; // synthesized by LALRPOP
-
-mod ast;
-pub mod diagnostics;
 mod env;
 mod exec;
 mod value;
@@ -12,7 +7,7 @@ use std::io;
 use codespan_reporting::diagnostic::{Diagnostic, Label};
 use lalrpop_util::ParseError;
 
-use crate::diagnostics::CompError;
+use diagnostics::CompError;
 
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub enum ExitCode {
@@ -23,7 +18,7 @@ pub enum ExitCode {
 }
 
 pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre::Result<ExitCode> {
-    let prog = grammar::ProgramParser::new().parse(diagnostics::FileId(main_file_id), prog);
+    let prog = parser::ProgramParser::new().parse(diagnostics::FileId(main_file_id), prog);
 
     let prog = match prog {
         Ok(p) => p,

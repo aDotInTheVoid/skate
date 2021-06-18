@@ -6,15 +6,16 @@ use std::{io, mem};
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::Result;
 
-use crate::ast::{
-    self, Block, Expr, Function, Item, Program, RawExpr, RawStmt, Span, Spanned, UnaryOp,
-};
-use crate::diagnostics::RtError;
 use crate::env::{Scope, VM};
 use crate::value::{BigValue, Map, Value, ValueDbg};
+use diagnostics::span::{Span, Spanned};
+use diagnostics::RtError;
+use parser::{self, Block, Expr, FnBody, Function, Item, Program, RawExpr, RawStmt, UnaryOp};
 
 mod binop;
 mod lvalue;
+mod span_hack;
+use span_hack::SpanHack;
 
 // Err -> Exit err due to type error/rt error
 // Ok(false) -> Exit sucess
@@ -103,7 +104,7 @@ impl<'a, 'b> VM<'a, 'b> {
         })
     }
 
-    pub fn call(&mut self, name: ast::Name, args: &[Value], call_span: Span) -> Result<Value> {
+    pub fn call(&mut self, name: parser::Name, args: &[Value], call_span: Span) -> Result<Value> {
         let fn_name = name.node;
 
         let function = self.functions.get(&fn_name).ok_or_else(|| {
@@ -147,8 +148,8 @@ impl<'a, 'b> VM<'a, 'b> {
 
         // In functions, a trailing expression returns
         let res = match body {
-            ast::FnBody::Expr(e) => self.eval_in(&mut scope, e)?,
-            ast::FnBody::Block(b) => match self.eval_block_in(b, &mut scope)? {
+            FnBody::Expr(e) => self.eval_in(&mut scope, e)?,
+            FnBody::Block(b) => match self.eval_block_in(b, &mut scope)? {
                 BlockEvalResult::FnRet(v) => v,
                 BlockEvalResult::None => Value::Null,
             },
@@ -214,12 +215,12 @@ impl<'a, 'b> VM<'a, 'b> {
     }
 
     pub(crate) fn eval_in(&mut self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<Value> {
-        use crate::ast::Literal;
+        // https://github.com/rust-lang/rust/issues/86418
+        // TODO: Move this import to the top
+        use parser::Literal;
         use RawExpr::*;
-
         Ok(match &e.node {
             Literal(l) => match l.node {
-                // Literal::String(s) => Value::String((*s).to_owned()),
                 Literal::String(s) => {
                     Value::Complex(self.add_to_heap(BigValue::String(s.to_owned())))
                 }

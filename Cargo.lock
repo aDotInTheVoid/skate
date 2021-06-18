@@ -526,11 +526,13 @@ name = "skate"
 version = "0.0.0"
 dependencies = [
  "codespan-reporting",
+ "diagnostics",
  "eyre",
  "fs-err",
  "insta",
  "lalrpop",
  "lalrpop-util",
+ "parser",
  "regex",
  "serde",
  "slotmap",
