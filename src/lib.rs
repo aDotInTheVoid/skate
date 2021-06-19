@@ -1,5 +1,5 @@
-mod env;
-mod exec;
+// mod env;
+// mod exec;
 
 use std::io;
 
@@ -56,7 +56,7 @@ pub fn run(prog: &str, main_file_id: usize, output: &mut dyn io::Write) -> eyre:
         }
     };
 
-    match exec::run(prog, output) {
+    match treewalk::run(prog, output) {
        // TODO: Ok case has an exit status from skate code, handle that
        Ok(is_fail) => {
            if !is_fail {

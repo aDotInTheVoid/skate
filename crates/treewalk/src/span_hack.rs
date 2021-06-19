@@ -1,4 +1,4 @@
-use crate::env::VM;
+use crate::VM;
 use codespan_reporting::diagnostic::Label;
 use diagnostics::span::Span;
 use value::Value;

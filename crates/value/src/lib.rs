@@ -3,7 +3,7 @@ use std::fmt::{self, Debug, Display, Formatter, Write};
 
 use slotmap::SlotMap;
 
-pub(crate) type Heap = SlotMap<HeapKey, BigValue>;
+pub type Heap = SlotMap<HeapKey, BigValue>;
 
 slotmap::new_key_type! { pub struct HeapKey; }
 

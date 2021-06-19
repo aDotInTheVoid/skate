@@ -1,110 +1,35 @@
-/// Tree walk interpriter
-use std::collections::{BTreeMap, HashMap};
-use std::convert::TryInto;
-use std::{io, mem};
+use std::collections::BTreeMap;
+use std::mem;
 
 use codespan_reporting::diagnostic::Diagnostic;
-use eyre::Result;
-
 use diagnostics::span::{Span, Spanned};
 use diagnostics::RtError;
-use parser::{self, Block, Expr, FnBody, Function, Item, Program, RawExpr, RawStmt, UnaryOp};
-use value::{BigValue, Map, Value, ValueDbg};
+use eyre::Result;
+use parser::{Block, Expr, FnBody, RawExpr, RawStmt, UnaryOp};
+use value::{BigValue, Value};
 
-use crate::env::{Scope, VM};
-
-mod binop;
-mod lvalue;
-mod span_hack;
-use span_hack::SpanHack;
-
-// Err -> Exit err due to type error/rt error
-// Ok(false) -> Exit sucess
-// Ok(true) -> Exit err due to user code request
-pub fn run(p: Program, output: &mut dyn io::Write) -> Result<bool> {
-    // If nothing failed, we suceed
-    let mut env = VM::new(&p, output)?;
-
-    let result = env.call(
-        Spanned {
-            node: "main",
-            // TODO: give a real span to ensure the no main fn error is good
-            span: Default::default(),
-        },
-        &[],
-        // ditto
-        Default::default(),
-    )?;
-
-    // TODO: Figure out exit codes 0/1/101
-    // One for script exited with error, one for IIE
-    let is_fail = match result {
-        Value::Null => false,
-        Value::Int(x) => x != 0,
-        x => {
-            // TODO: Give a span
-            return Err(RtError(Diagnostic::error().with_message(format!(
-                "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
-                env.dbg_val(&x),
-                env.type_name(&x),
-            )))
-            .into());
-        }
-    };
-
-    Ok(is_fail)
-}
+use crate::scope::Scope;
+use crate::span_hack::SpanHack;
+use crate::VM;
 
 #[must_use = "use the get! macro to potentialy early return"]
-pub(crate) enum BlockEvalResult {
+pub(crate) enum BlockExecResult {
     FnRet(Value),
     None,
 }
 
-// Note: always get! an `BlockEvalResult` before creating another to avoid #29
+// Note: always get! an `BlockExecResult` before creating another to avoid #29
 #[macro_export]
 macro_rules! get {
     ($e: expr) => {
         match $e {
-            BlockEvalResult::None => {}
-            x @ BlockEvalResult::FnRet(_) => return Ok(x),
+            BlockExecResult::None => {}
+            x @ BlockExecResult::FnRet(_) => return Ok(x),
         }
     };
 }
 
 impl<'a, 'b> VM<'a, 'b> {
-    pub fn new(p: &'a [Item<'a>], output: &'b mut dyn io::Write) -> eyre::Result<Self> {
-        let mut functions: HashMap<&str, &Spanned<Function>> = HashMap::new();
-        for i in p {
-            match i {
-                Item::Function(_, f) => {
-                    if let Some(old_fn) = functions.insert(&f.name, f) {
-                        // TODO: Should these be the function span of the name span
-                        let err = Diagnostic::error()
-                            .with_message(format!("Function `{}` defined twice", &f.name.node))
-                            .with_labels(vec![
-                                old_fn.secondary_label().with_message("Defined once here"),
-                                f.secondary_label().with_message("Defined again here"),
-                            ]);
-                        return Err(RtError(err).into());
-                    }
-                }
-                Item::Import(_) => {
-                    // TODO
-                }
-                Item::Const(..) => {
-                    // TODO
-                }
-            };
-        }
-
-        Ok(Self {
-            functions,
-            heap: Default::default(),
-            output,
-        })
-    }
-
     pub fn call(&mut self, name: parser::Name, args: &[Value], call_span: Span) -> Result<Value> {
         let fn_name = name.node;
 
@@ -151,8 +76,8 @@ impl<'a, 'b> VM<'a, 'b> {
         let res = match body {
             FnBody::Expr(e) => self.eval_in(&mut scope, e)?,
             FnBody::Block(b) => match self.eval_block_in(b, &mut scope)? {
-                BlockEvalResult::FnRet(v) => v,
-                BlockEvalResult::None => Value::Null,
+                BlockExecResult::FnRet(v) => v,
+                BlockExecResult::None => Value::Null,
             },
         };
 
@@ -163,7 +88,7 @@ impl<'a, 'b> VM<'a, 'b> {
         &mut self,
         block: &Block<'a>,
         scope: &mut Scope<'a>,
-    ) -> Result<BlockEvalResult> {
+    ) -> Result<BlockExecResult> {
         scope.push();
 
         use RawStmt::*;
@@ -185,7 +110,7 @@ impl<'a, 'b> VM<'a, 'b> {
                     let val = self.eval_in(scope, e)?;
                     // Clear scope, so we bug if we try to access anything afterwards
                     mem::take(scope);
-                    return Ok(BlockEvalResult::FnRet(val));
+                    return Ok(BlockExecResult::FnRet(val));
                 }
                 Expr(e) => {
                     self.eval_in(scope, e)?;
@@ -197,7 +122,7 @@ impl<'a, 'b> VM<'a, 'b> {
                     } else if let Some(block) = elsecase {
                         self.eval_block_in(block, scope)?
                     } else {
-                        BlockEvalResult::None
+                        BlockExecResult::None
                     };
                     get!(eval_result)
                 }
@@ -212,7 +137,7 @@ impl<'a, 'b> VM<'a, 'b> {
         // We dont need to do this is the FnRet case, as the scope is cleared
         scope.pop();
 
-        Ok(BlockEvalResult::None)
+        Ok(BlockExecResult::None)
     }
 
     pub(crate) fn eval_in(&mut self, scope: &mut Scope<'a>, e: &Expr<'a>) -> Result<Value> {
@@ -337,7 +262,7 @@ impl<'a, 'b> VM<'a, 'b> {
                 let map_val = self.eval_in(scope, map_s)?;
                 let map = self.as_map(map_val, map_s.span)?;
 
-                let key_string: &str = key_s;
+                let key_string: &str = &key_s;
 
                 self.check_map_has_key(map, key_string, map_s.span, key_s.span, map_val)?;
                 map[key_string]
@@ -366,164 +291,5 @@ impl<'a, 'b> VM<'a, 'b> {
                 .into())
             }
         })
-    }
-
-    fn check_map_has_key(
-        &self,
-        map: &Map,
-        key: &str,
-        map_span: Span,
-        key_span: Span,
-        map_value: Value,
-    ) -> Result<(), RtError> {
-        if !map.contains_key(key) {
-            Err(RtError(
-                Diagnostic::error()
-                    .with_message(format!("Map doesnt have key `{}`", key))
-                    .with_labels(vec![
-                        map_span.evaled_to(map_value, self),
-                        key_span.primary_label().with_message("This key"),
-                    ]),
-            ))
-        } else {
-            Ok(())
-        }
-    }
-
-    pub(crate) fn check_array_bounds(
-        &self,
-        array: &[Value],
-        idx: usize,
-        array_val: Value,
-        idx_val: Value,
-        array_span: Span,
-        idx_span: Span,
-    ) -> Result<(), RtError> {
-        if array.len() <= idx {
-            Err(RtError(
-                Diagnostic::error()
-                    .with_message(format!(
-                        "Array index out of bound, len is `{}`, but got `{}`",
-                        array.len(),
-                        idx
-                    ))
-                    .with_labels(vec![
-                        idx_span.evaled_to(idx_val, self),
-                        array_span.evaled_to(array_val, self),
-                    ]),
-            ))
-        } else {
-            Ok(())
-        }
-    }
-
-    fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
-        if let Value::Bool(b) = val {
-            Ok(b)
-        } else {
-            Err(self.unexpected_type_error(val, s, "bool"))
-        }
-    }
-
-    fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
-        RtError(
-            Diagnostic::error()
-                .with_message(format!(
-                    "Expected `{}`, got `{}`",
-                    expected,
-                    self.type_name(&val)
-                ))
-                .with_labels(vec![s.evaled_to_primary(val, self)]),
-        )
-    }
-
-    fn as_uint(&self, val: Value, s: Span) -> Result<usize, RtError> {
-        if let Value::Int(i) = val {
-            if let Ok(u) = i.try_into() {
-                Ok(u)
-            } else {
-                Err(RtError(
-                    Diagnostic::error()
-                        .with_message("Expected a positive number")
-                        .with_labels(vec![s.evaled_to_primary(Value::Int(i), self)]),
-                ))
-            }
-        } else {
-            Err(self.unexpected_type_error(val, s, "int"))
-        }
-    }
-    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value], RtError> {
-        if let Value::Complex(id) = val {
-            if let BigValue::Array(_) = &self.heap[id] {
-                // Fun polonious workaround
-                match &mut self.heap[id] {
-                    BigValue::Array(a) => return Ok(a),
-                    _ => unreachable!(),
-                }
-            }
-        }
-        Err(self.unexpected_type_error(val, s, "array"))
-    }
-
-    fn as_array(&self, val: Value, s: Span) -> Result<&[Value], RtError> {
-        if let Value::Complex(id) = val {
-            if let BigValue::Array(a) = &self.heap[id] {
-                return Ok(a);
-            }
-        }
-
-        Err(self.unexpected_type_error(val, s, "array"))
-    }
-
-    fn as_map(&self, val: Value, s: Span) -> Result<&Map, RtError> {
-        if let Value::Complex(id) = val {
-            if let BigValue::Map(m) = &self.heap[id] {
-                return Ok(m);
-            }
-        }
-        Err(self.unexpected_type_error(val, s, "map"))
-    }
-
-    fn as_map_mut(&mut self, val: Value, s: Span) -> Result<&mut Map, RtError> {
-        if let Value::Complex(id) = val {
-            if let BigValue::Map(_) = &self.heap[id] {
-                match &mut self.heap[id] {
-                    BigValue::Map(m) => return Ok(m),
-                    _ => unreachable!(),
-                }
-            }
-        }
-        Err(self.unexpected_type_error(val, s, "map"))
-    }
-
-    pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
-        ValueDbg {
-            v,
-            heap: &self.heap,
-        }
-    }
-
-    fn print_value(&mut self, v: &Value) -> Result<()> {
-        let dbg = ValueDbg {
-            v,
-            heap: &self.heap,
-        };
-        writeln!(self.output, "{}", dbg)?;
-        Ok(())
-    }
-
-    fn type_name(&self, v: &Value) -> &'static str {
-        match v {
-            Value::Int(_) => "int",
-            Value::Float(_) => "float",
-            Value::Bool(_) => "bool",
-            Value::Complex(id) => match self.heap[*id] {
-                BigValue::String(_) => "string",
-                // TODO: Show inner type?
-                BigValue::Array(_) => "array",
-                BigValue::Map(_) => "map",
-            },
-            Value::Null => "null",
-        }
     }
 }

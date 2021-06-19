@@ -1,9 +1,10 @@
 use codespan_reporting::diagnostic::Diagnostic;
 use eyre::Result;
 
-use crate::env::Scope;
 use diagnostics::RtError;
 use parser::{Expr, RawExpr};
+
+use crate::scope::Scope;
 
 use super::VM;
 

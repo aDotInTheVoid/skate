@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-sd -s "#[cfg_attr(rustfmt, rustfmt_skip)]" "" src/grammar.rs
 sd -s "#[cfg_attr(rustfmt, rustfmt_skip)]" "" crates/parser/src/grammar.rs
 cargo fmt
 
