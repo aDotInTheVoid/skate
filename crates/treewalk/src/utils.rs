@@ -1,12 +1,11 @@
 use std::convert::TryInto;
 
-use codespan_reporting::diagnostic::Diagnostic;
+use codespan_reporting::diagnostic::{Diagnostic, Label};
 use diagnostics::span::Span;
 use diagnostics::RtError;
 use eyre::Result;
 use value::{BigValue, Map, Value, ValueDbg};
 
-use crate::span_hack::SpanHack;
 use crate::VM;
 
 impl<'a, 'b> VM<'a, 'b> {
@@ -23,7 +22,7 @@ impl<'a, 'b> VM<'a, 'b> {
                 Diagnostic::error()
                     .with_message(format!("Map doesnt have key `{}`", key))
                     .with_labels(vec![
-                        map_span.evaled_to(map_value, self),
+                        self.evaled_to(map_value, map_span),
                         key_span.primary_label().with_message("This key"),
                     ]),
             ))
@@ -50,8 +49,8 @@ impl<'a, 'b> VM<'a, 'b> {
                         idx
                     ))
                     .with_labels(vec![
-                        idx_span.evaled_to(idx_val, self),
-                        array_span.evaled_to(array_val, self),
+                        self.evaled_to(idx_val, idx_span),
+                        self.evaled_to(array_val, array_span),
                     ]),
             ))
         } else {
@@ -75,7 +74,7 @@ impl<'a, 'b> VM<'a, 'b> {
                     expected,
                     self.type_name(&val)
                 ))
-                .with_labels(vec![s.evaled_to_primary(val, self)]),
+                .with_labels(vec![self.evaled_to_primary(val, s)]),
         )
     }
 
@@ -87,7 +86,7 @@ impl<'a, 'b> VM<'a, 'b> {
                 Err(RtError(
                     Diagnostic::error()
                         .with_message("Expected a positive number")
-                        .with_labels(vec![s.evaled_to_primary(Value::Int(i), self)]),
+                        .with_labels(vec![self.evaled_to_primary(Value::Int(i), s)]),
                 ))
             }
         } else {
@@ -167,5 +166,15 @@ impl<'a, 'b> VM<'a, 'b> {
             },
             Value::Null => "null",
         }
+    }
+
+    pub(crate) fn evaled_to_primary(&self, v: Value, s: Span) -> Label<usize> {
+        s.primary_label()
+            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&v)))
+    }
+
+    pub(crate) fn evaled_to(&self, v: Value, s: Span) -> Label<usize> {
+        s.secondary_label()
+            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&v)))
     }
 }

@@ -4,7 +4,6 @@ use eyre::Result;
 use parser::BinOp;
 use value::{BigValue, HeapKey, Value};
 
-use crate::span_hack::SpanHack;
 use crate::VM;
 
 macro_rules! binop_match {
@@ -184,8 +183,8 @@ impl VM<'_, '_> {
                 ))
                 .with_labels(vec![
                     o_span.primary_label().with_message("In this operator"),
-                    l_span.evaled_to(l, self),
-                    r_span.evaled_to(r, self),
+                    self.evaled_to(l, l_span),
+                    self.evaled_to(r, r_span),
                 ]),
         )
     }

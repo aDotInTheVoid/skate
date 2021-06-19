@@ -9,7 +9,6 @@ use parser::{Block, Expr, FnBody, RawExpr, RawStmt, UnaryOp};
 use value::{BigValue, Value};
 
 use crate::scope::Scope;
-use crate::span_hack::SpanHack;
 use crate::VM;
 
 #[must_use = "use the get! macro to potentialy early return"]
@@ -285,7 +284,7 @@ impl<'a, 'b> VM<'a, 'b> {
                         ))
                         .with_labels(vec![
                             o.span.primary_label().with_message("In this operator"),
-                            vs.evaled_to(v, self),
+                            self.evaled_to(v, vs),
                         ]),
                 )
                 .into())

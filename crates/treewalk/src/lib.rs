@@ -12,7 +12,6 @@ mod binop;
 mod exec;
 mod lvalue;
 mod scope;
-mod span_hack;
 mod utils;
 
 // #[derive(Debug, Default)]
