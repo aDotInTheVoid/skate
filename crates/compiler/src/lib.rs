@@ -44,7 +44,7 @@ impl<'a, 's> FnComping<'a, 's> {
 
     fn push_expr(&mut self, expr: &'a parser::Expr<'s>) {
         match &**expr {
-            RawExpr::Literal(l) => self.add_instr(Instr::Push(**l), expr),
+            RawExpr::Literal(l) => self.add_instr(Instr::LoadLit(**l), expr),
             RawExpr::Var(_) => todo!(),
             RawExpr::Call(_, _) => todo!(),
             RawExpr::BinOp(l, o, r) => {
@@ -76,11 +76,11 @@ fn basic_expr() {
     assert_eq!(
         func.code,
         vec![
-            Instr::Push(parser::Literal::Integer(2)),
-            Instr::Push(parser::Literal::Integer(3)),
+            Instr::LoadLit(parser::Literal::Integer(2)),
+            Instr::LoadLit(parser::Literal::Integer(3)),
             Instr::UnOp(parser::UnaryOp::Minus),
             Instr::BinOp(parser::BinOp::Times),
-            Instr::Push(parser::Literal::Integer(5)),
+            Instr::LoadLit(parser::Literal::Integer(5)),
             Instr::BinOp(parser::BinOp::Devide)
         ]
     );

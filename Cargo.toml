@@ -34,11 +34,12 @@ opt-level = 3
 
 [workspace]
 members = [
-    "./playground",
-    "./crates/parser",
-    "./crates/diagnostics",
-    "./crates/value",
-    "./crates/treewalk",
+#   "./cmd/tmp/crun"
     "./crates/compiler",
-#    "./cmd/tmp/crun"
+    "./crates/diagnostics",
+    "./crates/parser",
+    "./crates/treewalk",
+    "./crates/value",
+    "./crates/vm",
+    "./playground",
 ]

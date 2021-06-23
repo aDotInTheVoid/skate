@@ -23,3 +23,6 @@ fmt:
 
 cov:
     ./scripts/cov.sh
+
+doc:
+    cargo doc --workspace --no-deps

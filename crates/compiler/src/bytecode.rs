@@ -16,6 +16,8 @@ pub struct Func<'a, 's> {
     pub consts: SlotMap<ConstKey, Const>,
     #[serde(borrow)]
     pub code: Vec<Instr<'s>>,
+    // TODO: Arena allocate Expr's so these can be keys and I can
+    // Re-enable serde
     pub spans: Vec<&'a Expr<'s>>,
 }
 
@@ -26,7 +28,7 @@ pub enum Const {}
 pub enum Instr<'s> {
     Print,
     Return,
-    Push(#[serde(borrow)] parser::Literal<'s>),
+    LoadLit(#[serde(borrow)] parser::Literal<'s>),
     BinOp(parser::BinOp),
     UnOp(parser::UnaryOp),
 }
