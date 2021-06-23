@@ -3,8 +3,15 @@ use std::fmt::Write;
 use diagnostics::span::Spanned;
 use serde::{Deserialize, Serialize};
 
-#[allow(clippy::all)]
-mod grammar; // synthesized by LALRPOP
+use lalrpop_util::lalrpop_mod;
+
+lalrpop_mod!(
+    #[allow(clippy::all)]
+    grammar,
+    "/src/grammar.rs"
+);
+
+// mod grammar; // synthesized by LALRPOP
 
 pub use grammar::ProgramParser;
 
