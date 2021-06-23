@@ -466,6 +466,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "24d5f089152e60f62d28b835fbff2cd2e8dc0baf1ac13343bef92ab7eed84548"
 
 [[package]]
+name = "rt_common"
+version = "0.1.0"
+dependencies = [
+ "codespan-reporting",
+ "diagnostics",
+ "eyre",
+ "parser",
+ "value",
+]
+
+[[package]]
 name = "rustversion"
 version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -632,6 +643,7 @@ dependencies = [
  "diagnostics",
  "eyre",
  "parser",
+ "rt_common",
  "value",
 ]
 

@@ -38,6 +38,7 @@ members = [
     "./crates/compiler",
     "./crates/diagnostics",
     "./crates/parser",
+    "./crates/rt_common",
     "./crates/treewalk",
     "./crates/value",
     "./crates/vm",

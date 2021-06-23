@@ -6,6 +6,7 @@ use diagnostics::span::{Span, Spanned};
 use diagnostics::RtError;
 use eyre::Result;
 use parser::{Block, Expr, FnBody, RawExpr, RawStmt, UnaryOp};
+use rt_common::RT;
 use value::{BigValue, Value};
 
 use crate::scope::Scope;

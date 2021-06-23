@@ -1,12 +1,15 @@
 use std::convert::TryInto;
 
-use codespan_reporting::diagnostic::{Diagnostic, Label};
+use codespan_reporting::diagnostic::Diagnostic;
 use diagnostics::span::Span;
 use diagnostics::RtError;
 use eyre::Result;
+use rt_common::RT;
 use value::{BigValue, Map, Value, ValueDbg};
 
 use crate::VM;
+
+// TODO: Move all to rt_common
 
 impl<'a, 'b> VM<'a, 'b> {
     pub(crate) fn check_map_has_key(
@@ -137,13 +140,6 @@ impl<'a, 'b> VM<'a, 'b> {
         Err(self.unexpected_type_error(val, s, "map"))
     }
 
-    pub(crate) fn dbg_val<'v>(&'v self, v: &'v Value) -> ValueDbg<'v> {
-        ValueDbg {
-            v,
-            heap: &self.heap,
-        }
-    }
-
     pub(crate) fn print_value(&mut self, v: &Value) -> Result<()> {
         let dbg = ValueDbg {
             v,
@@ -151,30 +147,5 @@ impl<'a, 'b> VM<'a, 'b> {
         };
         writeln!(self.output, "{}", dbg)?;
         Ok(())
-    }
-
-    pub(crate) fn type_name(&self, v: &Value) -> &'static str {
-        match v {
-            Value::Int(_) => "int",
-            Value::Float(_) => "float",
-            Value::Bool(_) => "bool",
-            Value::Complex(id) => match self.heap[*id] {
-                BigValue::String(_) => "string",
-                // TODO: Show inner type?
-                BigValue::Array(_) => "array",
-                BigValue::Map(_) => "map",
-            },
-            Value::Null => "null",
-        }
-    }
-
-    pub(crate) fn evaled_to_primary(&self, v: Value, s: Span) -> Label<usize> {
-        s.primary_label()
-            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&v)))
-    }
-
-    pub(crate) fn evaled_to(&self, v: Value, s: Span) -> Label<usize> {
-        s.secondary_label()
-            .with_message(format!("Evaluated to `{:?}`", self.dbg_val(&v)))
     }
 }

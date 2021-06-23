@@ -6,9 +6,9 @@ use diagnostics::span::Spanned;
 use diagnostics::RtError;
 use eyre::Result;
 use parser::{Function, Item, Program};
+use rt_common::RT;
 use value::{BigValue, Heap, HeapKey, Value};
 
-mod binop;
 mod exec;
 mod lvalue;
 mod scope;
@@ -94,4 +94,14 @@ pub fn run(p: Program, output: &mut dyn io::Write) -> Result<bool> {
     };
 
     Ok(is_fail)
+}
+
+impl rt_common::RT for VM<'_, '_> {
+    fn heap(&self) -> &value::Heap {
+        &self.heap
+    }
+
+    fn heap_mut(&mut self) -> &mut value::Heap {
+        &mut self.heap
+    }
 }

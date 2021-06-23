@@ -8,7 +8,7 @@ cargo fmt
 # TODO: This trys to add to deleted files
 git ls-files -z | while IFS= read -rd '' f 
 do
-    if [[ "${f: -7}" != ".stderr" &&  "${f: -7}" != ".stdout" ]]
+    if [[ "${f: -7}" != ".stderr" &&  "${f: -7}" != ".stdout" && -f $f ]]
     then
         tail -c1 < "$f" | read -r _ || echo >> "$f"
     fi

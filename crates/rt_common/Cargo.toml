@@ -1,5 +1,5 @@
 [package]
-name = "treewalk"
+name = "rt_common"
 version = "0.1.0"
 edition = "2018"
 
@@ -10,5 +10,4 @@ codespan-reporting = "0.11.1"
 diagnostics = { path = "../diagnostics" }
 eyre = "0.6.5"
 parser = { path = "../parser" }
-rt_common = { path = "../rt_common" }
 value = { path = "../value" }
