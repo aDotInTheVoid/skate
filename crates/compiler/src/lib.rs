@@ -31,8 +31,8 @@ pub mod bytecode;
 // }
 
 #[derive(Default)]
-struct FnComping<'a, 's> {
-    output: bytecode::Func<'a, 's>,
+pub struct FnComping<'a, 's> {
+    pub output: bytecode::Func<'a, 's>,
 }
 
 impl<'a, 's> FnComping<'a, 's> {
@@ -42,7 +42,7 @@ impl<'a, 's> FnComping<'a, 's> {
         self.output.spans.push(expr);
     }
 
-    fn push_expr(&mut self, expr: &'a parser::Expr<'s>) {
+    pub fn push_expr(&mut self, expr: &'a parser::Expr<'s>) {
         match &**expr {
             RawExpr::Literal(l) => self.add_instr(Instr::LoadLit(**l), expr),
             RawExpr::Var(_) => todo!(),
