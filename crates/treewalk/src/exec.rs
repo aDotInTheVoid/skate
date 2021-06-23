@@ -262,7 +262,9 @@ impl<'a, 'b> VM<'a, 'b> {
                 let map_val = self.eval_in(scope, map_s)?;
                 let map = self.as_map(map_val, map_s.span)?;
 
-                let key_string: &str = &key_s;
+                // nessesary for deref coersion, as they compiller can figure
+                // out map key type
+                let key_string: &str = key_s;
 
                 self.check_map_has_key(map, key_string, map_s.span, key_s.span, map_val)?;
                 map[key_string]
