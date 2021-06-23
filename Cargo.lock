@@ -684,7 +684,10 @@ name = "vm"
 version = "0.1.0"
 dependencies = [
  "compiler",
+ "diagnostics",
+ "eyre",
  "parser",
+ "rt_common",
  "value",
 ]
 

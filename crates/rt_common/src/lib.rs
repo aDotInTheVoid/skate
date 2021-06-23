@@ -9,6 +9,7 @@ use value::{BigValue, Value, ValueDbg};
 mod binop;
 
 pub trait RT: Sized {
+    // Consider a macro for these, or make all these methods on `Heap`
     fn heap(&self) -> &value::Heap;
     fn heap_mut(&mut self) -> &mut value::Heap;
 
