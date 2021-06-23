@@ -13,7 +13,7 @@ lalrpop_mod!(
 
 // mod grammar; // synthesized by LALRPOP
 
-pub use grammar::ProgramParser;
+pub use grammar::{ExprParser, ProgramParser};
 
 // use codespan_reporting::diagnostic::Label;
 // use serde::{Deserialize, Serialize};
@@ -116,7 +116,7 @@ pub enum RawExpr<'a> {
 // This preserves duplicated names, which are handled later
 type Map<'a> = Vec<(Name<'a>, Expr<'a>)>;
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum BinOp {
     Equals,
     NotEquals,
@@ -132,13 +132,13 @@ pub enum BinOp {
     LogicalAnd,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+#[derive(Debug, Clone, Serialize, Deserialize, Copy, PartialEq)]
 pub enum UnaryOp {
     Not,
     Minus,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum Literal<'a> {
     String(&'a str),
     Integer(i64),

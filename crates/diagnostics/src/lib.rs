@@ -4,7 +4,9 @@ use codespan_reporting::diagnostic::Diagnostic;
 
 pub mod span;
 
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize, Hash, Default)]
+#[derive(
+    Debug, Clone, serde::Serialize, serde::Deserialize, Copy, Default, Hash, PartialEq, Eq,
+)]
 pub struct FileId(pub usize);
 
 #[derive(Debug)]

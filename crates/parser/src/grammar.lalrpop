@@ -110,7 +110,7 @@ RawStmt: RawStmt<'input> = {
 // }
 
 // Rename for convenience
-Expr = { <OrExpr> }
+pub Expr = { <OrExpr> }
 BExpr: Box<Expr<'input>> = { <Expr> => Box::new(<>) }
 
 // See http://www.craftinginterpreters.com/appendix-i.html

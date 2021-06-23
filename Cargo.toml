@@ -38,5 +38,7 @@ members = [
     "./crates/parser",
     "./crates/diagnostics",
     "./crates/value",
-    "./crates/treewalk"
+    "./crates/treewalk",
+    "./crates/compiler",
+#    "./cmd/tmp/crun"
 ]

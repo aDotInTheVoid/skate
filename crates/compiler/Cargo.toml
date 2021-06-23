@@ -1,0 +1,12 @@
+[package]
+name = "compiler"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+diagnostics = { path = "../diagnostics" }
+parser = { path = "../parser" }
+serde = { version = "1.0.126", features = ["derive"] }
+slotmap = { version = "1.0.3", features = ["serde"] }

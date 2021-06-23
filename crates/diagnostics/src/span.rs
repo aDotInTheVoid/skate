@@ -3,14 +3,14 @@ use std::ops::Range;
 use codespan_reporting::diagnostic::Label;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Copy, Default, Hash, PartialEq, Eq)]
 pub struct Span {
     pub start: usize,
     pub end: usize,
     pub file_id: crate::FileId,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy)]
+#[derive(Debug, Clone, Serialize, Deserialize, Copy, Default, Hash, PartialEq, Eq)]
 pub struct Spanned<T> {
     pub node: T,
     pub span: Span,
