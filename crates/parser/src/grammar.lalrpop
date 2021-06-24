@@ -89,7 +89,7 @@ FnBody: FnBody<'input> = {
 
 // TODO: Should these be exprs? Should we have stmts?
 Stmts = { List<Stmt> }
-Stmt = { Spaned<RawStmt> }
+pub Stmt = { Spaned<RawStmt> }
 RawStmt: RawStmt<'input> = {
     <Expr> ";" => RawStmt::Expr(<>),
     "let" <Name> "=" <Expr> ";" => RawStmt::Let(<>),

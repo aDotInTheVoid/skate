@@ -7,6 +7,7 @@ edition = "2018"
 
 [dependencies]
 diagnostics = { path = "../diagnostics" }
+enum-as-inner = "0.3.3"
 parser = { path = "../parser" }
 serde = { version = "1.0.126", features = ["derive"] }
 slotmap = { version = "1.0.3", features = ["serde"] }

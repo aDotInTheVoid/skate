@@ -1,28 +1,29 @@
 use std::io;
 
+use bytecode::Instr;
 use eyre::Result;
 
 use compiler::bytecode;
-use parser::{Literal, RawExpr};
+use parser::Literal;
 use rt_common::RT;
-use value::{BigValue, Heap, HeapKey, Value};
+use value::{BigValue, Heap, HeapKey, Value, ValueDbg};
 
 // We put Code outside the VM for BorrowCK reasons
 pub struct VM<'w> {
-    output: &'w dyn io::Write,
+    output: &'w mut dyn io::Write,
     stack: Vec<Value>,
     heap: Heap,
 }
 
 impl VM<'_> {
-    fn run(&mut self, code: bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
+    pub fn run(&mut self, code: bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
         let main = &code.fns[main_key];
 
         let mut ip = 0;
 
         while let Some(instr) = main.code.get(ip) {
             match instr {
-                bytecode::Instr::LoadLit(l) => {
+                Instr::LoadLit(l) => {
                     let val = match *l {
                         Literal::String(s) => {
                             Value::Complex(self.add_to_heap(BigValue::String(s.to_owned())))
@@ -34,7 +35,7 @@ impl VM<'_> {
                     };
                     self.push(val);
                 }
-                bytecode::Instr::BinOp(o) => {
+                Instr::BinOp(o) => {
                     let rhs = self.pop();
                     let lhs = self.pop();
 
@@ -42,21 +43,21 @@ impl VM<'_> {
                     // therefor dont need to access spans. We should only do
                     // this load once we know its type error, for better cache.
                     // TODO: do this.
-                    let ast = main.spans[ip];
+                    let ast = *main.spans[ip].as_expr().unwrap();
 
-                    // TODO: Derive all these
-                    let (ls, os, rs) = if let RawExpr::BinOp(ls, os, rs) = &**ast {
-                        (ls, os, rs)
-                    } else {
-                        panic!()
-                    };
+                    let (ls, os, rs) = ast.as_bin_op().unwrap();
 
                     let val = self.binop(lhs, *o, rhs, ls.span, os.span, rs.span)?;
                     self.push(val)
                 }
-                bytecode::Instr::UnOp(_) => todo!(),
-                bytecode::Instr::Print => todo!(),
-                bytecode::Instr::Return => todo!(),
+                Instr::UnOp(_) => todo!(),
+                Instr::Print => {
+                    let val = self.pop();
+                    self.print_value(&val)?;
+                }
+                Instr::Pop => {
+                    self.pop();
+                }
             }
             ip += 1;
         }
@@ -74,6 +75,18 @@ impl VM<'_> {
 
     pub fn add_to_heap(&mut self, v: BigValue) -> HeapKey {
         self.heap.insert(v)
+    }
+
+    // This cant be in rt_common, as it cant know that the borrow of
+    // self.heap and self.output are disjoint if it gets them through
+    // methods, and not struct fields.
+    pub(crate) fn print_value(&mut self, v: &Value) -> io::Result<()> {
+        let dbg = ValueDbg {
+            v,
+            heap: &self.heap,
+        };
+        writeln!(self.output, "{}", dbg)?;
+        Ok(())
     }
 }
 
@@ -106,4 +119,47 @@ fn basic() {
 
     assert_eq!(vm.stack.len(), 1);
     assert_eq!(format!("{}", vm.dbg_val(&vm.stack[0])), "15");
+}
+
+#[test]
+fn print() {
+    let code = "print \"hello\" + \" \" + \"world\";";
+    let stmt = parser::StmtParser::new()
+        .parse(diagnostics::FileId(0), code)
+        .unwrap();
+    let mut func = compiler::FnComping::default();
+    func.push_stmt(&stmt);
+    let mut code = bytecode::Code::default();
+    let main_fn = code.fns.insert(func.output);
+    let mut stdout = Vec::new();
+    let mut vm = VM {
+        output: &mut stdout,
+        stack: vec![],
+        heap: Heap::with_key(),
+    };
+
+    vm.run(code, main_fn).unwrap();
+    assert_eq!(vm.stack.len(), 0);
+    assert_eq!(String::from_utf8(stdout).unwrap(), "hello world\n");
+}
+
+#[test]
+fn empty_stack() {
+    let code = "2 * 3 + 31 - 1;";
+    let stmt = parser::StmtParser::new()
+        .parse(diagnostics::FileId(0), code)
+        .unwrap();
+    let mut func = compiler::FnComping::default();
+    func.push_stmt(&stmt);
+    let mut code = bytecode::Code::default();
+    let main_fn = code.fns.insert(func.output);
+    let mut stdout = Vec::new();
+    let mut vm = VM {
+        output: &mut stdout,
+        stack: vec![],
+        heap: Heap::with_key(),
+    };
+
+    vm.run(code, main_fn).unwrap();
+    assert_eq!(vm.stack.len(), 0);
 }

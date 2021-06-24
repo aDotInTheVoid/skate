@@ -1,9 +1,10 @@
 use std::fmt::Write;
 
-use diagnostics::span::Spanned;
+use enum_as_inner::EnumAsInner;
+use lalrpop_util::lalrpop_mod;
 use serde::{Deserialize, Serialize};
 
-use lalrpop_util::lalrpop_mod;
+use diagnostics::span::Spanned;
 
 lalrpop_mod!(
     #[allow(clippy::all)]
@@ -13,7 +14,7 @@ lalrpop_mod!(
 
 // mod grammar; // synthesized by LALRPOP
 
-pub use grammar::{ExprParser, ProgramParser};
+pub use grammar::{ExprParser, ProgramParser, StmtParser};
 
 // use codespan_reporting::diagnostic::Label;
 // use serde::{Deserialize, Serialize};
@@ -81,7 +82,7 @@ pub enum Type {
 }
 
 pub type Stmt<'a> = Spanned<RawStmt<'a>>;
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumAsInner)]
 pub enum RawStmt<'a> {
     Let(#[serde(borrow)] Name<'a>, Expr<'a>),
     // TODO: Dont use Expr for Lvalues
@@ -99,7 +100,7 @@ pub enum RawStmt<'a> {
 pub type Path<'a> = Vec<Name<'a>>;
 
 pub type Expr<'a> = Spanned<RawExpr<'a>>;
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumAsInner)]
 pub enum RawExpr<'a> {
     Literal(Spanned<Literal<'a>>),
     Var(Path<'a>),

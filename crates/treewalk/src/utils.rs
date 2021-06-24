@@ -1,4 +1,5 @@
 use std::convert::TryInto;
+use std::io;
 
 use codespan_reporting::diagnostic::Diagnostic;
 use diagnostics::span::Span;
@@ -140,7 +141,7 @@ impl<'a, 'b> VM<'a, 'b> {
         Err(self.unexpected_type_error(val, s, "map"))
     }
 
-    pub(crate) fn print_value(&mut self, v: &Value) -> Result<()> {
+    pub(crate) fn print_value(&mut self, v: &Value) -> io::Result<()> {
         let dbg = ValueDbg {
             v,
             heap: &self.heap,

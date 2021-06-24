@@ -1,6 +1,8 @@
-use parser::Expr;
+use enum_as_inner::EnumAsInner;
 use serde::{Deserialize, Serialize};
 use slotmap::SlotMap;
+
+use parser::{Expr, Stmt};
 
 #[derive(Debug, Clone, Serialize, /*Deserialize,*/ Default)]
 /// 'a is the lifetime of the AST
@@ -10,15 +12,21 @@ pub struct Code<'a, 's> {
     pub fns: SlotMap<FuncKey, Func<'a, 's>>,
 }
 
+#[derive(Debug, Clone, Serialize /*Deserialize,*/, EnumAsInner)]
+pub enum AstLoc<'a, 's> {
+    Expr(&'a Expr<'s>),
+    Stmt(&'a Stmt<'s>),
+}
+
 #[derive(Debug, Clone, Serialize, /*Deserialize,*/ Default)]
 pub struct Func<'a, 's> {
     // TODO: Whats this for?
     pub consts: SlotMap<ConstKey, Const>,
     #[serde(borrow)]
     pub code: Vec<Instr<'s>>,
-    // TODO: Arena allocate Expr's so these can be keys and I can
+    // TODO: Arena allocate the AST's so these can be keys and I can
     // Re-enable serde
-    pub spans: Vec<&'a Expr<'s>>,
+    pub spans: Vec<AstLoc<'a, 's>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -27,7 +35,8 @@ pub enum Const {}
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum Instr<'s> {
     Print,
-    Return,
+    // Return,
+    Pop,
     LoadLit(#[serde(borrow)] parser::Literal<'s>),
     BinOp(parser::BinOp),
     UnOp(parser::UnaryOp),

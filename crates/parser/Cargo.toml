@@ -7,6 +7,7 @@ edition = "2018"
 
 [dependencies]
 diagnostics = { path = "../diagnostics" }
+enum-as-inner = "0.3.3"
 lalrpop-util = { version = "0.19.6", features = ["lexer"] }
 serde = { version = "1.0.126", features = ["derive"] }
 

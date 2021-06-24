@@ -1,10 +1,6 @@
-use std::collections::HashMap;
+use parser::{RawExpr, RawStmt};
 
-use bytecode::{Code, Func};
-use parser::{Item, RawExpr};
-use slotmap::SlotMap;
-
-use crate::bytecode::Instr;
+use crate::bytecode::{AstLoc, Instr};
 
 pub mod bytecode;
 
@@ -36,25 +32,51 @@ pub struct FnComping<'a, 's> {
 }
 
 impl<'a, 's> FnComping<'a, 's> {
-    fn add_instr(&mut self, instr: bytecode::Instr<'s>, expr: &'a parser::Expr<'s>) {
+    fn add_instr_eloc(&mut self, instr: Instr<'s>, expr: &'a parser::Expr<'s>) {
         debug_assert_eq!(self.output.code.len(), self.output.spans.len());
         self.output.code.push(instr);
-        self.output.spans.push(expr);
+        self.output.spans.push(AstLoc::Expr(expr));
+    }
+
+    fn add_instr_sloc(&mut self, instr: Instr<'s>, stmt: &'a parser::Stmt<'s>) {
+        debug_assert_eq!(self.output.code.len(), self.output.spans.len());
+        self.output.code.push(instr);
+        self.output.spans.push(AstLoc::Stmt(stmt));
+    }
+
+    pub fn push_stmt(&mut self, stmt: &'a parser::Stmt<'s>) {
+        match &**stmt {
+            RawStmt::Let(_, _) => todo!(),
+            RawStmt::Assign(_, _) => todo!(),
+            RawStmt::Expr(e) => {
+                self.push_expr(e);
+                self.add_instr_sloc(Instr::Pop, stmt);
+            }
+            RawStmt::Print(e) => {
+                self.push_expr(e);
+                self.add_instr_sloc(Instr::Print, stmt);
+            }
+            RawStmt::Return(_) => todo!(),
+            RawStmt::If(_, _, _) => todo!(),
+            RawStmt::For(_, _, _) => todo!(),
+            RawStmt::While(_, _) => todo!(),
+            RawStmt::Block(_) => todo!(),
+        }
     }
 
     pub fn push_expr(&mut self, expr: &'a parser::Expr<'s>) {
         match &**expr {
-            RawExpr::Literal(l) => self.add_instr(Instr::LoadLit(**l), expr),
+            RawExpr::Literal(l) => self.add_instr_eloc(Instr::LoadLit(**l), expr),
             RawExpr::Var(_) => todo!(),
             RawExpr::Call(_, _) => todo!(),
             RawExpr::BinOp(l, o, r) => {
                 self.push_expr(l);
                 self.push_expr(r);
-                self.add_instr(Instr::BinOp(**o), expr);
+                self.add_instr_eloc(Instr::BinOp(**o), expr);
             }
             RawExpr::UnaryOp(u, e) => {
                 self.push_expr(e);
-                self.add_instr(Instr::UnOp(**u), expr);
+                self.add_instr_eloc(Instr::UnOp(**u), expr);
             }
             RawExpr::FieldAccess(_, _) => todo!(),
             RawExpr::ArrayAccess(_, _) => todo!(),
