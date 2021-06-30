@@ -15,7 +15,15 @@ pub struct VM<'w> {
     heap: Heap,
 }
 
-impl VM<'_> {
+impl<'w> VM<'w> {
+    pub fn new(output: &'w mut dyn io::Write) -> Self {
+        Self {
+            output,
+            stack: Default::default(),
+            heap: Default::default(),
+        }
+    }
+
     pub fn run(&mut self, code: bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
         let main = &code.fns[main_key];
 
@@ -58,6 +66,10 @@ impl VM<'_> {
                 Instr::Pop => {
                     self.pop();
                 }
+                Instr::GetLocal(id) => {
+                    self.push(self.stack[*id]);
+                }
+                Instr::SetLocal(id) => self.stack[*id] = self.peak(),
             }
             ip += 1;
         }
@@ -71,6 +83,10 @@ impl VM<'_> {
 
     fn pop(&mut self) -> Value {
         self.stack.pop().unwrap()
+    }
+
+    fn peak(&mut self) -> Value {
+        *self.stack.last().unwrap()
     }
 
     pub fn add_to_heap(&mut self, v: BigValue) -> HeapKey {

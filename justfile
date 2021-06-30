@@ -8,7 +8,7 @@ build:
     cargo build
 
 test-unit: build
-    cargo test
+    cargo test --workspace
 
 test-e2e: build
     python3 ./scripts/test.py

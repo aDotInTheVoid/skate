@@ -16,6 +16,7 @@ pub struct Code<'a, 's> {
 pub enum AstLoc<'a, 's> {
     Expr(&'a Expr<'s>),
     Stmt(&'a Stmt<'s>),
+    None,
 }
 
 #[derive(Debug, Clone, Serialize, /*Deserialize,*/ Default)]
@@ -40,6 +41,8 @@ pub enum Instr<'s> {
     LoadLit(#[serde(borrow)] parser::Literal<'s>),
     BinOp(parser::BinOp),
     UnOp(parser::UnaryOp),
+    GetLocal(usize),
+    SetLocal(usize),
 }
 
 slotmap::new_key_type! { pub struct FuncKey; }

@@ -29,9 +29,24 @@ pub mod bytecode;
 #[derive(Default)]
 pub struct FnComping<'a, 's> {
     pub output: bytecode::Func<'a, 's>,
+    locals: Vec<Local<'s>>,
+    scope_depth: i32,
+}
+
+struct Local<'s> {
+    name: &'s str,
+    depth: i32,
 }
 
 impl<'a, 's> FnComping<'a, 's> {
+    fn add_block(&mut self, block: &'a parser::Block<'s>) {
+        self.begin_scope();
+        for i in &*block.node {
+            self.push_stmt(i);
+        }
+        self.end_scope();
+    }
+
     fn add_instr_eloc(&mut self, instr: Instr<'s>, expr: &'a parser::Expr<'s>) {
         debug_assert_eq!(self.output.code.len(), self.output.spans.len());
         self.output.code.push(instr);
@@ -44,10 +59,41 @@ impl<'a, 's> FnComping<'a, 's> {
         self.output.spans.push(AstLoc::Stmt(stmt));
     }
 
+    // TODO: Maybe remove
+    fn add_instr_nloc(&mut self, instr: Instr<'s>) {
+        debug_assert_eq!(self.output.code.len(), self.output.spans.len());
+        self.output.code.push(instr);
+        self.output.spans.push(AstLoc::None);
+    }
+
     pub fn push_stmt(&mut self, stmt: &'a parser::Stmt<'s>) {
         match &**stmt {
-            RawStmt::Let(_, _) => todo!(),
-            RawStmt::Assign(_, _) => todo!(),
+            RawStmt::Let(name, expr) => {
+                for el in self.locals.iter().rev() {
+                    if el.depth != -1 && el.depth < self.scope_depth {
+                        break;
+                    }
+                    if el.name == name.node {
+                        // TODO: Handle error
+                        panic!("Duplicated name");
+                    }
+                }
+                self.locals.push(Local {
+                    // This cannot be used in the following expression
+                    depth: -1,
+                    name: &*name,
+                });
+                self.push_expr(expr);
+                self.locals.last_mut().unwrap().depth = self.scope_depth;
+            }
+            RawStmt::Assign(name, expr) => {
+                let name = unwrap_one(name.as_var().unwrap());
+
+                let id = self.resolve_local(name).expect("No Local Found");
+                self.push_expr(expr);
+                self.add_instr_sloc(Instr::SetLocal(id), stmt);
+                self.add_instr_sloc(Instr::Pop, stmt);
+            }
             RawStmt::Expr(e) => {
                 self.push_expr(e);
                 self.add_instr_sloc(Instr::Pop, stmt);
@@ -60,14 +106,18 @@ impl<'a, 's> FnComping<'a, 's> {
             RawStmt::If(_, _, _) => todo!(),
             RawStmt::For(_, _, _) => todo!(),
             RawStmt::While(_, _) => todo!(),
-            RawStmt::Block(_) => todo!(),
+            RawStmt::Block(b) => self.add_block(b),
         }
     }
 
     pub fn push_expr(&mut self, expr: &'a parser::Expr<'s>) {
         match &**expr {
             RawExpr::Literal(l) => self.add_instr_eloc(Instr::LoadLit(**l), expr),
-            RawExpr::Var(_) => todo!(),
+            RawExpr::Var(name) => {
+                let name = unwrap_one(name);
+                let id = self.resolve_local(name).expect("No Local Found");
+                self.add_instr_eloc(Instr::GetLocal(id), expr);
+            }
             RawExpr::Call(_, _) => todo!(),
             RawExpr::BinOp(l, o, r) => {
                 self.push_expr(l);
@@ -83,6 +133,29 @@ impl<'a, 's> FnComping<'a, 's> {
             RawExpr::Array(_) => todo!(),
             RawExpr::Map(_) => todo!(),
         }
+    }
+
+    fn begin_scope(&mut self) {
+        self.scope_depth += 1;
+    }
+
+    fn end_scope(&mut self) {
+        self.scope_depth -= 1;
+
+        // TODO: Do this cleverer
+        while self.scope_depth > 0 && self.locals.last().unwrap().depth > self.scope_depth {
+            self.add_instr_nloc(Instr::Pop);
+            self.locals.pop();
+        }
+    }
+
+    fn resolve_local(&self, name: &str) -> Option<usize> {
+        for (idx, loc) in self.locals.iter().enumerate().rev() {
+            if loc.depth != -1 && loc.name == name {
+                return Some(idx);
+            }
+        }
+        None
     }
 }
 
@@ -106,4 +179,9 @@ fn basic_expr() {
             Instr::BinOp(parser::BinOp::Devide)
         ]
     );
+}
+
+fn unwrap_one<T>(x: &[T]) -> &T {
+    assert_eq!(x.len(), 1);
+    &x[0]
 }
