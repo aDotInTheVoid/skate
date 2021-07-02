@@ -130,6 +130,14 @@ impl<'a, 'b> VM<'a, 'b> {
                     let res = self.eval_block_in(block, scope)?;
                     get!(res);
                 }
+                While(cond, block) => {
+                    while {
+                        let val = self.eval_in(scope, cond)?;
+                        self.as_bool(val, cond.span)?
+                    } {
+                        get!(self.eval_block_in(block, scope)?);
+                    }
+                }
                 _ => todo!(),
             }
         }

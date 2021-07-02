@@ -1,0 +1,6 @@
+error: Expected `bool`, got `int`
+  ┌─ $DD/tests/run-fail/while/not-bool.sk:2:11
+  │
+2 │     while 2 + 4 {
+  │           ^^^^^ Evaluated to `6`
+

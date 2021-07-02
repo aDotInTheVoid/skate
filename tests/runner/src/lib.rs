@@ -82,3 +82,57 @@ fn assign_shadow() {
     ";
     assert_eq!(run_stmt(code), "c\nbc\na\nbc\n");
 }
+
+#[test]
+fn if_() {
+    let code = "
+    {
+    let x = true;
+    print \"a\";
+    if x {
+        print \"t\";
+    }
+    print \"b\";
+    }
+    ";
+    assert_eq!(run_stmt(code), "a\nt\nb\n")
+}
+
+#[test]
+fn if2() {
+    let code = "
+    {
+    let x = false;
+    print \"a\";
+    if x {
+        print \"t\";
+    }
+    print \"b\";
+    }
+    ";
+    assert_eq!(run_stmt(code), "a\nb\n");
+}
+
+#[test]
+fn while_() {
+    let code = "
+    {
+    let x = 0;
+    while x <=10 {
+        print x;
+        if x == 3 {
+            print \"THREE\";
+        } else {
+            if x == 10 {
+                print \"TEN\";
+            }
+        }
+        x = x + 1;
+    }
+    }
+    ";
+    assert_eq!(
+        run_stmt(code),
+        "0\n1\n2\n3\nTHREE\n4\n5\n6\n7\n8\n9\n10\nTEN\n"
+    );
+}

@@ -1,0 +1,14 @@
+fn print_count(x) {
+    while true {
+        print x;
+        x = x+ 1;
+        if x == 10 {
+            return x;
+        }
+    }
+}
+
+fn main() {
+    print print_count(1);
+    print print_count(6);
+}
