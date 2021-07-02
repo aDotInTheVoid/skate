@@ -62,26 +62,6 @@ impl<'a, 'b> VM<'a, 'b> {
         }
     }
 
-    pub(crate) fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
-        if let Value::Bool(b) = val {
-            Ok(b)
-        } else {
-            Err(self.unexpected_type_error(val, s, "bool"))
-        }
-    }
-
-    pub(crate) fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
-        RtError(
-            Diagnostic::error()
-                .with_message(format!(
-                    "Expected `{}`, got `{}`",
-                    expected,
-                    self.type_name(&val)
-                ))
-                .with_labels(vec![self.evaled_to_primary(val, s)]),
-        )
-    }
-
     pub(crate) fn as_uint(&self, val: Value, s: Span) -> Result<usize, RtError> {
         if let Value::Int(i) = val {
             if let Ok(u) = i.try_into() {

@@ -8,6 +8,8 @@ use parser::Literal;
 use rt_common::RT;
 use value::{BigValue, Heap, HeapKey, Value, ValueDbg};
 
+const DEBUG: bool = true;
+
 // We put Code outside the VM for BorrowCK reasons
 pub struct VM<'w> {
     output: &'w mut dyn io::Write,
@@ -29,7 +31,26 @@ impl<'w> VM<'w> {
 
         let mut ip = 0;
 
+        if DEBUG {
+            for (idx, el) in main.code.iter().enumerate() {
+                eprintln!("{} {:?}", idx, el);
+            }
+            eprintln!();
+        }
+
         while let Some(instr) = main.code.get(ip) {
+            if DEBUG {
+                eprintln!(
+                    "{:?}",
+                    value::StackDbg {
+                        stack: &self.stack,
+                        heap: &self.heap
+                    }
+                );
+                eprintln!("{:?}", instr);
+                eprintln!();
+            }
+
             match instr {
                 Instr::LoadLit(l) => {
                     let val = match *l {
@@ -70,6 +91,23 @@ impl<'w> VM<'w> {
                     self.push(self.stack[*id]);
                 }
                 Instr::SetLocal(id) => self.stack[*id] = self.peak(),
+                // Compensate for universal increment
+                Instr::JumpForward(by) => {
+                    debug_assert_ne!(*by, 0);
+                    ip += by;
+                }
+                Instr::JumpBackward(by) => {
+                    debug_assert_ne!(*by, 0);
+                    // TODO: Why does this need to be adjusted by one.
+                    ip -= by + 1;
+                }
+                Instr::JumpForwardIfFalse(by) => {
+                    debug_assert_ne!(*by, 0);
+                    let val = self.peak();
+                    if !self.as_bool(val, Default::default())? {
+                        ip += by;
+                    }
+                }
             }
             ip += 1;
         }

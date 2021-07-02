@@ -41,7 +41,7 @@ pub fn binop<T: RT>(
     l_span: Span,
     o_span: Span,
     r_span: Span,
-) -> Result<Value> {
+) -> Result<Value, RtError> {
     use Value::*;
 
     Ok(binop_match!(
@@ -73,7 +73,7 @@ pub fn binop<T: RT>(
                 o_span,
                 r_span,
             )?,
-            (o, l, r) => return Err(binop_err(this,l, o, r, l_span, o_span, r_span).into())
+            (o, l, r) => return Err(binop_err(this,l, o, r, l_span, o_span, r_span))
         },
     ))
 }
@@ -86,7 +86,7 @@ fn binop_eq<T: RT>(
     l_span: Span,
     o_span: Span,
     r_span: Span,
-) -> Result<bool> {
+) -> Result<bool, RtError> {
     Ok(match (l, r) {
         // Simple cases
         (Value::Int(l), Value::Int(r)) => l == r,
@@ -104,7 +104,7 @@ fn binop_eq<T: RT>(
                         // Iterate over all the items, and equal each one, returning true if their all true,
                         // or the first error
                         ls.iter().zip(rs).try_fold(true, |acc, (l, r)| {
-                            Result::<_, eyre::Error>::Ok(
+                            Ok(
                                 // TODO: l_span and `o_span` are wrong.
                                 acc && binop_eq(this, *l, o, *r, l_span, o_span, r_span)?,
                             )
@@ -120,12 +120,11 @@ fn binop_eq<T: RT>(
                         l_span,
                         o_span,
                         r_span,
-                    )
-                    .into())
+                    ))
                 }
             }
         }
-        (l, r) => return Err(binop_err(this, l, o, r, l_span, o_span, r_span).into()),
+        (l, r) => return Err(binop_err(this, l, o, r, l_span, o_span, r_span)),
     })
 }
 
@@ -137,7 +136,7 @@ fn complex_binop<T: RT>(
     l_span: Span,
     o_span: Span,
     r_span: Span,
-) -> Result<Value> {
+) -> Result<Value, RtError> {
     Ok(match (o, &this.heap()[lid], &this.heap()[rid]) {
         // (BinOp::Equals, _, _) => Value::Bool(binop_eq(this,lid, rid, l_span, o_span, r_span)?),
         // (BinOp::NotEquals, _, _) => {
@@ -157,8 +156,7 @@ fn complex_binop<T: RT>(
                 l_span,
                 o_span,
                 r_span,
-            )
-            .into())
+            ))
         }
     })
 }

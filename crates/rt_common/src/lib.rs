@@ -1,7 +1,8 @@
 use binop::binop;
+use diagnostics::RtError;
 use eyre::Result;
 
-use codespan_reporting::diagnostic::Label;
+use codespan_reporting::diagnostic::{Diagnostic, Label};
 use diagnostics::span::Span;
 use parser::BinOp;
 use value::{BigValue, Value, ValueDbg};
@@ -53,7 +54,27 @@ pub trait RT: Sized {
         l_span: Span,
         o_span: Span,
         r_span: Span,
-    ) -> Result<Value> {
+    ) -> Result<Value, RtError> {
         binop(self, l, o, r, l_span, o_span, r_span)
+    }
+
+    fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
+        if let Value::Bool(b) = val {
+            Ok(b)
+        } else {
+            Err(self.unexpected_type_error(val, s, "bool"))
+        }
+    }
+
+    fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
+        RtError(
+            Diagnostic::error()
+                .with_message(format!(
+                    "Expected `{}`, got `{}`",
+                    expected,
+                    self.type_name(&val)
+                ))
+                .with_labels(vec![self.evaled_to_primary(val, s)]),
+        )
     }
 }

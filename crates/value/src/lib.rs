@@ -38,6 +38,17 @@ pub struct ValueDbg<'a> {
     pub heap: &'a Heap,
 }
 
+pub struct StackDbg<'a> {
+    pub stack: &'a [Value],
+    pub heap: &'a Heap,
+}
+
+impl Debug for StackDbg<'_> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        print_array(f, self.stack, self.heap)
+    }
+}
+
 impl Debug for ValueDbg<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         if let Value::Complex(id) = self.v {

@@ -43,6 +43,11 @@ pub enum Instr<'s> {
     UnOp(parser::UnaryOp),
     GetLocal(usize),
     SetLocal(usize),
+    // Zero in these cases is invalid in the VM, but used
+    // temporarily in the compiller
+    JumpForward(usize),
+    JumpBackward(usize),
+    JumpForwardIfFalse(usize),
 }
 
 slotmap::new_key_type! { pub struct FuncKey; }
