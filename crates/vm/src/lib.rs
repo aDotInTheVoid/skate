@@ -26,6 +26,10 @@ impl<'w> VM<'w> {
         }
     }
 
+    pub fn stack_len(&self) -> usize {
+        self.stack.len()
+    }
+
     pub fn run(&mut self, code: bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
         let main = &code.fns[main_key];
 
@@ -106,6 +110,11 @@ impl<'w> VM<'w> {
                     if !self.as_bool(val, Default::default())? {
                         ip += by;
                     }
+                }
+                Instr::MakeArray(num) => {
+                    let ar = self.stack.split_off(self.stack.len() - num);
+                    let hid = self.add_to_heap(BigValue::Array(ar));
+                    self.push(Value::Complex(hid));
                 }
             }
             ip += 1;

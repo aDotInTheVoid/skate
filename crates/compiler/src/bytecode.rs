@@ -33,6 +33,8 @@ pub struct Func<'a, 's> {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Const {}
 
+// https://docs.python.org/3/library/dis.html#opcode-BUILD_TUPLE
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum Instr<'s> {
     Print,
@@ -48,6 +50,8 @@ pub enum Instr<'s> {
     JumpForward(usize),
     JumpBackward(usize),
     JumpForwardIfFalse(usize),
+
+    MakeArray(usize),
 }
 
 slotmap::new_key_type! { pub struct FuncKey; }

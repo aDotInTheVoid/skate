@@ -160,12 +160,11 @@ impl<'a, 's> FnComping<'a, 's> {
             }
             RawExpr::FieldAccess(_, _) => todo!(),
             RawExpr::ArrayAccess(_, _) => todo!(),
-            RawExpr::Array(_items) => {
-                // for i in items {
-                //     self.push_expr(i);
-                // }
-                // self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
-                todo!()
+            RawExpr::Array(items) => {
+                for i in items {
+                    self.push_expr(i);
+                }
+                self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
             }
             RawExpr::Map(_) => todo!(),
             RawExpr::Call(_, _) => todo!(),

@@ -140,4 +140,12 @@ fn while_() {
 }
 
 #[test]
-fn array() {}
+fn array() {
+    let code = "
+    {
+        let x = [1,2,3,4,5];
+        print (x);
+    }
+    ";
+    assert_eq!(run_stmt(code), "[1, 2, 3, 4, 5]\n");
+}
