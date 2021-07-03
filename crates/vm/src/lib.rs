@@ -8,7 +8,7 @@ use parser::Literal;
 use rt_common::RT;
 use value::{BigValue, Heap, HeapKey, Value, ValueDbg};
 
-const DEBUG: bool = true;
+const DEBUG: bool = false;
 
 // We put Code outside the VM for BorrowCK reasons
 pub struct VM<'w> {
@@ -116,6 +116,9 @@ impl<'w> VM<'w> {
                     let hid = self.add_to_heap(BigValue::Array(ar));
                     self.push(Value::Complex(hid));
                 }
+                Instr::Return => {
+                    // TODO
+                }
             }
             ip += 1;
         }
@@ -164,41 +167,40 @@ impl RT for VM<'_> {
 
 #[test]
 fn basic() {
-    let code = "2 + (7 / 5) * 13";
-    let expr = parser::ExprParser::new()
+    let code = "
+    fn main() {
+    print 2 + (7 / 5) * 13;
+    }";
+    let prog = parser::ProgramParser::new()
         .parse(diagnostics::FileId(0), code)
         .unwrap();
-    let mut func = compiler::FnComping::default();
-    func.push_expr(&expr);
-    let mut code = bytecode::Code::default();
-    let main_fn = code.fns.insert(func.output);
-    let mut vm = VM {
-        output: &mut vec![],
-        stack: vec![],
-        heap: Heap::with_key(),
-    };
-    vm.run(code, main_fn).unwrap();
 
-    assert_eq!(vm.stack.len(), 1);
-    assert_eq!(format!("{}", vm.dbg_val(&vm.stack[0])), "15");
+    let mut stdout = Vec::new();
+
+    let mut vm = VM::new(&mut stdout);
+
+    let (code, main_fn) = compiler::compile(&prog);
+
+    vm.run(code, main_fn).unwrap();
+    assert_eq!(vm.stack.len(), 0);
+    assert_eq!(String::from_utf8(stdout).unwrap(), "15\n");
 }
 
 #[test]
 fn print() {
-    let code = "print \"hello\" + \" \" + \"world\";";
-    let stmt = parser::StmtParser::new()
+    let code = "
+    fn main() {
+    print \"hello\" + \" \" + \"world\";
+    }";
+    let prog = parser::ProgramParser::new()
         .parse(diagnostics::FileId(0), code)
         .unwrap();
-    let mut func = compiler::FnComping::default();
-    func.push_stmt(&stmt);
-    let mut code = bytecode::Code::default();
-    let main_fn = code.fns.insert(func.output);
+
     let mut stdout = Vec::new();
-    let mut vm = VM {
-        output: &mut stdout,
-        stack: vec![],
-        heap: Heap::with_key(),
-    };
+
+    let mut vm = VM::new(&mut stdout);
+
+    let (code, main_fn) = compiler::compile(&prog);
 
     vm.run(code, main_fn).unwrap();
     assert_eq!(vm.stack.len(), 0);
@@ -207,21 +209,21 @@ fn print() {
 
 #[test]
 fn empty_stack() {
-    let code = "2 * 3 + 31 - 1;";
-    let stmt = parser::StmtParser::new()
+    let code = "
+    fn main() {
+    2 * 3 + 31 - 1;
+    }";
+    let prog = parser::ProgramParser::new()
         .parse(diagnostics::FileId(0), code)
         .unwrap();
-    let mut func = compiler::FnComping::default();
-    func.push_stmt(&stmt);
-    let mut code = bytecode::Code::default();
-    let main_fn = code.fns.insert(func.output);
+
     let mut stdout = Vec::new();
-    let mut vm = VM {
-        output: &mut stdout,
-        stack: vec![],
-        heap: Heap::with_key(),
-    };
+
+    let mut vm = VM::new(&mut stdout);
+
+    let (code, main_fn) = compiler::compile(&prog);
 
     vm.run(code, main_fn).unwrap();
     assert_eq!(vm.stack.len(), 0);
+    assert_eq!(stdout.len(), 0);
 }

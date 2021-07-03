@@ -35,7 +35,7 @@ pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
 pub type Name<'a> = Spanned<&'a str>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumAsInner)]
 pub enum Item<'a> {
     Function(Viz, #[serde(borrow)] Spanned<Function<'a>>),
     Import(Name<'a>),
@@ -61,7 +61,7 @@ pub struct Function<'a> {
     pub body: FnBody<'a>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumAsInner)]
 pub enum FnBody<'a> {
     Expr(#[serde(borrow)] Expr<'a>),
     Block(#[serde(borrow)] Block<'a>),

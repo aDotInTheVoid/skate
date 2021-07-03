@@ -38,7 +38,7 @@ pub enum Const {}
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum Instr<'s> {
     Print,
-    // Return,
+    Return,
     Pop,
     LoadLit(#[serde(borrow)] parser::Literal<'s>),
     BinOp(parser::BinOp),

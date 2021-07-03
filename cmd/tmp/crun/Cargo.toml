@@ -1,0 +1,13 @@
+[package]
+name = "crun"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+compiler = { path = "../../../crates/compiler" }
+diagnostics = { path = "../../../crates/diagnostics" }
+eyre = "0.6.5"
+parser = { path = "../../../crates/parser" }
+vm = { path = "../../../crates/vm" }

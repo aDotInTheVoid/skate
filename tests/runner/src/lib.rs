@@ -1,16 +1,12 @@
 #[cfg(test)]
 fn run_stmt(stmt: &str) -> String {
-    let tree = parser::StmtParser::new()
-        .parse(diagnostics::FileId(0), stmt)
+    let src = format!("fn main () {{ {} }}", stmt);
+
+    let tree = parser::ProgramParser::new()
+        .parse(diagnostics::FileId(0), &src)
         .unwrap();
 
-    let mut compiler = compiler::FnComping::default();
-    compiler.push_stmt(&tree);
-
-    let func = compiler.output;
-
-    let mut code = compiler::bytecode::Code::default();
-    let main_key = code.fns.insert(func);
+    let (code, main_key) = compiler::compile(&tree);
 
     let mut output = Vec::new();
 

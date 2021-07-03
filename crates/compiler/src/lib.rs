@@ -1,9 +1,12 @@
+use bytecode::Code;
 use parser::{RawExpr, RawStmt};
 
 use crate::bytecode::{AstLoc, Instr};
 
 pub mod bytecode;
 mod utils;
+
+// TODO: Make this failable
 
 // pub fn compile(prog: parser::Program) -> Code {
 //     let mut fn_map = SlotMap::with_key();
@@ -27,9 +30,23 @@ mod utils;
 //     Code { fns: fn_map }
 // }
 
+pub fn compile<'a, 's>(prog: &'a parser::Program<'s>) -> (Code<'a, 's>, bytecode::FuncKey) {
+    for i in prog {
+        if let Some((_viz, func)) = i.as_function() {
+            if func.name.node == "main" {
+                let fn_code = build_function(func);
+                let mut output = Code::default();
+                let main_id = output.fns.insert(fn_code);
+                return (output, main_id);
+            }
+        }
+    }
+    todo!()
+}
+
 #[derive(Default, Debug)]
-pub struct FnComping<'a, 's> {
-    pub output: bytecode::Func<'a, 's>,
+struct FnComping<'a, 's> {
+    output: bytecode::Func<'a, 's>,
     locals: Vec<Local<'s>>,
     scope_depth: i32,
 }
@@ -38,6 +55,18 @@ pub struct FnComping<'a, 's> {
 struct Local<'s> {
     name: &'s str,
     depth: i32,
+}
+
+pub fn build_function<'a, 's>(f: &'a parser::Function<'s>) -> bytecode::Func<'a, 's> {
+    let mut comp = FnComping::default();
+    match &f.body {
+        parser::FnBody::Expr(e) => {
+            comp.push_expr(e);
+            comp.add_instr_nloc(Instr::Return);
+        }
+        parser::FnBody::Block(b) => comp.add_block(b),
+    }
+    comp.output
 }
 
 impl<'a, 's> FnComping<'a, 's> {

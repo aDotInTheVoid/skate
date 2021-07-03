@@ -17,7 +17,6 @@ lalrpop-util = { version = "0.19.5", features = ["lexer"] }
 parser = { path = "./crates/parser" }
 regex = "1.4.6"
 serde = { version = "1.0.125", features = ["derive"] }
-slotmap = { version = "1.0.3", features = ["serde"] }
 treewalk = { path = "./crates/treewalk" }
 value = { path = "./crates/value" }
 wasm-bindgen = "0.2.74"
@@ -25,16 +24,9 @@ wasm-bindgen = "0.2.74"
 [build-dependencies]
 lalrpop = "0.19.5"
 
-[dev-dependencies]
-insta = "1.7.1"
-
-# We especialy need lalrpop to be fast
-[profile.dev.package."*"]
-opt-level = 3
-
 [workspace]
 members = [
-#   "./cmd/tmp/crun"
+    "./cmd/tmp/crun",
     "./crates/compiler",
     "./crates/diagnostics",
     "./crates/parser",
