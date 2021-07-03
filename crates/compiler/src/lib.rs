@@ -109,7 +109,6 @@ impl<'a, 's> FnComping<'a, 's> {
                 self.push_expr(e);
                 self.add_instr_sloc(Instr::Print, stmt);
             }
-            RawStmt::Return(_) => todo!(),
             RawStmt::If(cond, tcase, fcase) => {
                 // TODO: Optimize for case with no `fcase`
                 // See: http://craftinginterpreters.com/image/jumping-back-and-forth/full-if-else.png
@@ -125,7 +124,6 @@ impl<'a, 's> FnComping<'a, 's> {
                 }
                 self.patch_fjump(j2);
             }
-            RawStmt::For(_, _, _) => todo!(),
             RawStmt::While(cond, block) => {
                 // http://craftinginterpreters.com/image/jumping-back-and-forth/while.png
                 let loop_start = self.add_jump_back_to_point();
@@ -135,8 +133,11 @@ impl<'a, 's> FnComping<'a, 's> {
                 self.add_block(block);
                 self.add_jb(loop_start, stmt);
                 self.patch_fjump(loop_exit);
+                self.add_instr_sloc(Instr::Pop, stmt);
             }
             RawStmt::Block(b) => self.add_block(b),
+            RawStmt::Return(_) => todo!(),
+            RawStmt::For(_, _, _) => todo!(),
         }
     }
 
@@ -148,7 +149,6 @@ impl<'a, 's> FnComping<'a, 's> {
                 let id = self.resolve_local(name).expect("No Local Found");
                 self.add_instr_eloc(Instr::GetLocal(id), expr);
             }
-            RawExpr::Call(_, _) => todo!(),
             RawExpr::BinOp(l, o, r) => {
                 self.push_expr(l);
                 self.push_expr(r);
@@ -160,8 +160,15 @@ impl<'a, 's> FnComping<'a, 's> {
             }
             RawExpr::FieldAccess(_, _) => todo!(),
             RawExpr::ArrayAccess(_, _) => todo!(),
-            RawExpr::Array(_) => todo!(),
+            RawExpr::Array(_items) => {
+                // for i in items {
+                //     self.push_expr(i);
+                // }
+                // self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
+                todo!()
+            }
             RawExpr::Map(_) => todo!(),
+            RawExpr::Call(_, _) => todo!(),
         }
     }
 
@@ -173,7 +180,7 @@ impl<'a, 's> FnComping<'a, 's> {
         self.scope_depth -= 1;
 
         // TODO: Do this cleverer
-        while self.scope_depth > 0 && self.locals.last().unwrap().depth > self.scope_depth {
+        while self.locals.len() > 0 && self.locals.last().unwrap().depth > self.scope_depth {
             self.add_instr_nloc(Instr::Pop);
             self.locals.pop();
         }

@@ -18,6 +18,8 @@ fn run_stmt(stmt: &str) -> String {
 
     vm.run(code, main_key).unwrap();
 
+    assert_eq!(vm.stack_len(), 0);
+
     String::from_utf8(output).unwrap()
 }
 
@@ -136,3 +138,6 @@ fn while_() {
         "0\n1\n2\n3\nTHREE\n4\n5\n6\n7\n8\n9\n10\nTEN\n"
     );
 }
+
+#[test]
+fn array() {}
