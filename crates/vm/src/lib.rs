@@ -98,8 +98,7 @@ impl<'w> VM<'w> {
                 }
                 Instr::JumpBackward(by) => {
                     debug_assert_ne!(*by, 0);
-                    // TODO: Why does this need to be adjusted by one.
-                    ip -= by + 1;
+                    ip -= by;
                 }
                 Instr::JumpForwardIfFalse(by) => {
                     debug_assert_ne!(*by, 0);
