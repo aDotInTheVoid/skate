@@ -279,27 +279,4 @@ impl<'a, 'b> VM<'a, 'b> {
             }
         })
     }
-
-    fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
-        Ok(match (o.node, v) {
-            (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
-            (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
-            (UnaryOp::Minus, Value::Float(f)) => Value::Float(-f),
-            (_, v) => {
-                return Err(RtError(
-                    Diagnostic::error()
-                        .with_message(format!(
-                            "Unknown UnaryOp `{}` for `{}`",
-                            o.node,
-                            self.type_name(&v)
-                        ))
-                        .with_labels(vec![
-                            o.span.primary_label().with_message("In this operator"),
-                            self.evaled_to(v, vs),
-                        ]),
-                )
-                .into())
-            }
-        })
-    }
 }

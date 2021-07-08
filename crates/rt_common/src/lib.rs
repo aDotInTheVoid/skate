@@ -3,9 +3,9 @@ use eyre::Result;
 use lalrpop_util::ParseError;
 
 use binop::binop;
-use diagnostics::span::Span;
+use diagnostics::span::{Span, Spanned};
 use diagnostics::RtError;
-use parser::BinOp;
+use parser::{BinOp, UnaryOp};
 use value::{BigValue, Value, ValueDbg};
 
 mod binop;
@@ -77,6 +77,29 @@ pub trait RT: Sized {
                 ))
                 .with_labels(vec![self.evaled_to_primary(val, s)]),
         )
+    }
+
+    fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
+        Ok(match (o.node, v) {
+            (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
+            (UnaryOp::Minus, Value::Int(i)) => Value::Int(-i),
+            (UnaryOp::Minus, Value::Float(f)) => Value::Float(-f),
+            (_, v) => {
+                return Err(RtError(
+                    Diagnostic::error()
+                        .with_message(format!(
+                            "Unknown UnaryOp `{}` for `{}`",
+                            o.node,
+                            self.type_name(&v)
+                        ))
+                        .with_labels(vec![
+                            o.span.primary_label().with_message("In this operator"),
+                            self.evaled_to(v, vs),
+                        ]),
+                )
+                .into())
+            }
+        })
     }
 }
 

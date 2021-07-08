@@ -116,7 +116,21 @@ impl<'w> VM<'w> {
                     let val = self.binop(lhs, *o, rhs, ls.span, os.span, rs.span)?;
                     self.push(val)
                 }
-                Instr::UnOp(_) => todo!(),
+                Instr::UnOp(op) => {
+                    let val = self.pop();
+                    let (uop, expr) = self.get_func(code).spans[ip]
+                        .as_expr()
+                        .unwrap()
+                        .as_unary_op()
+                        .unwrap();
+
+                    // Because currently we get the op from the ast, lmao
+                    debug_assert_eq!(*op, uop.node);
+
+                    // Ditto wrt lazy ast load
+                    let nv = self.unary_op(*uop, val, expr.span)?;
+                    self.push(nv);
+                }
                 Instr::Print => {
                     let val = self.pop();
                     self.print_value(&val)?;

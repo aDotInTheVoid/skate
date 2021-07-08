@@ -31,6 +31,10 @@
 /home/nixon/git/skate/tests/runner/../run-pass/recurse-countdown.sk
 /home/nixon/git/skate/tests/runner/../run-pass/recursive_fib.sk
 /home/nixon/git/skate/tests/runner/../run-pass/scope/basic.sk
+/home/nixon/git/skate/tests/runner/../run-pass/scope/if.sk
 /home/nixon/git/skate/tests/runner/../run-pass/str-comment.sk
+/home/nixon/git/skate/tests/runner/../run-pass/unary/bool.sk
+/home/nixon/git/skate/tests/runner/../run-pass/unary/num.sk
+/home/nixon/git/skate/tests/runner/../run-pass/unary/return.sk
 /home/nixon/git/skate/tests/runner/../run-pass/while/one.sk
 /home/nixon/git/skate/tests/runner/../run-pass/while/ret.sk
