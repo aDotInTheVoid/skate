@@ -1,9 +1,10 @@
-use binop::binop;
-use diagnostics::RtError;
-use eyre::Result;
-
 use codespan_reporting::diagnostic::{Diagnostic, Label};
+use eyre::Result;
+use lalrpop_util::ParseError;
+
+use binop::binop;
 use diagnostics::span::Span;
+use diagnostics::RtError;
 use parser::BinOp;
 use value::{BigValue, Value, ValueDbg};
 
@@ -77,4 +78,38 @@ pub trait RT: Sized {
                 .with_labels(vec![self.evaled_to_primary(val, s)]),
         )
     }
+}
+
+pub fn parse_error_labeled(
+    e: ParseError<usize, lalrpop_util::lexer::Token, &str>,
+    main_file_id: usize,
+) -> Diagnostic<usize> {
+    let err = match e {
+        ParseError::UnrecognizedToken { token, expected } => Diagnostic::error()
+            .with_message("Unexpected token")
+            .with_labels(vec![Label::primary(main_file_id, token.0..token.2)])
+            .with_notes(
+                expected
+                    .iter()
+                    .map(|e| format!("Expected: {}", e))
+                    .collect(),
+            ),
+
+        ParseError::InvalidToken { location } => Diagnostic::error()
+            .with_message("Invalid token")
+            .with_labels(vec![Label::primary(main_file_id, location..location + 1)]),
+
+        ParseError::UnrecognizedEOF { location, expected } => Diagnostic::error()
+            .with_message("Unexpected EOF")
+            .with_labels(vec![Label::primary(main_file_id, location..location + 1)])
+            .with_notes(
+                expected
+                    .iter()
+                    .map(|e| format!("Expected: {}", e))
+                    .collect(),
+            ),
+        // TODO: Use nice reporting for the rest, if it exists
+        _ => todo!(),
+    };
+    err
 }

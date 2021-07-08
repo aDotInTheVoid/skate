@@ -1,5 +1,8 @@
-use bytecode::Code;
-use parser::{RawExpr, RawStmt};
+use std::collections::HashMap;
+
+use bytecode::{Code, FuncKey};
+use parser::{Item, RawExpr, RawStmt};
+use slotmap::SlotMap;
 
 use crate::bytecode::{AstLoc, Instr};
 
@@ -30,25 +33,45 @@ mod utils;
 //     Code { fns: fn_map }
 // }
 
-pub fn compile<'a, 's>(prog: &'a parser::Program<'s>) -> (Code<'a, 's>, bytecode::FuncKey) {
-    for i in prog {
-        if let Some((_viz, func)) = i.as_function() {
-            if func.name.node == "main" {
-                let fn_code = build_function(func);
-                let mut output = Code::default();
-                let main_id = output.fns.insert(fn_code);
-                return (output, main_id);
-            }
-        }
-    }
-    todo!()
+#[derive(Debug, Clone, Copy)]
+struct FnInfo {
+    n_args: usize,
+    key: FuncKey,
 }
 
-#[derive(Default, Debug)]
-struct FnComping<'a, 's> {
+pub fn compile<'a, 's>(prog: &'a parser::Program<'s>) -> (Code<'a, 's>, bytecode::FuncKey) {
+    let mut fns = SlotMap::with_key();
+    let mut fn_names = HashMap::new();
+    for (_, f) in prog.iter().filter_map(Item::as_function) {
+        let key = fns.insert(Default::default());
+        fn_names.insert(
+            f.name.node,
+            FnInfo {
+                key,
+                n_args: f.args.len(),
+            },
+        );
+    }
+
+    for (_, f) in prog.iter().filter_map(Item::as_function) {
+        let id = fn_names[f.name.node].key;
+        let func = build_function(f, &fn_names);
+        fns[id] = func;
+    }
+
+    let main_key = fn_names["main"].key;
+
+    (Code { fns }, main_key)
+}
+
+type FuncLut<'s> = HashMap<&'s str, FnInfo>;
+
+#[derive(Debug)]
+struct FnComping<'a, 's, 'l> {
     output: bytecode::Func<'a, 's>,
     locals: Vec<Local<'s>>,
     scope_depth: i32,
+    func_map: &'l FuncLut<'s>,
 }
 
 #[derive(Debug)]
@@ -57,8 +80,20 @@ struct Local<'s> {
     depth: i32,
 }
 
-pub fn build_function<'a, 's>(f: &'a parser::Function<'s>) -> bytecode::Func<'a, 's> {
-    let mut comp = FnComping::default();
+fn build_function<'a, 's>(f: &'a parser::Function<'s>, l: &FuncLut<'s>) -> bytecode::Func<'a, 's> {
+    let mut comp = FnComping::new(l);
+    // This feals dirty, and like abuse of default
+    comp.output.n_args = f.args.len();
+    comp.output.name = f.name.node;
+
+    for i in &f.args.node {
+        comp.locals.push(Local {
+            // TODO: Check names are unique
+            depth: 1,
+            name: i.name.node,
+        })
+    }
+
     match &f.body {
         parser::FnBody::Expr(e) => {
             comp.push_expr(e);
@@ -69,7 +104,16 @@ pub fn build_function<'a, 's>(f: &'a parser::Function<'s>) -> bytecode::Func<'a,
     comp.output
 }
 
-impl<'a, 's> FnComping<'a, 's> {
+impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
+    fn new(func_map: &'l FuncLut<'s>) -> Self {
+        Self {
+            output: Default::default(),
+            locals: Default::default(),
+            scope_depth: 0,
+            func_map,
+        }
+    }
+
     fn add_block(&mut self, block: &'a parser::Block<'s>) {
         self.begin_scope();
         for i in &*block.node {
@@ -165,7 +209,10 @@ impl<'a, 's> FnComping<'a, 's> {
                 self.add_instr_sloc(Instr::Pop, stmt);
             }
             RawStmt::Block(b) => self.add_block(b),
-            RawStmt::Return(_) => todo!(),
+            RawStmt::Return(expr) => {
+                self.push_expr(expr);
+                self.add_instr_sloc(Instr::Return, stmt);
+            }
             RawStmt::For(_, _, _) => todo!(),
         }
     }
@@ -175,7 +222,9 @@ impl<'a, 's> FnComping<'a, 's> {
             RawExpr::Literal(l) => self.add_instr_eloc(Instr::LoadLit(**l), expr),
             RawExpr::Var(name) => {
                 let name = unwrap_one(name);
-                let id = self.resolve_local(name).expect("No Local Found");
+                let id = self
+                    .resolve_local(name)
+                    .expect(&format!("Local {} not found", name.node));
                 self.add_instr_eloc(Instr::GetLocal(id), expr);
             }
             RawExpr::BinOp(l, o, r) => {
@@ -196,7 +245,15 @@ impl<'a, 's> FnComping<'a, 's> {
                 self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
             }
             RawExpr::Map(_) => todo!(),
-            RawExpr::Call(_, _) => todo!(),
+            RawExpr::Call(path, args) => {
+                let func = unwrap_one(path.as_var().unwrap());
+                let func_info = self.func_map[func.node];
+                assert_eq!(func_info.n_args, args.len());
+                for i in args {
+                    self.push_expr(i);
+                }
+                self.add_instr_eloc(Instr::Call(func_info.key), expr)
+            }
         }
     }
 
@@ -230,7 +287,9 @@ fn basic_expr() {
     let expr = parser::ExprParser::new()
         .parse(diagnostics::FileId(0), code)
         .unwrap();
-    let mut comp = FnComping::default();
+
+    let m = HashMap::new();
+    let mut comp = FnComping::new(&m);
     comp.push_expr(&expr);
     let func = comp.output;
     assert_eq!(

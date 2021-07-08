@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
 
 use codespan_reporting::diagnostic::Diagnostic;
 
@@ -13,9 +13,9 @@ pub struct FileId(pub usize);
 pub struct RtError(pub Diagnostic<usize>);
 
 impl Display for RtError {
-    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // This error should be reported via codespan, not Display
-        unreachable!("THIS SHOULD NEVER COME UP. PLEASE FILE A BUG")
+        self.0.fmt(f)
     }
 }
 

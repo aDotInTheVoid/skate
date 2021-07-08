@@ -6,8 +6,11 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+codespan-reporting = "0.11.1"
 compiler = { path = "../../../crates/compiler" }
 diagnostics = { path = "../../../crates/diagnostics" }
 eyre = "0.6.5"
+fs-err = "2.6.0"
 parser = { path = "../../../crates/parser" }
+rt_common = { path = "../../../crates/rt_common" }
 vm = { path = "../../../crates/vm" }

@@ -10,7 +10,7 @@ pub(crate) struct JumpHelper(usize);
 #[derive(Debug)]
 pub(crate) struct BackJumpHelper(usize);
 
-impl<'a, 's> FnComping<'a, 's> {
+impl<'a, 's> FnComping<'a, 's, '_> {
     fn add_loop(
         &mut self,
         ty: impl Fn(usize) -> Instr<'static>,

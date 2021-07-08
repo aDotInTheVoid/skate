@@ -3,18 +3,25 @@ use std::io;
 use bytecode::Instr;
 use eyre::Result;
 
-use compiler::bytecode;
+use compiler::bytecode::{self, FuncKey};
 use parser::Literal;
 use rt_common::RT;
 use value::{BigValue, Heap, HeapKey, Value, ValueDbg};
 
-const DEBUG: bool = false;
+const DEBUG: bool = true;
 
 // We put Code outside the VM for BorrowCK reasons
 pub struct VM<'w> {
     output: &'w mut dyn io::Write,
     stack: Vec<Value>,
     heap: Heap,
+    frames: Vec<Frame>,
+}
+
+struct Frame {
+    func: FuncKey,
+    ip: usize,
+    stack_offset: usize,
 }
 
 impl<'w> VM<'w> {
@@ -23,6 +30,7 @@ impl<'w> VM<'w> {
             output,
             stack: Default::default(),
             heap: Default::default(),
+            frames: Default::default(),
         }
     }
 
@@ -30,19 +38,38 @@ impl<'w> VM<'w> {
         self.stack.len()
     }
 
-    pub fn run(&mut self, code: bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
-        let main = &code.fns[main_key];
+    fn ip(&self) -> usize {
+        self.frames.last().unwrap().ip
+    }
 
-        let mut ip = 0;
+    fn ip_mut(&mut self) -> &mut usize {
+        &mut self.frames.last_mut().unwrap().ip
+    }
 
-        if DEBUG {
-            for (idx, el) in main.code.iter().enumerate() {
-                eprintln!("{} {:?}", idx, el);
-            }
-            eprintln!();
-        }
+    fn get_func<'b, 'a, 's>(&self, code: &'b bytecode::Code<'a, 's>) -> &'b bytecode::Func<'a, 's> {
+        let key = self.frames.last().unwrap().func;
+        &code.fns[key]
+    }
 
-        while let Some(instr) = main.code.get(ip) {
+    pub fn run(&mut self, code: &bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
+        // All of this assumes a fresh VM, which is probably bad design
+
+        self.frames.push(Frame {
+            func: main_key,
+            ip: 0,
+            stack_offset: 0,
+        });
+
+        // if DEBUG {
+        //     for (idx, el) in main.code.iter().enumerate() {
+        //         eprintln!("{} {:?}", idx, el);
+        //     }
+        //     eprintln!();
+        // }
+
+        while let Some(instr) = self.get_func(code).code.get(self.ip()) {
+            let ip = self.ip();
+            *self.ip_mut() += 1;
             if DEBUG {
                 eprintln!(
                     "{:?}",
@@ -76,7 +103,7 @@ impl<'w> VM<'w> {
                     // therefor dont need to access spans. We should only do
                     // this load once we know its type error, for better cache.
                     // TODO: do this.
-                    let ast = *main.spans[ip].as_expr().unwrap();
+                    let ast = self.get_func(code).spans[ip].as_expr().unwrap();
 
                     let (ls, os, rs) = ast.as_bin_op().unwrap();
 
@@ -98,17 +125,17 @@ impl<'w> VM<'w> {
                 // Compensate for universal increment
                 Instr::JumpForward(by) => {
                     debug_assert_ne!(*by, 0);
-                    ip += by;
+                    *self.ip_mut() += by;
                 }
                 Instr::JumpBackward(by) => {
                     debug_assert_ne!(*by, 0);
-                    ip -= by;
+                    *self.ip_mut() -= by;
                 }
                 Instr::JumpForwardIfFalse(by) => {
                     debug_assert_ne!(*by, 0);
                     let val = self.peak();
                     if !self.as_bool(val, Default::default())? {
-                        ip += by;
+                        *self.ip_mut() += by;
                     }
                 }
                 Instr::MakeArray(num) => {
@@ -117,12 +144,30 @@ impl<'w> VM<'w> {
                     self.push(Value::Complex(hid));
                 }
                 Instr::Return => {
-                    // TODO
+                    let result = self.pop();
+                    self.frames.pop();
+                    if self.frames.len() == 0 {
+                        return Ok(());
+                    }
+                    self.stack
+                        .truncate(self.frames.last().unwrap().stack_offset);
+                    self.push(result);
+                }
+                Instr::Call(id) => {
+                    let func = &code.fns[*id];
+                    let n_args = func.n_args;
+                    let frame = Frame {
+                        func: *id,
+                        ip: 0,
+                        stack_offset: self.stack_len() - n_args,
+                    };
+                    self.frames.push(frame);
                 }
             }
-            ip += 1;
+            // *self.ip_mut() += 1;
         }
 
+        // TODO: Should we implicitly return NIL?
         Ok(())
     }
 
@@ -181,7 +226,7 @@ fn basic() {
 
     let (code, main_fn) = compiler::compile(&prog);
 
-    vm.run(code, main_fn).unwrap();
+    vm.run(&code, main_fn).unwrap();
     assert_eq!(vm.stack.len(), 0);
     assert_eq!(String::from_utf8(stdout).unwrap(), "15\n");
 }
@@ -202,7 +247,7 @@ fn print() {
 
     let (code, main_fn) = compiler::compile(&prog);
 
-    vm.run(code, main_fn).unwrap();
+    vm.run(&code, main_fn).unwrap();
     assert_eq!(vm.stack.len(), 0);
     assert_eq!(String::from_utf8(stdout).unwrap(), "hello world\n");
 }
@@ -223,7 +268,7 @@ fn empty_stack() {
 
     let (code, main_fn) = compiler::compile(&prog);
 
-    vm.run(code, main_fn).unwrap();
+    vm.run(&code, main_fn).unwrap();
     assert_eq!(vm.stack.len(), 0);
     assert_eq!(stdout.len(), 0);
 }

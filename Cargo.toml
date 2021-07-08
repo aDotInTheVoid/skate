@@ -12,11 +12,9 @@ repository = "https://github.com/aDotInTheVoid/skate/"
 codespan-reporting = "0.11.1"
 diagnostics = { path = "./crates/diagnostics" }
 eyre = "0.6.5"
-fs-err = "2.5.0"
-lalrpop-util = { version = "0.19.5", features = ["lexer"] }
+fs-err = "2.6.0"
 parser = { path = "./crates/parser" }
-regex = "1.4.6"
-serde = { version = "1.0.125", features = ["derive"] }
+rt_common = { path = "crates/rt_common" }
 treewalk = { path = "./crates/treewalk" }
 value = { path = "./crates/value" }
 wasm-bindgen = "0.2.74"

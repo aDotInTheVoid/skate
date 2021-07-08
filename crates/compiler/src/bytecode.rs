@@ -4,7 +4,9 @@ use slotmap::SlotMap;
 
 use parser::{Expr, Stmt};
 
-#[derive(Debug, Clone, Serialize, /*Deserialize,*/ Default)]
+mod debug;
+
+#[derive(Clone, Serialize, /*Deserialize,*/ Default)]
 /// 'a is the lifetime of the AST
 /// 's is the lifetime of the source string
 pub struct Code<'a, 's> {
@@ -28,6 +30,8 @@ pub struct Func<'a, 's> {
     // TODO: Arena allocate the AST's so these can be keys and I can
     // Re-enable serde
     pub spans: Vec<AstLoc<'a, 's>>,
+    pub n_args: usize,
+    pub name: &'s str,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -40,9 +44,12 @@ pub enum Instr<'s> {
     Print,
     Return,
     Pop,
+
     LoadLit(#[serde(borrow)] parser::Literal<'s>),
+
     BinOp(parser::BinOp),
     UnOp(parser::UnaryOp),
+
     GetLocal(usize),
     SetLocal(usize),
     // Zero in these cases is invalid in the VM, but used
@@ -52,6 +59,8 @@ pub enum Instr<'s> {
     JumpForwardIfFalse(usize),
 
     MakeArray(usize),
+
+    Call(FuncKey),
 }
 
 slotmap::new_key_type! { pub struct FuncKey; }

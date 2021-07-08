@@ -12,7 +12,7 @@ fn run_stmt(stmt: &str) -> String {
 
     let mut vm = vm::VM::new(&mut output);
 
-    vm.run(code, main_key).unwrap();
+    vm.run(&code, main_key).unwrap();
 
     assert_eq!(vm.stack_len(), 0);
 
@@ -31,7 +31,7 @@ fn local_vars_basic() {
 }
 
 #[test]
-#[should_panic = "No Local Found"]
+#[should_panic = "Local a not found"]
 fn let_a_eq_a() {
     let code = "{let a = a;}";
     run_stmt(code);

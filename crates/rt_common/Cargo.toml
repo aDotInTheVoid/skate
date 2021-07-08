@@ -9,5 +9,6 @@ edition = "2018"
 codespan-reporting = "0.11.1"
 diagnostics = { path = "../diagnostics" }
 eyre = "0.6.5"
+lalrpop-util = "0.19.6"
 parser = { path = "../parser" }
 value = { path = "../value" }
