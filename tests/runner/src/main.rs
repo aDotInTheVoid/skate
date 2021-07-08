@@ -1,8 +1,8 @@
 use std::convert::TryFrom;
-use std::fs;
 use std::process::Command;
 
 use camino::{Utf8Path, Utf8PathBuf};
+use fs_err as fs;
 use structopt::StructOpt;
 
 const THIS_CRATE_ROOT: &str = env!("CARGO_MANIFEST_DIR");
@@ -71,16 +71,20 @@ fn main() -> eyre::Result<()> {
         tree_walk_cmd,
     };
 
-    let mut pass = 0;
+    let mut pass = Vec::new();
     let mut fail = 0;
 
     for i in paths {
         let i = Utf8PathBuf::try_from(i)?;
         let relative_path = i.strip_prefix(&conf.test_root_dir)?;
+
+        // If tests are hanging, uncomment this
+        // eprint!("{}", relative_path);
+        // std::io::stdout().flush()?;
         match run_pass_test(&i, &conf)? {
             TestResult::Success => {
                 eprintln!("PASSED: {}", relative_path);
-                pass += 1
+                pass.push(i);
             }
             TestResult::Failure(why) => {
                 eprintln!("FAILED: {} {}", relative_path, why);
@@ -88,7 +92,16 @@ fn main() -> eyre::Result<()> {
             }
         }
     }
-    eprintln!("{} passed, {} failed", pass, fail);
+    eprintln!("{} passed, {} failed", pass.len(), fail);
+
+    let mut buff = String::new();
+    pass.sort_unstable();
+    for i in pass {
+        buff.push_str(i.as_str());
+        buff.push_str("\n");
+    }
+    fs::write("results", buff)?;
+
     if fail != 0 {
         eyre::bail!("Failed Tests")
     }

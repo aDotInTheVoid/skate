@@ -1,6 +1,6 @@
 use std::io::{self, BufWriter, Write};
 
-use eyre::{Context, Result};
+use eyre::Result;
 
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;

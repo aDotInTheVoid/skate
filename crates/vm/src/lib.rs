@@ -46,6 +46,10 @@ impl<'w> VM<'w> {
         &mut self.frames.last_mut().unwrap().ip
     }
 
+    fn stack_offset(&self) -> usize {
+        self.frames.last().unwrap().stack_offset
+    }
+
     fn get_func<'b, 'a, 's>(&self, code: &'b bytecode::Code<'a, 's>) -> &'b bytecode::Func<'a, 's> {
         let key = self.frames.last().unwrap().func;
         &code.fns[key]
@@ -67,8 +71,10 @@ impl<'w> VM<'w> {
         //     eprintln!();
         // }
 
-        while let Some(instr) = self.get_func(code).code.get(self.ip()) {
+        loop {
             let ip = self.ip();
+            let instr = &self.get_func(code).code[ip];
+
             *self.ip_mut() += 1;
             if DEBUG {
                 eprintln!(
@@ -119,7 +125,7 @@ impl<'w> VM<'w> {
                     self.pop();
                 }
                 Instr::GetLocal(id) => {
-                    self.push(self.stack[*id]);
+                    self.push(self.stack[self.stack_offset()..][*id]);
                 }
                 Instr::SetLocal(id) => self.stack[*id] = self.peak(),
                 // Compensate for universal increment
@@ -145,13 +151,14 @@ impl<'w> VM<'w> {
                 }
                 Instr::Return => {
                     let result = self.pop();
-                    self.frames.pop();
+
+                    let frame = self.frames.pop().unwrap();
+                    self.stack.truncate(frame.stack_offset);
+                    self.push(result);
+
                     if self.frames.len() == 0 {
                         return Ok(());
                     }
-                    self.stack
-                        .truncate(self.frames.last().unwrap().stack_offset);
-                    self.push(result);
                 }
                 Instr::Call(id) => {
                     let func = &code.fns[*id];
@@ -166,9 +173,6 @@ impl<'w> VM<'w> {
             }
             // *self.ip_mut() += 1;
         }
-
-        // TODO: Should we implicitly return NIL?
-        Ok(())
     }
 
     fn push(&mut self, val: Value) {
@@ -227,7 +231,8 @@ fn basic() {
     let (code, main_fn) = compiler::compile(&prog);
 
     vm.run(&code, main_fn).unwrap();
-    assert_eq!(vm.stack.len(), 0);
+    // The null from main
+    assert_eq!(vm.stack.len(), 1);
     assert_eq!(String::from_utf8(stdout).unwrap(), "15\n");
 }
 
@@ -248,7 +253,8 @@ fn print() {
     let (code, main_fn) = compiler::compile(&prog);
 
     vm.run(&code, main_fn).unwrap();
-    assert_eq!(vm.stack.len(), 0);
+    // The null from main
+    assert_eq!(vm.stack.len(), 1);
     assert_eq!(String::from_utf8(stdout).unwrap(), "hello world\n");
 }
 
@@ -269,6 +275,6 @@ fn empty_stack() {
     let (code, main_fn) = compiler::compile(&prog);
 
     vm.run(&code, main_fn).unwrap();
-    assert_eq!(vm.stack.len(), 0);
+    assert_eq!(vm.stack.len(), 1);
     assert_eq!(stdout.len(), 0);
 }

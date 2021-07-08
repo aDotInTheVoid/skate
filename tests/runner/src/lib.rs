@@ -14,7 +14,8 @@ fn run_stmt(stmt: &str) -> String {
 
     vm.run(&code, main_key).unwrap();
 
-    assert_eq!(vm.stack_len(), 0);
+    // The null from main
+    assert_eq!(vm.stack_len(), 1);
 
     String::from_utf8(output).unwrap()
 }

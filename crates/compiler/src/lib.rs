@@ -99,7 +99,11 @@ fn build_function<'a, 's>(f: &'a parser::Function<'s>, l: &FuncLut<'s>) -> bytec
             comp.push_expr(e);
             comp.add_instr_nloc(Instr::Return);
         }
-        parser::FnBody::Block(b) => comp.add_block(b),
+        parser::FnBody::Block(b) => {
+            comp.add_block(b);
+            comp.add_instr_nloc(Instr::LoadLit(parser::Literal::Null));
+            comp.add_instr_nloc(Instr::Return);
+        }
     }
     comp.output
 }

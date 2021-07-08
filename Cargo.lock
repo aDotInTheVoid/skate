@@ -691,6 +691,7 @@ dependencies = [
  "compiler",
  "diagnostics",
  "eyre",
+ "fs-err",
  "glob",
  "parser",
  "structopt",
