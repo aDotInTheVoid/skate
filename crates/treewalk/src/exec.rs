@@ -5,7 +5,7 @@ use codespan_reporting::diagnostic::Diagnostic;
 use diagnostics::span::{Span, Spanned};
 use diagnostics::RtError;
 use eyre::Result;
-use parser::{Block, Expr, FnBody, RawExpr, RawStmt, UnaryOp};
+use parser::{Block, Expr, FnBody, RawExpr, RawStmt};
 use rt_common::RT;
 use value::{BigValue, Value};
 

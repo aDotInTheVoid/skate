@@ -170,7 +170,7 @@ impl<'w> VM<'w> {
                     self.stack.truncate(frame.stack_offset);
                     self.push(result);
 
-                    if self.frames.len() == 0 {
+                    if self.frames.is_empty() {
                         return Ok(());
                     }
                 }
@@ -183,6 +183,23 @@ impl<'w> VM<'w> {
                         stack_offset: self.stack_len() - n_args,
                     };
                     self.frames.push(frame);
+                }
+                Instr::ArrayAccess => {
+                    let index = self.pop();
+                    let array = self.pop();
+
+                    // TODO: Lazy load ast
+                    let (idx_span, array_span) = self.get_func(code).spans[ip]
+                        .as_expr()
+                        .unwrap()
+                        .as_array_access()
+                        .unwrap();
+
+                    let idx = self.as_uint(index, idx_span.span);
+                    let array = self.as_array_mut(array, array_span.span)?;
+
+                    let res = array[idx?];
+                    self.push(res);
                 }
             }
             // *self.ip_mut() += 1;

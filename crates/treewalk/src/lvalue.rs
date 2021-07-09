@@ -3,6 +3,7 @@ use eyre::Result;
 
 use diagnostics::RtError;
 use parser::{Expr, RawExpr};
+use rt_common::RT;
 
 use crate::scope::Scope;
 

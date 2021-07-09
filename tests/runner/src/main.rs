@@ -63,19 +63,18 @@ fn main() -> eyre::Result<()> {
 
         (test_root_dir, paths)
     } else {
-        (Utf8PathBuf::from(""), opt.files)
+        (Utf8PathBuf::from(""), opt.files.clone())
     };
 
     let conf = Conf {
-        test_root_dir,
         tree_walk_cmd,
+        test_root_dir,
     };
 
     let mut pass = Vec::new();
     let mut fail = 0;
 
-    for i in paths {
-        let i = Utf8PathBuf::try_from(i)?;
+    for i in paths.iter() {
         let relative_path = i.strip_prefix(&conf.test_root_dir)?;
 
         // If tests are hanging, uncomment this
@@ -94,14 +93,16 @@ fn main() -> eyre::Result<()> {
     }
     eprintln!("{} passed, {} failed", pass.len(), fail);
 
-    let mut buff = String::new();
-    pass.sort_unstable();
-    for i in pass {
-        buff.push_str(i.as_str());
-        buff.push_str("\n");
-    }
-    fs::write("results", buff)?;
+    if opt.files.is_empty() {
+        let mut buff = String::new();
+        pass.sort_unstable();
+        for i in pass {
+            buff.push_str(i.as_str());
+            buff.push('\n');
+        }
 
+        fs::write(Utf8PathBuf::from(THIS_CRATE_ROOT).join("results"), buff)?;
+    }
     if fail != 0 {
         eyre::bail!("Failed Tests")
     }

@@ -1,3 +1,5 @@
+use std::convert::TryInto;
+
 use codespan_reporting::diagnostic::{Diagnostic, Label};
 use eyre::Result;
 use lalrpop_util::ParseError;
@@ -6,7 +8,7 @@ use binop::binop;
 use diagnostics::span::{Span, Spanned};
 use diagnostics::RtError;
 use parser::{BinOp, UnaryOp};
-use value::{BigValue, Value, ValueDbg};
+use value::{BigValue, Map, Value, ValueDbg};
 
 mod binop;
 
@@ -100,6 +102,114 @@ pub trait RT: Sized {
                 .into())
             }
         })
+    }
+
+    fn check_map_has_key(
+        &self,
+        map: &Map,
+        key: &str,
+        map_span: Span,
+        key_span: Span,
+        map_value: Value,
+    ) -> Result<(), RtError> {
+        if !map.contains_key(key) {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!("Map doesnt have key `{}`", key))
+                    .with_labels(vec![
+                        self.evaled_to(map_value, map_span),
+                        key_span.primary_label().with_message("This key"),
+                    ]),
+            ))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn check_array_bounds(
+        &self,
+        array: &[Value],
+        idx: usize,
+        array_val: Value,
+        idx_val: Value,
+        array_span: Span,
+        idx_span: Span,
+    ) -> Result<(), RtError> {
+        if array.len() <= idx {
+            Err(RtError(
+                Diagnostic::error()
+                    .with_message(format!(
+                        "Array index out of bound, len is `{}`, but got `{}`",
+                        array.len(),
+                        idx
+                    ))
+                    .with_labels(vec![
+                        self.evaled_to(idx_val, idx_span),
+                        self.evaled_to(array_val, array_span),
+                    ]),
+            ))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn as_uint(&self, val: Value, s: Span) -> Result<usize, RtError> {
+        if let Value::Int(i) = val {
+            if let Ok(u) = i.try_into() {
+                Ok(u)
+            } else {
+                Err(RtError(
+                    Diagnostic::error()
+                        .with_message("Expected a positive number")
+                        .with_labels(vec![self.evaled_to_primary(Value::Int(i), s)]),
+                ))
+            }
+        } else {
+            Err(self.unexpected_type_error(val, s, "int"))
+        }
+    }
+    fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value], RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Array(_) = self.heap()[id] {
+                // Fun polonious workaround
+                match &mut self.heap_mut()[id] {
+                    BigValue::Array(a) => return Ok(a),
+                    _ => unreachable!(),
+                }
+            }
+        }
+        Err(self.unexpected_type_error(val, s, "array"))
+    }
+
+    fn as_array(&self, val: Value, s: Span) -> Result<&[Value], RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Array(a) = &self.heap()[id] {
+                return Ok(a);
+            }
+        }
+
+        Err(self.unexpected_type_error(val, s, "array"))
+    }
+
+    fn as_map(&self, val: Value, s: Span) -> Result<&Map, RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Map(m) = &self.heap()[id] {
+                return Ok(m);
+            }
+        }
+        Err(self.unexpected_type_error(val, s, "map"))
+    }
+
+    fn as_map_mut(&mut self, val: Value, s: Span) -> Result<&mut Map, RtError> {
+        if let Value::Complex(id) = val {
+            if let BigValue::Map(_) = &self.heap()[id] {
+                match &mut self.heap_mut()[id] {
+                    BigValue::Map(m) => return Ok(m),
+                    _ => unreachable!(),
+                }
+            }
+        }
+        Err(self.unexpected_type_error(val, s, "map"))
     }
 }
 

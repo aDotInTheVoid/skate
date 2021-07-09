@@ -33,6 +33,7 @@ pub use grammar::{ExprParser, ProgramParser, StmtParser};
 // 'a is the lifetime of the source string
 pub type Block<'a> = Spanned<Vec<Stmt<'a>>>;
 pub type Program<'a> = Vec<Item<'a>>;
+pub type ProgramSlice<'a> = [Item<'a>];
 pub type Name<'a> = Spanned<&'a str>;
 
 #[derive(Debug, Clone, Serialize, Deserialize, EnumAsInner)]

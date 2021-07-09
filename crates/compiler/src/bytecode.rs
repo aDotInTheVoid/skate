@@ -52,6 +52,7 @@ pub enum Instr<'s> {
 
     GetLocal(usize),
     SetLocal(usize),
+
     // Zero in these cases is invalid in the VM, but used
     // temporarily in the compiller
     JumpForward(usize),
@@ -59,6 +60,8 @@ pub enum Instr<'s> {
     JumpForwardIfFalse(usize),
 
     MakeArray(usize),
+
+    ArrayAccess,
 
     Call(FuncKey),
 }

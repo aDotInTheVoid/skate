@@ -39,7 +39,7 @@ struct FnInfo {
     key: FuncKey,
 }
 
-pub fn compile<'a, 's>(prog: &'a parser::Program<'s>) -> (Code<'a, 's>, bytecode::FuncKey) {
+pub fn compile<'a, 's>(prog: &'a parser::ProgramSlice<'s>) -> (Code<'a, 's>, bytecode::FuncKey) {
     let mut fns = SlotMap::with_key();
     let mut fn_names = HashMap::new();
     for (_, f) in prog.iter().filter_map(Item::as_function) {
@@ -171,6 +171,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
             }
 
             RawStmt::Assign(name, expr) => {
+                // TODO: Handle lvalue
                 let name = unwrap_one(name.as_var().unwrap());
 
                 let id = self.resolve_local(name).expect("No Local Found");
@@ -228,7 +229,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 let name = unwrap_one(name);
                 let id = self
                     .resolve_local(name)
-                    .expect(&format!("Local {} not found", name.node));
+                    .unwrap_or_else(|| panic!("Local {} not found", name.node));
                 self.add_instr_eloc(Instr::GetLocal(id), expr);
             }
             RawExpr::BinOp(l, o, r) => {
@@ -241,7 +242,11 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 self.add_instr_eloc(Instr::UnOp(**u), expr);
             }
             RawExpr::FieldAccess(_, _) => todo!(),
-            RawExpr::ArrayAccess(_, _) => todo!(),
+            RawExpr::ArrayAccess(array, index) => {
+                self.push_expr(array);
+                self.push_expr(index);
+                self.add_instr_eloc(Instr::ArrayAccess, expr)
+            }
             RawExpr::Array(items) => {
                 for i in items {
                     self.push_expr(i);
@@ -269,7 +274,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
         self.scope_depth -= 1;
 
         // TODO: Do this cleverer
-        while self.locals.len() > 0 && self.locals.last().unwrap().depth > self.scope_depth {
+        while !self.locals.is_empty() && self.locals.last().unwrap().depth > self.scope_depth {
             self.add_instr_nloc(Instr::Pop);
             self.locals.pop();
         }
