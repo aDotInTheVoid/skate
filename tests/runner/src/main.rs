@@ -3,26 +3,14 @@ use std::process::Command;
 
 use camino::{Utf8Path, Utf8PathBuf};
 use fs_err as fs;
-use structopt::StructOpt;
+// use structopt::StructOpt;
 
 const THIS_CRATE_ROOT: &str = env!("CARGO_MANIFEST_DIR");
 const TREEWALK_CMD_NAME: &str = "crun";
 
 // TODO: Release mode
 
-#[derive(StructOpt)]
-struct Args {
-    files: Vec<Utf8PathBuf>,
-}
-
-struct Conf {
-    tree_walk_cmd: Utf8PathBuf,
-    test_root_dir: Utf8PathBuf,
-}
-
 fn main() -> eyre::Result<()> {
-    let opt = Args::from_args();
-
     let status = Command::new("cargo")
         .args(&["build", "--bins", "--workspace"])
         .spawn()?
@@ -40,69 +28,70 @@ fn main() -> eyre::Result<()> {
 
     let tree_walk_cmd = target_dir.join(TREEWALK_CMD_NAME);
 
-    let (test_root_dir, paths) = if opt.files.is_empty() {
-        let test_root_dir = Utf8PathBuf::from(THIS_CRATE_ROOT).join("..");
+    let test_root_dir = Utf8PathBuf::from(THIS_CRATE_ROOT).join("..");
 
-        let run_pass = test_root_dir.join("run-pass").join("**").join("*.sk");
+    let mut pass = Vec::new();
+    let mut fail = 0;
 
-        let paths: Vec<_> = glob::glob(
-            run_pass
-                .as_os_str()
-                .to_str()
-                .ok_or_else(|| eyre::eyre!("Can't convert {:?} to string", run_pass))?,
-        )
-        .unwrap()
-        .collect::<Result<_, _>>()?;
+    let mut afail = 0;
+
+    for (name, func, must_pass) in [
+        ("run-pass", run_pass_test as TestFn, true),
+        ("compile-fail", compile_fail_test as TestFn, true),
+        ("run-fail", compile_fail_test as TestFn, false),
+    ] {
+        let glob_path = test_root_dir.join(name).join("**").join("*.sk");
+
+        let paths: Vec<_> = glob::glob(glob_path.as_str())
+            .unwrap()
+            .collect::<Result<_, _>>()?;
 
         let paths: Vec<_> = paths
             .into_iter()
             .map(Utf8PathBuf::try_from)
             .collect::<Result<_, _>>()?;
 
-        println!("Discoverd {} run-pass tests", paths.len());
+        println!("Running {} tests in {}", paths.len(), name);
 
-        (test_root_dir, paths)
-    } else {
-        (Utf8PathBuf::from(""), opt.files.clone())
-    };
+        for i in paths {
+            let relative_path = i.strip_prefix(&test_root_dir)?.to_owned();
 
-    let conf = Conf {
-        tree_walk_cmd,
-        test_root_dir,
-    };
-
-    let mut pass = Vec::new();
-    let mut fail = 0;
-
-    for i in paths.iter() {
-        let relative_path = i.strip_prefix(&conf.test_root_dir)?;
-
-        // If tests are hanging, uncomment this
-        // eprint!("{}", relative_path);
-        // std::io::stdout().flush()?;
-        match run_pass_test(&i, &conf)? {
-            TestResult::Success => {
-                eprintln!("PASSED: {}", relative_path);
-                pass.push(relative_path);
-            }
-            TestResult::Failure(why) => {
-                eprintln!("FAILED: {} {}", relative_path, why);
-                fail += 1;
+            // If tests are hanging, uncomment this
+            // eprint!("{}", relative_path);
+            // std::io::stdout().flush()?;
+            match func(&i, &tree_walk_cmd, &test_root_dir)? {
+                TestResult::Success => {
+                    eprintln!("PASSED: {}", relative_path);
+                    pass.push(relative_path);
+                }
+                TestResult::Failure(why) => {
+                    eprintln!("FAILED: {} {}", relative_path, why);
+                    if must_pass {
+                        fail += 1;
+                    } else {
+                        afail += 1;
+                    }
+                }
             }
         }
     }
-    eprintln!("{} passed, {} failed", pass.len(), fail);
 
-    if opt.files.is_empty() {
-        let mut buff = String::new();
-        pass.sort_unstable();
-        for i in pass {
-            buff.push_str(i.as_str());
-            buff.push('\n');
-        }
+    eprintln!(
+        "{} passed, {} failed, {} allowed fails",
+        pass.len(),
+        fail,
+        afail
+    );
 
-        fs::write(Utf8PathBuf::from(THIS_CRATE_ROOT).join("results"), buff)?;
+    let mut buff = String::new();
+    pass.sort_unstable();
+    for i in pass {
+        buff.push_str(i.as_str());
+        buff.push('\n');
     }
+
+    fs::write(Utf8PathBuf::from(THIS_CRATE_ROOT).join("results"), buff)?;
+
     if fail != 0 {
         eyre::bail!("Failed Tests")
     }
@@ -115,13 +104,53 @@ enum TestResult {
     Failure(String),
 }
 
-fn run_pass_test(src: &Utf8Path, conf: &Conf) -> eyre::Result<TestResult> {
+type TestFn =
+    for<'r, 's, 't> fn(&'r Utf8Path, &'s Utf8Path, &'t Utf8Path) -> eyre::Result<TestResult>;
+
+fn compile_fail_test(
+    src: &Utf8Path,
+    tree_walk_cmd: &Utf8Path,
+    test_root: &Utf8Path,
+) -> eyre::Result<TestResult> {
+    let mut output_path = src.to_owned();
+    output_path.set_extension("stderr");
+
+    let expected_output = fs::read_to_string(output_path)?;
+
+    let output = Command::new(tree_walk_cmd)
+        .arg(&src)
+        .env("NO_COLOR", "1")
+        .output()?;
+    if output.status.success() {
+        return Ok(TestResult::Failure("Unexpected success".to_string()));
+    }
+
+    let stdout = String::from_utf8(output.stdout)?;
+    let stderr = String::from_utf8(output.stderr)?;
+
+    let stderr = stderr.replace(test_root.as_str(), "$DD/tests");
+
+    if stderr == expected_output {
+        Ok(TestResult::Success)
+    } else {
+        Ok(TestResult::Failure(format!(
+            "--- expected ---\n{}\n--- got ---\n{}\n--- stdout ---\n{}\n---",
+            expected_output, stderr, stdout,
+        )))
+    }
+}
+
+fn run_pass_test(
+    src: &Utf8Path,
+    tree_walk_cmd: &Utf8Path,
+    _: &Utf8Path,
+) -> eyre::Result<TestResult> {
     let mut output_path = src.to_owned();
     output_path.set_extension("stdout");
 
     let expected_output = fs::read_to_string(output_path)?;
 
-    let output = Command::new(&conf.tree_walk_cmd).arg(&src).output()?;
+    let output = Command::new(tree_walk_cmd).arg(&src).output()?;
     if !output.status.success() {
         return Ok(TestResult::Failure(format!(
             "Exited with failure {:?}\n --- stderr ---\n{}\n--- stdout ---\n{}\n --- ",
