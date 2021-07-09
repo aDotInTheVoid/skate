@@ -213,6 +213,25 @@ impl<'w> VM<'w> {
                     let res = array[idx?];
                     self.push(res);
                 }
+                Instr::ArraySet => {
+                    let expr = self.pop();
+                    let index = self.pop();
+                    let array = self.pop();
+
+                    // TODO: Lazy load ast
+                    let (idx_span, array_span) = self.get_func(code).spans[ip]
+                        .as_stmt()
+                        .unwrap()
+                        .as_assign()
+                        .unwrap()
+                        .0
+                        .as_array_access()
+                        .unwrap();
+
+                    let index = self.as_uint(index, idx_span.span);
+                    let array = self.as_array_mut(array, array_span.span)?;
+                    array[index?] = expr;
+                }
                 Instr::FieldAccess(name) => {
                     let map = self.pop();
                     // TODO: Lazy load location
@@ -228,6 +247,24 @@ impl<'w> VM<'w> {
                     )?;
                     let val = map[name.node];
                     self.push(val);
+                }
+                Instr::FieldSet(name) => {
+                    let expr = self.pop();
+                    let map = self.pop();
+
+                    let span = self.get_func(code).spans[ip]
+                        .as_stmt()
+                        .unwrap()
+                        .as_assign()
+                        .unwrap()
+                        .0
+                        .as_field_access()
+                        .unwrap()
+                        .0
+                        .span;
+
+                    let map = self.as_map_mut(map, span)?;
+                    map.insert(name.node.to_owned(), expr);
                 }
             }
             // *self.ip_mut() += 1;

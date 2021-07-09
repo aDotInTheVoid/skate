@@ -174,15 +174,27 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 self.locals.last_mut().unwrap().depth = self.scope_depth;
             }
 
-            RawStmt::Assign(name, expr) => {
-                // TODO: Handle lvalue
-                let name = unwrap_one(name.as_var().unwrap());
-
-                let id = self.resolve_local(name).expect("No Local Found");
-                self.push_expr(expr);
-                self.add_instr_sloc(Instr::SetLocal(id), stmt);
-                self.add_instr_sloc(Instr::Pop, stmt);
-            }
+            RawStmt::Assign(name, expr) => match &name.node {
+                RawExpr::Var(name) => {
+                    let name = unwrap_one(name);
+                    let id = self.resolve_local(name).expect("No Local Found");
+                    self.push_expr(expr);
+                    self.add_instr_sloc(Instr::SetLocal(id), stmt);
+                    self.add_instr_sloc(Instr::Pop, stmt);
+                }
+                RawExpr::FieldAccess(map, key) => {
+                    self.push_expr(map);
+                    self.push_expr(expr);
+                    self.add_instr_sloc(Instr::FieldSet(*key), stmt);
+                }
+                RawExpr::ArrayAccess(array, index) => {
+                    self.push_expr(array);
+                    self.push_expr(index);
+                    self.push_expr(expr);
+                    self.add_instr_sloc(Instr::ArraySet, stmt)
+                }
+                _ => panic!("Expected lvalue"),
+            },
             RawStmt::Expr(e) => {
                 self.push_expr(e);
                 self.add_instr_sloc(Instr::Pop, stmt);

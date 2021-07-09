@@ -65,6 +65,9 @@ pub enum Instr<'s> {
     ArrayAccess,
     FieldAccess(parser::Name<'s>),
 
+    ArraySet,
+    FieldSet(parser::Name<'s>),
+
     Call(FuncKey),
 }
 

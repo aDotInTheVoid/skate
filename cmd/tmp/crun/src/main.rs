@@ -34,7 +34,7 @@ fn main() -> Result<()> {
 
     let (code, main_id) = compiler::compile(&prog);
 
-    dbg!(&code);
+    // dbg!(&code);
 
     let mut stdout_writer = BufWriter::new(io::stdout());
 
