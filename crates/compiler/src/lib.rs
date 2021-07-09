@@ -156,10 +156,14 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                     if el.depth != -1 && el.depth < self.scope_depth {
                         break;
                     }
-                    if el.name == name.node {
-                        // TODO: Handle error
-                        panic!("Duplicated name");
-                    }
+
+                    // TODO: Decide how I feal about shadowing, and why theirs
+                    // a `let` keyword in the first place.
+
+                    // if el.name == name.node {
+                    //     // TODO: Handle error
+                    //     panic!("Duplicated name");
+                    // }
                 }
                 self.locals.push(Local {
                     // This cannot be used in the following expression
@@ -253,7 +257,14 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 }
                 self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
             }
-            RawExpr::Map(_) => todo!(),
+            RawExpr::Map(m) => {
+                for (k, v) in m {
+                    // TODO: Give the span of the strings.
+                    self.add_instr_eloc(Instr::LoadLit(parser::Literal::String(k.node)), expr);
+                    self.push_expr(v);
+                }
+                self.add_instr_eloc(Instr::MakeMap(m.len()), expr)
+            }
             RawExpr::Call(path, args) => {
                 let func = unwrap_one(path.as_var().unwrap());
                 let func_info = self.func_map[func.node];

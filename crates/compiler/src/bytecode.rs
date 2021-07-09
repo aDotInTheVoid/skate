@@ -60,6 +60,7 @@ pub enum Instr<'s> {
     JumpForwardIfFalse(usize),
 
     MakeArray(usize),
+    MakeMap(usize),
 
     ArrayAccess,
 

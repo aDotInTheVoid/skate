@@ -1,13 +1,15 @@
 use std::collections::BTreeMap;
 use std::fmt::{self, Debug, Display, Formatter, Write};
 
+use enum_as_inner::EnumAsInner;
+
 use slotmap::SlotMap;
 
 pub type Heap = SlotMap<HeapKey, BigValue>;
 
 slotmap::new_key_type! { pub struct HeapKey; }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, Copy)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, Copy, EnumAsInner)]
 pub enum Value {
     Int(i64),
     Float(f64),
@@ -18,7 +20,7 @@ pub enum Value {
 
 // TODO: Remove PartialEq impl when we add Array and Value, as these may have
 // different heap ids that should be treated equal.
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, EnumAsInner)]
 pub enum BigValue {
     String(String),
     Array(Vec<Value>),

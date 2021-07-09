@@ -6,9 +6,9 @@ use eyre::Result;
 use compiler::bytecode::{self, FuncKey};
 use parser::Literal;
 use rt_common::RT;
-use value::{BigValue, Heap, HeapKey, Value, ValueDbg};
+use value::{BigValue, Heap, Map, Value, ValueDbg};
 
-const DEBUG: bool = true;
+const DEBUG: bool = false;
 
 // We put Code outside the VM for BorrowCK reasons
 pub struct VM<'w> {
@@ -91,9 +91,7 @@ impl<'w> VM<'w> {
             match instr {
                 Instr::LoadLit(l) => {
                     let val = match *l {
-                        Literal::String(s) => {
-                            Value::Complex(self.add_to_heap(BigValue::String(s.to_owned())))
-                        }
+                        Literal::String(s) => (self.add_to_heap(BigValue::String(s.to_owned()))),
                         Literal::Float(f) => Value::Float(f),
                         Literal::Integer(i) => Value::Int(i),
                         Literal::Bool(b) => Value::Bool(b),
@@ -161,7 +159,21 @@ impl<'w> VM<'w> {
                 Instr::MakeArray(num) => {
                     let ar = self.stack.split_off(self.stack.len() - num);
                     let hid = self.add_to_heap(BigValue::Array(ar));
-                    self.push(Value::Complex(hid));
+                    self.push(hid);
+                }
+                Instr::MakeMap(len) => {
+                    let mut map = Map::new();
+                    for _ in 0..*len {
+                        let val = self.pop();
+                        let key = self.pop();
+                        let str = self.heap[*key.as_complex().unwrap()]
+                            .as_string()
+                            .unwrap()
+                            .clone();
+                        assert!(map.insert(str, val).is_none());
+                    }
+                    let val = self.add_to_heap(BigValue::Map(map));
+                    self.push(val);
                 }
                 Instr::Return => {
                     let result = self.pop();
@@ -218,8 +230,8 @@ impl<'w> VM<'w> {
         *self.stack.last().unwrap()
     }
 
-    pub fn add_to_heap(&mut self, v: BigValue) -> HeapKey {
-        self.heap.insert(v)
+    pub fn add_to_heap(&mut self, v: BigValue) -> Value {
+        Value::Complex(self.heap.insert(v))
     }
 
     // This cant be in rt_common, as it cant know that the borrow of

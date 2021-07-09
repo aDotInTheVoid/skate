@@ -1,0 +1,17 @@
+fn main() {
+
+    let x = %{a: 2, b: 2};
+
+    print x;
+
+    let y = %{
+        a: [1, 2, 3+4],
+        b: %{
+            x: "keys",
+            y: %{}
+        },
+        z: x
+    };
+    
+    print y;
+}

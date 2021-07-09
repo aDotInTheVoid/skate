@@ -2,6 +2,7 @@ run-pass/array/eq.sk
 run-pass/array/index-2.sk
 run-pass/array/index.sk
 run-pass/array/lit.sk
+run-pass/array/print-nested.sk
 run-pass/assigns.sk
 run-pass/binop/boolean.sk
 run-pass/binop/comparison.sk
@@ -29,6 +30,7 @@ run-pass/if-ret.sk
 run-pass/if.sk
 run-pass/lvalue/reasign.sk
 run-pass/lvalue/voyage.sk
+run-pass/map/print.sk
 run-pass/more-complex-exprs.sk
 run-pass/recurse-countdown.sk
 run-pass/recursive_fib.sk

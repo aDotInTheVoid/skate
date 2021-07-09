@@ -61,26 +61,6 @@ pub trait RT: Sized {
         binop(self, l, o, r, l_span, o_span, r_span)
     }
 
-    fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
-        if let Value::Bool(b) = val {
-            Ok(b)
-        } else {
-            Err(self.unexpected_type_error(val, s, "bool"))
-        }
-    }
-
-    fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
-        RtError(
-            Diagnostic::error()
-                .with_message(format!(
-                    "Expected `{}`, got `{}`",
-                    expected,
-                    self.type_name(&val)
-                ))
-                .with_labels(vec![self.evaled_to_primary(val, s)]),
-        )
-    }
-
     fn unary_op(&self, o: Spanned<UnaryOp>, v: Value, vs: Span) -> Result<Value> {
         Ok(match (o.node, v) {
             (UnaryOp::Not, Value::Bool(b)) => Value::Bool(!b),
@@ -153,6 +133,26 @@ pub trait RT: Sized {
         }
     }
 
+    fn as_bool(&self, val: Value, s: Span) -> Result<bool, RtError> {
+        if let Value::Bool(b) = val {
+            Ok(b)
+        } else {
+            Err(self.unexpected_type_error(val, s, "bool"))
+        }
+    }
+
+    fn unexpected_type_error(&self, val: Value, s: Span, expected: &str) -> RtError {
+        RtError(
+            Diagnostic::error()
+                .with_message(format!(
+                    "Expected `{}`, got `{}`",
+                    expected,
+                    self.type_name(&val)
+                ))
+                .with_labels(vec![self.evaled_to_primary(val, s)]),
+        )
+    }
+
     fn as_uint(&self, val: Value, s: Span) -> Result<usize, RtError> {
         if let Value::Int(i) = val {
             if let Ok(u) = i.try_into() {
@@ -168,6 +168,7 @@ pub trait RT: Sized {
             Err(self.unexpected_type_error(val, s, "int"))
         }
     }
+
     fn as_array_mut(&mut self, val: Value, s: Span) -> Result<&mut [Value], RtError> {
         if let Value::Complex(id) = val {
             if let BigValue::Array(_) = self.heap()[id] {
