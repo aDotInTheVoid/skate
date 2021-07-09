@@ -30,6 +30,7 @@ run-pass/if-ret.sk
 run-pass/if.sk
 run-pass/lvalue/reasign.sk
 run-pass/lvalue/voyage.sk
+run-pass/map/access.sk
 run-pass/map/print.sk
 run-pass/more-complex-exprs.sk
 run-pass/recurse-countdown.sk

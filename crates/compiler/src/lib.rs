@@ -245,7 +245,10 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 self.push_expr(e);
                 self.add_instr_eloc(Instr::UnOp(**u), expr);
             }
-            RawExpr::FieldAccess(_, _) => todo!(),
+            RawExpr::FieldAccess(map, name) => {
+                self.push_expr(map);
+                self.add_instr_eloc(Instr::FieldAccess(*name), expr);
+            }
             RawExpr::ArrayAccess(array, index) => {
                 self.push_expr(array);
                 self.push_expr(index);

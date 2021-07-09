@@ -213,6 +213,22 @@ impl<'w> VM<'w> {
                     let res = array[idx?];
                     self.push(res);
                 }
+                Instr::FieldAccess(name) => {
+                    let map = self.pop();
+                    // TODO: Lazy load location
+                    let map = self.as_map(
+                        map,
+                        self.get_func(code).spans[ip]
+                            .as_expr()
+                            .unwrap()
+                            .as_field_access()
+                            .unwrap()
+                            .0
+                            .span,
+                    )?;
+                    let val = map[name.node];
+                    self.push(val);
+                }
             }
             // *self.ip_mut() += 1;
         }

@@ -63,6 +63,7 @@ pub enum Instr<'s> {
     MakeMap(usize),
 
     ArrayAccess,
+    FieldAccess(parser::Name<'s>),
 
     Call(FuncKey),
 }
@@ -77,5 +78,5 @@ fn sizes() {
     // TODO: Optimize
     //
     // We could store literals in a constant table to make them small
-    assert_eq!(size_of::<Instr>(), 8 * 4);
+    assert_eq!(size_of::<Instr>(), 8 * 6);
 }

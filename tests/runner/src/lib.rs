@@ -39,7 +39,6 @@ fn let_a_eq_a() {
 }
 
 #[test]
-#[should_panic = "Duplicated name"]
 fn duplicate_var() {
     let code = "{let a=0; let a = 1;}";
     run_stmt(code);
