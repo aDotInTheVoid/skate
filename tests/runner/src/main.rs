@@ -83,7 +83,7 @@ fn main() -> eyre::Result<()> {
         match run_pass_test(&i, &conf)? {
             TestResult::Success => {
                 eprintln!("PASSED: {}", relative_path);
-                pass.push(i);
+                pass.push(relative_path);
             }
             TestResult::Failure(why) => {
                 eprintln!("FAILED: {} {}", relative_path, why);
