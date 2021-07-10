@@ -303,7 +303,20 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
             }
             RawExpr::Map(m) => {
+                let mut names = HashMap::new();
+
                 for (k, v) in m {
+                    if let Some(old_span) = names.insert(k.node, k.span) {
+                        return Err(CompError(
+                            Diagnostic::error()
+                                .with_message(format!("Duplicate key `{}` in map literal", k.node))
+                                .with_labels(vec![
+                                    old_span.primary_label().with_message("First defined here"),
+                                    k.span.primary_label().with_message("Defined here again"),
+                                ]),
+                        ));
+                    }
+
                     // TODO: Give the span of the strings.
                     self.add_instr_eloc(Instr::LoadLit(parser::Literal::String(k.node)), expr);
                     self.push_expr(v)?;
