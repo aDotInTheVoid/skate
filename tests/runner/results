@@ -25,7 +25,9 @@ run-fail/binop/mismatch/minus.sk
 run-fail/binop/mismatch/neq.sk
 run-fail/binop/mismatch/or.sk
 run-fail/binop/mismatch/times.sk
+run-fail/fns/not-enough.sk
 run-fail/fns/return-fn.sk
+run-fail/fns/to-many-args.sk
 run-fail/map/field-access-not-map.sk
 run-fail/map/lvalue-not-map.sk
 run-fail/map/lvalue-oos.sk
@@ -36,6 +38,7 @@ run-fail/types/negitive-str.sk
 run-fail/types/str-eq-array.sk
 run-fail/types/str-plus-num.sk
 run-fail/unop/minus-str.sk
+run-fail/vars/call.sk
 run-fail/vars/if1.sk
 run-fail/vars/l-and-r-oos.sk
 run-fail/vars/lvalue-out-of-scope.sk

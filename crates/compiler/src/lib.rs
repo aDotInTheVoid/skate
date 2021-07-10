@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use codespan_reporting::diagnostic::Diagnostic;
+use diagnostics::span::Span;
 use itertools::Itertools;
 use slotmap::SlotMap;
 
@@ -40,6 +41,7 @@ mod utils;
 struct FnInfo {
     n_args: usize,
     key: FuncKey,
+    span: Span,
 }
 
 pub fn compile<'a, 's>(
@@ -54,6 +56,7 @@ pub fn compile<'a, 's>(
             FnInfo {
                 key,
                 n_args: f.args.len(),
+                span: f.span,
             },
         );
     }
@@ -292,10 +295,31 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
             RawExpr::Call(path, args) => {
                 let func = unwrap_one(path.as_var().unwrap());
                 let func_info = self.func_map[func.node];
-                assert_eq!(func_info.n_args, args.len());
+
                 for i in args {
                     self.push_expr(i)?;
                 }
+                if func_info.n_args != args.len() {
+                    return Err(CompError(
+                        Diagnostic::error()
+                            .with_message(format!(
+                                "Expected {} args, found {}",
+                                func_info.n_args,
+                                args.len()
+                            ))
+                            .with_labels(vec![
+                                expr.primary_label().with_message(format!(
+                                    "Calling here with {} arguments",
+                                    args.len()
+                                )),
+                                func_info.span.secondary_label().with_message(format!(
+                                    "Defined here with {} arguments",
+                                    func_info.n_args
+                                )),
+                            ]),
+                    ));
+                }
+
                 self.add_instr_eloc(Instr::Call(func_info.key), expr)
             }
         }
