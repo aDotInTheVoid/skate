@@ -23,17 +23,8 @@ impl<'a> VM<'a, '_> {
                 assert_eq!(var.len(), 1);
                 let var = &var[0];
                 let val = self.eval_in(scope, rvalue)?;
-                match scope.find(var) {
-                    Some(ptr) => *ptr = val,
-                    None => {
-                        return Err(RtError(
-                            Diagnostic::error()
-                                .with_message(format!("No variable named `{}` in scope", var.node))
-                                .with_labels(vec![var.primary_label()]),
-                        )
-                        .into());
-                    }
-                };
+                let ptr = scope.find(var)?;
+                *ptr = val;
             }
             RawExpr::FieldAccess(map_s, key_s) => {
                 // TODO: This evaluates the RHS before checking if LHS is map, is this good?

@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 use std::mem;
 
 use codespan_reporting::diagnostic::Diagnostic;
-use diagnostics::span::{Span, Spanned};
+use diagnostics::span::Span;
 use diagnostics::RtError;
 use eyre::Result;
 use parser::{Block, Expr, FnBody, RawExpr, RawStmt};
@@ -197,19 +197,8 @@ impl<'a, 'b> VM<'a, 'b> {
             Var(path) => {
                 // TODO: Handle Module's here
                 assert_eq!(path.len(), 1);
-                let Spanned { node, span } = path[0];
-
-                scope.lookup(node).ok_or_else(|| {
-                    RtError(
-                        Diagnostic::error()
-                            .with_message(format!("Couldn't find variable `{}` in scope", node))
-                            .with_labels(vec![span.primary_label()])
-                            .with_notes(vec![format!(
-                                "Variables in scope: {:?}",
-                                scope.in_scope()
-                            )]),
-                    )
-                })?
+                let node = path[0];
+                scope.lookup(&node)?
             }
 
             // Block(b) => {

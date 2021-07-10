@@ -1,5 +1,8 @@
 use std::collections::HashMap;
 
+use codespan_reporting::diagnostic::Diagnostic;
+use diagnostics::RtError;
+use parser::Name;
 use value::Value;
 
 #[derive(Debug, Default)]
@@ -22,19 +25,26 @@ impl<'a> Scope<'a> {
         last.insert(name, v);
     }
 
-    pub fn lookup(&mut self, name: &str) -> Option<Value> {
+    pub fn lookup(&mut self, name: &Name) -> Result<Value, RtError> {
         self.find(name).map(|x| *x)
     }
 
-    pub fn find(&mut self, name: &str) -> Option<&mut Value> {
-        let mut ret = None;
+    pub fn find(&mut self, name: &Name) -> Result<&mut Value, RtError> {
+        // Polonius workaround
+        let in_scope = self.in_scope();
+
         for i in self.vars.iter_mut().rev() {
-            if let Some(var) = i.get_mut(name) {
-                ret = Some(var);
-                break;
+            if let Some(var) = i.get_mut(name.node) {
+                return Ok(var);
             }
         }
-        ret
+
+        return Err(RtError(
+            Diagnostic::error()
+                .with_message(format!("Couldn't find variable `{}` in scope", name.node))
+                .with_labels(vec![name.span.primary_label()])
+                .with_notes(vec![format!("Variables in scope: {:?}", in_scope)]),
+        ));
     }
 
     pub fn in_scope(&self) -> Vec<&'a str> {

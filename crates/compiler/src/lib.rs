@@ -186,7 +186,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
             RawStmt::Assign(name, expr) => match &name.node {
                 RawExpr::Var(name) => {
                     let name = unwrap_one(name);
-                    let id = self.resolve_local(name).expect("No Local Found");
+                    let id = self.resolve_local(name)?;
                     self.push_expr(expr)?;
                     self.add_instr_sloc(Instr::SetLocal(id), stmt);
                     self.add_instr_sloc(Instr::Pop, stmt);
@@ -253,39 +253,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
             RawExpr::Literal(l) => self.add_instr_eloc(Instr::LoadLit(**l), expr),
             RawExpr::Var(name) => {
                 let name = unwrap_one(name);
-                let id = self.resolve_local(name).ok_or_else(|| {
-                    CompError(
-                        Diagnostic::error()
-                            .with_message(format!(
-                                "Couldn't find variable `{}` in scope",
-                                name.node
-                            ))
-                            .with_labels(vec![name.span.primary_label()])
-                            .with_notes(vec![format!("Variables in scope: {:?}", {
-                                // This is kind of complicated logic to group
-                                // vars into scope, and print them sorted,
-                                // not sure if its a good idea.
-
-                                let names = self
-                                    .locals
-                                    .iter()
-                                    .rev()
-                                    .filter(|local| local.depth != -1)
-                                    .group_by(|local| local.depth);
-
-                                let names = names
-                                    .into_iter()
-                                    .flat_map(|(_, locals)| {
-                                        let mut names = locals.map(|l| l.name).collect_vec();
-                                        names.sort_unstable();
-                                        names
-                                    })
-                                    .collect_vec();
-
-                                names
-                            })]),
-                    )
-                })?;
+                let id = self.resolve_local(name)?;
                 self.add_instr_eloc(Instr::GetLocal(id), expr);
             }
             RawExpr::BinOp(l, o, r) => {
@@ -347,13 +315,40 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
         }
     }
 
-    fn resolve_local(&self, name: &str) -> Option<usize> {
+    fn resolve_local(&self, name: &parser::Name<'_>) -> Result<usize, CompError> {
         for (idx, loc) in self.locals.iter().enumerate().rev() {
-            if loc.depth != -1 && loc.name == name {
-                return Some(idx);
+            if loc.depth != -1 && loc.name == name.node {
+                return Ok(idx);
             }
         }
-        None
+        Err(CompError(
+            Diagnostic::error()
+                .with_message(format!("Couldn't find variable `{}` in scope", name.node))
+                .with_labels(vec![name.span.primary_label()])
+                .with_notes(vec![format!("Variables in scope: {:?}", {
+                    // This is kind of complicated logic to group
+                    // vars into scope, and print them sorted,
+                    // not sure if its a good idea.
+
+                    let names = self
+                        .locals
+                        .iter()
+                        .rev()
+                        .filter(|local| local.depth != -1)
+                        .group_by(|local| local.depth);
+
+                    let names = names
+                        .into_iter()
+                        .flat_map(|(_, locals)| {
+                            let mut names = locals.map(|l| l.name).collect_vec();
+                            names.sort_unstable();
+                            names
+                        })
+                        .collect_vec();
+
+                    names
+                })]),
+        ))
     }
 }
 
