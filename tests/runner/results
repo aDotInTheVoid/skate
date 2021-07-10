@@ -37,6 +37,7 @@ run-fail/types/str-eq-array.sk
 run-fail/types/str-plus-num.sk
 run-fail/unop/minus-str.sk
 run-fail/vars/if1.sk
+run-fail/vars/l-and-r-oos.sk
 run-fail/vars/lvalue-out-of-scope.sk
 run-fail/vars/oos-order.sk
 run-fail/vars/oos-unop.sk

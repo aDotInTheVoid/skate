@@ -186,8 +186,9 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
             RawStmt::Assign(name, expr) => match &name.node {
                 RawExpr::Var(name) => {
                     let name = unwrap_one(name);
-                    let id = self.resolve_local(name)?;
                     self.push_expr(expr)?;
+                    // tests/run-fail/vars/l-and-r-oos.sk
+                    let id = self.resolve_local(name)?;
                     self.add_instr_sloc(Instr::SetLocal(id), stmt);
                     self.add_instr_sloc(Instr::Pop, stmt);
                 }
