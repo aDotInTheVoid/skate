@@ -34,6 +34,8 @@ run-fail/binop/mismatch/minus.sk
 run-fail/binop/mismatch/neq.sk
 run-fail/binop/mismatch/or.sk
 run-fail/binop/mismatch/times.sk
+run-fail/fns/dup-fn-long.sk
+run-fail/fns/dup-fn.sk
 run-fail/fns/not-a-fn.sk
 run-fail/fns/not-enough.sk
 run-fail/fns/return-fn.sk

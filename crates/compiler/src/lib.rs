@@ -51,14 +51,26 @@ pub fn compile<'a, 's>(
     let mut fn_names = HashMap::new();
     for (_, f) in prog.iter().filter_map(Item::as_function) {
         let key = fns.insert(Default::default());
-        fn_names.insert(
+        if let Some(old_info) = fn_names.insert(
             f.name.node,
             FnInfo {
                 key,
                 n_args: f.args.len(),
                 span: f.span,
             },
-        );
+        ) {
+            return Err(CompError(
+                Diagnostic::error()
+                    .with_message(format!("Function `{}` defined twice", f.name.node))
+                    .with_labels(vec![
+                        old_info
+                            .span
+                            .secondary_label()
+                            .with_message("Defined once here"),
+                        f.span.secondary_label().with_message("Defined again here"),
+                    ]),
+            ));
+        }
     }
 
     for (_, f) in prog.iter().filter_map(Item::as_function) {
@@ -362,29 +374,24 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
             Diagnostic::error()
                 .with_message(format!("Couldn't find variable `{}` in scope", name.node))
                 .with_labels(vec![name.span.primary_label()])
-                .with_notes(vec![format!("Variables in scope: {:?}", {
+                .with_notes(vec![format!(
+                    "Variables in scope: {:?}",
                     // This is kind of complicated logic to group
                     // vars into scope, and print them sorted,
                     // not sure if its a good idea.
-
-                    let names = self
-                        .locals
+                    self.locals
                         .iter()
                         .rev()
                         .filter(|local| local.depth != -1)
-                        .group_by(|local| local.depth);
-
-                    let names = names
+                        .group_by(|local| local.depth)
                         .into_iter()
                         .flat_map(|(_, locals)| {
                             let mut names = locals.map(|l| l.name).collect_vec();
                             names.sort_unstable();
                             names
                         })
-                        .collect_vec();
-
-                    names
-                })]),
+                        .collect_vec()
+                )]),
         ))
     }
 }
