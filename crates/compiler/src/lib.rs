@@ -206,7 +206,13 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                     self.push_expr(expr)?;
                     self.add_instr_sloc(Instr::ArraySet, stmt)
                 }
-                _ => panic!("Expected lvalue"),
+                _ => {
+                    return Err(CompError(
+                        Diagnostic::error()
+                            .with_message("Excpected an lvalue")
+                            .with_labels(vec![name.span.primary_label()]),
+                    ))
+                }
             },
             RawStmt::Expr(e) => {
                 self.push_expr(e)?;
@@ -293,7 +299,13 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 self.add_instr_eloc(Instr::MakeMap(m.len()), expr)
             }
             RawExpr::Call(path, args) => {
-                let func = unwrap_one(path.as_var().unwrap());
+                let func = unwrap_one(path.as_var().ok_or_else(|| {
+                    CompError(
+                        Diagnostic::error()
+                            .with_message("Expected a name")
+                            .with_labels(vec![path.primary_label()]),
+                    )
+                })?);
                 let func_info = self.func_map[func.node];
 
                 for i in args {

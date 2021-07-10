@@ -1,9 +1,10 @@
 use std::io;
 
-use bytecode::Instr;
+use codespan_reporting::diagnostic::Diagnostic;
 use eyre::Result;
 
-use compiler::bytecode::{self, FuncKey};
+use compiler::bytecode::{self, FuncKey, Instr};
+use diagnostics::RtError;
 use parser::{Literal, RawStmt};
 use rt_common::RT;
 use value::{BigValue, Heap, Map, Value, ValueDbg};
@@ -241,20 +242,31 @@ impl<'w> VM<'w> {
                     array[index?] = expr;
                 }
                 Instr::FieldAccess(name) => {
-                    let map = self.pop();
+                    let map_value = self.pop();
                     // TODO: Lazy load location
-                    let map = self.as_map(
-                        map,
-                        self.get_func(code).spans[ip]
-                            .as_expr()
-                            .unwrap()
-                            .as_field_access()
-                            .unwrap()
-                            .0
-                            .span,
-                    )?;
-                    let val = map[name.node];
-                    self.push(val);
+
+                    let (map_span, key_span) = self.get_func(code).spans[ip]
+                        .as_expr()
+                        .unwrap()
+                        .as_field_access()
+                        .unwrap();
+
+                    let map = self.as_map(map_value, map_span.span)?;
+
+                    if let Some(val) = map.get(name.node) {
+                        let val = *val;
+                        self.push(val);
+                    } else {
+                        return Err(RtError(
+                            Diagnostic::error()
+                                .with_message(format!("Map doesnt have key `{}`", name.node))
+                                .with_labels(vec![
+                                    self.evaled_to(map_value, map_span.span),
+                                    key_span.span.primary_label().with_message("This key"),
+                                ]),
+                        )
+                        .into());
+                    }
                 }
                 Instr::FieldSet(name) => {
                     let expr = self.pop();

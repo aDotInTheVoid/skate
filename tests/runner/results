@@ -25,12 +25,15 @@ run-fail/binop/mismatch/minus.sk
 run-fail/binop/mismatch/neq.sk
 run-fail/binop/mismatch/or.sk
 run-fail/binop/mismatch/times.sk
+run-fail/fns/not-a-fn.sk
 run-fail/fns/not-enough.sk
 run-fail/fns/return-fn.sk
 run-fail/fns/to-many-args.sk
+run-fail/lvalue/not.sk
 run-fail/map/field-access-not-map.sk
 run-fail/map/lvalue-not-map.sk
 run-fail/map/lvalue-oos.sk
+run-fail/map/no-key.sk
 run-fail/map/print.sk
 run-fail/types/if-bool.sk
 run-fail/types/large-span.sk
