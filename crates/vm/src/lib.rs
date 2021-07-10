@@ -57,7 +57,7 @@ impl<'w> VM<'w> {
         &code.fns[key]
     }
 
-    pub fn run(&mut self, code: &bytecode::Code, main_key: bytecode::FuncKey) -> Result<()> {
+    pub fn run(&mut self, code: &bytecode::Code, main_key: bytecode::FuncKey) -> Result<i64> {
         // All of this assumes a fresh VM, which is probably bad design
 
         self.frames.push(Frame {
@@ -192,7 +192,18 @@ impl<'w> VM<'w> {
                     self.push(result);
 
                     if self.frames.is_empty() {
-                        return Ok(());
+                        return Ok(match result {
+                            Value::Int(n) => n,
+
+                            Value::Null => 0,
+                            _ => {
+                                return Err(RtError(Diagnostic::error().with_message(format!(
+                                "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
+                                self.dbg_val(&result),
+                                self.type_name(&result),)))
+                                .into())
+                            }
+                        });
                     }
                 }
                 Instr::Call(id) => {

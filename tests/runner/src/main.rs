@@ -38,7 +38,7 @@ fn main() -> eyre::Result<()> {
     for (name, func, must_pass) in [
         ("run-pass", run_pass_test as TestFn, true),
         ("compile-fail", compile_fail_test as TestFn, true),
-        ("run-fail", compile_fail_test as TestFn, false),
+        ("run-fail", compile_fail_test as TestFn, true),
     ] {
         let glob_path = test_root_dir.join(name).join("**").join("*.sk");
 
