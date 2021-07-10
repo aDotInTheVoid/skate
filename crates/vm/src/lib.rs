@@ -210,7 +210,7 @@ impl<'w> VM<'w> {
                     let array = self.pop();
 
                     // TODO: Lazy load ast
-                    let (idx_span, array_span) = self.get_func(code).spans[ip]
+                    let (array_span, idx_span) = self.get_func(code).spans[ip]
                         .as_expr()
                         .unwrap()
                         .as_array_access()
@@ -228,7 +228,7 @@ impl<'w> VM<'w> {
                     let array = self.pop();
 
                     // TODO: Lazy load ast
-                    let (idx_span, array_span) = self.get_func(code).spans[ip]
+                    let (array_span, idx_span) = self.get_func(code).spans[ip]
                         .as_stmt()
                         .unwrap()
                         .as_assign()
