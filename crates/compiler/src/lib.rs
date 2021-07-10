@@ -1,10 +1,13 @@
 use std::collections::HashMap;
 
-use bytecode::{Code, FuncKey};
-use parser::{Item, RawExpr, RawStmt};
+use codespan_reporting::diagnostic::Diagnostic;
+use itertools::Itertools;
 use slotmap::SlotMap;
 
-use crate::bytecode::{AstLoc, Instr};
+use diagnostics::CompError;
+use parser::{Item, RawExpr, RawStmt};
+
+use crate::bytecode::{AstLoc, Code, FuncKey, Instr};
 
 pub mod bytecode;
 mod utils;
@@ -39,7 +42,9 @@ struct FnInfo {
     key: FuncKey,
 }
 
-pub fn compile<'a, 's>(prog: &'a parser::ProgramSlice<'s>) -> (Code<'a, 's>, bytecode::FuncKey) {
+pub fn compile<'a, 's>(
+    prog: &'a parser::ProgramSlice<'s>,
+) -> Result<(Code<'a, 's>, bytecode::FuncKey), CompError> {
     let mut fns = SlotMap::with_key();
     let mut fn_names = HashMap::new();
     for (_, f) in prog.iter().filter_map(Item::as_function) {
@@ -55,13 +60,13 @@ pub fn compile<'a, 's>(prog: &'a parser::ProgramSlice<'s>) -> (Code<'a, 's>, byt
 
     for (_, f) in prog.iter().filter_map(Item::as_function) {
         let id = fn_names[f.name.node].key;
-        let func = build_function(f, &fn_names);
+        let func = build_function(f, &fn_names)?;
         fns[id] = func;
     }
 
     let main_key = fn_names["main"].key;
 
-    (Code { fns }, main_key)
+    Ok((Code { fns }, main_key))
 }
 
 type FuncLut<'s> = HashMap<&'s str, FnInfo>;
@@ -80,7 +85,10 @@ struct Local<'s> {
     depth: i32,
 }
 
-fn build_function<'a, 's>(f: &'a parser::Function<'s>, l: &FuncLut<'s>) -> bytecode::Func<'a, 's> {
+fn build_function<'a, 's>(
+    f: &'a parser::Function<'s>,
+    l: &FuncLut<'s>,
+) -> Result<bytecode::Func<'a, 's>, CompError> {
     let mut comp = FnComping::new(l);
     // This feals dirty, and like abuse of default
     comp.output.n_args = f.args.len();
@@ -96,16 +104,16 @@ fn build_function<'a, 's>(f: &'a parser::Function<'s>, l: &FuncLut<'s>) -> bytec
 
     match &f.body {
         parser::FnBody::Expr(e) => {
-            comp.push_expr(e);
+            comp.push_expr(e)?;
             comp.add_instr_nloc(Instr::Return);
         }
         parser::FnBody::Block(b) => {
-            comp.add_block(b);
+            comp.add_block(b)?;
             comp.add_instr_nloc(Instr::LoadLit(parser::Literal::Null));
             comp.add_instr_nloc(Instr::Return);
         }
     }
-    comp.output
+    Ok(comp.output)
 }
 
 impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
@@ -118,12 +126,13 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
         }
     }
 
-    fn add_block(&mut self, block: &'a parser::Block<'s>) {
+    fn add_block(&mut self, block: &'a parser::Block<'s>) -> Result<(), CompError> {
         self.begin_scope();
         for i in &*block.node {
-            self.push_stmt(i);
+            self.push_stmt(i)?;
         }
         self.end_scope();
+        Ok(())
     }
 
     fn add_instr_eloc(&mut self, instr: Instr<'s>, expr: &'a parser::Expr<'s>) {
@@ -149,7 +158,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
         self.output.code.len()
     }
 
-    pub fn push_stmt(&mut self, stmt: &'a parser::Stmt<'s>) {
+    pub fn push_stmt(&mut self, stmt: &'a parser::Stmt<'s>) -> Result<(), CompError> {
         match &**stmt {
             RawStmt::Let(name, expr) => {
                 for el in self.locals.iter().rev() {
@@ -170,7 +179,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                     depth: -1,
                     name: &*name,
                 });
-                self.push_expr(expr);
+                self.push_expr(expr)?;
                 self.locals.last_mut().unwrap().depth = self.scope_depth;
             }
 
@@ -178,97 +187,128 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 RawExpr::Var(name) => {
                     let name = unwrap_one(name);
                     let id = self.resolve_local(name).expect("No Local Found");
-                    self.push_expr(expr);
+                    self.push_expr(expr)?;
                     self.add_instr_sloc(Instr::SetLocal(id), stmt);
                     self.add_instr_sloc(Instr::Pop, stmt);
                 }
                 RawExpr::FieldAccess(map, key) => {
-                    self.push_expr(map);
-                    self.push_expr(expr);
+                    self.push_expr(map)?;
+                    self.push_expr(expr)?;
                     self.add_instr_sloc(Instr::FieldSet(*key), stmt);
                 }
                 RawExpr::ArrayAccess(array, index) => {
-                    self.push_expr(array);
-                    self.push_expr(index);
-                    self.push_expr(expr);
+                    self.push_expr(array)?;
+                    self.push_expr(index)?;
+                    self.push_expr(expr)?;
                     self.add_instr_sloc(Instr::ArraySet, stmt)
                 }
                 _ => panic!("Expected lvalue"),
             },
             RawStmt::Expr(e) => {
-                self.push_expr(e);
+                self.push_expr(e)?;
                 self.add_instr_sloc(Instr::Pop, stmt);
             }
             RawStmt::Print(e) => {
-                self.push_expr(e);
+                self.push_expr(e)?;
                 self.add_instr_sloc(Instr::Print, stmt);
             }
             RawStmt::If(cond, tcase, fcase) => {
                 // TODO: Optimize for case with no `fcase`
                 // See: http://craftinginterpreters.com/image/jumping-back-and-forth/full-if-else.png
-                self.push_expr(cond);
+                self.push_expr(cond)?;
                 let j1 = self.add_jfif(stmt);
                 self.add_instr_sloc(Instr::Pop, stmt);
-                self.add_block(tcase);
+                self.add_block(tcase)?;
                 let j2 = self.add_jf(stmt);
                 self.patch_fjump(j1);
                 self.add_instr_sloc(Instr::Pop, stmt);
                 if let Some(fcase) = fcase {
-                    self.add_block(fcase);
+                    self.add_block(fcase)?;
                 }
                 self.patch_fjump(j2);
             }
             RawStmt::While(cond, block) => {
                 // http://craftinginterpreters.com/image/jumping-back-and-forth/while.png
                 let loop_start = self.add_jump_back_to_point();
-                self.push_expr(cond);
+                self.push_expr(cond)?;
                 let loop_exit = self.add_jfif(stmt);
                 self.add_instr_sloc(Instr::Pop, stmt);
-                self.add_block(block);
+                self.add_block(block)?;
                 self.add_jb(loop_start, stmt);
                 self.patch_fjump(loop_exit);
                 self.add_instr_sloc(Instr::Pop, stmt);
             }
-            RawStmt::Block(b) => self.add_block(b),
+            RawStmt::Block(b) => self.add_block(b)?,
             RawStmt::Return(expr) => {
-                self.push_expr(expr);
+                self.push_expr(expr)?;
                 self.add_instr_sloc(Instr::Return, stmt);
             }
             RawStmt::For(_, _, _) => todo!(),
         }
+        Ok(())
     }
 
-    pub fn push_expr(&mut self, expr: &'a parser::Expr<'s>) {
+    pub fn push_expr(&mut self, expr: &'a parser::Expr<'s>) -> Result<(), CompError> {
         match &**expr {
             RawExpr::Literal(l) => self.add_instr_eloc(Instr::LoadLit(**l), expr),
             RawExpr::Var(name) => {
                 let name = unwrap_one(name);
-                let id = self
-                    .resolve_local(name)
-                    .unwrap_or_else(|| panic!("Local {} not found", name.node));
+                let id = self.resolve_local(name).ok_or_else(|| {
+                    CompError(
+                        Diagnostic::error()
+                            .with_message(format!(
+                                "Couldn't find variable `{}` in scope",
+                                name.node
+                            ))
+                            .with_labels(vec![name.span.primary_label()])
+                            .with_notes(vec![format!("Variables in scope: {:?}", {
+                                // This is kind of complicated logic to group
+                                // vars into scope, and print them sorted,
+                                // not sure if its a good idea.
+
+                                let names = self
+                                    .locals
+                                    .iter()
+                                    .rev()
+                                    .filter(|local| local.depth != -1)
+                                    .group_by(|local| local.depth);
+
+                                let names = names
+                                    .into_iter()
+                                    .flat_map(|(_, locals)| {
+                                        let mut names = locals.map(|l| l.name).collect_vec();
+                                        names.sort_unstable();
+                                        names
+                                    })
+                                    .collect_vec();
+
+                                names
+                            })]),
+                    )
+                })?;
                 self.add_instr_eloc(Instr::GetLocal(id), expr);
             }
             RawExpr::BinOp(l, o, r) => {
-                self.push_expr(l);
-                self.push_expr(r);
+                self.push_expr(l)?;
+                self.push_expr(r)?;
                 self.add_instr_eloc(Instr::BinOp(**o), expr);
             }
             RawExpr::UnaryOp(u, e) => {
-                self.push_expr(e);
+                self.push_expr(e)?;
                 self.add_instr_eloc(Instr::UnOp(**u), expr);
             }
             RawExpr::FieldAccess(map, name) => {
-                self.push_expr(map);
+                self.push_expr(map)?;
                 self.add_instr_eloc(Instr::FieldAccess(*name), expr);
             }
             RawExpr::ArrayAccess(array, index) => {
-                self.push_expr(array);
-                self.push_expr(index);
+                self.push_expr(array)?;
+                self.push_expr(index)?;
                 self.add_instr_eloc(Instr::ArrayAccess, expr)
             }
             RawExpr::Array(items) => {
                 for i in items {
-                    self.push_expr(i);
+                    self.push_expr(i)?;
                 }
                 self.add_instr_eloc(Instr::MakeArray(items.len()), expr);
             }
@@ -276,7 +316,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 for (k, v) in m {
                     // TODO: Give the span of the strings.
                     self.add_instr_eloc(Instr::LoadLit(parser::Literal::String(k.node)), expr);
-                    self.push_expr(v);
+                    self.push_expr(v)?;
                 }
                 self.add_instr_eloc(Instr::MakeMap(m.len()), expr)
             }
@@ -285,11 +325,12 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 let func_info = self.func_map[func.node];
                 assert_eq!(func_info.n_args, args.len());
                 for i in args {
-                    self.push_expr(i);
+                    self.push_expr(i)?;
                 }
                 self.add_instr_eloc(Instr::Call(func_info.key), expr)
             }
         }
+        Ok(())
     }
 
     fn begin_scope(&mut self) {
@@ -325,7 +366,7 @@ fn basic_expr() {
 
     let m = HashMap::new();
     let mut comp = FnComping::new(&m);
-    comp.push_expr(&expr);
+    comp.push_expr(&expr).unwrap();
     let func = comp.output;
     assert_eq!(
         func.code,

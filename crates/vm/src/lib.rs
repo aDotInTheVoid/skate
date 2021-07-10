@@ -4,10 +4,11 @@ use bytecode::Instr;
 use eyre::Result;
 
 use compiler::bytecode::{self, FuncKey};
-use parser::Literal;
+use parser::{Literal, RawStmt};
 use rt_common::RT;
 use value::{BigValue, Heap, Map, Value, ValueDbg};
 
+// TODO: Make this a flag
 const DEBUG: bool = false;
 
 // We put Code outside the VM for BorrowCK reasons
@@ -152,7 +153,14 @@ impl<'w> VM<'w> {
                 Instr::JumpForwardIfFalse(by) => {
                     debug_assert_ne!(*by, 0);
                     let val = self.peak();
-                    if !self.as_bool(val, Default::default())? {
+
+                    let span = match &self.get_func(code).spans[ip].as_stmt().unwrap().node {
+                        RawStmt::If(cond, _, _) => cond.span,
+                        RawStmt::While(cond, _) => cond.span,
+                        other => panic!("Unexpected {:?}", other),
+                    };
+
+                    if !self.as_bool(val, span)? {
                         *self.ip_mut() += by;
                     }
                 }
@@ -324,7 +332,7 @@ fn basic() {
 
     let mut vm = VM::new(&mut stdout);
 
-    let (code, main_fn) = compiler::compile(&prog);
+    let (code, main_fn) = compiler::compile(&prog).unwrap();
 
     vm.run(&code, main_fn).unwrap();
     // The null from main
@@ -346,7 +354,7 @@ fn print() {
 
     let mut vm = VM::new(&mut stdout);
 
-    let (code, main_fn) = compiler::compile(&prog);
+    let (code, main_fn) = compiler::compile(&prog).unwrap();
 
     vm.run(&code, main_fn).unwrap();
     // The null from main
@@ -368,7 +376,7 @@ fn empty_stack() {
 
     let mut vm = VM::new(&mut stdout);
 
-    let (code, main_fn) = compiler::compile(&prog);
+    let (code, main_fn) = compiler::compile(&prog).unwrap();
 
     vm.run(&code, main_fn).unwrap();
     assert_eq!(vm.stack.len(), 1);

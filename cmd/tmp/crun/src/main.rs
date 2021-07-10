@@ -32,7 +32,13 @@ fn main() -> Result<()> {
         }
     };
 
-    let (code, main_id) = compiler::compile(&prog);
+    let (code, main_id) = match compiler::compile(&prog) {
+        Ok(x) => x,
+        Err(comperr) => {
+            emit_err(&comperr.0)?;
+            std::process::exit(1);
+        }
+    };
 
     // dbg!(&code);
 

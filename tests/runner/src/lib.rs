@@ -6,7 +6,7 @@ fn run_stmt(stmt: &str) -> String {
         .parse(diagnostics::FileId(0), &src)
         .unwrap();
 
-    let (code, main_key) = compiler::compile(&tree);
+    let (code, main_key) = compiler::compile(&tree).unwrap();
 
     let mut output = Vec::new();
 
@@ -32,7 +32,7 @@ fn local_vars_basic() {
 }
 
 #[test]
-#[should_panic = "Local a not found"]
+#[should_panic = "Couldn't find variable `a` in scope"]
 fn let_a_eq_a() {
     let code = "{let a = a;}";
     run_stmt(code);
