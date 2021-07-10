@@ -11,16 +11,19 @@ run-fail/array/array-oos.sk
 run-fail/array/index-complex.sk
 run-fail/array/index-not-array.sk
 run-fail/array/index-not-int.sk
+run-fail/array/index-oob.sk
 run-fail/array/index-oos.sk
 run-fail/array/lv-index-neg.sk
 run-fail/array/lv-index-not-int.sk
 run-fail/array/lv-not-array.sk
+run-fail/array/lvalue-oob.sk
 run-fail/array/negative-index.sk
 run-fail/array/nested-eq.sk
 run-fail/array/no-op-nested.sk
 run-fail/array/no-op.sk
 run-fail/array/not-array-rv.sk
 run-fail/array/rv-lv-oos.sk
+run-fail/array/rv-oob.sk
 run-fail/array/str-idx.sk
 run-fail/binop/err-on-rhs.sk
 run-fail/binop/mismatch/and.sk
@@ -34,6 +37,7 @@ run-fail/binop/mismatch/minus.sk
 run-fail/binop/mismatch/neq.sk
 run-fail/binop/mismatch/or.sk
 run-fail/binop/mismatch/times.sk
+run-fail/fns/doesnt-exist.sk
 run-fail/fns/dup-fn-long.sk
 run-fail/fns/dup-fn.sk
 run-fail/fns/not-a-fn.sk

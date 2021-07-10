@@ -206,8 +206,8 @@ impl<'w> VM<'w> {
                     self.frames.push(frame);
                 }
                 Instr::ArrayAccess => {
-                    let index = self.pop();
-                    let array = self.pop();
+                    let index_val = self.pop();
+                    let array_val = self.pop();
 
                     // TODO: Lazy load ast
                     let (array_span, idx_span) = self.get_func(code).spans[ip]
@@ -216,16 +216,34 @@ impl<'w> VM<'w> {
                         .as_array_access()
                         .unwrap();
 
-                    let idx = self.as_uint(index, idx_span.span);
-                    let array = self.as_array_mut(array, array_span.span)?;
+                    let idx = self.as_uint(index_val, idx_span.span);
+                    let array = self.as_array_mut(array_val, array_span.span)?;
+                    let idx = idx?;
 
-                    let res = array[idx?];
-                    self.push(res);
+                    if let Some(res) = array.get(idx) {
+                        let res = *res;
+                        self.push(res);
+                    } else {
+                        // TODO: Extract
+                        return Err(RtError(
+                            Diagnostic::error()
+                                .with_message(format!(
+                                    "Array index out of bound, len is `{}`, but got `{}`",
+                                    array.len(),
+                                    idx
+                                ))
+                                .with_labels(vec![
+                                    self.evaled_to(index_val, idx_span.span),
+                                    self.evaled_to(array_val, array_span.span),
+                                ]),
+                        )
+                        .into());
+                    }
                 }
                 Instr::ArraySet => {
                     let expr = self.pop();
-                    let index = self.pop();
-                    let array = self.pop();
+                    let index_val = self.pop();
+                    let array_val = self.pop();
 
                     // TODO: Lazy load ast
                     let (array_span, idx_span) = self.get_func(code).spans[ip]
@@ -237,9 +255,27 @@ impl<'w> VM<'w> {
                         .as_array_access()
                         .unwrap();
 
-                    let index = self.as_uint(index, idx_span.span);
-                    let array = self.as_array_mut(array, array_span.span)?;
-                    array[index?] = expr;
+                    let index = self.as_uint(index_val, idx_span.span);
+                    let array = self.as_array_mut(array_val, array_span.span)?;
+                    let index = index?;
+
+                    if let Some(dest) = array.get_mut(index) {
+                        *dest = expr;
+                    } else {
+                        return Err(RtError(
+                            Diagnostic::error()
+                                .with_message(format!(
+                                    "Array index out of bound, len is `{}`, but got `{}`",
+                                    array.len(),
+                                    index
+                                ))
+                                .with_labels(vec![
+                                    self.evaled_to(index_val, idx_span.span),
+                                    self.evaled_to(array_val, array_span.span),
+                                ]),
+                        )
+                        .into());
+                    }
                 }
                 Instr::FieldAccess(name) => {
                     let map_value = self.pop();

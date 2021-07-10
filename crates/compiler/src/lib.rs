@@ -318,7 +318,13 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                             .with_labels(vec![path.primary_label()]),
                     )
                 })?);
-                let func_info = self.func_map[func.node];
+                let func_info = self.func_map.get(func.node).ok_or_else(|| {
+                    CompError(
+                        Diagnostic::error()
+                            .with_message(format!("No function named `{}`", func.node))
+                            .with_labels(vec![func.span.primary_label()]),
+                    )
+                })?;
 
                 for i in args {
                     self.push_expr(i)?;
