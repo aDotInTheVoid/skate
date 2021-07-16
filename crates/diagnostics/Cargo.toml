@@ -7,4 +7,5 @@ edition = "2018"
 
 [dependencies]
 codespan-reporting = "0.11.1"
+debug2 = "0.1"
 serde = { version = "1.0.126", features = ["derive"] }

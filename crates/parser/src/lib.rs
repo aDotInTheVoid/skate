@@ -118,7 +118,7 @@ pub enum RawExpr<'a> {
 // This preserves duplicated names, which are handled later
 type Map<'a> = Vec<(Name<'a>, Expr<'a>)>;
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, debug2::Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum BinOp {
     Equals,
     NotEquals,
@@ -134,13 +134,13 @@ pub enum BinOp {
     LogicalAnd,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Copy, PartialEq)]
+#[derive(Debug, debug2::Debug, Clone, Serialize, Deserialize, Copy, PartialEq)]
 pub enum UnaryOp {
     Not,
     Minus,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, debug2::Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum Literal<'a> {
     String(&'a str),
     Integer(i64),

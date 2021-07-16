@@ -5,7 +5,16 @@ use codespan_reporting::diagnostic::Diagnostic;
 pub mod span;
 
 #[derive(
-    Debug, Clone, serde::Serialize, serde::Deserialize, Copy, Default, Hash, PartialEq, Eq,
+    Debug,
+    Clone,
+    serde::Serialize,
+    serde::Deserialize,
+    Copy,
+    Default,
+    Hash,
+    PartialEq,
+    Eq,
+    debug2::Debug,
 )]
 pub struct FileId(pub usize);
 

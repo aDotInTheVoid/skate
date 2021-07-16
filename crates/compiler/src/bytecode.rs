@@ -4,7 +4,8 @@ use slotmap::SlotMap;
 
 use parser::{Expr, Stmt};
 
-mod debug;
+mod debug2_impl;
+mod debug_impl;
 
 #[derive(Clone, Serialize, /*Deserialize,*/ Default)]
 /// 'a is the lifetime of the AST
@@ -39,7 +40,7 @@ pub enum Const {}
 
 // https://docs.python.org/3/library/dis.html#opcode-BUILD_TUPLE
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, debug2::Debug)]
 pub enum Instr<'s> {
     Print,
     Return,
@@ -73,6 +74,12 @@ pub enum Instr<'s> {
 
 slotmap::new_key_type! { pub struct FuncKey; }
 slotmap::new_key_type! { pub struct ConstKey; }
+
+impl debug2::Debug for FuncKey {
+    fn fmt(&self, _: &mut debug2::Formatter<'_>) -> std::fmt::Result {
+        unreachable!("Debug `Instruction` with `InstrDebug`")
+    }
+}
 
 #[test]
 fn sizes() {

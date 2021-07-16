@@ -1,16 +1,21 @@
 use std::io::{self, BufWriter, Write};
 
-use eyre::Result;
-
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;
 use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
+use eyre::Result;
 use fs_err as fs;
+use structopt::StructOpt;
+
+#[derive(StructOpt)]
+struct Args {
+    #[structopt(short, long)]
+    debug: bool,
+    progname: String,
+}
 
 fn main() -> Result<()> {
-    let progname = std::env::args()
-        .nth(1)
-        .ok_or_else(|| eyre::eyre!("Useage: crun <program>"))?;
+    let Args { debug, progname } = Args::from_args();
 
     let mut err_files = SimpleFiles::new();
     let err_writer = StandardStream::stderr(ColorChoice::Auto);
@@ -40,7 +45,9 @@ fn main() -> Result<()> {
         }
     };
 
-    // dbg!(&code);
+    if debug {
+        eprintln!("{}", debug2::pprint(&code));
+    }
 
     let mut stdout_writer = BufWriter::new(io::stdout());
 

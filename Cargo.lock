@@ -121,6 +121,7 @@ name = "compiler"
 version = "0.1.0"
 dependencies = [
  "codespan-reporting",
+ "debug2",
  "diagnostics",
  "enum-as-inner",
  "itertools",
@@ -145,11 +146,13 @@ version = "0.1.0"
 dependencies = [
  "codespan-reporting",
  "compiler",
+ "debug2",
  "diagnostics",
  "eyre",
  "fs-err",
  "parser",
  "rt_common",
+ "structopt",
  "vm",
 ]
 
@@ -160,10 +163,32 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
 
 [[package]]
+name = "debug2"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5e70062ea3df6318129246273f4b1748900752293d47e7610b5e8a84bc14c44c"
+dependencies = [
+ "debug2-derive",
+]
+
+[[package]]
+name = "debug2-derive"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77b37e8941dd632993cf5b4ea33a630faa132fdc42481a8c2621dede631e871a"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+ "synstructure",
+]
+
+[[package]]
 name = "diagnostics"
 version = "0.1.0"
 dependencies = [
  "codespan-reporting",
+ "debug2",
  "serde",
 ]
 
@@ -384,6 +409,7 @@ checksum = "af8b08b04175473088b46763e51ee54da5f9a164bc162f615b91bc179dbf15a3"
 name = "parser"
 version = "0.1.0"
 dependencies = [
+ "debug2",
  "diagnostics",
  "enum-as-inner",
  "lalrpop",
@@ -460,9 +486,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.26"
+version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a152013215dca273577e18d2bf00fa862b89b24169fb78c4c95aeb07992c9cec"
+checksum = "f0d8caf72986c1a598726adc988bb5984792ef84f5ee5aa50209145ee8077038"
 dependencies = [
  "unicode-xid",
 ]
@@ -626,12 +652,24 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.71"
+version = "1.0.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad184cc9470f9117b2ac6817bfe297307418819ba40552f9b3846f05c33d5373"
+checksum = "f71489ff30030d2ae598524f61326b902466f72a0fb1a8564c001cc63425bcc7"
 dependencies = [
  "proc-macro2",
  "quote",
+ "unicode-xid",
+]
+
+[[package]]
+name = "synstructure"
+version = "0.12.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "474aaa926faa1603c40b7885a9eaea29b444d1cb2850cb7c0e37bb1a4182f4fa"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
  "unicode-xid",
 ]
 

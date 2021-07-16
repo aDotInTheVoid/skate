@@ -7,6 +7,7 @@ edition = "2018"
 
 [dependencies]
 codespan-reporting = "0.11.1"
+debug2 = "0.1"
 diagnostics = { path = "../diagnostics" }
 enum-as-inner = "0.3.3"
 itertools = "0.10.1"

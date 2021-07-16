@@ -6,6 +6,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+debug2 = "0.1"
 diagnostics = { path = "../diagnostics" }
 enum-as-inner = "0.3.3"
 lalrpop-util = { version = "0.19.6", features = ["lexer"] }
