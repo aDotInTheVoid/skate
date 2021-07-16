@@ -83,14 +83,14 @@ fn main() -> eyre::Result<()> {
         afail
     );
 
-    let mut buff = String::new();
-    pass.sort_unstable();
-    for i in pass {
-        buff.push_str(i.as_str());
-        buff.push('\n');
-    }
+    // let mut buff = String::new();
+    // pass.sort_unstable();
+    // for i in pass {
+    //     buff.push_str(i.as_str());
+    //     buff.push('\n');
+    // }
 
-    fs::write(Utf8PathBuf::from(THIS_CRATE_ROOT).join("results"), buff)?;
+    // fs::write(Utf8PathBuf::from(THIS_CRATE_ROOT).join("results"), buff)?;
 
     if fail != 0 {
         eyre::bail!("Failed Tests")

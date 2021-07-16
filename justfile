@@ -12,7 +12,7 @@ test-unit: build
 
 test-e2e: build
     python3 ./scripts/test.py
-    cargo run -p trun
+    cargo xtest
 
 bless: build
     python3 ./scripts/test.py --bless

@@ -7,7 +7,9 @@ use compiler::bytecode::{self, FuncKey, Instr};
 use diagnostics::RtError;
 use parser::{Literal, RawStmt};
 use rt_common::RT;
-use value::{BigValue, Heap, Map, Value, ValueDbg};
+use value::{BigValue, Heap, Map, Value};
+
+mod utils;
 
 // TODO: Make this a flag
 const DEBUG: bool = false;
@@ -27,36 +29,6 @@ struct Frame {
 }
 
 impl<'w> VM<'w> {
-    pub fn new(output: &'w mut dyn io::Write) -> Self {
-        Self {
-            output,
-            stack: Default::default(),
-            heap: Default::default(),
-            frames: Default::default(),
-        }
-    }
-
-    pub fn stack_len(&self) -> usize {
-        self.stack.len()
-    }
-
-    fn ip(&self) -> usize {
-        self.frames.last().unwrap().ip
-    }
-
-    fn ip_mut(&mut self) -> &mut usize {
-        &mut self.frames.last_mut().unwrap().ip
-    }
-
-    fn stack_offset(&self) -> usize {
-        self.frames.last().unwrap().stack_offset
-    }
-
-    fn get_func<'b, 'a, 's>(&self, code: &'b bytecode::Code<'a, 's>) -> &'b bytecode::Func<'a, 's> {
-        let key = self.frames.last().unwrap().func;
-        &code.fns[key]
-    }
-
     pub fn run(&mut self, code: &bytecode::Code, main_key: bytecode::FuncKey) -> Result<i64> {
         // All of this assumes a fresh VM, which is probably bad design
 
@@ -91,6 +63,9 @@ impl<'w> VM<'w> {
             }
 
             match instr {
+                /*
+                 * Basic
+                 */
                 Instr::LoadLit(l) => {
                     let val = match *l {
                         Literal::String(s) => (self.add_to_heap(BigValue::String(s.to_owned()))),
@@ -101,6 +76,16 @@ impl<'w> VM<'w> {
                     };
                     self.push(val);
                 }
+                Instr::Print => {
+                    let val = self.pop();
+                    self.print_value(&val)?;
+                }
+                Instr::Pop => {
+                    self.pop();
+                }
+                /*
+                 * Expression Ops
+                 */
                 Instr::BinOp(o) => {
                     let rhs = self.pop();
                     let lhs = self.pop();
@@ -131,18 +116,18 @@ impl<'w> VM<'w> {
                     let nv = self.unary_op(*uop, val, expr.span)?;
                     self.push(nv);
                 }
-                Instr::Print => {
-                    let val = self.pop();
-                    self.print_value(&val)?;
-                }
-                Instr::Pop => {
-                    self.pop();
-                }
+
+                /*
+                 * Local Access
+                 */
                 Instr::GetLocal(id) => {
                     self.push(self.stack[self.stack_offset()..][*id]);
                 }
                 Instr::SetLocal(id) => self.stack[*id] = self.peak(),
-                // Compensate for universal increment
+
+                /*
+                 * Jumping
+                 */
                 Instr::JumpForward(by) => {
                     debug_assert_ne!(*by, 0);
                     *self.ip_mut() += by;
@@ -165,6 +150,10 @@ impl<'w> VM<'w> {
                         *self.ip_mut() += by;
                     }
                 }
+
+                /*
+                 * Compex Creation
+                 */
                 Instr::MakeArray(num) => {
                     let ar = self.stack.split_off(self.stack.len() - num);
                     let hid = self.add_to_heap(BigValue::Array(ar));
@@ -184,38 +173,10 @@ impl<'w> VM<'w> {
                     let val = self.add_to_heap(BigValue::Map(map));
                     self.push(val);
                 }
-                Instr::Return => {
-                    let result = self.pop();
 
-                    let frame = self.frames.pop().unwrap();
-                    self.stack.truncate(frame.stack_offset);
-                    self.push(result);
-
-                    if self.frames.is_empty() {
-                        return Ok(match result {
-                            Value::Int(n) => n,
-
-                            Value::Null => 0,
-                            _ => {
-                                return Err(RtError(Diagnostic::error().with_message(format!(
-                                "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
-                                self.dbg_val(&result),
-                                self.type_name(&result),)))
-                                .into())
-                            }
-                        });
-                    }
-                }
-                Instr::Call(id) => {
-                    let func = &code.fns[*id];
-                    let n_args = func.n_args;
-                    let frame = Frame {
-                        func: *id,
-                        ip: 0,
-                        stack_offset: self.stack_len() - n_args,
-                    };
-                    self.frames.push(frame);
-                }
+                /*
+                 * Complex access and setters
+                 */
                 Instr::ArrayAccess => {
                     let index_val = self.pop();
                     let array_val = self.pop();
@@ -333,47 +294,44 @@ impl<'w> VM<'w> {
                     let map = self.as_map_mut(map, span)?;
                     map.insert(name.node.to_owned(), expr);
                 }
+
+                /*
+                 * Functions
+                 */
+                Instr::Return => {
+                    let result = self.pop();
+
+                    let frame = self.frames.pop().unwrap();
+                    self.stack.truncate(frame.stack_offset);
+                    self.push(result);
+
+                    if self.frames.is_empty() {
+                        return Ok(match result {
+                            Value::Int(n) => n,
+
+                            Value::Null => 0,
+                            _ => {
+                                return Err(RtError(Diagnostic::error().with_message(format!(
+                                "`main` returned `{:?}` with type `{}`, expected `null` or `int`",
+                                self.dbg_val(&result),
+                                self.type_name(&result),)))
+                                .into())
+                            }
+                        });
+                    }
+                }
+                Instr::Call(id) => {
+                    let func = &code.fns[*id];
+                    let n_args = func.n_args;
+                    let frame = Frame {
+                        func: *id,
+                        ip: 0,
+                        stack_offset: self.stack_len() - n_args,
+                    };
+                    self.frames.push(frame);
+                }
             }
-            // *self.ip_mut() += 1;
         }
-    }
-
-    fn push(&mut self, val: Value) {
-        self.stack.push(val);
-    }
-
-    fn pop(&mut self) -> Value {
-        self.stack.pop().unwrap()
-    }
-
-    fn peak(&mut self) -> Value {
-        *self.stack.last().unwrap()
-    }
-
-    pub fn add_to_heap(&mut self, v: BigValue) -> Value {
-        Value::Complex(self.heap.insert(v))
-    }
-
-    // This cant be in rt_common, as it cant know that the borrow of
-    // self.heap and self.output are disjoint if it gets them through
-    // methods, and not struct fields.
-    pub(crate) fn print_value(&mut self, v: &Value) -> io::Result<()> {
-        let dbg = ValueDbg {
-            v,
-            heap: &self.heap,
-        };
-        writeln!(self.output, "{}", dbg)?;
-        Ok(())
-    }
-}
-
-impl RT for VM<'_> {
-    fn heap(&self) -> &value::Heap {
-        &self.heap
-    }
-
-    fn heap_mut(&mut self) -> &mut value::Heap {
-        &mut self.heap
     }
 }
 

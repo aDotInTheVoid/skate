@@ -42,11 +42,10 @@ pub enum Const {}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, debug2::Debug)]
 pub enum Instr<'s> {
-    Print,
-    Return,
-    Pop,
-
+    // Basic
     LoadLit(#[serde(borrow)] parser::Literal<'s>),
+    Print,
+    Pop,
 
     BinOp(parser::BinOp),
     UnOp(parser::UnaryOp),
@@ -65,11 +64,11 @@ pub enum Instr<'s> {
 
     ArrayAccess,
     FieldAccess(parser::Name<'s>),
-
     ArraySet,
     FieldSet(parser::Name<'s>),
 
     Call(FuncKey),
+    Return,
 }
 
 slotmap::new_key_type! { pub struct FuncKey; }
