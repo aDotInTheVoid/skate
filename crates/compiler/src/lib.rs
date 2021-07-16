@@ -176,19 +176,9 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
     pub fn push_stmt(&mut self, stmt: &'a parser::Stmt<'s>) -> Result<(), CompError> {
         match &**stmt {
             RawStmt::Let(name, expr) => {
-                for el in self.locals.iter().rev() {
-                    if el.depth != -1 && el.depth < self.scope_depth {
-                        break;
-                    }
+                // TODO: Decide how I feal about shadowing, and why theirs
+                // a `let` keyword in the first place.
 
-                    // TODO: Decide how I feal about shadowing, and why theirs
-                    // a `let` keyword in the first place.
-
-                    // if el.name == name.node {
-                    //     // TODO: Handle error
-                    //     panic!("Duplicated name");
-                    // }
-                }
                 self.locals.push(Local {
                     // This cannot be used in the following expression
                     depth: -1,
@@ -202,7 +192,6 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                 RawExpr::Var(name) => {
                     let name = unwrap_one(name);
                     self.push_expr(expr)?;
-                    // tests/run-fail/vars/l-and-r-oos.sk
                     let id = self.resolve_local(name)?;
                     self.add_instr_sloc(Instr::SetLocal(id), stmt);
                     self.add_instr_sloc(Instr::Pop, stmt);

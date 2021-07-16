@@ -24,7 +24,8 @@ pub struct RtError(pub Diagnostic<usize>);
 impl Display for RtError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // This error should be reported via codespan, not Display
-        self.0.fmt(f)
+        unreachable!("This error should be reported via codespan, not Display");
+        // self.0.fmt(f)
     }
 }
 
