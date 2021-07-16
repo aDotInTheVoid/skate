@@ -13,30 +13,6 @@ use crate::bytecode::{AstLoc, Code, FuncKey, Instr};
 pub mod bytecode;
 mod utils;
 
-// TODO: Make this failable
-
-// pub fn compile(prog: parser::Program) -> Code {
-//     let mut fn_map = SlotMap::with_key();
-//     let mut fn_names = HashMap::new();
-
-//     // For every function, obtain a key for it, and then map the name to a key.
-//     for item in prog {
-//         let item = match item {
-//             Item::Function(_vis, f) => f,
-//             Item::Import(_) => todo!(),
-//             Item::Const(_, _, _) => todo!(),
-//         };
-
-//         let key = fn_map.insert(Default::default());
-//         // TODO: Handle name collision like treewalk.
-//         fn_names.insert(item.name.node, (key, item));
-//     }
-
-//     dbg!(fn_names, &fn_map);
-
-//     Code { fns: fn_map }
-// }
-
 #[derive(Debug, Clone, Copy)]
 struct FnInfo {
     n_args: usize,
@@ -44,6 +20,7 @@ struct FnInfo {
     span: Span,
 }
 
+// TODO: Report multiple errors
 pub fn compile<'a, 's>(
     prog: &'a parser::ProgramSlice<'s>,
 ) -> Result<(Code<'a, 's>, bytecode::FuncKey), CompError> {

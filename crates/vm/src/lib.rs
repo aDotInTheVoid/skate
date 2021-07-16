@@ -38,13 +38,6 @@ impl<'w> VM<'w> {
             stack_offset: 0,
         });
 
-        // if DEBUG {
-        //     for (idx, el) in main.code.iter().enumerate() {
-        //         eprintln!("{} {:?}", idx, el);
-        //     }
-        //     eprintln!();
-        // }
-
         loop {
             let ip = self.ip();
             let instr = &self.get_func(code).code[ip];

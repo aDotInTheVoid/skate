@@ -24,8 +24,6 @@ pub enum AstLoc<'a, 's> {
 
 #[derive(Debug, Clone, Serialize, /*Deserialize,*/ Default)]
 pub struct Func<'a, 's> {
-    // TODO: Whats this for?
-    pub consts: SlotMap<ConstKey, Const>,
     #[serde(borrow)]
     pub code: Vec<Instr<'s>>,
     // TODO: Arena allocate the AST's so these can be keys and I can
@@ -35,10 +33,7 @@ pub struct Func<'a, 's> {
     pub name: &'s str,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Const {}
-
-// https://docs.python.org/3/library/dis.html#opcode-BUILD_TUPLE
+// https://docs.python.org/3/library/dis.html
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, debug2::Debug)]
 pub enum Instr<'s> {
