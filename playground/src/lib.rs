@@ -50,6 +50,7 @@ pub fn run_code(code: &str) -> Result<String, JsValue> {
 
     let mut output = Vec::new();
 
+    // TODO: Use bytecode, and also suport dumping bytecode
     let result = skate_treewalk::run(code, id, &mut output);
 
     match match result {

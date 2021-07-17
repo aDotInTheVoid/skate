@@ -67,29 +67,26 @@ type FuncLut<'s> = HashMap<&'s str, FnInfo>;
 struct FnComping<'a, 's, 'l> {
     output: bytecode::Func<'a, 's>,
     locals: Vec<Local<'s>>,
-    scope_depth: i32,
+    scope_depth: u64,
     func_map: &'l FuncLut<'s>,
 }
 
 #[derive(Debug)]
 struct Local<'s> {
     name: &'s str,
-    depth: i32,
+    depth: Option<u64>,
 }
 
 fn build_function<'a, 's>(
     f: &'a parser::Function<'s>,
     l: &FuncLut<'s>,
 ) -> Result<bytecode::Func<'a, 's>, CompError> {
-    let mut comp = FnComping::new(l);
-    // This feals dirty, and like abuse of default
-    comp.output.n_args = f.args.len();
-    comp.output.name = f.name.node;
+    let mut comp = FnComping::new(l, f.name.node, f.args.len());
 
     for i in &f.args.node {
         comp.locals.push(Local {
             // TODO: Check names are unique
-            depth: 1,
+            depth: Some(1),
             name: i.name.node,
         })
     }
@@ -109,9 +106,14 @@ fn build_function<'a, 's>(
 }
 
 impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
-    fn new(func_map: &'l FuncLut<'s>) -> Self {
+    fn new(func_map: &'l FuncLut<'s>, name: &'s str, n_args: usize) -> Self {
         Self {
-            output: Default::default(),
+            output: bytecode::Func {
+                code: Vec::new(),
+                spans: Vec::new(),
+                name,
+                n_args,
+            },
             locals: Default::default(),
             scope_depth: 0,
             func_map,
@@ -158,11 +160,11 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
 
                 self.locals.push(Local {
                     // This cannot be used in the following expression
-                    depth: -1,
+                    depth: None,
                     name: &*name,
                 });
                 self.push_expr(expr)?;
-                self.locals.last_mut().unwrap().depth = self.scope_depth;
+                self.locals.last_mut().unwrap().depth = Some(self.scope_depth);
             }
 
             RawStmt::Assign(name, expr) => match &name.node {
@@ -343,7 +345,9 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
         self.scope_depth -= 1;
 
         // TODO: Do this cleverer
-        while !self.locals.is_empty() && self.locals.last().unwrap().depth > self.scope_depth {
+        while !self.locals.is_empty()
+            && self.locals.last().unwrap().depth.unwrap() > self.scope_depth
+        {
             self.add_instr_nloc(Instr::Pop);
             self.locals.pop();
         }
@@ -351,7 +355,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
 
     fn resolve_local(&self, name: &parser::Name<'_>) -> Result<usize, CompError> {
         for (idx, loc) in self.locals.iter().enumerate().rev() {
-            if loc.depth != -1 && loc.name == name.node {
+            if loc.depth.is_some() && loc.name == name.node {
                 return Ok(idx);
             }
         }
@@ -367,7 +371,7 @@ impl<'a, 's, 'l> FnComping<'a, 's, 'l> {
                     self.locals
                         .iter()
                         .rev()
-                        .filter(|local| local.depth != -1)
+                        .filter(|local| local.depth.is_some())
                         .group_by(|local| local.depth)
                         .into_iter()
                         .flat_map(|(_, locals)| {
@@ -389,7 +393,7 @@ fn basic_expr() {
         .unwrap();
 
     let m = HashMap::new();
-    let mut comp = FnComping::new(&m);
+    let mut comp = FnComping::new(&m, "DEMO", 0);
     comp.push_expr(&expr).unwrap();
     let func = comp.output;
     assert_eq!(
