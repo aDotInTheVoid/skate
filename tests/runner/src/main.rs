@@ -1,5 +1,6 @@
 use std::convert::TryFrom;
 use std::process::Command;
+use std::sync::mpsc;
 
 use camino::{Utf8Path, Utf8PathBuf};
 use fs_err as fs;
@@ -35,6 +36,11 @@ fn main() -> eyre::Result<()> {
 
     let mut afail = 0;
 
+    let (tx, rx) = mpsc::channel();
+    let pool = threadpool::Builder::new().build();
+
+    let mut n_jobs = 0;
+
     for (name, func, must_pass) in [
         ("run-pass", run_pass_test as TestFn, true),
         ("compile-fail", compile_fail_test as TestFn, true),
@@ -51,30 +57,47 @@ fn main() -> eyre::Result<()> {
             .map(Utf8PathBuf::try_from)
             .collect::<Result<_, _>>()?;
 
+        n_jobs += paths.len();
         println!("Running {} tests in {}", paths.len(), name);
 
         for i in paths {
+            let tx = tx.clone();
+            let tree_walk_cmd = tree_walk_cmd.clone();
+            let test_root_dir = test_root_dir.clone();
             let relative_path = i.strip_prefix(&test_root_dir)?.to_owned();
 
-            // If tests are hanging, uncomment this
-            // eprint!("{}", relative_path);
-            // std::io::stdout().flush()?;
-            match func(&i, &tree_walk_cmd, &test_root_dir)? {
-                TestResult::Success => {
-                    eprintln!("PASSED: {}", relative_path);
-                    pass.push(relative_path);
-                }
-                TestResult::Failure(why) => {
-                    eprintln!("FAILED: {} {}", relative_path, why);
-                    if must_pass {
-                        fail += 1;
-                    } else {
-                        afail += 1;
-                    }
+            pool.execute(move || {
+                let x = || {
+                    let res = func(&i, &tree_walk_cmd, &test_root_dir)?;
+                    Ok((relative_path, res, must_pass))
+                };
+
+                let r: eyre::Result<_> = x();
+
+                tx.send(r).expect("Chanel is open");
+            });
+        }
+    }
+
+    for i in rx.iter().take(n_jobs) {
+        let (relative_path, res, must_pass) = i?;
+        match res {
+            TestResult::Success => {
+                eprintln!("PASSED: {}", relative_path);
+                pass.push(relative_path);
+            }
+            TestResult::Failure(why) => {
+                eprintln!("FAILED: {} {}", relative_path, why);
+                if must_pass {
+                    fail += 1;
+                } else {
+                    afail += 1;
                 }
             }
         }
     }
+
+    pool.join();
 
     eprintln!(
         "{} passed, {} failed, {} allowed fails",
