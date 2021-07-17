@@ -6,7 +6,7 @@ use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
 use fs_err as fs;
 
 use diagnostics::{CompError, RtError};
-use skate::ExitCode;
+use skate_treewalk::ExitCode;
 
 // Err(_) -> Fail with interpriter code error. This should be less common, as we dont realy want a
 //           backtrace through user code
@@ -31,7 +31,7 @@ fn realmain() -> eyre::Result<ExitCode> {
 
     let mut stdout_writer = BufWriter::new(io::stdout());
 
-    let main_res = skate::run(&prog, main_file_id, &mut stdout_writer);
+    let main_res = skate_treewalk::run(&prog, main_file_id, &mut stdout_writer);
     stdout_writer.flush()?;
 
     match main_res {

@@ -1,5 +1,5 @@
 [package]
-name = "crun"
+name = "skate"
 version = "0.1.0"
 edition = "2018"
 
@@ -7,12 +7,12 @@ edition = "2018"
 
 [dependencies]
 codespan-reporting = "0.11.1"
-compiler = { path = "../../../crates/compiler" }
+compiler = { path = "../../crates/compiler" }
 debug2 = "0.1"
-diagnostics = { path = "../../../crates/diagnostics" }
+diagnostics = { path = "../../crates/diagnostics" }
 eyre = "0.6.5"
 fs-err = "2.6.0"
-parser = { path = "../../../crates/parser" }
-rt_common = { path = "../../../crates/rt_common" }
+parser = { path = "../../crates/parser" }
+rt_common = { path = "../../crates/rt_common" }
 structopt = "0.3.22"
-vm = { path = "../../../crates/vm" }
+vm = { path = "../../crates/vm" }

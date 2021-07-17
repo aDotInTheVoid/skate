@@ -50,7 +50,7 @@ pub fn run_code(code: &str) -> Result<String, JsValue> {
 
     let mut output = Vec::new();
 
-    let result = skate::run(code, id, &mut output);
+    let result = skate_treewalk::run(code, id, &mut output);
 
     match match result {
         Ok(v) => Ok(v),

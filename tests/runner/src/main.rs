@@ -7,7 +7,8 @@ use fs_err as fs;
 // use structopt::StructOpt;
 
 const THIS_CRATE_ROOT: &str = env!("CARGO_MANIFEST_DIR");
-const TREEWALK_CMD_NAME: &str = "crun";
+// TODO: Make configurable
+const SKATE_CMD_NAME: &str = "skate";
 
 // TODO: Release mode
 
@@ -27,7 +28,7 @@ fn main() -> eyre::Result<()> {
         .join("target")
         .join("debug");
 
-    let tree_walk_cmd = target_dir.join(TREEWALK_CMD_NAME);
+    let skate_cmd = target_dir.join(SKATE_CMD_NAME);
 
     let test_root_dir = Utf8PathBuf::from(THIS_CRATE_ROOT).join("..");
 
@@ -37,7 +38,8 @@ fn main() -> eyre::Result<()> {
     let mut afail = 0;
 
     let (tx, rx) = mpsc::channel();
-    let pool = threadpool::Builder::new().build();
+    // TODO: Make configurable, and detect number of CPU's
+    let pool = threadpool::Builder::new().num_threads(8).build();
 
     for (name, func, must_pass) in [
         ("run-pass", run_pass_test as TestFn, true),
@@ -59,7 +61,7 @@ fn main() -> eyre::Result<()> {
 
         for i in paths {
             let tx = tx.clone();
-            let tree_walk_cmd = tree_walk_cmd.clone();
+            let tree_walk_cmd = skate_cmd.clone();
             let test_root_dir = test_root_dir.clone();
             let relative_path = i.strip_prefix(&test_root_dir)?.to_owned();
 
@@ -163,17 +165,13 @@ fn compile_fail_test(
     }
 }
 
-fn run_pass_test(
-    src: &Utf8Path,
-    tree_walk_cmd: &Utf8Path,
-    _: &Utf8Path,
-) -> eyre::Result<TestResult> {
+fn run_pass_test(src: &Utf8Path, skate_cmd: &Utf8Path, _: &Utf8Path) -> eyre::Result<TestResult> {
     let mut output_path = src.to_owned();
     output_path.set_extension("stdout");
 
     let expected_output = fs::read_to_string(output_path)?;
 
-    let output = Command::new(tree_walk_cmd).arg(&src).output()?;
+    let output = Command::new(skate_cmd).arg(&src).output()?;
     if !output.status.success() {
         return Ok(TestResult::Failure(format!(
             "Exited with failure {:?}\n --- stderr ---\n{}\n--- stdout ---\n{}\n --- ",
