@@ -10,7 +10,7 @@ fn run_stmt(stmt: &str) -> String {
 
     let mut output = Vec::new();
 
-    let mut vm = vm::VM::new(&mut output);
+    let mut vm = crate::VM::new(&mut output);
 
     vm.run(&code, main_key).unwrap();
 

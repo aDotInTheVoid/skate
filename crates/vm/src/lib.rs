@@ -9,6 +9,8 @@ use parser::{Literal, RawStmt};
 use rt_common::RT;
 use value::{BigValue, Heap, Map, Value};
 
+#[cfg(test)]
+mod tests;
 mod utils;
 
 // TODO: Make this a flag

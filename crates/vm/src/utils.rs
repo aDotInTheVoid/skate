@@ -16,7 +16,7 @@ impl<'w> VM<'w> {
         }
     }
 
-    pub fn stack_len(&self) -> usize {
+    pub(crate) fn stack_len(&self) -> usize {
         self.stack.len()
     }
 
