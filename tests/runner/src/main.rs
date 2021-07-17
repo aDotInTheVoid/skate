@@ -39,8 +39,6 @@ fn main() -> eyre::Result<()> {
     let (tx, rx) = mpsc::channel();
     let pool = threadpool::Builder::new().build();
 
-    let mut n_jobs = 0;
-
     for (name, func, must_pass) in [
         ("run-pass", run_pass_test as TestFn, true),
         ("compile-fail", compile_fail_test as TestFn, true),
@@ -57,7 +55,6 @@ fn main() -> eyre::Result<()> {
             .map(Utf8PathBuf::try_from)
             .collect::<Result<_, _>>()?;
 
-        n_jobs += paths.len();
         println!("Running {} tests in {}", paths.len(), name);
 
         for i in paths {
@@ -79,7 +76,10 @@ fn main() -> eyre::Result<()> {
         }
     }
 
-    for i in rx.iter().take(n_jobs) {
+    // Close the chanel
+    drop(tx);
+
+    for i in rx.iter() {
         let (relative_path, res, must_pass) = i?;
         match res {
             TestResult::Success => {
