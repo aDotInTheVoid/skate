@@ -95,6 +95,10 @@ fn binop_eq<T: RT>(
         (Value::Null, Value::Null) => true,
 
         (Value::Complex(lid), Value::Complex(rid)) => {
+            if lid == rid {
+                return Ok(true);
+            }
+
             match (&this.heap()[lid], &this.heap()[rid]) {
                 (BigValue::String(l), BigValue::String(r)) => l == r,
                 (BigValue::Array(ls), BigValue::Array(rs)) => {
@@ -109,6 +113,18 @@ fn binop_eq<T: RT>(
                                 acc && binop_eq(this, *l, o, *r, l_span, o_span, r_span)?,
                             )
                         })?
+                    }
+                }
+                (BigValue::Map(lm), BigValue::Map(rm)) => {
+                    if lm.len() != rm.len() {
+                        false
+                    } else {
+                        for ((lk, lv), (rk, rv)) in lm.iter().zip(rm) {
+                            if lk != rk || !binop_eq(this, *lv, o, *rv, l_span, o_span, r_span)? {
+                                return Ok(false);
+                            }
+                        }
+                        true
                     }
                 }
                 _ => {
