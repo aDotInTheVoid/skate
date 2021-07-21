@@ -2,7 +2,7 @@ use std::io::{self};
 
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;
-use skate::diagnostics::{CompError, RtError};
+use diagnostics::{CompError, RtError};
 use wasm_bindgen::prelude::*;
 
 struct ColorWriter(Vec<u8>);
@@ -23,7 +23,7 @@ impl io::Write for ColorWriter {
     }
 
     fn flush(&mut self) -> io::Result<()> {
-        Ok(())
+        self.0.flush()
     }
 }
 
@@ -50,7 +50,8 @@ pub fn run_code(code: &str) -> Result<String, JsValue> {
 
     let mut output = Vec::new();
 
-    let result = skate::run(code, id, &mut output);
+    // TODO: Use bytecode, and also suport dumping bytecode
+    let result = skate_treewalk::run(code, id, &mut output);
 
     match match result {
         Ok(v) => Ok(v),

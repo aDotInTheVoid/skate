@@ -1,0 +1,8 @@
+error: Couldn't find variable `f` in scope
+  ┌─ $DD/tests/run-fail/vars/oos-order.sk:8:17
+  │
+8 │         let z = f;
+  │                 ^
+  │
+  = Variables in scope: ["c", "d", "a", "b", "e"]
+

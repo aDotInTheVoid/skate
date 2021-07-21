@@ -8,10 +8,11 @@ build:
     cargo build
 
 test-unit: build
-    cargo test
+    cargo test --workspace
 
 test-e2e: build
     python3 ./scripts/test.py
+    cargo xtest
 
 bless: build
     python3 ./scripts/test.py --bless
@@ -23,3 +24,6 @@ fmt:
 
 cov:
     ./scripts/cov.sh
+
+doc:
+    cargo doc --workspace --no-deps

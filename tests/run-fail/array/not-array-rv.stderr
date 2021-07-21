@@ -1,6 +1,6 @@
-error: Expected `array`, got `int`
+error: Expected `array`, got `string`
   ┌─ $DD/tests/run-fail/array/not-array-rv.sk:3:5
   │
 3 │     x[2] = 3;
-  │     ^ Evaluated to `2`
+  │     ^ Evaluated to `"fff"`
 

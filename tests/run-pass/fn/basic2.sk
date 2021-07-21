@@ -1,0 +1,12 @@
+fn a(x: bool){
+    if x {
+        print "1";
+    }
+}
+
+
+
+fn main() {
+    a(true);
+    print("a");
+}

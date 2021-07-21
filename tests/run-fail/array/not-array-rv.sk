@@ -1,4 +1,4 @@
 fn main() {
-    let x = 2;
+    let x = "fff";
     x[2] = 3;
 }

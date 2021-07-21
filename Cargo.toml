@@ -1,34 +1,15 @@
-[package]
-name = "skate"
-version = "0.0.0"
-authors = ["Nixon Enraght-Moony <nixon.emoony@gmail.com>"]
-edition = "2018"
-resolver = "2"
-description = "A Programing language for rapid iteration"
-license = "MIT/Apache-2.0"
-repository = "https://github.com/aDotInTheVoid/skate/"
-
-[dependencies]
-codespan-reporting = "0.11.1"
-eyre = "0.6.5"
-fs-err = "2.5.0"
-lalrpop-util = { version = "0.19.5", features = ["lexer"] }
-regex = "1.4.6"
-serde = { version = "1.0.125", features = ["derive"] }
-slotmap = { version = "1.0.3", features = ["serde"] }
-wasm-bindgen = "0.2.74"
-
-[build-dependencies]
-lalrpop = "0.19.5"
-
-[dev-dependencies]
-insta = "1.7.1"
-
-# We especialy need lalrpop to be fast
-[profile.dev.package."*"]
-opt-level = 3
-
 [workspace]
+resolver = "2"
 members = [
-    "./playground"
+    "./cmd/skate",
+    "./cmd/skate-treewalk",
+    "./crates/compiler",
+    "./crates/diagnostics",
+    "./crates/parser",
+    "./crates/rt_common",
+    "./crates/treewalk",
+    "./crates/value",
+    "./crates/vm",
+    "./playground",
+    "./tests/runner",
 ]

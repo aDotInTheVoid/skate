@@ -1,0 +1,38 @@
+fn main() {
+    let a = %{
+        f1: [1,2,3]
+    };
+
+    let b = %{};
+    
+    print a==b;
+
+    let arr = [0,0,0];
+    b.f1 = arr;
+
+    print a==b;
+
+    arr[0]=1;
+    arr[1]=2;
+    arr[2]=3;
+
+    print a==b;
+
+    b.fxx = [1,2,2];
+
+    print a == b;
+
+    a.gg = 2;
+
+    print a == b;
+
+    b.gg=2;
+
+    a.fxx = b.fxx;
+
+    print a == b;
+
+    a.fxx[0] = 9;
+
+    print a == b;
+}

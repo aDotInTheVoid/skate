@@ -4,5 +4,8 @@ error: Unexpected token
 1 │ sss
   │ ^^^
   │
+  = Expected: "const"
   = Expected: "fn"
+  = Expected: "import"
+  = Expected: "pub"
 

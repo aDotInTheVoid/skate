@@ -36,9 +36,9 @@ else:
 
 # TODO: Allow release mode
 SKATE_BINARY = (
-    path.join(BASE_DIR, "target", "debug", "skate")
+    path.join(BASE_DIR, "target", "debug", "skate-treewalk")
     if not args.coverage
-    else path.join(BASE_DIR, "cov", "target", "debug", "skate")
+    else path.join(BASE_DIR, "cov", "target", "debug", "skate-treewalk")
 )
 
 TEST_DIR = path.join(BASE_DIR, "tests")

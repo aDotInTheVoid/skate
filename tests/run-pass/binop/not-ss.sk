@@ -1,0 +1,16 @@
+// TODO: Decide if this is good behavior
+
+fn t() {
+    print "t";
+    return true;
+}
+
+fn f() {
+    print "f";
+    return false;
+}
+
+fn main() {
+    t() || f();
+    f() && t();
+}

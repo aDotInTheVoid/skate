@@ -1,15 +1,15 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
-sd -s "#[cfg_attr(rustfmt, rustfmt_skip)]" "" src/grammar.rs
 cargo fmt
 
 # https://unix.stackexchange.com/a/161853
+# TODO: This doesnt fmt unstaged files, which is a real pain
+# TODO: This trys to add to deleted files
 git ls-files -z | while IFS= read -rd '' f 
 do
-    if [[ "${f: -7}" != ".stderr" &&  "${f: -7}" != ".stdout" ]]
+    if [[ "${f: -7}" != ".stderr" &&  "${f: -7}" != ".stdout" && -f $f ]]
     then
-        echo $f
         tail -c1 < "$f" | read -r _ || echo >> "$f"
     fi
 done

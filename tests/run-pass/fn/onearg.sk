@@ -1,0 +1,10 @@
+fn p(x) {
+    print x;
+}
+
+fn main() {
+    let x = 0;
+    let y = 1;
+    p(y);
+    p(x);
+}

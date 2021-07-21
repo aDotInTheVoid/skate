@@ -3,7 +3,8 @@ set -euxo pipefail
 
 rm -rf cov/data
 export CARGO_TARGET_DIR="./cov/target"
-RUSTFLAGS="-Zinstrument-coverage" cargo +nightly build
+RUSTFLAGS="-Zinstrument-coverage" cargo +nightly build --all
+RUSTFLAGS="-Zinstrument-coverage" LLVM_PROFILE_FILE="./cov/data/profile.%p.profraw" cargo +nightly test --all
 ./scripts/test.py --coverage
 llvm-profdata merge -sparse ./cov/data/profile.*.profraw -o cov/out.profdata
 

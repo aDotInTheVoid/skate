@@ -1,0 +1,10 @@
+fn main() {
+    let a = [];
+    let e = [];
+    let b = [];
+    {
+        let d = [];
+        let c = [];
+        let z = f;
+    }
+}

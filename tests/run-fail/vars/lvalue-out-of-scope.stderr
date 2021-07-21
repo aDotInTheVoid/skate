@@ -1,6 +1,8 @@
-error: No variable named `x` in scope
+error: Couldn't find variable `x` in scope
   ┌─ $DD/tests/run-fail/vars/lvalue-out-of-scope.sk:4:5
   │
 4 │     x = 2;
   │     ^
+  │
+  = Variables in scope: []
 
