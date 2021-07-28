@@ -1,15 +1,15 @@
 [workspace]
 resolver = "2"
 members = [
-    "./cmd/skate",
     "./cmd/skate-treewalk",
-    "./crates/compiler",
-    "./crates/diagnostics",
-    "./crates/parser",
-    "./crates/rt_common",
-    "./crates/treewalk",
-    "./crates/value",
-    "./crates/vm",
+    "./cmd/skate",
     "./playground",
+    "./skate/compiler",
+    "./skate/diagnostics",
+    "./skate/parser",
+    "./skate/rt_common",
+    "./skate/treewalk",
+    "./skate/value",
+    "./skate/vm",
     "./tests/runner",
 ]

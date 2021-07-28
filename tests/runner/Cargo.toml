@@ -7,12 +7,12 @@ edition = "2018"
 
 [dependencies]
 camino = "1.0.4"
-compiler = { path = "../../crates/compiler" }
-diagnostics = { path = "../../crates/diagnostics" }
+compiler = { path = "../../skate/compiler" }
+diagnostics = { path = "../../skate/diagnostics" }
 eyre = "0.6.5"
 fs-err = "2.6.0"
 glob = "0.3.0"
-parser = { path = "../../crates/parser" }
+parser = { path = "../../skate/parser" }
 structopt = "0.3.22"
 threadpool = "1.8.1"
-vm = { path = "../../crates/vm" }
+vm = { path = "../../skate/vm" }

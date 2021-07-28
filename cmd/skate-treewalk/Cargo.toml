@@ -9,13 +9,13 @@ repository = "https://github.com/aDotInTheVoid/skate/"
 
 [dependencies]
 codespan-reporting = "0.11.1"
-diagnostics = { path = "../../crates/diagnostics" }
+diagnostics = { path = "../../skate/diagnostics" }
 eyre = "0.6.5"
 fs-err = "2.6.0"
-parser = { path = "../../crates/parser" }
-rt_common = { path = "../../crates/rt_common" }
-treewalk = { path = "../../crates/treewalk" }
-value = { path = "../../crates/value" }
+parser = { path = "../../skate/parser" }
+rt_common = { path = "../../skate/rt_common" }
+treewalk = { path = "../../skate/treewalk" }
+value = { path = "../../skate/value" }
 wasm-bindgen = "0.2.74"
 
 [build-dependencies]
