@@ -1,0 +1,8 @@
+[package]
+name = "sdb"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+crossterm = "0.20.0"
+tui = { version = "0.15.0", features = ["crossterm"], default-features = false }

@@ -1,8 +1,9 @@
 [workspace]
 resolver = "2"
 members = [
-    "./cmd/skate-treewalk",
+    "./cmd/sdb",
     "./cmd/skate",
+    "./cmd/skate-treewalk",
     "./playground",
     "./skate/compiler",
     "./skate/diagnostics",
@@ -12,4 +13,7 @@ members = [
     "./skate/value",
     "./skate/vm",
     "./tests/runner",
+    "./tmp/cursive-tui",
 ]
+
+exclude = ["ref"]
