@@ -1,0 +1,9 @@
+[submodule "ref/crossterm"]
+	path = ref/crossterm
+	url = https://github.com/crossterm-rs/crossterm
+[submodule "ref/cursive"]
+	path = ref/cursive
+	url = https://github.com/gyscos/cursive
+[submodule "ref/tui-rs"]
+	path = ref/tui-rs
+	url = https://github.com/fdehau/tui-rs
