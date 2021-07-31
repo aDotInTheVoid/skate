@@ -1,45 +1,40 @@
-use std::cell::RefCell;
-use std::fs::File;
-use std::io::{self, BufWriter};
-
-use crossterm::cursor::{Hide, Show};
-use crossterm::event::{DisableMouseCapture, EnableMouseCapture};
+use crossterm::event::{DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEvent};
 use crossterm::execute;
-use crossterm::terminal::{disable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen};
+use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
 
-#[cfg(windows)]
-type Stdout = io::Stdout;
+fn main() -> eyre::Result<()> {
+    // Copied From `ref/tui-rs/examples/crossterm_demo.rs`
 
-#[cfg(unix)]
-type Stdout = File;
+    crossterm::terminal::enable_raw_mode()?;
 
-fn main() {
-    // Coppied from cursive/backends/crossterm.rs
+    let mut stdout = std::io::stdout();
 
-    crossterm::terminal::enable_raw_mode().unwrap();
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
 
-    // TODO: Use the stdout we define down there
-    execute!(io::stdout(), EnterAlternateScreen, EnableMouseCapture, Hide).unwrap();
+    let backend = tui::backend::CrosstermBackend::new(stdout);
+    let mut terminal = tui::terminal::Terminal::new(backend)?;
 
-    #[cfg(unix)]
-    let stdout = RefCell::new(BufWriter::new(File::create("/dev/tty").unwrap()));
-    #[cfg(windows)]
-    let stdout = RefCell::new(BufWriter::new(io::stdout()));
+    terminal.clear()?;
 
-    let stdout: RefCell<BufWriter<Stdout>> = stdout;
+    loop {
+        let event = crossterm::event::read()?;
+        if let Event::Key(KeyEvent {
+            code: KeyCode::Char('q'),
+            ..
+        }) = event
+        {
+            break;
+        }
+    }
 
-    //
-    // Cleanup
-    //
-
-    // We have to execute the show cursor command at the `stdout`.
+    // Restore Terminal
+    crossterm::terminal::disable_raw_mode()?;
     execute!(
-        io::stdout(),
+        terminal.backend_mut(),
         LeaveAlternateScreen,
-        DisableMouseCapture,
-        Show
-    )
-    .expect("Can not disable mouse capture or show cursor.");
+        DisableMouseCapture
+    )?;
+    terminal.show_cursor()?;
 
-    disable_raw_mode().unwrap();
+    Ok(())
 }
