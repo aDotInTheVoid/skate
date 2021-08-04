@@ -1,10 +1,14 @@
-use std::cmp::max;
+use std::cmp::min;
 use std::io::{ErrorKind, Write};
 
-use crossterm::event::{DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEvent};
+use crossterm::event::{
+    DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEvent, MouseButton, MouseEvent,
+    MouseEventKind,
+};
 use crossterm::execute;
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
 use tui::layout::{Constraint, Direction, Layout, Rect};
+use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders};
 
 mod docs;
@@ -79,37 +83,51 @@ fn main() -> eyre::Result<()> {
 
     terminal.clear()?;
 
-    let mut x = 1;
-    let mut y = 1;
+    let mut x: u8 = 1;
+    let mut y: u8 = 1;
 
     loop {
         terminal.draw(|f| {
-            let chunks = grid(x, y, f.size());
+            let chunks = grid(3, 3, f.size());
             dbg!(&chunks, f.size());
-            for rx in 0..x {
-                for ry in 0..y {
-                    f.render_widget(
-                        named_block(&format!("{}-{}", rx, ry)),
-                        chunks[usize::from(rx)][usize::from(ry)],
-                    );
+            for rx in 0..3 {
+                for ry in 0..3 {
+                    let name = format!("{}-{}", rx, ry);
+                    let mut block = named_block(&name);
+                    if rx == x && ry == y {
+                        block = block.style(
+                            Style::default()
+                                .add_modifier(Modifier::BOLD)
+                                .fg(Color::Yellow),
+                        );
+                    }
+                    f.render_widget(block, chunks[usize::from(rx)][usize::from(ry)]);
                 }
             }
         })?;
 
         let event = crossterm::event::read()?;
-        if let Event::Key(KeyEvent {
-            code: KeyCode::Char(c),
-            ..
-        }) = event
-        {
-            match c {
+        match event {
+            Event::Key(KeyEvent {
+                code: KeyCode::Char(c),
+                ..
+            }) => match c {
                 'q' => break,
-                'd' => x = x.saturating_add(1),
-                'a' => x = max(1, x.saturating_sub(1)),
-                'w' => y = y.saturating_add(1),
-                's' => y = max(1, y.saturating_sub(1)),
+                'd' => x = min(2, x.saturating_add(1)),
+                'a' => x = min(2, x.saturating_sub(1)),
+                'w' => y = min(2, y.saturating_sub(1)),
+                's' => y = min(2, y.saturating_add(1)),
                 _ => {}
+            },
+            Event::Mouse(MouseEvent {
+                row,
+                column,
+                kind: MouseEventKind::Down(MouseButton::Left),
+                ..
+            }) => {
+                // TODO
             }
+            _ => (),
         }
     }
 
