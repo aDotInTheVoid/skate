@@ -1,4 +1,5 @@
 use std::cmp::min;
+use std::convert::TryInto;
 use std::io::{ErrorKind, Write};
 
 use crossterm::event::{
@@ -26,8 +27,10 @@ macro_rules! dbg {
         // of temporaries - https://stackoverflow.com/a/48732525/1063961
         match $val {
             tmp => {
-                dump(&std::format!("[{}:{}] {} = {:#?}\n",
+                dump(&std::format!("[{}:{}] {} = {:?}\n",
                     std::file!(), std::line!(), std::stringify!($val), &tmp));
+                //  dump(&std::format!("[{}:{}] {} = {}\n",
+                // std::file!(), std::line!(), std::stringify!($val), debug2::pprint(&tmp)));
                 tmp
             }
         }
@@ -83,18 +86,18 @@ fn main() -> eyre::Result<()> {
 
     terminal.clear()?;
 
-    let mut x: u8 = 1;
-    let mut y: u8 = 1;
+    let mut sel_x: u8 = 1;
+    let mut sel_y: u8 = 1;
 
     loop {
+        let mut chunks = vec![];
         terminal.draw(|f| {
-            let chunks = grid(3, 3, f.size());
-            dbg!(&chunks, f.size());
+            chunks = grid(3, 3, f.size());
             for rx in 0..3 {
                 for ry in 0..3 {
                     let name = format!("{}-{}", rx, ry);
                     let mut block = named_block(&name);
-                    if rx == x && ry == y {
+                    if rx == sel_x && ry == sel_y {
                         block = block.style(
                             Style::default()
                                 .add_modifier(Modifier::BOLD)
@@ -113,19 +116,28 @@ fn main() -> eyre::Result<()> {
                 ..
             }) => match c {
                 'q' => break,
-                'd' => x = min(2, x.saturating_add(1)),
-                'a' => x = min(2, x.saturating_sub(1)),
-                'w' => y = min(2, y.saturating_sub(1)),
-                's' => y = min(2, y.saturating_add(1)),
+                'd' => sel_x = min(2, sel_x.saturating_add(1)),
+                'a' => sel_x = min(2, sel_x.saturating_sub(1)),
+                'w' => sel_y = min(2, sel_y.saturating_sub(1)),
+                's' => sel_y = min(2, sel_y.saturating_add(1)),
                 _ => {}
             },
             Event::Mouse(MouseEvent {
-                row,
-                column,
+                row: mouse_y,
+                column: mouse_x,
                 kind: MouseEventKind::Down(MouseButton::Left),
                 ..
             }) => {
-                // TODO
+                for (rx, ry, r) in chunks
+                    .iter()
+                    .enumerate()
+                    .flat_map(|(x, r)| r.iter().enumerate().map(move |(y, r)| (x, y, r)))
+                {
+                    if contains(mouse_x, mouse_y, *r) {
+                        sel_x = rx.try_into().unwrap();
+                        sel_y = ry.try_into().unwrap();
+                    }
+                }
             }
             _ => (),
         }
@@ -141,4 +153,8 @@ fn main() -> eyre::Result<()> {
     terminal.show_cursor()?;
 
     Ok(())
+}
+
+fn contains(x: u16, y: u16, rect: Rect) -> bool {
+    (rect.x..=rect.x + rect.width).contains(&x) && (rect.y..=rect.y + rect.height).contains(&y)
 }
