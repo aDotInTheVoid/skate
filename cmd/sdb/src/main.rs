@@ -13,6 +13,7 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders};
 
 mod docs;
+mod grid;
 
 fn named_block(name: &str) -> Block {
     Block::default().title(name).borders(Borders::ALL)
@@ -50,14 +51,14 @@ fn dump(c: &str) {
         .unwrap();
 }
 
-fn grid(x: u16, y: u16, r: Rect) -> Vec<Vec<Rect>> {
+fn grid(x: u16, y: u16, r: Rect) -> Vec<Rect> {
     let rows = Layout::default()
         .direction(Direction::Horizontal)
         .constraints(vec![Constraint::Percentage(100 / x); x.into()])
         .split(r);
 
     rows.iter()
-        .map(|r| {
+        .flat_map(|r| {
             Layout::default()
                 .direction(Direction::Vertical)
                 .constraints(vec![Constraint::Percentage(100 / y); y.into()])
@@ -89,23 +90,26 @@ fn main() -> eyre::Result<()> {
     let mut sel_x: u8 = 1;
     let mut sel_y: u8 = 1;
 
+    let mut sel = 0;
+
     loop {
         let mut chunks = vec![];
         terminal.draw(|f| {
-            chunks = grid(3, 3, f.size());
-            for rx in 0..3 {
-                for ry in 0..3 {
-                    let name = format!("{}-{}", rx, ry);
-                    let mut block = named_block(&name);
-                    if rx == sel_x && ry == sel_y {
-                        block = block.style(
-                            Style::default()
-                                .add_modifier(Modifier::BOLD)
-                                .fg(Color::Yellow),
-                        );
-                    }
-                    f.render_widget(block, chunks[usize::from(rx)][usize::from(ry)]);
+            chunks = grid::Grid::new(3, 3).size(f.size()).cells;
+
+            // chunks = grid(3, 3, f.size());
+
+            for (i, r) in chunks.iter().enumerate() {
+                let name = i.to_string();
+                let mut block = named_block(&name);
+                if sel == i {
+                    block = block.style(
+                        Style::default()
+                            .add_modifier(Modifier::BOLD)
+                            .fg(Color::Yellow),
+                    );
                 }
+                f.render_widget(block, *r);
             }
         })?;
 
@@ -128,14 +132,9 @@ fn main() -> eyre::Result<()> {
                 kind: MouseEventKind::Down(MouseButton::Left),
                 ..
             }) => {
-                for (rx, ry, r) in chunks
-                    .iter()
-                    .enumerate()
-                    .flat_map(|(x, r)| r.iter().enumerate().map(move |(y, r)| (x, y, r)))
-                {
+                for (pos, r) in chunks.iter().enumerate() {
                     if contains(mouse_x, mouse_y, *r) {
-                        sel_x = rx.try_into().unwrap();
-                        sel_y = ry.try_into().unwrap();
+                        sel = pos.try_into().unwrap()
                     }
                 }
             }
