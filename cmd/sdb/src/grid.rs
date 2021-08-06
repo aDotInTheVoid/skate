@@ -1,10 +1,18 @@
-use std::convert::TryFrom;
-
 use slotmap::SlotMap;
 use tui::layout::Rect;
 
+use crate::dbg;
+
 // TODO: Consider a NonZeroU16 for Niche
 slotmap::new_key_type! { pub struct BlockId; }
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
 
 #[derive(Debug, Clone, Copy)]
 /**
@@ -66,13 +74,13 @@ Grid {
       Column
 ```
 */
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 
 pub struct Grid {
     rows: u16,
     cols: u16,
-    boxes: Vec<Vec<Option<BlockId>>>,
-    ids: SlotMap<BlockId, Block>,
+    grid: Vec<Vec<Option<BlockId>>>,
+    blocks: SlotMap<BlockId, Block>,
 }
 
 impl Grid {
@@ -80,17 +88,17 @@ impl Grid {
         Self {
             rows,
             cols,
-            boxes: vec![vec![None; rows.into()]; cols.into()],
-            ids: SlotMap::with_key(),
+            grid: vec![vec![None; rows.into()]; cols.into()],
+            blocks: SlotMap::with_key(),
         }
     }
 
     pub fn claim(&mut self, block: Block) -> BlockId {
-        let id = self.ids.insert(block);
+        let id = self.blocks.insert(block);
         for x in block.col_start..block.col_stop {
             for y in block.row_start..block.row_stop {
                 // TODO: Enforce Uniqueness of claim
-                self.boxes[usize::from(x)][usize::from(y)] = Some(id);
+                self.grid[u(x)][u(y)] = Some(id);
             }
         }
         id
@@ -102,25 +110,44 @@ impl Grid {
         let xpos = poses(size.x, size.width, self.cols);
         let ypos = poses(size.y, size.height, self.rows);
 
-        // let mut cells = Vec::new();
-
-        // // TODO: Use array_windows when it's stable
-        // for [xstart, xstop] in xpos.windows(2).map(|x| <[u16; 2]>::try_from(x).unwrap()) {
-        //     for [ystart, ystop] in ypos.windows(2).map(|x| <[u16; 2]>::try_from(x).unwrap()) {
-        //         cells.push(Rect {
-        //             x: xstart,
-        //             y: ystart,
-        //             width: xstop - xstart,
-        //             height: ystop - ystart,
-        //         })
-        //     }
-        // }
-
         SizedGrid {
             grid: self,
             xpos,
             ypos,
         }
+    }
+
+    pub fn go(&self, block: BlockId, direction: Direction) -> Option<BlockId> {
+        assert_eq!(direction, Direction::Right);
+        //         ```text
+        //    0    1    2    3    4    5    6    7    8
+        //  0 +----+----+----+----+----+----+----+----+
+        //    |    |    |    |    |    |    |    |    |  <- Row
+        //  1 +----+----XXXXXXXXXXXXXXXX----+----+----+
+        //    |    |    XXXXXXXXXXXXXXXX    |    |    |
+        //  2 +----+----XXXXXXXXXXXXXXXX----+----+----+
+        //    |    |    XXXXXXXXXXXXXXXX    |    |    |
+        //  3 +----+----XXXXXXXXXXXXXXXX----+----+----+
+        //    |    |    |    |    |    |    |    |    |
+        //  4 +----+----+----+----+----+----+----+----+
+        //       ^
+        //       |
+        //       Column
+        let Block {
+            row_start,
+            row_stop,
+            col_start,
+            col_stop,
+        } = dbg!(self.blocks[block]);
+        dbg!(self);
+        for x in row_stop..self.rows {
+            for y in col_start..col_stop {
+                if let Some(id) = self.grid[u(x)][u(y)] {
+                    return Some(id);
+                }
+            }
+        }
+        None
     }
 }
 
@@ -131,12 +158,12 @@ impl SizedGrid<'_> {
             row_stop,
             col_start,
             col_stop,
-        } = self.grid.ids[block];
+        } = self.grid.blocks[block];
 
-        let xstart = self.xpos[usize::from(col_start)];
-        let xstop = self.xpos[usize::from(col_stop)];
-        let ystart = self.ypos[usize::from(row_start)];
-        let ystop = self.ypos[usize::from(row_stop)];
+        let xstart = self.xpos[u(col_start)];
+        let xstop = self.xpos[u(col_stop)];
+        let ystart = self.ypos[u(row_start)];
+        let ystop = self.ypos[u(row_stop)];
 
         Rect {
             x: xstart,
@@ -175,4 +202,8 @@ pub struct SizedGrid<'g> {
     xpos: Vec<u16>,
     ypos: Vec<u16>,
     grid: &'g Grid,
+}
+
+fn u(x: u16) -> usize {
+    x.into()
 }

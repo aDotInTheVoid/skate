@@ -27,3 +27,4 @@ cov:
 
 doc:
     cargo doc --workspace --no-deps
+    # RUSTDOCFLAGS="-Z unstable-options --generate-link-to-definition" cargo +nightly doc

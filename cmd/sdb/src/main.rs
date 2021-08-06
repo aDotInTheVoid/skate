@@ -1,4 +1,3 @@
-use std::cmp::min;
 use std::convert::TryInto;
 use std::io::{ErrorKind, Write};
 
@@ -8,17 +7,22 @@ use crossterm::event::{
 };
 use crossterm::execute;
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
-use tui::layout::{Constraint, Direction, Layout, Rect};
+use tui::layout::Rect;
 use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders};
 
+use crate::grid::Direction;
+
 mod docs;
 mod grid;
+mod term;
 
 fn named_block(name: &str) -> Block {
     Block::default().title(name).borders(Borders::ALL)
 }
 
+#[allow(unused_macros)] // For debugging
+#[macro_export]
 macro_rules! dbg {
     () => {
         dump(&std::format!("[{}:{}]\n", std::file!(), std::line!()))
@@ -28,7 +32,7 @@ macro_rules! dbg {
         // of temporaries - https://stackoverflow.com/a/48732525/1063961
         match $val {
             tmp => {
-                dump(&std::format!("[{}:{}] {} = {:?}\n",
+                $crate::dump(&std::format!("[{}:{}] {} = {:?}\n",
                     std::file!(), std::line!(), std::stringify!($val), &tmp));
                 //  dump(&std::format!("[{}:{}] {} = {}\n",
                 // std::file!(), std::line!(), std::stringify!($val), debug2::pprint(&tmp)));
@@ -41,6 +45,8 @@ macro_rules! dbg {
     };
 }
 
+// For debugging
+#[allow(dead_code)]
 fn dump(c: &str) {
     std::fs::OpenOptions::new()
         .append(true)
@@ -51,25 +57,7 @@ fn dump(c: &str) {
         .unwrap();
 }
 
-fn grid(x: u16, y: u16, r: Rect) -> Vec<Rect> {
-    let rows = Layout::default()
-        .direction(Direction::Horizontal)
-        .constraints(vec![Constraint::Percentage(100 / x); x.into()])
-        .split(r);
-
-    rows.iter()
-        .flat_map(|r| {
-            Layout::default()
-                .direction(Direction::Vertical)
-                .constraints(vec![Constraint::Percentage(100 / y); y.into()])
-                .split(*r)
-        })
-        .collect()
-}
-
 fn main() -> eyre::Result<()> {
-    // Copied From `ref/tui-rs/examples/crossterm_demo.rs`
-
     // Remove log file, ignoreing if it doesn't exist
     if let Err(ioerr) = std::fs::remove_file("sdb.log") {
         if ioerr.kind() != ErrorKind::NotFound {
@@ -77,27 +65,20 @@ fn main() -> eyre::Result<()> {
         }
     }
 
-    // Set up terminal
-    crossterm::terminal::enable_raw_mode()?;
-    let mut stdout = std::io::stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    term::install_panic();
 
-    let backend = tui::backend::CrosstermBackend::new(stdout);
-    let mut terminal = tui::terminal::Terminal::new(backend)?;
+    let mut terminal = term::Terminal::new()?;
 
-    terminal.clear()?;
-
-    // let mut sel_x: u8 = 1;
-    // let mut sel_y: u8 = 1;
-
-    let mut sel = 0;
     let mut grid = grid::Grid::new(4, 4);
+
     let b_main = grid.claim(grid::Block {
         row_start: 0,
         row_stop: 2,
         col_start: 0,
         col_stop: 2,
     });
+    let mut sel_id = b_main;
+
     let b_corner = grid.claim(grid::Block {
         row_start: 2,
         row_stop: 3,
@@ -129,32 +110,36 @@ fn main() -> eyre::Result<()> {
         col_stop: 2,
     });
 
+    let mut hitboxes = Vec::new();
+
     loop {
-        let mut chunks = vec![];
         terminal.draw(|f| {
+            hitboxes.clear();
             let sg = grid.size(f.size());
-            chunks = vec![
-                sg.size_of(b_main),
-                sg.size_of(b_corner),
-                sg.size_of(b_bottom),
-                sg.size_of(b_right),
-                sg.size_of(b_inner_right),
-                sg.size_of(b_inner_bottom),
-            ];
 
-            // chunks = grid(3, 3, f.size());
-
-            for (i, r) in chunks.iter().enumerate() {
+            for (i, bid) in [
+                b_main,
+                b_corner,
+                b_bottom,
+                b_right,
+                b_inner_right,
+                b_inner_bottom,
+            ]
+            .iter()
+            .enumerate()
+            {
+                let r = sg.size_of(*bid);
                 let name = i.to_string();
                 let mut block = named_block(&name);
-                if sel == i {
+                if sel_id == *bid {
                     block = block.style(
                         Style::default()
                             .add_modifier(Modifier::BOLD)
                             .fg(Color::Yellow),
                     );
                 }
-                f.render_widget(block, *r);
+                hitboxes.push((*bid, r));
+                f.render_widget(block, r);
             }
         })?;
 
@@ -167,7 +152,10 @@ fn main() -> eyre::Result<()> {
                 'q' => break,
                 // 'd' => sel_x = min(2, sel_x.saturating_add(1)),
                 // 'a' => sel_x = min(2, sel_x.saturating_sub(1)),
-                // 'w' => sel_y = min(2, sel_y.saturating_sub(1)),
+                'w' => sel_id = grid.go(sel_id, Direction::Up).unwrap_or(sel_id),
+                'a' => sel_id = grid.go(sel_id, Direction::Left).unwrap_or(sel_id),
+                's' => sel_id = grid.go(sel_id, Direction::Down).unwrap_or(sel_id),
+                'd' => sel_id = grid.go(sel_id, Direction::Right).unwrap_or(sel_id),
                 // 's' => sel_y = min(2, sel_y.saturating_add(1)),
                 _ => {}
             },
@@ -177,9 +165,9 @@ fn main() -> eyre::Result<()> {
                 kind: MouseEventKind::Down(MouseButton::Left),
                 ..
             }) => {
-                for (pos, r) in chunks.iter().enumerate() {
-                    if contains(mouse_x, mouse_y, *r) {
-                        sel = pos.try_into().unwrap()
+                for (id, rect) in hitboxes.iter() {
+                    if contains(mouse_x, mouse_y, *rect) {
+                        sel_id = *id;
                     }
                 }
             }
@@ -187,14 +175,7 @@ fn main() -> eyre::Result<()> {
         }
     }
 
-    // Restore Terminal
-    crossterm::terminal::disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
-    terminal.show_cursor()?;
+    terminal.close()?;
 
     Ok(())
 }
