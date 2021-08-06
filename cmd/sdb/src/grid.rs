@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 use tui::layout::Rect;
 
 enum Size {
@@ -24,8 +26,6 @@ enum Size {
 pub struct Grid {
     rows: u16,
     cols: u16,
-    // rows: Vec<Size>,
-    // cols: Vec<Size>,
 }
 
 impl Grid {
@@ -34,36 +34,51 @@ impl Grid {
     }
 
     pub fn size(self, size: Rect) -> SizedGrid {
-        let cell_width = size.width / self.cols;
-        let wide_cells = size.width % self.cols;
-        let thin_cells = self.cols - wide_cells;
+        // TODO: Allow non even lines, alla CSS Grid
+        // TODO: Cache layouts
+        let xpos = poses(size.x, size.width, self.cols);
+        let ypos = poses(size.y, size.height, self.rows);
 
-        let mut cells = Vec::with_capacity((self.rows * self.cols).into());
+        let mut cells = Vec::new();
 
-        let mut xpos = size.x;
-        // let mut xposs = Vec::with_capacity((self.rows + 1).into());
-
-        for _ in 0..wide_cells {
-            cells.push(Rect {
-                x: xpos,
-                y: size.y,
-                width: cell_width + 1,
-                height: size.height,
-            });
-            xpos += cell_width + 1;
-        }
-        for _ in 0..thin_cells {
-            cells.push(Rect {
-                x: xpos,
-                y: size.y,
-                width: cell_width,
-                height: size.height,
-            });
-            xpos += cell_width;
+        // TODO: Use array_windows when it's stable
+        for [xstart, xstop] in xpos.windows(2).map(|x| <[u16; 2]>::try_from(x).unwrap()) {
+            for [ystart, ystop] in ypos.windows(2).map(|x| <[u16; 2]>::try_from(x).unwrap()) {
+                cells.push(Rect {
+                    x: xstart,
+                    y: ystart,
+                    width: xstop - xstart,
+                    height: ystop - ystart,
+                })
+            }
         }
 
         SizedGrid { cells }
     }
+}
+
+// Takes the initalial value, the total lenght, and the number to divide into, and returns
+// a list of positions
+fn poses(init: u16, len: u16, num: u16) -> Vec<u16> {
+    let thin_width = len / num;
+    let thick_width = thin_width + 1;
+
+    let n_thick = len % num;
+    let n_thin = num - n_thick;
+
+    let mut pos = init;
+    let mut out = Vec::with_capacity((num + 1).into());
+    out.push(pos);
+    for _ in 0..n_thick {
+        pos += thick_width;
+        out.push(pos);
+    }
+    for _ in 0..n_thin {
+        pos += thin_width;
+        out.push(pos);
+    }
+
+    out
 }
 
 pub struct SizedGrid {
