@@ -6,4 +6,5 @@ edition = "2018"
 [dependencies]
 crossterm = "0.20.0"
 eyre = "0.6.5"
+slotmap = "1.0.5"
 tui = { version = "0.15.0", features = ["crossterm"], default-features = false }

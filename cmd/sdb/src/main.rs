@@ -87,15 +87,60 @@ fn main() -> eyre::Result<()> {
 
     terminal.clear()?;
 
-    let mut sel_x: u8 = 1;
-    let mut sel_y: u8 = 1;
+    // let mut sel_x: u8 = 1;
+    // let mut sel_y: u8 = 1;
 
     let mut sel = 0;
+    let mut grid = grid::Grid::new(4, 4);
+    let b_main = grid.claim(grid::Block {
+        row_start: 0,
+        row_stop: 2,
+        col_start: 0,
+        col_stop: 2,
+    });
+    let b_corner = grid.claim(grid::Block {
+        row_start: 2,
+        row_stop: 3,
+        col_start: 2,
+        col_stop: 3,
+    });
+    let b_bottom = grid.claim(grid::Block {
+        row_start: 3,
+        row_stop: 4,
+        col_start: 0,
+        col_stop: 4,
+    });
+    let b_right = grid.claim(grid::Block {
+        row_start: 0,
+        row_stop: 3,
+        col_start: 3,
+        col_stop: 4,
+    });
+    let b_inner_right = grid.claim(grid::Block {
+        row_start: 0,
+        row_stop: 2,
+        col_start: 2,
+        col_stop: 3,
+    });
+    let b_inner_bottom = grid.claim(grid::Block {
+        row_start: 2,
+        row_stop: 3,
+        col_start: 0,
+        col_stop: 2,
+    });
 
     loop {
         let mut chunks = vec![];
         terminal.draw(|f| {
-            chunks = grid::Grid::new(3, 3).size(f.size()).cells;
+            let sg = grid.size(f.size());
+            chunks = vec![
+                sg.size_of(b_main),
+                sg.size_of(b_corner),
+                sg.size_of(b_bottom),
+                sg.size_of(b_right),
+                sg.size_of(b_inner_right),
+                sg.size_of(b_inner_bottom),
+            ];
 
             // chunks = grid(3, 3, f.size());
 
@@ -120,10 +165,10 @@ fn main() -> eyre::Result<()> {
                 ..
             }) => match c {
                 'q' => break,
-                'd' => sel_x = min(2, sel_x.saturating_add(1)),
-                'a' => sel_x = min(2, sel_x.saturating_sub(1)),
-                'w' => sel_y = min(2, sel_y.saturating_sub(1)),
-                's' => sel_y = min(2, sel_y.saturating_add(1)),
+                // 'd' => sel_x = min(2, sel_x.saturating_add(1)),
+                // 'a' => sel_x = min(2, sel_x.saturating_sub(1)),
+                // 'w' => sel_y = min(2, sel_y.saturating_sub(1)),
+                // 's' => sel_y = min(2, sel_y.saturating_add(1)),
                 _ => {}
             },
             Event::Mouse(MouseEvent {
