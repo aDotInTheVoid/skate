@@ -1,7 +1,7 @@
 use slotmap::SlotMap;
 use tui::layout::Rect;
 
-use crate::dbg;
+// use crate::dbg;
 
 // TODO: Consider a NonZeroU16 for Niche
 slotmap::new_key_type! { pub struct BlockId; }
@@ -118,7 +118,6 @@ impl Grid {
     }
 
     pub fn go(&self, block: BlockId, direction: Direction) -> Option<BlockId> {
-        assert_eq!(direction, Direction::Right);
         //         ```text
         //    0    1    2    3    4    5    6    7    8
         //  0 +----+----+----+----+----+----+----+----+
@@ -138,12 +137,44 @@ impl Grid {
             row_stop,
             col_start,
             col_stop,
-        } = dbg!(self.blocks[block]);
-        dbg!(self);
-        for x in row_stop..self.rows {
-            for y in col_start..col_stop {
-                if let Some(id) = self.grid[u(x)][u(y)] {
-                    return Some(id);
+        } = self.blocks[block];
+
+        match direction {
+            // TODO: Consider history for abiguous block (inner loop)
+            Direction::Up => {
+                for y in (0..row_start).rev() {
+                    for x in col_start..col_stop {
+                        if let Some(id) = self.grid[u(x)][u(y)] {
+                            return Some(id);
+                        }
+                    }
+                }
+            }
+            Direction::Down => {
+                for y in row_stop..self.rows {
+                    for x in col_start..col_stop {
+                        if let Some(id) = self.grid[u(x)][u(y)] {
+                            return Some(id);
+                        }
+                    }
+                }
+            }
+            Direction::Left => {
+                for x in (0..col_start).rev() {
+                    for y in row_start..row_stop {
+                        if let Some(id) = self.grid[u(x)][u(y)] {
+                            return Some(id);
+                        }
+                    }
+                }
+            }
+            Direction::Right => {
+                for x in col_stop..self.cols {
+                    for y in row_start..row_stop {
+                        if let Some(id) = self.grid[u(x)][u(y)] {
+                            return Some(id);
+                        }
+                    }
                 }
             }
         }
