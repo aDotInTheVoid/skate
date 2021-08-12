@@ -32,7 +32,7 @@ fn main() -> Result<()> {
         Err(x) => {
             let err = rt_common::parse_error_labeled(x, main_file_id);
             emit_err(&err)?;
-
+            // TODO: Drop things
             std::process::exit(1);
         }
     };

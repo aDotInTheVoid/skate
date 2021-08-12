@@ -1,0 +1,19 @@
+[package]
+name = "skatrace"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+codespan-reporting = "0.11.1"
+compiler = { path = "../../skate/compiler" }
+debug2 = "0.1"
+diagnostics = { path = "../../skate/diagnostics" }
+eyre = "0.6.5"
+fs-err = "2.6.0"
+parser = { path = "../../skate/parser" }
+rt_common = { path = "../../skate/rt_common" }
+rustyline = "8.2.0"
+structopt = "0.3.22"
+vm = { path = "../../skate/vm" }
