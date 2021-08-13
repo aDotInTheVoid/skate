@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Skate Playground</title>
+    <style>
+        #output {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* TODO: Learn CSS */
+        body {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+    <script type="module">
+        console.log("Starting Skate Playground")
+        import init, { run_code } from "./wasm.js"
+        init()
+        document.getElementById("run").onclick = () => {
+            let text = document.getElementById("input").value;
+            let output;
+            try {
+                output = run_code(text);
+            } catch (e) {
+                output = e;
+            }
+            document.getElementById("output").innerHTML = output;
+        };
+    </script>
+</head>
+
+<body>
+    <textarea id="input" rows="30" cols="70">
+fn fib(n: int) -> int {
+    if n == 0 || n == 1 {
+        return 1;
+    }
+    return fib(n - 1) + fib(n - 2);
+}
+
+fn recurse_fib(n: int) {
+    print fib(n);
+    if n >= 1 {
+        recurse_fib(n - 1);
+    }
+}
+
+fn main() {
+    recurse_fib(15);
+}  
+    </textarea>
+    <button id="run">Run</button>
+    <pre id="output"></pre>
+</body>
+
+</html>
