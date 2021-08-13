@@ -1,3 +1,4 @@
+use diagnostics::span::Span;
 use eyre::Result;
 
 use compiler::bytecode::{self, Instr};
@@ -32,5 +33,9 @@ impl<'a> Stepper<'a> {
 
     pub fn next_instr(&self) -> &Instr {
         &self.vm.get_func(&self.code).code[self.vm.ip()]
+    }
+
+    pub fn next_loc(&self) -> Option<Span> {
+        self.vm.get_func(&self.code).spans[self.vm.ip()].span()
     }
 }

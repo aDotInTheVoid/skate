@@ -1,3 +1,4 @@
+use diagnostics::span::Span;
 use enum_as_inner::EnumAsInner;
 use serde::{Deserialize, Serialize};
 use slotmap::SlotMap;
@@ -20,6 +21,16 @@ pub enum AstLoc<'a, 's> {
     Expr(&'a Expr<'s>),
     Stmt(&'a Stmt<'s>),
     None,
+}
+
+impl AstLoc<'_, '_> {
+    pub fn span(&self) -> Option<Span> {
+        match self {
+            AstLoc::Expr(x) => Some(x.span),
+            AstLoc::Stmt(x) => Some(x.span),
+            AstLoc::None => None,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, /*Deserialize,*/ Default)]
