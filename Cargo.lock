@@ -722,6 +722,8 @@ dependencies = [
  "diagnostics",
  "eyre",
  "fs-err",
+ "lalrpop",
+ "lalrpop-util",
  "parser",
  "rt_common",
  "rustyline",

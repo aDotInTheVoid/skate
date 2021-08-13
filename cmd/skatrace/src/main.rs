@@ -8,6 +8,10 @@ use eyre::Result;
 use fs_err as fs;
 use structopt::StructOpt;
 
+use crate::command::Command;
+
+mod command;
+
 #[derive(StructOpt)]
 struct Args {
     #[structopt(short, long)]
@@ -56,27 +60,25 @@ fn main() -> Result<()> {
     let mut vm = vm::debug::Stepper::new(code, main_id, &mut stdout_writer);
 
     // let res = vm.run(&code, main_id);
+
+    let mut prev = None;
+
     let mut rl = rustyline::Editor::<()>::new();
     while let Ok(line) = rl.readline(">> ") {
         vm.flush()?;
-        let mut line = line.trim();
+        rl.add_history_entry(&line);
 
-        // Replace enter with last line
-        if line.is_empty() {
-            line = rl.history().last().map(String::as_str).unwrap_or_default()
-        } else {
-            rl.add_history_entry(line);
+        let mut command = command::parse(&line).unwrap();
+        if command == Command::Prev {
+            if let Some(prev) = prev.clone() {
+                command = prev;
+            } else {
+                continue;
+            }
         }
 
-        let mut parts = line.split_whitespace();
-        let first = if let Some(first) = parts.next() {
-            first
-        } else {
-            continue;
-        };
-        // TODO: Use a parser for these
-        match first {
-            "i" => {
+        match command {
+            Command::Instr => {
                 // TODO: Decode things like what a load is of, or what a function key means
                 // TODO: Skip things like `Pop` Instr
                 println!("{:?}", vm.next_instr());
@@ -104,10 +106,10 @@ fn main() -> Result<()> {
                     },
                 }
             }
-            "q" => break,
-            other => println!("Unknown `{}`", other),
+            Command::Quit => break,
+            Command::Prev => unreachable!(),
         }
-
+        prev = Some(command);
         vm.flush()?;
     }
 

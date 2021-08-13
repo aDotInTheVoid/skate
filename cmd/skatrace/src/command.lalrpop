@@ -1,0 +1,25 @@
+use super::*;
+
+grammar;
+
+pub Command: Command = {
+    Quit => <>,
+    Prev => <>,
+    Instr => <>,
+}
+
+Quit: Command = {
+    "q" => Command::Quit,
+    "quit" => Command::Quit,
+}
+
+Prev: Command = {
+    "" => Command::Prev
+}
+
+Instr: Command = {
+    "i" => Command::Instr,
+    "instr" => Command::Instr,
+    "instruction" => Command::Instr,
+}
+

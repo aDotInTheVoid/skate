@@ -12,8 +12,12 @@ debug2 = "0.1"
 diagnostics = { path = "../../skate/diagnostics" }
 eyre = "0.6.5"
 fs-err = "2.6.0"
+lalrpop-util = "0.19.6"
 parser = { path = "../../skate/parser" }
 rt_common = { path = "../../skate/rt_common" }
 rustyline = "8.2.0"
 structopt = "0.3.22"
 vm = { path = "../../skate/vm" }
+
+[build-dependencies]
+lalrpop = "0.19.6"
