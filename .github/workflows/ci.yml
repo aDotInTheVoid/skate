@@ -7,7 +7,7 @@ name: CI
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         rust:
@@ -15,6 +15,11 @@ jobs:
           - beta
           - nightly
           # - 1.31.0  # MSRV
+        os:
+          # TODO: Renaable, stracng link error
+          # - windows-latest
+          - macos-latest
+          - ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -27,10 +32,13 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: rustfmt, clippy
-          
-      - run: ./scripts/ci.sh
-      - run: just test
-        name: Run tests
+
+      - run: cargo build --workspace
+      - run: cargo test --workspace
+      - run: cargo xtest
+      # - run: ./scripts/ci.sh
+      # - run: just test
+      #   name: Run tests
 
       - uses: actions-rs/cargo@v1
         name: Format
@@ -43,4 +51,4 @@ jobs:
         name: Clippy
         with:
           command: clippy
-          args: -- -D warnings
+          args: --workspace -- -D warnings
