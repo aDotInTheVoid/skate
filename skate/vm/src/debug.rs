@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use diagnostics::span::Span;
 use eyre::Result;
 
@@ -37,5 +39,16 @@ impl<'a> Stepper<'a> {
 
     pub fn next_loc(&self) -> Option<Span> {
         self.vm.get_func(&self.code).spans[self.vm.ip()].span()
+    }
+
+    pub fn print_stack(&self, name: impl Display) {
+        eprintln!(
+            "{} {:?}",
+            name,
+            value::StackDbg {
+                stack: &self.vm.stack,
+                heap: &self.vm.heap
+            }
+        );
     }
 }

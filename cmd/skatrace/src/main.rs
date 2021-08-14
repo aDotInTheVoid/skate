@@ -4,6 +4,7 @@ use codespan_reporting::diagnostic::Diagnostic;
 use codespan_reporting::files::SimpleFiles;
 use codespan_reporting::term::emit;
 use codespan_reporting::term::termcolor::{ColorChoice, StandardStream};
+use crossterm::style::Stylize;
 use eyre::Result;
 use fs_err as fs;
 use structopt::StructOpt;
@@ -11,6 +12,7 @@ use structopt::StructOpt;
 use crate::command::Command;
 
 mod command;
+mod prefix_writer;
 
 #[derive(StructOpt)]
 struct Args {
@@ -55,7 +57,10 @@ fn main() -> Result<()> {
         eprintln!("{}", debug2::pprint(&code));
     }
 
-    let mut stdout_writer = BufWriter::new(io::stdout());
+    let write_out = "Output: ".yellow().to_string();
+
+    let mut stdout_writer =
+        prefix_writer::PrefixWriter::new(write_out.as_bytes(), BufWriter::new(io::stderr()));
 
     let mut vm = vm::debug::Stepper::new(code, main_id, &mut stdout_writer);
 
@@ -64,7 +69,7 @@ fn main() -> Result<()> {
     let mut prev = None;
 
     let mut rl = rustyline::Editor::<()>::new();
-    while let Ok(line) = rl.readline(">> ") {
+    while let Ok(line) = rl.readline(&">> ".red().to_string()) {
         vm.flush()?;
         rl.add_history_entry(&line);
 
@@ -81,7 +86,7 @@ fn main() -> Result<()> {
             Command::Instr => {
                 // TODO: Decode things like what a load is of, or what a function key means
                 // TODO: Skip things like `Pop` Instr
-                println!("{:?}", vm.next_instr());
+                eprintln!("{} {:?}", "Instr".yellow(), vm.next_instr());
                 if let Some(span) = vm.next_loc() {
                     // TODO: Better output here
                     // - Syntax highlight code
@@ -105,6 +110,7 @@ fn main() -> Result<()> {
                         Err(e) => return Err(e),
                     },
                 }
+                vm.print_stack("Stack".yellow());
             }
             Command::Quit => break,
             Command::Prev => unreachable!(),

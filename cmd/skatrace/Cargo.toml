@@ -8,6 +8,7 @@ edition = "2018"
 [dependencies]
 codespan-reporting = "0.11.1"
 compiler = { path = "../../skate/compiler" }
+crossterm = "0.20.0"
 debug2 = "0.1"
 diagnostics = { path = "../../skate/diagnostics" }
 eyre = "0.6.5"

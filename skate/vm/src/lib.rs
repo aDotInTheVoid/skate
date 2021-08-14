@@ -14,9 +14,6 @@ pub mod debug;
 mod tests;
 mod utils;
 
-// TODO: Make this a flag
-const DEBUG: bool = false;
-
 // We put Code outside the VM for BorrowCK reasons
 pub struct VM<'w> {
     output: &'w mut dyn io::Write,
@@ -37,17 +34,6 @@ impl<'w> VM<'w> {
         let instr = &self.get_func(code).code[ip];
 
         *self.ip_mut() += 1;
-        if DEBUG {
-            eprintln!(
-                "{:?}",
-                value::StackDbg {
-                    stack: &self.stack,
-                    heap: &self.heap
-                }
-            );
-            eprintln!("{:?}", instr);
-            eprintln!();
-        }
 
         match instr {
             /*
